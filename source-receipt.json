@@ -1,7 +1,7 @@
 {
   "repo": "tangyixiao/CSP-2026",
   "sourceBranch": "main",
-  "sourceCommit": "e603d7e727bf935cf44c00138138b18562bfea86",
+  "sourceCommit": "e1725198454a6825bba22e8a7654cf03895343a9",
   "designVersion": 3,
   "direction": {
     "visualConcept": "象牙纸与朱红索引签的竞赛源码卷宗：主视觉是按省份和 J/S 组别排列的实物文件匣，正文以可扫描的目录表为主体，而非产品宣传页。年度字样大幅压在卷宗边缘，路径作为视觉骨架。事实边界：公开选手代码归档，不含官方测试数据和评测成绩，不声称所有省份已完成原件核对。",
