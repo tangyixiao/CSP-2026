@@ -2,10 +2,33 @@
   "repo": "tangyixiao/CSP-2026",
   "sourceBranch": "main",
   "sourceCommit": "e603d7e727bf935cf44c00138138b18562bfea86",
+  "designVersion": 3,
+  "direction": {
+    "visualConcept": "象牙纸与朱红索引签的竞赛源码卷宗：主视觉是按省份和 J/S 组别排列的实物文件匣，正文以可扫描的目录表为主体，而非产品宣传页。年度字样大幅压在卷宗边缘，路径作为视觉骨架。事实边界：公开选手代码归档，不含官方测试数据和评测成绩，不声称所有省份已完成原件核对。",
+    "layout": "catalog",
+    "palette": {
+      "light": {
+        "bg": "#E9E3CC",
+        "surface": "#FBF7E8",
+        "ink": "#302D22",
+        "muted": "#6a6349",
+        "accent": "#a53b30"
+      },
+      "dark": {
+        "bg": "#211E16",
+        "surface": "#322C20",
+        "ink": "#F4E9CE",
+        "muted": "#b8ac8b",
+        "accent": "#ea8d6d"
+      }
+    },
+    "threeConcept": "Three.js 制作并排纸卷宗与可抬起的红色分组签，签上仅使用真实省份和 J/S 标识。抬起一册只露出目录层级纹理，不展示学生姓名或臆造分数。",
+    "distinctiveInteraction": "用省份和组别筛选真实源码入口；选择省份时卷宗前移并让相应目录表就位。交互只导航到 GitHub 文件，不模拟评测。"
+  },
   "media": [],
   "skills": [
     "baoyu-design",
     "design-taste-frontend"
   ],
-  "design": "content-first source/product/photography; no rejected template or faux 3D"
+  "flagshipModel": null
 }
