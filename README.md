@@ -4,21 +4,34 @@ An archive of publicly released contestant files from the second round of CSP-J/
 
 | Province | Junior (J) | Senior (S) |
 | --- | --- | --- |
-| Anhui (AH) | — | AH/S |
-| Beijing (BJ) | — | BJ/S |
+| Anhui (AH) | AH/J | AH/S |
+| Beijing (BJ) | BJ/J | BJ/S |
+| Fujian (FJ) | FJ/J | FJ/S |
+| Gansu (GS) | GS/J | GS/S |
+| Guangdong (GD) | GD/J | GD/S |
 | Guangxi (GX) | GX/J | GX/S |
+| Guizhou (GZ) | GZ/J | GZ/S |
+| Hainan (HI) | — | HI/S |
+| Heilongjiang (HL) | HL/J | HL/S |
 | Henan (HA) | HA/J | HA/S |
 | Hubei (HB) | HB/J | HB/S |
 | Hunan (HN) | HN/J | HN/S |
+| Inner Mongolia (NM) | NM/J | NM/S |
 | Jiangsu (JS) | JS/J | JS/S |
+| Jiangxi (JX) | JX/J | JX/S |
+| Jilin (JL) | JL/J | JL/S |
 | Liaoning (LN) | — | LN/S |
-| Sichuan (SC) | — | SC/S |
-| Shandong (SD) | — | SD/S |
 | Shaanxi (SN) | SN/J | SN/S |
+| Shandong (SD) | SD/J | SD/S |
+| Shanghai (SH) | — | SH/S |
+| Shanxi (SX) | SX/J | SX/S |
+| Sichuan (SC) | — | SC/S |
 | Tianjin (TJ) | TJ/J | TJ/S |
+| Xinjiang (XJ) | XJ/J | XJ/S |
+| Yunnan (YN) | — | YN/S |
 | Zhejiang (ZJ) | ZJ/J | ZJ/S |
 
-Contestant files are located at `province/group/contestant/problem/`.
+Contestant files are located at `province/group/contestant/problem/`. The Shandong J archive currently covers only the Jinan and Rizhao sites. Some oversized source files are stored with a `.gz` suffix; decompress them to restore the original bytes.
 
 The original Zhejiang J and S archives and contestant answer summaries are stored under `ZJ/J/` and `ZJ/S/`. Titles, dates, original content and links for the three Zhejiang announcements are documented in [Zhejiang sources](ZJ/来源信息/网页来源.md). Git does not retain empty directories; extract the corresponding `answers.zip` to restore the complete original directory structure.
 
