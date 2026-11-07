@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+	freopen("travel.in","r",sdtin);
+	freopen("travel.out","w",stdout);
+	string a1,a2,a3,a4;
+	cin>>a1>>a2>>a3>>a4;
+	if(a1[1]==a3[1]&&a1[0]==a3[0])
+	{
+		if(a2[1]==a4[1]&&a2[0]==a4[0])
+		{
+			if(a2[2]-'A'<=2)
+			{
+				if(a4[2]-'A'<=2)
+				{
+					if((a2[2]-'A'==0||a2[2]-'A'==2)&&(a4[2]-'A'==2||a4[2]-'A'==0))
+					{
+						cout<<1110;
+					} 
+					else
+					{
+						cout<<1111;
+					}
+				}
+				else
+				{
+					cout<<1100;
+				}
+			}
+			else
+			{
+				if(a4[2]-'A'>=3)
+				{
+					cout<<1111;
+				}
+				else
+				{
+					cout<<1100;
+				}
+			}
+		}
+		else
+		{
+			cout<<1000;
+		}
+	} 
+	else
+	{
+		cout<<0<<0<<0<<0;
+	}
+	return 0;
+ } 

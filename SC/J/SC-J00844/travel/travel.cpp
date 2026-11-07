@@ -1,0 +1,72 @@
+//8min30s AC T1
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+	freopen("travel.in","r",stdin);
+	freopen("travel.out","w",stdout);
+	int a,b,c,d;
+	char e,f;
+	int x,y;
+	cin>>a>>b>>e>>c>>d>>f;
+	if(e=='A'||e=='B'||e=='C')
+	{
+		x=1;
+	}
+	else
+	{
+		x=0;
+	}
+	if(f=='A'||f=='B'||f=='C')
+	{
+		y=1;
+	}
+	else
+	{
+		y=0;
+	}
+	if(a==c)
+	{
+		cout<<1;
+	}
+	else
+	{
+		cout<<0;
+	}
+	if(a==c&&b==d)
+	{
+		cout<<1;
+	}
+	else
+	{
+		cout<<0;
+	}
+	if(a==c&&b==d&&x==y)
+	{
+		cout<<1;
+	}
+	else
+	{
+		cout<<0;
+	}
+	if(a==c&&b==d&&x==y)
+	{
+		if(x==2&&y==2)
+			cout<<1;
+		else
+		{
+			if(e=='A'&&f=='C'||e=='C'&&f=='A')
+			{
+				cout<<0;
+			}
+			else
+			{
+				cout<<1;
+			}
+		}
+	}
+	else
+	{
+		cout<<0;
+	}
+}

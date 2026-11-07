@@ -1,0 +1,13 @@
+#include<bits/stdc++.h>
+using namespace std;
+int n,m;
+long long a[200005];
+int main(){
+	freopen("card.in","r",stdin);
+	freopen("card.out","w",stdout);
+	cin>>n>>m;
+	for(int i=1;i<=n;i++) cin>>a[i];
+	if(m==1) cout<<n;
+	if(m==2) cout<<n-1<<" "<<1;
+	return 0;
+}
