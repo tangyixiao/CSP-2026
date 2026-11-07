@@ -33,9 +33,9 @@ An archive of publicly released contestant files from the second round of CSP-J/
 
 Contestant files are located at `province/group/contestant/problem/`. The Shandong J archive currently covers only the Jinan and Rizhao sites. Some oversized source files are stored with a `.gz` suffix; decompress them to restore the original bytes.
 
-The original Zhejiang J and S archives and contestant answer summaries are stored under `ZJ/J/` and `ZJ/S/`. Titles, dates, original content and links for the three Zhejiang announcements are documented in [Zhejiang sources](ZJ/来源信息/网页来源.md). Git does not retain empty directories; extract the corresponding `answers.zip` to restore the complete original directory structure.
+The original Zhejiang J and S archives and contestant answer summaries are stored under `ZJ/J/` and `ZJ/S/`. Titles, dates, original content and links for the three Zhejiang announcements are documented in [Zhejiang sources](ZJ/sources/web-sources.md). Git does not retain empty directories; extract the corresponding `answers.zip` to restore the complete original directory structure.
 
-Zhejiang J has been compared file by file with its official archive. Guangxi S has been compared file by file with a locally supplied decrypted archive; its original source has not been independently verified. The other provinces have not yet been individually checked against their official originals. Official test data for J and S is stored under `测试数据/J/官方/` and `测试数据/S/官方/`, respectively. This repository does not contain official scores.
+Zhejiang J has been compared file by file with its official archive. Guangxi S has been compared file by file with a locally supplied decrypted archive; its original source has not been independently verified. The other provinces have not yet been individually checked against their official originals. Official test data for J and S is stored under `test-data/J/official/` and `test-data/S/official/`, respectively. This repository does not contain official scores.
 
 If using a sparse checkout, expand a province or group as needed, for example:
 
