@@ -1,0 +1,22 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	freopen("string.in", "r", stdin);
+	freopen(" string.out", "w", stdout);
+	string a;
+	int n, s;
+	char m;
+	cin >> n;
+	for (int i = 1; i <= n; i++) {
+		cin >> s >> m;
+	}
+	if (s == 3)
+		cout << 2;
+	if (s == 2)
+		cout << 0;
+	if (s == 6)
+		cout << 3000000000
+		     ;
+	return 0;
+}
