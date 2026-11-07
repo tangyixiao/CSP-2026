@@ -1,39 +1,34 @@
 # CSP-2026
 
-这里归档 CSP-J/S 2026 第二轮公开的选手代码，按省份和组别整理。目录中的考号、题目名和选手文件保持原样。
+An archive of publicly released contestant files from the second round of CSP-J/S 2026, organized by province and group. Contestant IDs, problem names, filenames and file contents are preserved.
 
-| 省份 | 普及组 J | 提高组 S |
+| Province | Junior (J) | Senior (S) |
 | --- | --- | --- |
-| 安徽 AH | — | AH/S |
-| 北京 BJ | — | BJ/S |
-| 广西 GX | GX/J | GX/S |
-| 河南 HA | HA/J | HA/S |
-| 湖北 HB | HB/J | HB/S |
-| 湖南 HN | HN/J | HN/S |
-| 江苏 JS | JS/J | JS/S |
-| 辽宁 LN | — | LN/S |
-| 四川 SC | — | SC/S |
-| 山东 SD | — | SD/S |
-| 陕西 SN | SN/J | SN/S |
-| 天津 TJ | TJ/J | TJ/S |
-| 浙江 ZJ | ZJ/J | ZJ/S |
+| Anhui (AH) | — | AH/S |
+| Beijing (BJ) | — | BJ/S |
+| Guangxi (GX) | GX/J | GX/S |
+| Henan (HA) | HA/J | HA/S |
+| Hubei (HB) | HB/J | HB/S |
+| Hunan (HN) | HN/J | HN/S |
+| Jiangsu (JS) | JS/J | JS/S |
+| Liaoning (LN) | — | LN/S |
+| Sichuan (SC) | — | SC/S |
+| Shandong (SD) | — | SD/S |
+| Shaanxi (SN) | SN/J | SN/S |
+| Tianjin (TJ) | TJ/J | TJ/S |
+| Zhejiang (ZJ) | ZJ/J | ZJ/S |
 
-各组代码位于相应组别下的 `考号/题目/`。
+Contestant files are located at `province/group/contestant/problem/`.
 
-浙江 J、S 组的官方原始压缩包和选手答案概要信息分别保存在 `ZJ/J/` 和 `ZJ/S/`。三个浙江官方公告的标题、时间、原文数据和链接见 [浙江网页来源](ZJ/来源信息/网页来源.md)。Git 不记录空目录；需要恢复浙江官方压缩包中的完整原貌时，请解压对应的 `answers.zip`。
+The original Zhejiang J and S archives and contestant answer summaries are stored under `ZJ/J/` and `ZJ/S/`. Titles, dates, original content and links for the three Zhejiang announcements are documented in [Zhejiang sources](ZJ/来源信息/网页来源.md). Git does not retain empty directories; extract the corresponding `answers.zip` to restore the complete original directory structure.
 
-浙江 J 组已与官方压缩包逐文件对照；广西 S 组已与本地已解密压缩包逐文件对照，来源原件尚未独立核验；其他省份尚未逐一核对官方原件。官方 J、S 组测试数据分别位于 `测试数据/J/官方/` 和 `测试数据/S/官方/`；本仓库不包含官方评测成绩。
+Zhejiang J has been compared file by file with its official archive. Guangxi S has been compared file by file with a locally supplied decrypted archive; its original source has not been independently verified. The other provinces have not yet been individually checked against their official originals. Official test data for J and S is stored under `测试数据/J/官方/` and `测试数据/S/官方/`, respectively. This repository does not contain official scores.
 
-当前移动硬盘上的工作区只展开了浙江 S 组选手代码与浙江官方原件，其余代码保存在本地 Git 对象中。需要展开例如江苏代码时，在仓库目录执行：
+If using a sparse checkout, expand a province or group as needed, for example:
 
 ```sh
 git sparse-checkout add '/JS/'
-```
-
-需要展开浙江 J 组选手代码时：
-
-```sh
 git sparse-checkout add '/ZJ/J/'
 ```
 
-展开前请留意移动硬盘的剩余空间；文件数量很多，当前文件系统的小文件会占用较多空间。
+Check available disk space first: the archive contains many small files, which can take substantially more space on some file systems.
