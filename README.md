@@ -32,7 +32,7 @@ An archive of publicly released contestant files from the second round of CSP-J/
 | Yunnan (YN) | YN/J | YN/S |
 | Zhejiang (ZJ) | ZJ/J | ZJ/S |
 
-Contestant files are located at `province/group/contestant/problem/`. The Shandong J archive currently covers only the Jinan and Rizhao sites. Some oversized source files are stored with a `.gz` suffix; decompress them to restore the original bytes.
+Contestant files are located at `province/group/contestant/problem/`. Some oversized source files are stored with a `.gz` suffix; decompress them to restore the original bytes.
 
 The original Zhejiang J and S archives and contestant answer summaries are stored under `ZJ/J/` and `ZJ/S/`. Titles, dates, original content and links for the three Zhejiang announcements are documented in [Zhejiang sources](ZJ/sources/web-sources.md). Git does not retain empty directories; extract the corresponding `answers.zip` to restore the complete original directory structure.
 
