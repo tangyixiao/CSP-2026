@@ -1,0 +1,17 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    freopen("subway.in","r",stdin);
+    freopen("subway.out","w",stdout);
+    int c,n,m,d,q,w,a,x,y;
+    cin>>c>>n>>m>>d>>q;
+    for(int i=1;i<=m;i++){
+        cin>>w;
+        cin>>k;
+        cin>>x>>y;
+    }
+    for(int i=1;i<=q;i++){
+        cout<<r;
+    }
+    return 0;
+}

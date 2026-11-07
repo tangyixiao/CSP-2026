@@ -1,0 +1,15 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    freopen("migrate.in","r",stdin);
+    freopen("migrate.out","w",stdout);
+    int c,n,m,d,n,u,v,l,x,y,ans=0,num=0;
+    cin>>c>>t;
+    for(int i=1;i<=t;i++){
+        cin>>n;
+        cin>>d;
+        cin>>x;
+    }
+    cout<<ans<<num;
+    return 0;
+}

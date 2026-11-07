@@ -1,0 +1,16 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    freopen("hub.in","r",stdin);
+    freopen("hub.out","w",stdout);
+    int n,k,t,s,d,c,u,v,dist,ans;
+    cin>>c>>t;
+    for(int i=1;i<=t;i++){
+        cin>>n;
+        cin>>k;
+        cin>>u>>v;
+    }
+
+    cout<<ans;
+    return 0;
+}

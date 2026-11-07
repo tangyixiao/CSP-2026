@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    freopen("crystal.in","w",stdin);
+    freopen("crystal.out","r",stdout);
+    int a,s,k=0,o=0,q,l=1,li=1,e=0;
+    cin>>a>>s;
+    int q=a;
+    int u[a];
+    for(int i=0;i<a;i++){
+        cin>>u[i];
+    }
+
+
+
+    while(q!=0){
+
+       for(int i=0;i<a;i++){
+
+            e=[i+1]-u[i]
+
+            if(s<(1+i)*e){
+                break;
+            }
+            s-=e*(i+1);
+
+                u[i-1]+=e
+                u[i]+=e;
+                l++;
+
+            k=u[i+1];
+        }
+
+    }
+    }
+    if(l>li){
+        li=l;
+    }
+    l=1;
+    q--;
+    }
+    cout<<li;
+    return 0;
+}
