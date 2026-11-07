@@ -20,15 +20,15 @@ An archive of publicly released contestant files from the second round of CSP-J/
 | Jiangsu (JS) | JS/J | JS/S |
 | Jiangxi (JX) | JX/J | JX/S |
 | Jilin (JL) | JL/J | JL/S |
-| Liaoning (LN) | — | LN/S |
+| Liaoning (LN) | LN/J | LN/S |
 | Shaanxi (SN) | SN/J | SN/S |
 | Shandong (SD) | SD/J | SD/S |
-| Shanghai (SH) | — | SH/S |
+| Shanghai (SH) | SH/J | SH/S |
 | Shanxi (SX) | SX/J | SX/S |
-| Sichuan (SC) | — | SC/S |
+| Sichuan (SC) | SC/J | SC/S |
 | Tianjin (TJ) | TJ/J | TJ/S |
 | Xinjiang (XJ) | XJ/J | XJ/S |
-| Yunnan (YN) | — | YN/S |
+| Yunnan (YN) | YN/J | YN/S |
 | Zhejiang (ZJ) | ZJ/J | ZJ/S |
 
 Contestant files are located at `province/group/contestant/problem/`. The Shandong J archive currently covers only the Jinan and Rizhao sites. Some oversized source files are stored with a `.gz` suffix; decompress them to restore the original bytes.
