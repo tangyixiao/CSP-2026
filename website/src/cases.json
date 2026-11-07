@@ -56,7 +56,7 @@
       "problem": "crystal"
     },
     "claim": "原帖称 GD-S00631 与 GD-S01191 在 crystal 上代码相似。",
-    "note": "题名存在冲突：原帖总清单写 crystal，该组展开标题后却写“题目：migrate”。本条暂按总清单定位 crystal，并保留冲突供复核，未将该题名认作已核定事实。",
+    "note": "原帖总清单列出 crystal，展开部分另外附有 migrate 代码。本入口仅比较 crystal；其他题目应分别选择文件复核，不能把多题示例混为同一份代码。",
     "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
     "sourceTitle": "CSP-S相似代码",
     "sourceAuthor": "zouchenjun",

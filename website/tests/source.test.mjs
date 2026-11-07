@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { validateSource, githubUrl, decodeSource, languageFor, loadSource, hashBytes, MAX_SOURCE_BYTES } from '../src/source.js';
+import { validateSource, githubUrl, decodeSource, languageFor, loadSource, hashBytes, MAX_SOURCE_BYTES, MAX_SOURCE_PACK_BYTES } from '../src/source.js';
 
 const revision = 'a'.repeat(40);
 function gitHash(bytes) { return createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex'); }
@@ -36,6 +36,10 @@ test('rejects sources excluded from a snapshot for exceeding the preview limit',
 test('detects a corrupted same-origin byte snapshot against the catalog Git blob', async t => {
   t.mock.method(globalThis, 'fetch', async () => new Response(JSON.stringify({['c'.repeat(40)]:btoa('corrupt')})));
   await assert.rejects(loadSource({path:'SC/J/A/card.cpp',blob:'c'.repeat(40)}, {revision}), /校验失败/);
+});
+test('rejects a source pack above the aggregate bound before parsing it', async t => {
+  t.mock.method(globalThis, 'fetch', async () => new Response('invalid json', { headers:{'content-length':String(MAX_SOURCE_PACK_BYTES + 1)} }));
+  await assert.rejects(loadSource({path:'SC/J/A/card.cpp',blob:'d'.repeat(40)}, {revision}), /分片超过读取上限/);
 });
 test('caps decompressed gzip and compares original source bytes', async t => {
   const text = 'int n;\r\n';
