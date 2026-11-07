@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+string s1, s2, ss1, ss2;
+
+int main() {
+	freopen("travel.in", "r", stdin);
+	freopen("travel.out", "w", stdout);
+//	ios::sync_with_stdio(0);
+//	cin.tie(0);
+//	cout.tie(0);
+	cin >> s1 >> s2 >> ss1 >> ss2;
+	if (s1 == ss1) {
+		cout << 1;
+	} else {
+		cout << "0000";
+		return 0;
+	}
+	if (s2[0] == ss2[0] && s2[1] == ss2[1]) {
+		cout << 1;
+	} else {
+		cout << "000";
+		return 0;
+	}
+	if ((s2[2] <= 'C' && ss2[2] <= 'C') || (s2[2] >= 'D' && ss2[2] >= 'D')) {
+		cout << 1;
+	} else {
+		cout << "00";
+		return 0;
+	}
+	if ((s2[2] == 'A' && ss2[2] == 'B') || (s2[2] == 'B' && ss2[2] == 'C') || (s2[2] == 'D' && ss2[2] == 'F')) {
+		cout << 1;
+	} else {
+		cout << "0";
+		return 0;
+	}
+}
