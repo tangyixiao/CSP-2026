@@ -1,0 +1,548 @@
+[
+  {
+    "id": "fj-s00511-fj-s00568-subway",
+    "left": {
+      "province": "FJ",
+      "group": "S",
+      "contestant": "FJ-S00511",
+      "problem": "subway"
+    },
+    "right": {
+      "province": "FJ",
+      "group": "S",
+      "contestant": "FJ-S00568",
+      "problem": "subway"
+    },
+    "claim": "原帖称 FJ-S00511 与 FJ-S00568 在 subway 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "fj-s00591-fj-s01602-subway",
+    "left": {
+      "province": "FJ",
+      "group": "S",
+      "contestant": "FJ-S00591",
+      "problem": "subway"
+    },
+    "right": {
+      "province": "FJ",
+      "group": "S",
+      "contestant": "FJ-S01602",
+      "problem": "subway"
+    },
+    "claim": "原帖称 FJ-S00591 与 FJ-S01602 在 subway 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "gd-s00631-gd-s01191-crystal",
+    "left": {
+      "province": "GD",
+      "group": "S",
+      "contestant": "GD-S00631",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "GD",
+      "group": "S",
+      "contestant": "GD-S01191",
+      "problem": "crystal"
+    },
+    "claim": "原帖称 GD-S00631 与 GD-S01191 在 crystal 上代码相似。",
+    "note": "原帖总清单列出 crystal，展开部分另外附有 migrate 代码。本入口仅比较 crystal；其他题目应分别选择文件复核，不能把多题示例混为同一份代码。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "gx-s00033-gx-s00079-crystal",
+    "left": {
+      "province": "GX",
+      "group": "S",
+      "contestant": "GX-S00033",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "GX",
+      "group": "S",
+      "contestant": "GX-S00079",
+      "problem": "crystal"
+    },
+    "claim": "原帖称 GX-S00033 与 GX-S00079 在 crystal 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "he-s00001-he-s01189-migrate",
+    "left": {
+      "province": "HE",
+      "group": "S",
+      "contestant": "HE-S00001",
+      "problem": "migrate"
+    },
+    "right": {
+      "province": "HE",
+      "group": "S",
+      "contestant": "HE-S01189",
+      "problem": "migrate"
+    },
+    "claim": "原帖称 HE-S00001 与 HE-S01189 在 migrate 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "he-s00308-he-s01298-crystal",
+    "left": {
+      "province": "HE",
+      "group": "S",
+      "contestant": "HE-S00308",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "HE",
+      "group": "S",
+      "contestant": "HE-S01298",
+      "problem": "crystal"
+    },
+    "claim": "原帖称 HE-S00308 与 HE-S01298 在 crystal 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "he-s00499-he-s01113-crystal",
+    "left": {
+      "province": "HE",
+      "group": "S",
+      "contestant": "HE-S00499",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "HE",
+      "group": "S",
+      "contestant": "HE-S01113",
+      "problem": "crystal"
+    },
+    "claim": "原帖称 HE-S00499 与 HE-S01113 在 crystal 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "jx-s00421-jx-s00425-migrate",
+    "left": {
+      "province": "JX",
+      "group": "S",
+      "contestant": "JX-S00421",
+      "problem": "migrate"
+    },
+    "right": {
+      "province": "JX",
+      "group": "S",
+      "contestant": "JX-S00425",
+      "problem": "migrate"
+    },
+    "claim": "原帖称 JX-S00421 与 JX-S00425 在 migrate 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "sc-s01145-sc-s01454-crystal",
+    "left": {
+      "province": "SC",
+      "group": "S",
+      "contestant": "SC-S01145",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "SC",
+      "group": "S",
+      "contestant": "SC-S01454",
+      "problem": "crystal"
+    },
+    "claim": "原帖称 SC-S01145 与 SC-S01454 在 crystal 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "sd-s00367-sd-s00611-subway",
+    "left": {
+      "province": "SD",
+      "group": "S",
+      "contestant": "SD-S00367",
+      "problem": "subway"
+    },
+    "right": {
+      "province": "SD",
+      "group": "S",
+      "contestant": "SD-S00611",
+      "problem": "subway"
+    },
+    "claim": "原帖称 SD-S00367 与 SD-S00611 在 subway 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "sd-s00639-sd-s01174-crystal",
+    "left": {
+      "province": "SD",
+      "group": "S",
+      "contestant": "SD-S00639",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "SD",
+      "group": "S",
+      "contestant": "SD-S01174",
+      "problem": "crystal"
+    },
+    "claim": "原帖称 SD-S00639 与 SD-S01174 在 crystal 上代码相似。",
+    "note": "原帖在同一组选手下列出 crystal、migrate 两题；网站拆为两条独立比较记录。相似性为原帖主张，需分别查看仓库原始文件。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "sd-s00639-sd-s01174-migrate",
+    "left": {
+      "province": "SD",
+      "group": "S",
+      "contestant": "SD-S00639",
+      "problem": "migrate"
+    },
+    "right": {
+      "province": "SD",
+      "group": "S",
+      "contestant": "SD-S01174",
+      "problem": "migrate"
+    },
+    "claim": "原帖称 SD-S00639 与 SD-S01174 在 migrate 上代码相似。",
+    "note": "原帖在同一组选手下列出 crystal、migrate 两题；网站拆为两条独立比较记录。相似性为原帖主张，需分别查看仓库原始文件。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "tj-s00537-tj-s00542-crystal",
+    "left": {
+      "province": "TJ",
+      "group": "S",
+      "contestant": "TJ-S00537",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "TJ",
+      "group": "S",
+      "contestant": "TJ-S00542",
+      "problem": "crystal"
+    },
+    "claim": "原帖称 TJ-S00537 与 TJ-S00542 在 crystal 上代码相似。",
+    "note": "原帖将第二个选手写作 Tj-S00542；检索标识规范为 TJ-S00542，原始大小写在此保留说明。相似性为原帖主张。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "fj-s00673-fj-s01060-crystal",
+    "left": {
+      "province": "FJ",
+      "group": "S",
+      "contestant": "FJ-S00673",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "FJ",
+      "group": "S",
+      "contestant": "FJ-S01060",
+      "problem": "crystal"
+    },
+    "claim": "原帖称 FJ-S00673 与 FJ-S01060 在 crystal 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "fj-s01185-fj-s01451-crystal",
+    "left": {
+      "province": "FJ",
+      "group": "S",
+      "contestant": "FJ-S01185",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "FJ",
+      "group": "S",
+      "contestant": "FJ-S01451",
+      "problem": "crystal"
+    },
+    "claim": "原帖称 FJ-S01185 与 FJ-S01451 在 crystal 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "js-s00707-js-s00708-subway",
+    "left": {
+      "province": "JS",
+      "group": "S",
+      "contestant": "JS-S00707",
+      "problem": "subway"
+    },
+    "right": {
+      "province": "JS",
+      "group": "S",
+      "contestant": "JS-S00708",
+      "problem": "subway"
+    },
+    "claim": "原帖称 JS-S00707 与 JS-S00708 在 subway 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "tj-s00655-tj-s00657-crystal",
+    "left": {
+      "province": "TJ",
+      "group": "S",
+      "contestant": "TJ-S00655",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "TJ",
+      "group": "S",
+      "contestant": "TJ-S00657",
+      "problem": "crystal"
+    },
+    "claim": "原帖称 TJ-S00655 与 TJ-S00657 在 crystal 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "ha-s00229-ha-s01067-crystal",
+    "left": {
+      "province": "HA",
+      "group": "S",
+      "contestant": "HA-S00229",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "HA",
+      "group": "S",
+      "contestant": "HA-S01067",
+      "problem": "crystal"
+    },
+    "claim": "原帖称 HA-S00229 与 HA-S01067 在 crystal 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "jx-s00546-jx-s00550-crystal",
+    "left": {
+      "province": "JX",
+      "group": "S",
+      "contestant": "JX-S00546",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "JX",
+      "group": "S",
+      "contestant": "JX-S00550",
+      "problem": "crystal"
+    },
+    "claim": "原帖称 JX-S00546 与 JX-S00550 在 crystal 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "sd-s00713-sd-s01671-migrate",
+    "left": {
+      "province": "SD",
+      "group": "S",
+      "contestant": "SD-S00713",
+      "problem": "migrate"
+    },
+    "right": {
+      "province": "SD",
+      "group": "S",
+      "contestant": "SD-S01671",
+      "problem": "migrate"
+    },
+    "claim": "原帖称 SD-S00713 与 SD-S01671 在 migrate 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "sn-s00537-sn-s00538-migrate",
+    "left": {
+      "province": "SN",
+      "group": "S",
+      "contestant": "SN-S00537",
+      "problem": "migrate"
+    },
+    "right": {
+      "province": "SN",
+      "group": "S",
+      "contestant": "SN-S00538",
+      "problem": "migrate"
+    },
+    "claim": "原帖称 SN-S00537 与 SN-S00538 在 migrate 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "sx-s00005-sx-s00306-migrate",
+    "left": {
+      "province": "SX",
+      "group": "S",
+      "contestant": "SX-S00005",
+      "problem": "migrate"
+    },
+    "right": {
+      "province": "SX",
+      "group": "S",
+      "contestant": "SX-S00306",
+      "problem": "migrate"
+    },
+    "claim": "原帖称 SX-S00005 与 SX-S00306 在 migrate 上代码相似。",
+    "note": "来自用户粘贴的原帖清单；本条收录原帖主张，仓库原始文件的比对结果另行显示，未由此判定违规。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
+    "sourceTitle": "CSP-S相似代码",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 17:16:13"
+  },
+  {
+    "id": "sd-j01423-sd-j01948-and",
+    "left": {
+      "province": "SD",
+      "group": "J",
+      "contestant": "SD-J01423",
+      "problem": "and"
+    },
+    "right": {
+      "province": "SD",
+      "group": "J",
+      "contestant": "SD-J01948",
+      "problem": "and"
+    },
+    "claim": "原帖称 and 逐字节一致（31 行 dfs 枚举）；回复另称两人四题累计编辑距离为 0。",
+    "note": "本条只绑定已明确题名 and；其余三题题名与代码未在粘贴材料中给出，不据此新增比较记录。粘贴文本未附该组源码，逐字节一致及四题距离均需独立核对原始文件；网站不将原帖主张当作已验证结论。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427795",
+    "sourceTitle": "CSP-J相似代码（部分省区）",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 19:27:43"
+  },
+  {
+    "id": "sc-j00020-sc-j01895-card",
+    "left": {
+      "province": "SC",
+      "group": "J",
+      "contestant": "SC-J00020",
+      "problem": "card"
+    },
+    "right": {
+      "province": "SC",
+      "group": "J",
+      "contestant": "SC-J01895",
+      "problem": "card"
+    },
+    "claim": "原帖称两份 card 代码为同一份 42 行实现，含相同数组、自定义 find 与 cerr 调试输出，并称差异仅 4 处。",
+    "note": "第三篇独立链接未提供，sourceUrl 留空。粘贴的第一份另有 using namepaces、stdont、输出文件以 r 模式打开、首行重复 include 等异常，不能确认来自原始文件还是转录；不应自动修复后当作原始证据。原帖讨论中存在质疑，作者回复“确实”，具体保留范围不明。现有粘贴文本不足以支持“仅 4 处差异”的完整描述，应以仓库原文件重新比对。",
+    "sourceUrl": null,
+    "sourceTitle": "CSP-J相似代码2（部分省区）",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 20:12:04"
+  },
+  {
+    "id": "sc-j01373-sc-j01443-string",
+    "left": {
+      "province": "SC",
+      "group": "J",
+      "contestant": "SC-J01373",
+      "problem": "string"
+    },
+    "right": {
+      "province": "SC",
+      "group": "J",
+      "contestant": "SC-J01443",
+      "problem": "string"
+    },
+    "claim": "原帖称两份 string 代码使用相同双指针实现，并称差异仅为 c 改为 ch 与换行风格。",
+    "note": "第三篇独立链接未提供，sourceUrl 留空。粘贴代码还存在宏定义位置、分支顺序与条件、相等分支 a[l]/a[r]、增减语句等文本差异；可能算法等价，但不能归为仅改名和换行。双指针算法相同本身不足以确定来源或违规。原帖讨论中存在质疑，作者回复“确实”，具体保留范围不明；仓库原始文件比对另行显示。",
+    "sourceUrl": null,
+    "sourceTitle": "CSP-J相似代码2（部分省区）",
+    "sourceAuthor": "zouchenjun",
+    "sourceDate": "2026-11-07 20:12:04"
+  },
+  {
+    "id": "ln-s00088-ln-s00089-migrate",
+    "left": {
+      "province": "LN",
+      "group": "S",
+      "contestant": "LN-S00088",
+      "problem": "migrate"
+    },
+    "right": {
+      "province": "LN",
+      "group": "S",
+      "contestant": "LN-S00089",
+      "problem": "migrate"
+    },
+    "claim": "原帖作者认为这一组代码相似度过高，应启动雷同调查。",
+    "note": "帖子转述了一封举报回复；本站仅提供归档源码比较，不将作者判断或转述作为官方雷同认定。",
+    "sourceUrl": "https://www.luogu.com.cn/discuss/1427323?page=52",
+    "sourceTitle": "LN-S00088 和 LN-S00089",
+    "sourceAuthor": "chen_zhe",
+    "sourceDate": "2026-11-07 13:21:46"
+  }
+]

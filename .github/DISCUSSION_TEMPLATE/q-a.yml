@@ -1,0 +1,28 @@
+title: "[Question] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask about the public archive, the code viewer, or a specific comparison.
+        Include a reproducible link so others can inspect the same revision and files.
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Explain the behavior or material you want to understand.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Source links and file paths
+      description: Include the original source, comparison permalink, full file paths, and Git revision when relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: checked
+    attributes:
+      label: What have you checked?
+      description: Include exact lines, diff observations, or reproduction steps. State any uncertainty.
+    validations:
+      required: true

@@ -1,0 +1,48 @@
+title: "[Material / correction] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share reproducible source material, a comparison, or a correction.
+        A similarity observation is not an official finding. Keep source facts and interpretation separate.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Contribution type
+      options:
+        - Source material
+        - Code comparison
+        - Correction to an existing case
+        - Website feedback
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Original source and revision
+      description: Link to the original public post or archive. Include the Git commit when citing repository files.
+      placeholder: "Original URL, publication date, and repository commit..."
+    validations:
+      required: true
+  - type: textarea
+    id: paths
+    attributes:
+      label: Exact files or case link
+      description: Include province, J/S group, candidate IDs, problem, and full repository paths when relevant.
+      placeholder: "Comparison permalink and both file paths..."
+    validations:
+      required: true
+  - type: textarea
+    id: observation
+    attributes:
+      label: Specific observation or correction
+      description: Cite relevant lines or diff ranges. Describe byte equality, formatting, identifiers, and algorithmic structure separately.
+    validations:
+      required: true
+  - type: textarea
+    id: limits
+    attributes:
+      label: Verification and remaining uncertainty
+      description: Explain what you checked and what remains unverified. For corrections, state the proposed replacement text.
+    validations:
+      required: true

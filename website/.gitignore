@@ -1,0 +1,5 @@
+node_modules/
+dist/
+site-dist/
+public/catalog/
+public/source-packs/

@@ -2,6 +2,8 @@
 
 An archive of publicly released contestant files from the second round of CSP-J/S 2026, organized by province and group. Contestant IDs, problem names, filenames and file contents are preserved.
 
+[Browse and compare code](https://tangyixiao.github.io/CSP-2026/code/) directly with VS Code-style syntax highlighting, side-by-side or inline diffs, and shareable comparisons. The browser uses a pinned, same-origin snapshot of the archived bytes. [GitHub Discussions](https://github.com/tangyixiao/CSP-2026/discussions) powers the embedded GitHub-login comments; attributed similarity reports remain separate from computed byte differences. See the [website maintenance guide](website/README.md).
+
 | Province | Junior (J) | Senior (S) |
 | --- | --- | --- |
 | Anhui (AH) | AH/J | AH/S |
