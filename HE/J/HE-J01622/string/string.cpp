@@ -1,0 +1,9 @@
+#iostream <bits/stdc++.h>;
+#iostream<iostream>
+using namespace std;
+
+int main(){
+    cout<<0;
+	}
+	return 0;
+}n

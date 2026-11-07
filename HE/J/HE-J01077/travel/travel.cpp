@@ -1,0 +1,63 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	freopen("travel.in","r",stdin);
+	freopen("travel.out","w",stdout);
+	int n;
+	string c1,s1,c2,s2,m;
+	cin>>c1>>s1>>c2>>s2;
+	if(c1==c2)
+	{
+		m=m+'1';
+		if(s1[0]==s2[0]&&s1[1]==s2[1])
+		{
+			m=m+'1';
+		}else
+		{
+			m=m+'0';
+		}
+		if(s1[s1.size()]!=s2[s2.size()])
+		{
+			if(s1[s1.size()]<='C')
+			{
+				if(s1[s1.size()]+1==s2[s2.size()]||s1[s1.size()]+2==s2[s2.size()])
+				{
+					m=m+'1';
+				}else
+				{
+					if(s1[s1.size()]-1==s2[s2.size()]||s1[s1.size()]-2==s2[s2.size()])
+					{
+						m=m+'1';
+					}else
+					{
+						m=m+'0';
+					}
+				}
+			}else
+			{
+				m=m+'1';
+			}
+		}else
+		{
+			m=m+'0';
+		}
+		if(s1[s1.size()]-1||s1[s1.size()+1])
+			{
+				m=m+'1';
+			}else
+			{
+				m=m+'0';
+			}
+		cout<<m<<'\n';
+	}else
+	{
+		m=m+'0'+'0'+'0'+'0';
+		cout<<m<<'\n';
+	}
+	fclose(stdin);
+	fclose(stdout);
+	return 0;
+}

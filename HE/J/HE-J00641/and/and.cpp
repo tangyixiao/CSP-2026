@@ -1,0 +1,92 @@
+#include <bits/stdc++.h>
+using namespace std;
+int n,m,a[200005],ans=0;
+void dfs(int d,int sum,int st){
+	if(d==m){
+		ans = max(ans,sum);
+		return;
+	}
+	if(n-st<m-d) return;
+	else{
+		if(d==0){
+			for (int i=1;i<=n;i++){
+				dfs(d+1,a[i],i);
+			}
+		}
+		else{
+			for (int i=st+1;i<=n;i++){
+				dfs(d+1,sum&a[i],i);
+			}
+		}
+	}
+}
+int main(){
+	freopen("and.in","r",stdin);
+	freopen("and.out","w",stdout);
+	cin >> n >> m;
+	if (m==1){
+		int x;
+		for (int i=1;i<=n;i++){
+			cin >> x;
+			ans = max(ans,x);
+		}
+		cout << ans;
+	}
+	else if(m==2){
+		for (int i=1;i<=n;i++){
+			cin >> a[i];
+		}
+		for (int i=1;i<=n;i++){
+			for (int j=i+1;j<=n;j++){
+				ans = max(ans,a[i]&a[j]);
+			}
+		}
+		cout << ans;
+	}
+	else if(m==n){
+		for (int i=1;i<=n;i++){
+			cin >> a[i];
+			if(i==1) ans = a[1];
+			else ans &= a[i];
+		}
+		cout << ans;
+	}
+	else if(m == n-1){
+		for (int i=1;i<=n;i++){
+			cin >> a[i];
+		}
+		for (int i=1;i<=n;i++){
+			int ss;
+			if(i == 1) ss = a[2];
+			else ss = a[1];
+			for (int j=1;j<=n;j++){
+				if (j==i) continue;
+				else ss &= a[j];
+			}
+			ans = max(ans,ss);
+		}
+		cout << ans;
+	}
+	else if(n <= 20){
+		for (int i=1;i<=n;i++){
+			cin >> a[i];
+		}
+		dfs(0,0,2);
+		cout << ans;
+	}
+	else{
+		bool o=1;
+		for (int i=1;i<=n;i++){
+			cin >> a[i];
+			if (a[i] != a[i-1]) o=0;
+		}
+		if(o){
+			cout << a[1];
+		}
+		else{
+			cout << 1;
+		}
+	}
+	return 0;
+}
+

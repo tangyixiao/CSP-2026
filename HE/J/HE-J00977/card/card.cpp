@@ -1,0 +1,19 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N=5e5+10;
+long long n,m,a[N],b[N],cnt=0;
+int main(){
+	freopen("card.in","r",stdin);
+	freopen("card.out","w",stdout);
+	 cin>>n>>m;
+	 for(int i=1;i<=n;i++){
+	 	cin>>a[i];
+	 }
+	 for(int i=1;i<=n;i++){
+	 	b[i]=a[i];
+	 }
+	 for(int i=1;i<=m;i++){
+	 	cout<<b[i]<<" "; 
+	 }
+	return 0;
+} 

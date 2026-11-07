@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	freopen("string.in","r",stdin);
+	freopen("string.out","w",stdout);
+	long long n,a,d=0,w=0;
+	char c;
+	string s;
+	string ans;
+	cin>>n;
+	for(int i=1;i<=n;i++){
+		cin>>a>>c;
+		for(int j=1;j<=a;j++){
+			s += c;
+		}
+	}
+	for(int i=s.size();i>0;i--)
+	{
+		ans+=s[i];
+	}
+	for(int i=0;i<=s.size();i++){
+		if(ans[i]==s[i]){
+			d++;
+		}
+	}
+	if(d==s.size()){
+		cout<<0;
+	}
+	else{
+		cout<<s.size()-d;
+	}
+	return 0; 	
+ }
