@@ -1,4 +1,12 @@
+import '@primer/primitives/dist/css/functional/themes/light.css';
+import '@primer/primitives/dist/css/functional/themes/dark.css';
+import '@primer/css/dist/primitives.css';
+import '@primer/css/dist/buttons.css';
+import '@primer/css/dist/forms.css';
+import '@primer/css/dist/navigation.css';
+import '@primer/octicons/build/build.css';
 import './style.css';
+import { initializeIcons, setIcon } from './icons.js';
 import cases from './cases.json';
 import { createCodeWorkbench } from './editor.js';
 import { loadSource, githubUrl } from './source.js';
@@ -15,14 +23,14 @@ const state = {
   activeCase: null, ambiguity: [], directoryError: null,
   theme: ['light', 'dark'].includes(initialQuery.get('theme')) ? initialQuery.get('theme') : getSavedTheme(),
   mode: mobile.matches ? 'inline' : validMode(initialQuery.get('mode')),
-  ignoreWhitespace: true, editor: null, diffCount: null, diffIncomplete: false, commentsOpen: false,
+  ignoreWhitespace: true, editor: null, diffCount: null, diffIncomplete: false, commentsOpen: true,
   left: emptySlot(), right: emptySlot(),
 };
 
 function emptySlot() { return { file: null, source: null, status: 'empty', error: '', sequence: 0, controller: null }; }
 function validMode(mode) { return ['view', 'split', 'inline'].includes(mode) ? mode : 'split'; }
 function getSavedTheme() { try { return localStorage.getItem('csp-code-theme') === 'light' ? 'light' : 'dark'; } catch { return 'dark'; } }
-function el(tag, className, text) { const node = document.createElement(tag); if (className) node.className = className; if (text !== undefined) node.textContent = text; return node; }
+function el(tag, className, text) { const node = document.createElement(tag); if (className) node.className = className; if (tag === 'button' && !className?.startsWith('case-item')) node.classList.add('btn'); if (text !== undefined) node.textContent = text; return node; }
 function normalized(value) { return String(value ?? '').toUpperCase(); }
 function formatNumber(value) { return Number(value || 0).toLocaleString('zh-CN'); }
 function formatBytes(value) { if (value === null || value === undefined || !Number.isFinite(Number(value))) return '大小读取后显示'; const bytes = Number(value); return bytes < 1024 ? `${bytes} B` : bytes < 1024 * 1024 ? `${(bytes / 1024).toFixed(1)} KB` : `${(bytes / (1024 * 1024)).toFixed(2)} MB`; }
@@ -34,9 +42,10 @@ function toast(message) { $('toast').textContent = message; $('toast').hidden = 
 function setTheme(theme) {
   state.theme = theme;
   document.documentElement.dataset.theme = theme;
-  $('theme-toggle').textContent = theme === 'dark' ? '☼' : '☾';
+  document.documentElement.dataset.colorMode = theme;
+  setIcon($('theme-toggle'), theme === 'dark' ? 'sun' : 'moon');
   $('theme-toggle').setAttribute('aria-label', theme === 'dark' ? '切换为浅色主题' : '切换为深色主题');
-  document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#171c24' : '#f3f5f8';
+  document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#0d1117' : '#ffffff';
   try { localStorage.setItem('csp-code-theme', theme); } catch { /* The current theme still works without storage. */ }
   state.editor?.setTheme(theme === 'dark' ? 'vs-dark' : 'vs');
   if (state.commentsOpen) renderDiscussion();
@@ -46,7 +55,7 @@ function setTheme(theme) {
 function setMode(mode, { announce = false } = {}) {
   state.mode = mobile.matches ? 'inline' : validMode(mode);
   document.querySelectorAll('[data-mode]').forEach((button) => { button.setAttribute('aria-pressed', String(button.dataset.mode === state.mode)); });
-  document.querySelector('[data-mode="inline"]').textContent = mobile.matches ? '单栏阅读' : '内联比较';
+  document.querySelector('[data-mode="inline"]').textContent = mobile.matches ? '单栏阅读' : '内联';
   for (const id of ['ignore-whitespace', 'previous-change', 'next-change']) {
     $(id).disabled = mobile.matches;
     if (mobile.matches) $(id).title = '窄屏提供高亮阅读；差异功能请在桌面宽屏使用。';
@@ -162,7 +171,8 @@ function renderFiles() {
     const heading = el('div', 'file-item-heading');
     const extension = fileName(file).toLowerCase().replace(/\.gz$/, '').split('.').at(-1);
     const fileType = ['cpp', 'cc', 'cxx', 'c', 'h', 'hpp'].includes(extension) ? 'C++' : extension === 'pas' ? 'PAS' : extension === 'py' ? 'PY' : 'SRC';
-    heading.append(el('span', 'file-icon', fileType), el('span', 'file-item-title', file.contestant || file.path.split('/').at(-2)));
+    const fileIcon = el('span', 'file-icon'); setIcon(fileIcon, 'file'); fileIcon.title = fileType;
+    heading.append(fileIcon, el('span', 'file-item-title', file.contestant || file.path.split('/').at(-2)));
     const subtitle = el('p', 'file-item-subtitle', `${file.problem || '其他文件'} / ${fileName(file)}`);
     subtitle.title = file.path;
     const bottom = el('div', 'file-item-bottom');
@@ -175,7 +185,8 @@ function renderFiles() {
       button.addEventListener('click', () => { void selectFile(side, file); });
       actions.append(button);
     }
-    bottom.append(el('span', 'file-size', file.size == null ? file.problem || '源文件' : formatBytes(file.size)), actions);
+    if (file.size != null) bottom.append(el('span', 'file-size', formatBytes(file.size)));
+    bottom.append(actions);
     item.append(heading, subtitle, bottom);
     return item;
   });
@@ -197,8 +208,8 @@ function renderCases() {
     const top = el('div', 'case-item-top');
     top.append(el('span', '', `CSP-${item.left.group} · ${item.left.province}`), el('span', 'case-item-problem', item.left.problem === item.right.problem ? item.left.problem : `${item.left.problem} / ${item.right.problem}`));
     const names = el('div', 'case-item-names');
-    names.append(document.createTextNode(item.left.contestant), el('span', '', '↔'), el('br'), document.createTextNode(item.right.contestant));
-    button.append(top, names, el('span', 'case-item-claim', item.claim));
+    names.append(el('span', '', item.left.contestant), el('span', '', item.right.contestant));
+    button.append(top, names);
     button.addEventListener('click', () => { void selectCase(item); });
     return button;
   }));
@@ -208,10 +219,12 @@ function renderCases() {
 function renderCaseContext() {
   const item = state.activeCase;
   $('case-context').hidden = !item;
+  $('case-ambiguity').hidden = !item || !state.ambiguity.length;
   if (!item) return;
   $('case-context-title').textContent = `${item.left.contestant} ↔ ${item.right.contestant} · ${item.left.problem === item.right.problem ? item.left.problem : `${item.left.problem} / ${item.right.problem}`}`;
-  $('case-claim').textContent = `原帖主张：${item.claim || '未附具体主张。'}`;
-  $('case-note').textContent = item.note || '材料尚待复核，请结合完整源代码和上下文判断。';
+  $('case-claim').textContent = item.claim || '';
+  $('case-note').textContent = item.note || '';
+  $('case-note').hidden = !item.note;
   $('case-source').hidden = !item.sourceUrl;
   if (item.sourceUrl) $('case-source').href = item.sourceUrl;
   $('case-provenance').textContent = [item.sourceTitle || '用户提供的讨论摘录', item.sourceAuthor && `作者 ${item.sourceAuthor}`, item.sourceDate, !item.sourceUrl && '未提供本材料的可确认原帖链接'].filter(Boolean).join(' · ');
@@ -365,7 +378,7 @@ function renderSources() {
     const slot = state[side];
     const letter = side === 'left' ? 'A' : 'B';
     $(`${side}-name`).textContent = slot.file ? titleOfFile(slot.file) : '未选择文件';
-    $(`${side}-path`).textContent = slot.file?.path || (side === 'left' ? '从左侧文件列表选择「设为 A」' : '选择第二份源文件以比较');
+    $(`${side}-path`).textContent = slot.file?.path || '';
     $(`${side}-path`).title = slot.file?.path || '';
     $(`${side}-clear`).disabled = !slot.file;
     $(`${side}-copy`).disabled = slot.status !== 'ready';
@@ -374,7 +387,8 @@ function renderSources() {
     renderMetadata(side);
   }
   $('source-status').classList.toggle('has-error', hasError);
-  $('source-status').textContent = messages.length ? messages.join(' · ') : state.left.source || state.right.source ? '正在显示档案原文。可在编辑器中搜索、选中并复制代码。' : '选择档案中的文件，或切换到「待复核材料」打开已有文件对。';
+  $('source-status').hidden = !messages.length && Boolean(state.left.source || state.right.source);
+  $('source-status').textContent = messages.length ? messages.join(' · ') : '从左侧选择文件，设为 A 或 B。';
   for (const side of ['left', 'right']) if (state[side].status === 'error') {
     const button = el('button', '', `重试 ${side === 'left' ? 'A' : 'B'}`); button.type = 'button'; button.addEventListener('click', () => { void selectFile(side, state[side].file, { keepCase: true }); }); $('source-status').append(button);
   }
@@ -389,7 +403,7 @@ function discussionContext() {
 
 function renderDiscussion() {
   const context = discussionContext();
-  $('discussion-title').textContent = state.activeCase ? '一起复核这份材料' : '讨论所选源文件';
+  $('discussion-title').textContent = '评论';
   const container = $('discussion-container');
   const existingWidget = container.querySelector('giscus-widget');
   if (state.commentsOpen && context && container.dataset.discussionTerm === context.term && existingWidget) {
@@ -400,12 +414,12 @@ function renderDiscussion() {
   delete container.dataset.discussionTerm;
   if (!context) {
     const prompt = el('div', 'discussion-prompt');
-    prompt.append(el('span', 'discussion-symbol', '▤'), el('p', '', '先选择材料或源文件，再打开对应的 GitHub 评论。'));
+    prompt.append(el('p', '', '选择文件后即可评论。'));
     const link = el('a', 'secondary-button', '前往全部讨论 ↗'); link.href = 'https://github.com/tangyixiao/CSP-2026/discussions'; link.target = '_blank'; link.rel = 'noreferrer'; prompt.append(link); container.append(prompt); return;
   }
   if (!state.commentsOpen) {
     const prompt = el('div', 'discussion-prompt');
-    prompt.append(el('span', 'discussion-symbol', '▤'), el('p', '', '打开评论，查看讨论或用 GitHub 账号参与复核。'));
+    prompt.append(el('p', '', '查看这组代码的讨论。'));
     const button = el('button', 'primary-button', '打开 GitHub 评论'); button.type = 'button'; button.addEventListener('click', () => { state.commentsOpen = true; renderDiscussion(); }); prompt.append(button); container.append(prompt); return;
   }
   try { container.dataset.discussionTerm = context.term; mountDiscussion(container, { ...context, theme: state.theme }); }
@@ -498,11 +512,12 @@ for (const side of ['left', 'right']) $(`${side}-copy`).addEventListener('click'
   try { await copyText(state[side].source.text); toast(`${side === 'left' ? 'A' : 'B'} 文件代码已复制。`); }
   catch { toast('复制失败，请在代码视图中选择并复制。'); }
 });
-$('open-discussion').addEventListener('click', () => { state.commentsOpen = true; renderDiscussion(); });
+$('open-discussion').addEventListener('click', () => { state.commentsOpen = true; renderDiscussion(); $('discussion-title').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 $('share-button').addEventListener('click', async () => { updateLocation(); try { await copyText(window.location.href); toast('分享链接已复制，包含当前文件、视图与主题。'); } catch { toast('复制失败，可直接复制浏览器地址栏中的链接。'); } });
 mobile.addEventListener('change', () => { setMode(mobile.matches && state.mode === 'split' ? 'inline' : state.mode); });
 window.addEventListener('beforeunload', () => { state.left.controller?.abort(); state.right.controller?.abort(); state.editor?.dispose(); });
 
+initializeIcons();
 setTheme(state.theme);
 setMode(state.mode);
 renderSources();

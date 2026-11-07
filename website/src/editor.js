@@ -25,7 +25,7 @@ export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
   const options = {
     readOnly: true, domReadOnly: true, automaticLayout: true,
     minimap: { enabled: false }, fontFamily: 'Consolas, "Cascadia Code", monospace',
-    fontSize: 14, lineHeight: 23, scrollBeyondLastLine: false,
+    fontSize: 15, lineHeight: 24, scrollBeyondLastLine: false,
     padding: { top: 18, bottom: 18 }, renderWhitespace: 'selection',
     accessibilitySupport: 'on', links: false, contextmenu: false,
     ariaLabel: '只读源码，按 Ctrl+F 搜索',
@@ -40,14 +40,14 @@ export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
     const token = ++generation;
     fallback.replaceChildren();
     const note = document.createElement('p');
-    note.textContent = '窄屏阅读模式：下方保留语法高亮。对齐差异与跳转请在桌面宽屏使用。';
+    note.textContent = '单栏阅读 · 桌面端可查看对齐差异';
     fallback.append(note);
     for (const source of sources.filter(Boolean)) {
       const section = document.createElement('section');
       const label = document.createElement('h3'); label.textContent = source.path;
-      label.style.cssText = 'font:12px Consolas,monospace;overflow-wrap:anywhere;margin:20px 0 10px';
+      label.style.cssText = 'font:14px Consolas,monospace;overflow-wrap:anywhere;margin:20px 0 10px';
       const pre = document.createElement('pre');
-      pre.style.cssText = 'font:13px/1.8 Consolas,monospace;overflow:auto;tab-size:4';
+      pre.style.cssText = 'font:15px/1.6 Consolas,monospace;overflow:auto;tab-size:4';
       pre.tabIndex = 0; pre.setAttribute('aria-label', source.path);
       section.append(label, pre); fallback.append(section);
       const html = await monaco.editor.colorize(source.text, source.language || 'cpp', { theme });
