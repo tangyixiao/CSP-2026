@@ -1,9 +1,0 @@
-#include <iostream>
-#include <cstdio>
-using namespace std;
-int main(){
-	freopen("subway.in","r",stdin);
-	freopen("subway.out","w",stdout);
-	cout <<"17\n" <<"29";
-	return 0;
-}
