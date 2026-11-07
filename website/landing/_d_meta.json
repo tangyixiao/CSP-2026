@@ -1,0 +1,18 @@
+{
+  "type": "design",
+  "designSystems": [],
+  "primaryDesignSystem": null,
+  "assets": {
+    "CSP 2026": {
+      "versions": [
+        {
+          "path": "index.html",
+          "createdAt": "2026-11-05T15:34:46.784Z",
+          "status": "needs-review"
+        }
+      ]
+    }
+  },
+  "createdAt": "2026-11-05T15:34:46.785Z",
+  "updatedAt": "2026-11-05T16:31:37.389Z"
+}
