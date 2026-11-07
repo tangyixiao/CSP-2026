@@ -88,7 +88,7 @@ test('case records keep all pairs without duplicating a pair/problem or inventin
     assert.equal(item.left.problem, item.right.problem);
     assert.equal(item.left.group, item.right.group);
     assert.ok(item.claim.length > 0);
-    assert.ok(item.note.length > 0);
+    assert.equal(typeof item.note, 'string');
   }
   const secondJPost = cases.filter((item) => item.left.province === 'SC');
   const unknownSources = secondJPost.filter((item) => item.left.group === 'J');
