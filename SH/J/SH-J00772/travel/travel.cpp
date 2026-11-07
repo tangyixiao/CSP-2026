@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+char ca[2],cb[2],sa[3],sb[3],ca1,ca0,sa1,sa2,sa0,sb1,sb0,sb2,cb1,cb0;
+int main()
+{
+	freopen("travel.in","r",stdin);
+	freopen("travel.out","w",stdout);
+	cin>>ca;
+	ca1=ca[1];
+	ca0=ca[0];
+	cin>>sa;
+	sa1=sa[1];
+	sa2=sa[2];
+	sa0=sa[0];
+	cin>>cb;
+	cb1=cb[1];
+	cb0=cb[0];
+	cin>>sb;
+	sb1=sb[1];
+	sb2=sb[2];
+	sb0=sb[0];
+	if(ca0==cb0&&ca1==cb1)
+	{
+		cout<<"1";
+		if(sa0==sb0&&sa1==sb1)
+		{
+			cout<<"1";
+			if((sa2=='E'||sb2=='D')&&(sa2=='E'||sb2=='D'))
+			{
+				cout<<"11";
+			}
+			else if((sa2=='A'||sa2=='B'||sa2=='C')&&(sb2=='A'||sb2=='B'||sb2=='C'))
+			{
+				cout<<"1";
+				if(sa2==sb2+1||sa2==sb2-1)
+				{
+					cout<<"1";
+				}
+				else
+				{
+					cout<<"0";
+				}
+			}
+			else
+			{
+				cout<<"00";
+			}
+		}
+		else
+		{
+			cout<<"000";
+		}
+	}
+	else
+	{
+		cout<<"0000";
+	}
+	return 0;
+}

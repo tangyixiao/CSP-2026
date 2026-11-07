@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int c1,c2; 
+	string s1,s2;
+	cin>>c1>>s1>>c2>>s2;
+	char check[5] = "0000";
+	freopen("travel.in","w",stdin);
+	freopen("travel.out","r",stdout);
+	if(c1 == c2){
+		check[0] = '1';
+		if(s1[0] + s1[1] == s2[0] + s2[1]){
+			check[1] = '1';
+			if(s1[2] == 'A' || s1[2] == 'B' || s1[2] == 'C' && s2[2] == 'A' || s2[2] == 'B' || s2[2] == 'C'){
+				check[2] = '1';
+				if(s1[2] == 'A' && s2[2] == 'B' || s1[2] == 'B' && s2[2] == 'A' || s1[2] == 'B' && s2[2] == 'C' || s1[2] == 'B' && s2[2] == 'C')check[3] = '1';
+				if(s1[2] == 'D' && s2[2] == 'F' || s1[2] == 'F' && s2[2] == 'D')check[3] = '1';
+			}
+			if(s1[2] == 'D' || s1[2] == 'F' && s2[2] == 'D' || s2[2] == 'F'){
+				check[2] = '1';
+				if(s1[2] == 'A' && s2[2] == 'B' || s1[2] == 'B' && s2[2] == 'A' || s1[2] == 'B' && s2[2] == 'C' || s1[2] == 'B' && s2[2] == 'C')check[3] = '1';
+				if(s1[2] == 'D' && s2[2] == 'F' || s1[2] == 'F' && s2[2] == 'D	')check[3] = '1';
+			}
+		}
+	} 
+	
+	cout<<check;
+	
+	return 0;
+}

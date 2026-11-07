@@ -1,0 +1,90 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+	int e=0,f=0,g=0,h=0;
+	string a,b,c,d;
+	cin>>a>>b>>c>>d;
+	for(int i=0;i<a.size();i++)
+	{
+		if(a[i]!=c[i])
+		{
+			e=0;
+			break;
+		}
+		e=1;
+	}
+	cout<<e;
+	for(int i=0;i<b.size()-1;i++)
+	{
+		if(b[i]!=d[i])
+		{
+			f=0;
+			break;
+		}
+		f=1;
+	}
+	if(e==1&&f==1)
+	{
+		cout<<1;
+	}
+	else
+	{
+		cout<<0;
+	}
+	if(b[2]>='A'&&b[2]<='C')
+	{
+		if(d[2]>='A'&&d[2]<='C')
+		{
+			g=1;
+		}
+	}
+	if(b[2]>='D'&&b[2]<='F')
+	{
+		if(d[2]>='D'&&d[2]<='F')
+		{
+			g=1;
+		}
+	}
+	if(e==1&&f==1)
+	{
+		if(g==1)
+		{
+			cout<<1;
+		}
+		else
+		{
+			cout<<0;
+		}
+	}
+	else{
+		cout<<0;
+	}
+	if(b[2]==char(d[2]+1)||d[2]==char(b[2]+1))
+	{
+		h=1;
+	}
+	if(b[2]=='D'&&d[2]=='F')
+	{
+		h=1;
+	}
+	if(d[2]=='D'&&b[2]=='F')
+	{
+		h=1;
+	}
+	if(e==1&&f==1)
+	{
+		if(g==1&&h==1)
+		{
+			cout<<1;
+		}
+		else
+		{
+			cout<<0;
+		}
+	}
+	else{
+		cout<<0;
+	}
+	return 0;
+}

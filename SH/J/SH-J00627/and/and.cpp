@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+using namespace std;
+long long a[1000005];
+bool cmp(int x,int y){
+	return x>y;
+}
+long long ans;
+int main(){
+	freopen("and.in","r",stdin);
+	freopen("and.out","w",stdout);
+	int n,m;
+	cin>>n>>m;
+	for(int i=1;i<=n;i++){
+		cin>>a[i];
+	}
+	sort(a+1,a+n+1,cmp);
+	if(m==2){
+		for(int i=1;i<=n;i++){
+			for(int j=1;j<=n;j++){
+				if(i!=j) ans=max(ans,a[i]&a[j]);
+			}
+		}
+		cout<<ans;
+		return 0;
+	}
+	ans=a[1];
+	for(int i=2;i<=m;i++){
+		ans=ans&a[i];
+	}
+	cout<<ans;
+	return 0;
+	fclose(stdin);
+	fclose(stdout);
+}
