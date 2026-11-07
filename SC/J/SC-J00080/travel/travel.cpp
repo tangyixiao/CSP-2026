@@ -1,0 +1,37 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int a1,b1;
+string a2,b2;
+void awa(){
+	if(a1==b1)
+	    cout<<1;
+	else{
+		cout<<"0000";
+		return;
+	}
+	if(a2[0]==b2[0]&&a2[1]==b2[1])
+	    cout<<1;
+	else{
+		cout<<"000";
+		return;
+	}
+	if(a2[2]<='C'&&b2[2]<='C'||a2[2]>='D'&&b2[2]>='D')
+	    cout<<1;
+	else{
+		cout<<"00";
+		return;
+	}
+	if(a2[2]=='C'&&b2[2]>='A'||a2[2]=='A'&&b2[2]>='C')
+	    cout<<0;
+	else
+	    cout<<1;
+	return;
+}
+int main(){
+	freopen("travel.in","r",stdin);
+	freopen("travel.out","w",stdout);
+	cin>>a1>>a2>>b1>>b2;
+	awa();
+    return 0;
+}

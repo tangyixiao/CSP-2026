@@ -1,0 +1,63 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int a,b,n=0;
+	string c,s,c1,s1;
+	cin>>c>>s>>c1>>s1;
+	if(s[2]=='F'||s[2]=='D'){
+		a=1;
+	}else{
+		a=0;
+	}
+	if(s1[2]=='F'||s1[2]=='D'){
+		b=1;
+	}else{
+		b=0;
+	}
+	if(s[2]=='F'){
+		if(s1[2]=='D'){
+			n=1;
+		}
+	}
+	if(s[2]=='D'){
+		if(s1[2]=='F'){
+			n=1;
+		}
+	}
+	if(s[2]=='C'){
+		if(s1[2]=='B'){
+			n=1;
+		}
+	}
+	if(s[2]=='B'){
+		if(s1[2]=='C'||s1[2]=='A'){
+			n=1;
+		}
+	}
+	if(s[2]=='A'){
+		if(s1[2]=='B'){
+			n=1;
+		}
+	}
+	if(c==c1){
+		cout<<1;
+	}else{
+		cout<<0;
+	}
+	if(c==c1&&s[0]==s1[0]&&s[1]==s1[1]){
+		cout<<1;
+	}else{
+		cout<<0;
+	}
+	if(c==c1&&s[0]==s1[0]&&s[1]==s1[1]&&a==b){
+		cout<<1;
+	}else{
+		cout<<0;
+	}
+	if(c==c1&&s[0]==s1[0]&&s[1]==s1[1]&&n==1){
+		cout<<1;
+	}else{
+		cout<<0;
+	}
+	return 0;
+}
