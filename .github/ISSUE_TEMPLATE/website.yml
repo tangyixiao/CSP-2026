@@ -1,0 +1,17 @@
+name: Website problem or suggestion
+description: Report a website, download or accessibility problem
+title: "website: "
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Affected page
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Steps, actual behavior and expected behavior
+      description: Include browser, device size, language and download mode when relevant. Screenshots are welcome.
+    validations:
+      required: true

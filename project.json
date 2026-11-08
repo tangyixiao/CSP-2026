@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "name": "CSP-2026",
+  "repository": "tangyixiao/CSP-2026",
+  "kind": "contestant-file-archive",
+  "website": {
+    "url": "https://tangyixiao.github.io/CSP-2026/",
+    "previewPath": "preview/",
+    "languages": ["zh-CN", "en"],
+    "defaultTheme": "light"
+  },
+  "release": { "tag": "archive-2026-11-08" },
+  "downloads": { "domesticProxy": "https://gh-proxy.org/" },
+  "desiredFeatures": {
+    "issues": true, "discussions": true, "projects": true,
+    "wiki": true, "pages": true, "releases": true,
+    "actions": true, "privateVulnerabilityReporting": true
+  },
+  "resources": {
+    "freeSpaceReserveGiB": 10,
+    "temporaryGrowthWarningGiB": 1,
+    "temporaryGrowthBudgetGiB": 2,
+    "maxHeavyLocalJobs": 1,
+    "maxLogMiB": 20
+  },
+  "exceptions": {
+    "archiveSize": "Original contestant and official-data files are retained assets, not template-sized website source. Package full province archives on GitHub Actions rather than hydrating a local partial clone.",
+    "copyright": "Template adoption does not relicense third-party contestant submissions or official test data.",
+    "sponsorship": "No sponsorship destination is configured."
+  }
+}
