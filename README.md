@@ -24,6 +24,7 @@ An archive of publicly released contestant files from the second round of CSP-J/
 | Jiangxi (JX) | JX/J | JX/S |
 | Jilin (JL) | JL/J | JL/S |
 | Liaoning (LN) | LN/J | LN/S |
+| Qinghai (QH) | QH/J | QH/S |
 | Shaanxi (SN) | SN/J | SN/S |
 | Shandong (SD) | SD/J | SD/S |
 | Shanghai (SH) | SH/J | SH/S |
@@ -38,7 +39,7 @@ Contestant files are located at `province/group/contestant/problem/`. Some overs
 
 The original Zhejiang J and S archives and contestant answer summaries are stored under `ZJ/J/` and `ZJ/S/`. Titles, dates, original content and links for the three Zhejiang announcements are documented in [Zhejiang sources](ZJ/sources/web-sources.md). Git does not retain empty directories; extract the corresponding `answers.zip` to restore the complete original directory structure.
 
-Zhejiang J has been compared file by file with its official archive. Guangxi S has been compared file by file with a locally supplied decrypted archive; its original source has not been independently verified. Hebei J and S have been checked against the supplied encrypted archives and accompanying MD5 manifests. Hainan J has been checked against the supplied encrypted archive and its internal MD5 listing; see the [Hainan J source record](HI/sources/j-archive.md). The other provinces have not yet been individually checked against their official originals. Official test data for J and S is stored under `test-data/J/official/` and `test-data/S/official/`, respectively. This repository does not contain official scores.
+Zhejiang J has been compared file by file with its official archive. Guangxi S has been compared file by file with a locally supplied decrypted archive; its original source has not been independently verified. Hebei J and S have been checked against the supplied encrypted archives and accompanying MD5 manifests. Hainan J has been checked against the supplied encrypted archive and its internal MD5 listing; see the [Hainan J source record](HI/sources/j-archive.md). Qinghai J and S have been checked byte for byte against a supplied community attachment; original six-digit Junior IDs and unusual source paths are preserved. See the [Qinghai J source record](QH/sources/j-archive.md) and [Qinghai S source record](QH/sources/s-archive.md); no independent official MD5 listing was available. The other provinces have not yet been individually checked against their official originals. Official test data for J and S is stored under `test-data/J/official/` and `test-data/S/official/`, respectively. This repository does not contain official scores.
 
 If using a sparse checkout, expand a province or group as needed, for example:
 
