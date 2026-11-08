@@ -1,6 +1,7 @@
 import { cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { writeProjectPreview } from '../project-site/render.mjs';
 
 const websiteRoot = path.resolve(fileURLToPath(new URL('../', import.meta.url)));
 const landingRoot = path.join(websiteRoot, 'landing');
@@ -61,7 +62,7 @@ const catalogBlobs = new Set();
 for (const group of catalog.groups) {
   if (!/^catalog\/[A-Z]{2}-[JS]\.json$/.test(group.url)) throw new Error('Invalid catalog shard path');
   const shard = JSON.parse(readFileSync(path.join(browserRoot, group.url), 'utf8'));
-  for (const file of shard.files) {
+  for (const file of [...shard.files, ...(shard.extraFiles ?? [])]) {
     if (!/^[a-f0-9]{40}$/i.test(file.blob)) throw new Error('Invalid catalog source blob ID');
     catalogBlobs.add(file.blob);
   }
@@ -106,6 +107,9 @@ rmSync(outputRoot, { recursive: true, force: true });
 mkdirSync(outputRoot, { recursive: true });
 cpSync(landingRoot, outputRoot, { recursive: true });
 cpSync(browserRoot, path.join(outputRoot, 'code'), { recursive: true });
+cpSync(path.join(websiteRoot,'..','project.json'),path.join(outputRoot,'project.json'));
+const projectCases = JSON.parse(readFileSync(path.join(websiteRoot,'src','cases.json'),'utf8'));
+writeProjectPreview(path.join(outputRoot,'preview'),{ catalog, caseCount:projectCases.length });
 writeFileSync(path.join(outputRoot, 'index.html'), pinRevision(landingHtml));
 writeFileSync(path.join(outputRoot, 'docs.html'), pinRevision(documentationHtml));
 writeFileSync(path.join(outputRoot, '.nojekyll'), '');
@@ -129,7 +133,7 @@ writeFileSync(path.join(outputRoot, 'source-receipt.json'), JSON.stringify({
     complete: sourcePacks.complete,
     limit: sourcePacks.limit,
   },
-  paths: { landing: '/', documentation: 'docs.html', codeBrowser: 'code/' },
+  paths: { landing: '/', documentation: 'docs.html', codeBrowser: 'code/', projectPreview: 'preview/' },
 }, null, 2) + '\n');
 
 console.log(`Packaged ${sortedProvinces.length} provinces and ${catalog.groups.length} groups at ${catalog.revision}`);
