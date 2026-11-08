@@ -61,7 +61,7 @@ export function contestantFiles(file, files) {
 export function originalFileUrl(file, revision, mode='international') {
   validateSource(file.path,revision);
   const encoded=file.path.split('/').map(encodeURIComponent).join('/');
-  return downloadUrl(`https://github.com/${REPOSITORY}/raw/${revision}/${encoded}`,mode);
+  return downloadUrl(`https://raw.githubusercontent.com/${REPOSITORY}/${revision}/${encoded}`,mode);
 }
 
 async function verifyBlob(bytes, expected) {
