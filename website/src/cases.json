@@ -266,7 +266,7 @@
       "problem": "crystal"
     },
     "claim": "原帖称 TJ-S00537 与 TJ-S00542 在 crystal 上代码相似。",
-    "note": "原帖与归档目录使用 Tj-S00542；检索时统一为 TJ-S00542。 补充文章《CSP 代码雷同大赏》（_colin1112_，2026-11-07 17:07:26）另报告 crystal 相似度 100.00%；这是作者报告值。补充来源：https://www.luogu.com.cn/article/r62p05jf",
+    "note": "原帖与归档目录使用 Tj-S00542；检索时统一为 TJ-S00542。 补充文章《CSP 代码雷同大赏》（_colin1112_，2026-11-07 17:07:26）另报告 crystal 相似度 100.00%；这是作者报告值。补充来源：https://www.luogu.com.cn/article/r62p05jf 当前归档双方的 Git blob 不同；原文报告的 100% 相似度不能直接视为字节完全一致。",
     "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
     "sourceTitle": "CSP-S相似代码",
     "sourceAuthor": "zouchenjun",
@@ -623,7 +623,7 @@
       "problem": "card"
     },
     "claim": "原文报告 JS-J00814 与 JS-J00815 的 card 相似度为 100.00%（作者报告值）。",
-    "note": "",
+    "note": "当前归档双方的 Git blob 不同；原文报告的 100% 相似度不能直接视为字节完全一致。",
     "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
     "sourceTitle": "CSP 代码雷同大赏",
     "sourceAuthor": "_colin1112_",
@@ -707,7 +707,7 @@
       "problem": "crystal"
     },
     "claim": "原文报告 XJ-S00398 与 XJ-S00399 的 crystal 相似度为 100.00%（作者报告值）。",
-    "note": "",
+    "note": "当前归档双方的 Git blob 不同；原文报告的 100% 相似度不能直接视为字节完全一致。",
     "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
     "sourceTitle": "CSP 代码雷同大赏",
     "sourceAuthor": "_colin1112_",

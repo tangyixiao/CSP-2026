@@ -29,6 +29,8 @@ The body identifies 10 candidate pairs and 16 pair/problem comparisons. Thirteen
 
 The browser retains the source title, author and publication time on each new comparison. Loading two archived files provides an independent byte/text comparison; it does not reproduce the article's unspecified percentage calculation.
 
+Independent archive check at `ecdb5a54cb7cf67f553122856b48505c0a24055b`: every explicit selector resolves to exactly one source file per side. The four Shandong comparisons share the same Git blob on both sides, which establishes byte identity within this archive. The other 12 comparisons use different blobs. In particular, the article's 100% reports for JS-J00814 / JS-J00815 (`card`), TJ-S00537 / TJ-S00542 (`crystal`) and XJ-S00398 / XJ-S00399 (`crystal`) are not byte-identity results for the current archived files. Their browser notes record this distinction; no normalized similarity score is independently claimed.
+
 ## AI-only candidates without a confirmed problem
 
 The article explicitly separates these two images from its manually reviewed examples: [first table](https://pic1.imgdb.cn/i/034tNB0YsBlbamcsWSOovi.png), [second table](https://pic1.imgdb.cn/i/034tNBRWSeTKqyiNUQ7K4s.png). Together they list 30 candidate pairs. The score column is a maximum for a single problem, but the rows do not identify the problem. They are transcribed here as source leads with manual review pending, rather than assigned guessed problem selectors in the browser.
