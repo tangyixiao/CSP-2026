@@ -1,0 +1,17 @@
+#include <bits/stdc++.h>
+using namespace std;
+int a[200010];
+int fun(int x,int y)
+{
+	return x>y;
+}
+int main(){
+	freopen("and.in","r",stdin);
+	freopen("and.out","w",stdout);
+	int n,m;
+	cin>>n>>m;
+	for(int i=0;i<n;i++)cin>>a[i];
+	sort(a,a+n,fun);
+	cout<<a[m-1];
+	return 0;
+}
