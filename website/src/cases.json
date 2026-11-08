@@ -266,7 +266,7 @@
       "problem": "crystal"
     },
     "claim": "原帖称 TJ-S00537 与 TJ-S00542 在 crystal 上代码相似。",
-    "note": "原帖与归档目录使用 Tj-S00542；检索时统一为 TJ-S00542。",
+    "note": "原帖与归档目录使用 Tj-S00542；检索时统一为 TJ-S00542。 补充文章《CSP 代码雷同大赏》（_colin1112_，2026-11-07 17:07:26）另报告 crystal 相似度 100.00%；这是作者报告值。补充来源：https://www.luogu.com.cn/article/r62p05jf 当前归档双方的 Git blob 不同；原文报告的 100% 相似度不能直接视为字节完全一致。",
     "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
     "sourceTitle": "CSP-S相似代码",
     "sourceAuthor": "zouchenjun",
@@ -455,7 +455,7 @@
       "problem": "migrate"
     },
     "claim": "原帖称 SX-S00005 与 SX-S00306 在 migrate 上代码相似。",
-    "note": "",
+    "note": "补充文章《CSP 代码雷同大赏》（_colin1112_，2026-11-07 17:07:26）另报告 migrate 相似度 80.87%；这是作者报告值。补充来源：https://www.luogu.com.cn/article/r62p05jf",
     "sourceUrl": "https://www.luogu.com.cn/discuss/1427684",
     "sourceTitle": "CSP-S相似代码",
     "sourceAuthor": "zouchenjun",
@@ -476,7 +476,7 @@
       "problem": "and"
     },
     "claim": "原帖称 and 逐字节一致（31 行 dfs 枚举）；回复另称两人四题累计编辑距离为 0。",
-    "note": "原帖还称四题累计编辑距离为 0；当前入口比较 and，其他题目可在文件列表选择。",
+    "note": "原帖还称四题累计编辑距离为 0；当前入口比较 and，其他题目可在文件列表选择。 补充文章《CSP 代码雷同大赏》（_colin1112_，2026-11-07 17:07:26）另报告 and 相似度 100.00%；这是作者报告值。补充来源：https://www.luogu.com.cn/article/r62p05jf",
     "sourceUrl": "https://www.luogu.com.cn/discuss/1427795",
     "sourceTitle": "CSP-J相似代码（部分省区）",
     "sourceAuthor": "zouchenjun",
@@ -544,5 +544,278 @@
     "sourceTitle": "LN-S00088 和 LN-S00089",
     "sourceAuthor": "chen_zhe",
     "sourceDate": "2026-11-07 13:21:46"
+  },
+  {
+    "id": "sd-j01423-sd-j01948-card",
+    "left": {
+      "province": "SD",
+      "group": "J",
+      "contestant": "SD-J01423",
+      "problem": "card"
+    },
+    "right": {
+      "province": "SD",
+      "group": "J",
+      "contestant": "SD-J01948",
+      "problem": "card"
+    },
+    "claim": "原文报告 SD-J01423 与 SD-J01948 的 card 相似度为 100.00%（作者报告值）。",
+    "note": "",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
+  },
+  {
+    "id": "sd-j01423-sd-j01948-travel",
+    "left": {
+      "province": "SD",
+      "group": "J",
+      "contestant": "SD-J01423",
+      "problem": "travel"
+    },
+    "right": {
+      "province": "SD",
+      "group": "J",
+      "contestant": "SD-J01948",
+      "problem": "travel"
+    },
+    "claim": "原文报告 SD-J01423 与 SD-J01948 的 travel 相似度为 100.00%（作者报告值）。",
+    "note": "",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
+  },
+  {
+    "id": "sd-j01423-sd-j01948-string",
+    "left": {
+      "province": "SD",
+      "group": "J",
+      "contestant": "SD-J01423",
+      "problem": "string"
+    },
+    "right": {
+      "province": "SD",
+      "group": "J",
+      "contestant": "SD-J01948",
+      "problem": "string"
+    },
+    "claim": "原文报告 SD-J01423 与 SD-J01948 的 string 相似度为 100.00%（作者报告值）。",
+    "note": "",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
+  },
+  {
+    "id": "js-j00814-js-j00815-card",
+    "left": {
+      "province": "JS",
+      "group": "J",
+      "contestant": "JS-J00814",
+      "problem": "card"
+    },
+    "right": {
+      "province": "JS",
+      "group": "J",
+      "contestant": "JS-J00815",
+      "problem": "card"
+    },
+    "claim": "原文报告 JS-J00814 与 JS-J00815 的 card 相似度为 100.00%（作者报告值）。",
+    "note": "当前归档双方的 Git blob 不同；原文报告的 100% 相似度不能直接视为字节完全一致。",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
+  },
+  {
+    "id": "js-j00814-js-j00815-and",
+    "left": {
+      "province": "JS",
+      "group": "J",
+      "contestant": "JS-J00814",
+      "problem": "and"
+    },
+    "right": {
+      "province": "JS",
+      "group": "J",
+      "contestant": "JS-J00815",
+      "problem": "and"
+    },
+    "claim": "原文报告 JS-J00814 与 JS-J00815 的 and 相似度为 71.97%（作者报告值）。",
+    "note": "",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
+  },
+  {
+    "id": "sx-s00005-sx-s00306-crystal",
+    "left": {
+      "province": "SX",
+      "group": "S",
+      "contestant": "SX-S00005",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "SX",
+      "group": "S",
+      "contestant": "SX-S00306",
+      "problem": "crystal"
+    },
+    "claim": "原文报告 SX-S00005 与 SX-S00306 的 crystal 相似度为 86.41%（作者报告值）。",
+    "note": "",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
+  },
+  {
+    "id": "gd-s01153-gd-s01849-subway",
+    "left": {
+      "province": "GD",
+      "group": "S",
+      "contestant": "GD-S01153",
+      "problem": "subway"
+    },
+    "right": {
+      "province": "GD",
+      "group": "S",
+      "contestant": "GD-S01849",
+      "problem": "subway"
+    },
+    "claim": "原文报告 GD-S01153 与 GD-S01849 的 subway 相似度为 96.87%（作者报告值）。",
+    "note": "",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
+  },
+  {
+    "id": "xj-s00398-xj-s00399-crystal",
+    "left": {
+      "province": "XJ",
+      "group": "S",
+      "contestant": "XJ-S00398",
+      "problem": "crystal"
+    },
+    "right": {
+      "province": "XJ",
+      "group": "S",
+      "contestant": "XJ-S00399",
+      "problem": "crystal"
+    },
+    "claim": "原文报告 XJ-S00398 与 XJ-S00399 的 crystal 相似度为 100.00%（作者报告值）。",
+    "note": "当前归档双方的 Git blob 不同；原文报告的 100% 相似度不能直接视为字节完全一致。",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
+  },
+  {
+    "id": "tj-s00655-tj-s00657-subway",
+    "left": {
+      "province": "TJ",
+      "group": "S",
+      "contestant": "TJ-S00655",
+      "problem": "subway"
+    },
+    "right": {
+      "province": "TJ",
+      "group": "S",
+      "contestant": "TJ-S00657",
+      "problem": "subway"
+    },
+    "claim": "原文报告 TJ-S00655 与 TJ-S00657 的 subway 相似度为 98.26%（作者报告值）。",
+    "note": "",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
+  },
+  {
+    "id": "hl-j00544-hl-j00549-card",
+    "left": {
+      "province": "HL",
+      "group": "J",
+      "contestant": "HL-J00544",
+      "problem": "card"
+    },
+    "right": {
+      "province": "HL",
+      "group": "J",
+      "contestant": "HL-J00549",
+      "problem": "card"
+    },
+    "claim": "原文报告 HL-J00544 与 HL-J00549 的 card 相似度为 83.93%（作者报告值）。",
+    "note": "",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
+  },
+  {
+    "id": "hl-j00544-hl-j00549-and",
+    "left": {
+      "province": "HL",
+      "group": "J",
+      "contestant": "HL-J00544",
+      "problem": "and"
+    },
+    "right": {
+      "province": "HL",
+      "group": "J",
+      "contestant": "HL-J00549",
+      "problem": "and"
+    },
+    "claim": "原文报告 HL-J00544 与 HL-J00549 的 and 相似度为 92.17%（作者报告值）。",
+    "note": "",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
+  },
+  {
+    "id": "nm-j00294-nm-j00295-travel",
+    "left": {
+      "province": "NM",
+      "group": "J",
+      "contestant": "NM-J00294",
+      "problem": "travel"
+    },
+    "right": {
+      "province": "NM",
+      "group": "J",
+      "contestant": "NM-J00295",
+      "problem": "travel"
+    },
+    "claim": "原文报告 NM-J00294 与 NM-J00295 的 travel 相似度为 97.38%（作者报告值）。",
+    "note": "",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
+  },
+  {
+    "id": "nm-j00573-nm-j00574-travel",
+    "left": {
+      "province": "NM",
+      "group": "J",
+      "contestant": "NM-J00573",
+      "problem": "travel"
+    },
+    "right": {
+      "province": "NM",
+      "group": "J",
+      "contestant": "NM-J00574",
+      "problem": "travel"
+    },
+    "claim": "原文报告 NM-J00573 与 NM-J00574 的 travel 相似度为 99.11%（作者报告值）。",
+    "note": "",
+    "sourceUrl": "https://www.luogu.com.cn/article/r62p05jf",
+    "sourceTitle": "CSP 代码雷同大赏",
+    "sourceAuthor": "_colin1112_",
+    "sourceDate": "2026-11-07 17:07:26"
   }
 ]

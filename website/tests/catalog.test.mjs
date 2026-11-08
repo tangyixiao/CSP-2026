@@ -130,15 +130,15 @@ test('group counts count contestants once across multiple files and keep J/S sep
 
 test('case records keep all pairs without duplicating a pair/problem or inventing a source', async () => {
   const cases = JSON.parse(await readFile(new URL('../src/cases.json', import.meta.url), 'utf8'));
-  assert.equal(cases.length, 26);
-  assert.equal(cases.filter((item) => item.left.group === 'S').length, 23);
-  assert.equal(cases.filter((item) => item.left.group === 'J').length, 3);
-  assert.equal(new Set(cases.map((item) => item.id)).size, 26);
+  assert.equal(cases.length, 39);
+  assert.equal(cases.filter((item) => item.left.group === 'S').length, 27);
+  assert.equal(cases.filter((item) => item.left.group === 'J').length, 12);
+  assert.equal(new Set(cases.map((item) => item.id)).size, 39);
   const comparisons = cases.map(({ left, right }) => `${[left.contestant, right.contestant].sort().join('/')}/${left.problem}`);
-  assert.equal(new Set(comparisons).size, 26);
+  assert.equal(new Set(comparisons).size, 39);
   const multiProblem = cases.filter((item) => item.left.contestant === 'SD-S00639');
   assert.deepEqual(multiProblem.map((item) => item.left.problem).sort(), ['crystal', 'migrate']);
-  assert.equal(new Set(cases.map(({ left, right }) => [left.contestant, right.contestant].sort().join('/'))).size, 25);
+  assert.equal(new Set(cases.map(({ left, right }) => [left.contestant, right.contestant].sort().join('/'))).size, 31);
   for (const item of cases) {
     assert.equal(item.left.problem, item.right.problem);
     assert.equal(item.left.group, item.right.group);
