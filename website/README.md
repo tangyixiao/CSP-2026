@@ -60,6 +60,8 @@ The material collection records claims and observations from public posts and an
 
 The collection is a finite set of materials, not an exhaustive similarity scan of every province or candidate. A missing case is not a claim that no similar code exists.
 
+The [supplementary Luogu article record](sources/luogu-r62p05jf.md) accounts for 16 explicit pair/problem comparisons and separately transcribes 30 AI-only candidate pairs whose problem was unspecified. Author-reported percentages remain separate from the browser's computed byte/text comparison.
+
 ## Pages delivery
 
 `.github/workflows/code-browser-pages.yml` uses official GitHub Actions to check out the complete archive at depth 1, install dependencies, run checks, build the code browser and all source packs, assemble the complete static site, upload that artifact, and deploy it to the `github-pages` environment.
