@@ -1,6 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
+import { loadSource } from '../src/source.js';
+
+const reviewedExtensionlessSources = [
+  ['HI/J/HI-J00346/string/and', '93f22b8abc69341c6e27992a3ffe64c3be1dd26d'],
+  ['HI/J/HI-J00346/string/card', '93f22b8abc69341c6e27992a3ffe64c3be1dd26d'],
+  ['HI/J/HI-J00346/string/string', '93f22b8abc69341c6e27992a3ffe64c3be1dd26d'],
+  ['HI/J/HI-J00346/travel/travel', '62e77c53c22e0e8415bb063af8ae8c9b14d87107'],
+];
 
 async function generator() {
   let implementation;
@@ -49,6 +58,52 @@ test('catalog excludes input/output, archives, statistics and non-contest roots'
     'FJ/S/统计汇总/subway/results.txt',
   ];
   for (const path of excluded) assert.equal(parseSourcePath(path), null, path);
+});
+
+test('reviewed extensionless sources require both their original path and Git blob', async () => {
+  const { parseSourcePath } = await generator();
+  for (const [path, blob] of reviewedExtensionlessSources) {
+    const source = parseSourcePath(path, blob);
+    assert.equal(source?.path, path);
+    assert.equal(source?.language, 'cpp');
+    assert.equal(parseSourcePath(path), null, `missing blob: ${path}`);
+    assert.equal(parseSourcePath(path, '0'.repeat(40)), null, `wrong blob: ${path}`);
+  }
+  assert.equal(parseSourcePath('HI/J/HI-J00346/string/other', reviewedExtensionlessSources[0][1]), null);
+  assert.equal(parseSourcePath('HI/J/HI-J00346/string/and.cpp', '0'.repeat(40)).name, 'and.cpp');
+});
+
+test('catalog includes reviewed extensionless C++ files with their language and excludes changed blobs', async () => {
+  const { buildCatalog } = await generator();
+  const reviewed = reviewedExtensionlessSources.map(([path, blob]) => ({ path, blob, type: 'blob', mode: '100644' }));
+  const ordinaryPath = 'HI/J/HI-J00001/and/and.cpp';
+  const { index, shards } = buildCatalog([
+    ...reviewed,
+    { ...reviewed[0], blob: '0'.repeat(40) },
+    { ...reviewed[0], path: 'HI/J/HI-J00346/string/other' },
+    { ...reviewed[0], path: ordinaryPath },
+  ], 'a'.repeat(40));
+  assert.equal(index.totalFiles, 5);
+  assert.equal(index.totalContestants, 2);
+  const files = shards['HI-J'].files;
+  for (const [path, blob] of reviewedExtensionlessSources) {
+    const file = files.find((item) => item.path === path);
+    assert.equal(file?.blob, blob);
+    assert.equal(file?.language, 'cpp');
+  }
+  assert.ok(files.some((file) => file.path === ordinaryPath));
+});
+
+test('source loading uses the catalog language for extensionless files and keeps extension fallback', async (t) => {
+  const bytes = new TextEncoder().encode('int main() { return 0; }\n');
+  const blob = createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
+  const revision = 'f'.repeat(40);
+  t.mock.method(globalThis, 'fetch', async () => new Response(JSON.stringify({ [blob]: Buffer.from(bytes).toString('base64') })));
+  const reviewed = await loadSource({ path: reviewedExtensionlessSources[0][0], blob, language: 'cpp' }, { revision });
+  assert.equal(reviewed.language, 'cpp');
+  assert.equal(reviewed.text, 'int main() { return 0; }\n');
+  const ordinary = await loadSource({ path: 'HI/J/HI-J00001/and/and.cpp', blob }, { revision });
+  assert.equal(ordinary.language, 'cpp');
 });
 
 test('group counts count contestants once across multiple files and keep J/S separate', async () => {

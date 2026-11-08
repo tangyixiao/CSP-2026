@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import sourceOverrides from '../src/source-overrides.json' with { type: 'json' };
 
 const PROVINCES = {
   AH: '安徽', BJ: '北京', CQ: '重庆', FJ: '福建', GD: '广东', GS: '甘肃',
@@ -52,21 +53,23 @@ export function parseLsTree(output) {
 }
 
 /** Classify a source-like file without changing the path used to fetch it. */
-export function parseSourcePath(path) {
+export function parseSourcePath(path, blob) {
   const parts = path.split('/');
   if (parts.length < 4 || !/^[A-Z]{2}$/.test(parts[0]) || !/^[JS]$/.test(parts[1])) return null;
   if (parts.slice(2, -1).some((part) => /(?:归档|统计)/.test(part) || /^(?:archives?|stats?|statistics|test-data)$/i.test(part.trim()))) return null;
   const name = parts.at(-1);
   const unwrapped = withoutBackups(name);
+  const override = sourceOverrides[path];
+  const language = override && override.blob === blob ? override.language : null;
   if (/\.(?:in|out|ans)(?:\.txt)?$/i.test(unwrapped)) return null;
-  if (!/\.(?:cpp|c|cc|cxx|c\+\+|h|hpp|hxx|pas|pp|py|java|txt)$/i.test(unwrapped)) return null;
+  if (!language && !/\.(?:cpp|c|cc|cxx|c\+\+|h|hpp|hxx|pas|pp|py|java|txt)$/i.test(unwrapped)) return null;
   const stem = unwrapped.replace(/\.[^.]+$/, '');
   const directories = parts.slice(3, -1);
   const problem = directories.map(knownProblem).find(Boolean) || knownProblem(stem)
     || (directories.at(-1) || stem).trim();
   return {
     path, province: parts[0], group: parts[1], contestant: parts[2].trim().toUpperCase(),
-    contestantDirectory: parts[2], problem, name,
+    contestantDirectory: parts[2], problem, name, ...(language ? { language } : {}),
   };
 }
 
@@ -76,7 +79,7 @@ export function buildCatalog(entries, revision) {
   const contestantSets = new Map();
   for (const entry of entries) {
     if (entry.type !== 'blob' || !/^100[67]/.test(entry.mode)) continue;
-    const source = parseSourcePath(entry.path);
+    const source = parseSourcePath(entry.path, entry.blob);
     if (!source) continue;
     const key = `${source.province}-${source.group}`;
     if (!shards[key]) {
@@ -105,7 +108,7 @@ export function buildCatalog(entries, revision) {
       sizeAvailability: 'not-collected',
       limitations: [
         '目录由 Git 树生成，不读取源码内容；size 为 null，避免 partial clone 自动下载全部 blob。',
-        '仅按省份/组别路径和源码、文本及备份扩展名筛选；未验证内容、编码、可编译性或提交真实性。',
+        '按省份/组别路径和源码、文本及备份扩展名筛选，另含路径和 Git blob 完全匹配的已审查例外；未验证可编译性或提交真实性。',
         '保留原始路径；选手检索标识去除首尾空白并统一大写，题目按目录或文件名识别，未识别的名称原样保留。',
       ],
       groups,
