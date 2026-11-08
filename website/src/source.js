@@ -75,7 +75,7 @@ export async function hashBytes(bytes) {
   return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-export async function loadSource(file, { revision, signal } = {}) {
+export async function loadArchiveBytes(file, { revision, signal } = {}) {
   validateSource(file.path, revision);
   if (!/^[a-f0-9]{40}$/i.test(file.blob || '')) throw new Error('源码摘要无效，请刷新目录。');
   const key = file.blob.slice(0, 3);
@@ -118,6 +118,11 @@ export async function loadSource(file, { revision, signal } = {}) {
     sourcePacks.delete(`${revision}/${key}`);
     throw new Error('源码快照的 Git 摘要校验失败，请刷新重试。');
   }
+  return archiveBytes;
+}
+
+export async function loadSource(file, { revision, signal } = {}) {
+  const archiveBytes = await loadArchiveBytes(file, { revision, signal });
   let bytes = archiveBytes;
   if (/\.gz$/i.test(file.path)) {
     if (typeof DecompressionStream === 'undefined') throw new Error('此浏览器不支持 gzip 预览，请下载后解压。');

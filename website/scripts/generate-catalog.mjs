@@ -90,12 +90,24 @@ export function buildCatalog(entries, revision) {
     const { province, group, ...file } = source;
     shards[key].files.push({ ...file, size: entry.size ?? null, blob: entry.blob });
   }
+  // Downloads preserve the complete tracked contestant folder, including files
+  // that have no code-preview classification. Keep only the extra entries.
+  const sourcePaths = new Set(Object.values(shards).flatMap(shard => shard.files.map(file => file.path)));
+  for (const entry of entries) {
+    const parts = entry.path.split('/');
+    if (entry.type !== 'blob' || !/^100[67]/.test(entry.mode) || parts.length < 4 || sourcePaths.has(entry.path)) continue;
+    const key = `${parts[0]}-${parts[1]}`;
+    if (!shards[key] || !parts[2].toUpperCase().startsWith(`${key}`)) continue;
+    (shards[key].extraFiles ??= []).push({ path:entry.path, blob:entry.blob, size:entry.size ?? null,
+      name:parts.at(-1), contestantDirectory:parts[2] });
+  }
   const groups = Object.keys(shards).sort().map((key) => {
     const [province, group] = key.split('-');
     shards[key].files.sort((left, right) => left.path < right.path ? -1 : left.path > right.path ? 1 : 0);
     return {
       key, province, group, label: `${PROVINCES[province] || province} · CSP-${group}`,
       fileCount: shards[key].files.length, contestantCount: contestantSets.get(key).size,
+      extraFileCount: shards[key].extraFiles?.length ?? 0,
       url: `catalog/${key}.json`,
     };
   });

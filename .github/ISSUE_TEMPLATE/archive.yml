@@ -1,0 +1,22 @@
+name: Archive file issue
+description: Report missing, damaged or conflicting contestant files
+title: "archive: "
+body:
+  - type: input
+    id: path
+    attributes:
+      label: Region, group and path
+      placeholder: SH/S/SH-S01518/crystal/crystal.cpp
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: What is missing or different?
+      description: Include evidence and the source URL or supplied package origin. Do not post passwords or credentials.
+    validations:
+      required: true
+  - type: input
+    id: checksum
+    attributes:
+      label: Package or file SHA-256, if available

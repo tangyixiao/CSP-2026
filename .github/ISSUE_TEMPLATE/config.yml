@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Materials and code discussion
+    url: https://github.com/tangyixiao/CSP-2026/discussions
+    about: Share source materials or discuss code in context
+  - name: Private security report
+    url: https://github.com/tangyixiao/CSP-2026/security/advisories/new
+    about: Report a website or workflow vulnerability privately

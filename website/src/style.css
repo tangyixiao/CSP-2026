@@ -218,3 +218,14 @@ button:disabled:not(.btn) { color: var(--fgColor-disabled, var(--muted)); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
+/* File downloads use the same original bytes as the pinned source snapshot. */
+.download-mode-label{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--fgColor-muted,#656d76);white-space:nowrap}
+.download-mode-label select{font:inherit;border:1px solid var(--borderColor-default,#d0d7de);border-radius:5px;background:var(--bgColor-default,#fff);color:inherit;padding:6px;max-width:110px}
+.source-download{position:relative;flex:none;font-size:12px}
+.source-download summary{list-style:none;cursor:pointer;min-height:32px;padding:6px 9px;border:1px solid var(--borderColor-default,#d0d7de);border-radius:5px;white-space:nowrap}
+.source-download summary::-webkit-details-marker{display:none}
+.source-download-actions{position:absolute;right:0;top:36px;z-index:12;min-width:175px;display:grid;gap:4px;padding:6px;background:var(--bgColor-default,#fff);border:1px solid var(--borderColor-default,#d0d7de);border-radius:6px;box-shadow:0 8px 20px #0002}
+.source-download-actions button{font-size:12px;text-align:left;white-space:nowrap;padding:8px}
+.source-download summary:focus-visible{outline:2px solid var(--fgColor-accent,#0969da);outline-offset:3px}
+@media(max-width:700px){.download-mode-label{font-size:11px}.download-mode-label select{max-width:90px;padding:4px}.source-download summary{padding:5px;font-size:11px}}
+@media(max-width:360px){.app-header .main-nav{display:none}.app-header .download-mode-label{margin-left:auto}}

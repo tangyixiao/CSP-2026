@@ -161,7 +161,7 @@ async function loadCatalogSelection(repositoryRoot, casesOnly) {
     const text = await readFile(resolve(publicDirectory, group.url), 'utf8');
     let count = 0;
     for (const match of text.matchAll(/"blob"\s*:\s*"([a-f0-9]{40,64})"/g)) { all.add(match[1]); count++; }
-    if (count !== group.fileCount) throw new Error(`Catalog blob count mismatch in ${group.url}`);
+    if (count !== group.fileCount + (group.extraFileCount ?? 0)) throw new Error(`Catalog blob count mismatch in ${group.url}`);
     if (casesOnly && [...caseKeys].some((key) => key.startsWith(`${group.key}/`))) {
       for (const file of JSON.parse(text).files) {
         if (caseKeys.has(`${group.key}/${file.contestant.toUpperCase()}/${file.problem}`)) selected.add(file.blob);

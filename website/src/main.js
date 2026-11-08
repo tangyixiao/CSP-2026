@@ -11,6 +11,8 @@ import cases from './cases.json';
 import { createCodeWorkbench } from './editor.js';
 import { loadSource, githubUrl } from './source.js';
 import { mountDiscussion } from './discussions.js';
+import { saveOriginalFile, saveContestantDirectory } from './downloads.js';
+import { DOWNLOAD_MODE_KEY, savedDownloadMode } from '../project-site/download-mode.js';
 
 const $ = (id) => document.getElementById(id);
 const PAGE_SIZE = 24;
@@ -21,6 +23,7 @@ const initialQuery = new URLSearchParams(window.location.search);
 const state = {
   catalog: null, files: [], page: 0, directorySequence: 0, caseSequence: 0,
   activeCase: null, ambiguity: [], directoryError: null,
+  downloadMode: savedDownloadMode(),
   theme: ['light', 'dark'].includes(initialQuery.get('theme')) ? initialQuery.get('theme') : getSavedTheme(),
   mode: mobile.matches ? 'inline' : validMode(initialQuery.get('mode')),
   ignoreWhitespace: true, editor: null, diffCount: null, diffIncomplete: false, commentsOpen: true,
@@ -29,7 +32,14 @@ const state = {
 
 function emptySlot() { return { file: null, source: null, status: 'empty', error: '', sequence: 0, controller: null }; }
 function validMode(mode) { return ['view', 'split', 'inline'].includes(mode) ? mode : 'split'; }
-function getSavedTheme() { try { return localStorage.getItem('csp-code-theme') === 'light' ? 'light' : 'dark'; } catch { return 'dark'; } }
+function getSavedTheme() {
+  try {
+    const choice=localStorage.getItem('csp-project-theme');
+    if(choice==='system')return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    if(['light','dark'].includes(choice))return choice;
+    return localStorage.getItem('csp-code-theme')==='light'?'light':'dark';
+  } catch { return 'dark'; }
+}
 function el(tag, className, text) { const node = document.createElement(tag); if (className) node.className = className; if (tag === 'button' && !className?.startsWith('case-item')) node.classList.add('btn'); if (text !== undefined) node.textContent = text; return node; }
 function normalized(value) { return String(value ?? '').toUpperCase(); }
 function formatNumber(value) { return Number(value || 0).toLocaleString('zh-CN'); }
@@ -39,14 +49,17 @@ function titleOfFile(file) { return file ? `${file.contestant || file.path.split
 function formatError(error) { return error?.message || String(error || '未知错误'); }
 function toast(message) { $('toast').textContent = message; $('toast').hidden = false; clearTimeout(toast.timer); toast.timer = setTimeout(() => { $('toast').hidden = true; }, 3800); }
 
-function setTheme(theme) {
+function setTheme(theme, { preserveProjectChoice = false } = {}) {
   state.theme = theme;
   document.documentElement.dataset.theme = theme;
   document.documentElement.dataset.colorMode = theme;
   setIcon($('theme-toggle'), theme === 'dark' ? 'sun' : 'moon');
   $('theme-toggle').setAttribute('aria-label', theme === 'dark' ? '切换为浅色主题' : '切换为深色主题');
   document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#0d1117' : '#ffffff';
-  try { localStorage.setItem('csp-code-theme', theme); } catch { /* The current theme still works without storage. */ }
+  try {
+    localStorage.setItem('csp-code-theme', theme);
+    if(!preserveProjectChoice)localStorage.setItem('csp-project-theme',theme);
+  } catch { /* The current theme still works without storage. */ }
   state.editor?.setTheme(theme === 'dark' ? 'vs-dark' : 'vs');
   if (state.commentsOpen) renderDiscussion();
   updateLocation();
@@ -92,17 +105,67 @@ async function fetchJSON(url) {
   return response.json();
 }
 
-async function groupFiles(group) {
+async function groupFiles(group, { includeExtras = false } = {}) {
   if (!group) return [];
   if (!catalogCache.has(group.key)) {
     const url = new URL(group.url, new URL('.', document.baseURI));
     const request = fetchJSON(url).then((data) => {
       if (!Array.isArray(data.files)) throw new Error('目录格式无效，缺少文件列表。');
-      return data.files;
+      if (data.extraFiles !== undefined && !Array.isArray(data.extraFiles)) throw new Error('下载目录格式无效。');
+      return data;
     }).catch((error) => { catalogCache.delete(group.key); throw error; });
     catalogCache.set(group.key, request);
   }
-  return catalogCache.get(group.key);
+  const data = await catalogCache.get(group.key);
+  return includeExtras ? [...data.files, ...(data.extraFiles || [])] : data.files;
+}
+
+let downloadBusy = false;
+function initializeDownloads() {
+  const downloadsLink=el('a','','下载');downloadsLink.href='../preview/downloads.html';
+  document.querySelector('.app-header .main-nav').append(downloadsLink);
+  const modeLabel = el('label','download-mode-label','下载');
+  const select = document.createElement('select');
+  select.setAttribute('aria-label','下载模式');
+  select.append(new Option('国际直连','international'),new Option('国内加速','domestic'));
+  select.value = state.downloadMode;
+  select.addEventListener('change',()=>{ state.downloadMode=select.value;try{localStorage.setItem(DOWNLOAD_MODE_KEY,select.value);}catch{/* current choice remains */} });
+  modeLabel.append(select);
+  $('theme-toggle').before(modeLabel);
+  for (const side of ['left','right']) {
+    const menu=el('details','source-download');menu.id=`${side}-download-menu`;
+    const summary=el('summary','','下载');
+    summary.setAttribute('aria-label',`下载 ${side==='left'?'A':'B'} 文件或选手目录`);
+    const actions=el('div','source-download-actions');
+    for(const [kind,label] of [['file','下载文件'],['folder','下载选手目录 ZIP']]) {
+      const button=el('button','',label);button.type='button';
+      button.addEventListener('click',async()=>{
+        if(downloadBusy){toast('另一个下载正在准备，请稍候。');return;}
+        const file=state[side].file;if(!file||!state.catalog)return;
+        const revision=state.catalog.revision;downloadBusy=true;button.disabled=true;menu.open=false;
+        try {
+          if(kind==='file') { await saveOriginalFile(file,revision,state.downloadMode);toast('已下载原始文件，文件名和字节保持不变。'); }
+          else {
+            toast('正在准备选手目录 ZIP…');
+            const [province,group]=file.path.split('/');
+            const files=await groupFiles(findGroup(province,group),{includeExtras:true});
+            const count=await saveContestantDirectory(file,files,revision,state.downloadMode);
+            toast(`已下载选手目录 ZIP，共 ${count} 个文件。`);
+          }
+        } catch(error){toast(formatError(error));}
+        finally{downloadBusy=false;button.disabled=false;}
+      });
+      actions.append(button);
+    }
+    menu.append(summary,actions);
+    $(`${side}-copy`).before(menu);
+  }
+  document.addEventListener('click',event=>{for(const menu of document.querySelectorAll('.source-download'))if(!menu.contains(event.target))menu.open=false;});
+  document.addEventListener('keydown',event=>{
+    if(event.key!=='Escape')return;
+    const menu=document.querySelector('.source-download[open]');
+    if(menu){menu.open=false;menu.querySelector('summary').focus();}
+  });
 }
 
 function findGroup(province, group) { return state.catalog?.groups.find((item) => normalized(item.province) === normalized(province) && normalized(item.group) === normalized(group)); }
@@ -382,6 +445,7 @@ function renderSources() {
     $(`${side}-path`).title = slot.file?.path || '';
     $(`${side}-clear`).disabled = !slot.file;
     $(`${side}-copy`).disabled = slot.status !== 'ready';
+    $(`${side}-download-menu`).hidden = !slot.file;
     if (slot.status === 'loading') messages.push(`${letter}：正在读取 ${fileName(slot.file)}`);
     else if (slot.status === 'error') { messages.push(`${letter}：${slot.error}`); hasError = true; }
     renderMetadata(side);
@@ -467,6 +531,9 @@ async function loadCatalog() {
       const first = state.left.file || state.right.file;
       const [province, group] = first?.path.split('/') || [];
       await loadDirectory({ province, group, search: first?.contestant || '' });
+    } else if (initialQuery.has('province') || initialQuery.has('group') || initialQuery.has('search')) {
+      switchPanel('files');
+      await loadDirectory({province:initialQuery.get('province'),group:initialQuery.get('group'),search:initialQuery.get('search') || ''});
     } else if (requestedCase || caseItems.length) {
       switchPanel('cases');
       await selectCase(requestedCase || caseItems[0]);
@@ -517,8 +584,9 @@ $('share-button').addEventListener('click', async () => { updateLocation(); try 
 mobile.addEventListener('change', () => { setMode(mobile.matches && state.mode === 'split' ? 'inline' : state.mode); });
 window.addEventListener('beforeunload', () => { state.left.controller?.abort(); state.right.controller?.abort(); state.editor?.dispose(); });
 
+initializeDownloads();
 initializeIcons();
-setTheme(state.theme);
+setTheme(state.theme,{preserveProjectChoice:true});
 setMode(state.mode);
 renderSources();
 renderCases();

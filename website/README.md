@@ -64,6 +64,22 @@ The [supplementary Luogu article record](sources/luogu-r62p05jf.md) accounts for
 
 ## Pages delivery
 
+The bilingual project-site preview is published at `/preview/` with four pages,
+language-preserving navigation, light/dark/system themes and domestic/direct
+download modes. The formal landing page remains in place until visual approval.
+`project.json` holds the repository facts, release tag and download proxy setting.
+
+Each source pane offers an original-file download and a ZIP of the complete
+tracked contestant directory, including non-preview files. Original bytes are
+verified against Git blob IDs. Browser ZIP creation is limited to 64 MiB; larger
+downloads can use the verified region archives in the Release.
+
+The manually dispatched `Package province archive release` workflow packages the
+pinned commit one region at a time, validates each ZIP against its Git tree, and
+uploads 29 ZIPs plus `SHA256SUMS` and `release-index.json` to the matching draft.
+It does not publish the release automatically. Downloads keep third-party proxy
+URLs separate from official GitHub URLs and never forward credentials.
+
 `.github/workflows/code-browser-pages.yml` uses official GitHub Actions to check out the complete archive at depth 1, install dependencies, run checks, build the code browser and all source packs, assemble the complete static site, upload that artifact, and deploy it to the `github-pages` environment.
 
 - A pull request builds and checks the site without deploying it.
