@@ -1,0 +1,17 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+freopen("crystal.in","r",stdin);
+freopen("crystal.out","w",stdout);
+long long ,s=0,a,n,m,a2,a3;
+m=a2+a3;
+cin>>n>>m;
+for(int i=1;i<=n;i++){
+	cin>>a;
+	}
+if(a[i]+a2==a[i]+a3)
+    s++;
+cout<<s;
+return 0;
+},
