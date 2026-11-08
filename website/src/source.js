@@ -130,5 +130,5 @@ export async function loadSource(file, { revision, signal } = {}) {
   ]);
   signal?.throwIfAborted();
   return { ...decoded, bytes, byteLength: bytes.length, archiveByteLength: archiveBytes.length,
-    sha256, contentSha256, compressed: archiveBytes !== bytes, language: languageFor(file.path) };
+    sha256, contentSha256, compressed: archiveBytes !== bytes, language: file.language || languageFor(file.path) };
 }
