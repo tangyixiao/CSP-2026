@@ -228,3 +228,4 @@ button:disabled:not(.btn) { color: var(--fgColor-disabled, var(--muted)); }
 .source-download-actions button{font-size:12px;text-align:left;white-space:nowrap;padding:8px}
 .source-download summary:focus-visible{outline:2px solid var(--fgColor-accent,#0969da);outline-offset:3px}
 @media(max-width:700px){.download-mode-label{font-size:11px}.download-mode-label select{max-width:90px;padding:4px}.source-download summary{padding:5px;font-size:11px}}
+@media(max-width:360px){.app-header .main-nav{display:none}.app-header .download-mode-label{margin-left:auto}}
