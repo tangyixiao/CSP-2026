@@ -97,6 +97,7 @@ URLs separate from official GitHub URLs and never forward credentials.
 `.github/workflows/code-browser-pages.yml` uses official GitHub Actions to check out the complete archive at depth 1, install dependencies, run checks, build the code browser and all source packs, assemble the complete static site, upload that artifact, and deploy it to the `github-pages` environment.
 
 - A pull request builds and checks the site without deploying it.
+- Pull requests retain a three-day `catalog-review` artifact containing only the generated catalog and discussion metadata, so reviewers can inspect complete size ordering without downloading source packs or replacing the formal homepage.
 - A push to `main`, or a manual workflow run on `main`, can deploy the assembled `website/site-dist/` artifact.
 - The build job has `contents: read` and `discussions: read`. Only the deployment job receives `pages: write` and `id-token: write`.
 - The Pages publishing source must be set to **GitHub Actions** in repository settings. The workflow does not push a generated branch or publish the source checkout itself.
