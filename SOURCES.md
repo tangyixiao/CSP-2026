@@ -49,6 +49,12 @@ The eight retained font files were identified from their embedded family names a
 
 [website/DESIGN.md](website/DESIGN.md) records OIerDb and VitePress as design references; it does not claim that their application code or branding was copied. The new [browser proposal](docs/design/province-browser-review.md) separately records the real pages inspected for that proposal.
 
+
+## Reading-view reference material
+
+The optional reading-view proposal uses [VS Code web](https://vscode.dev/), [Embarcadero Dev-C++ and its official screenshot](https://www.embarcadero.com/free-tools/dev-cpp/), and [Geany's screenshot gallery](https://www.geany.org/documentation/screenshots/) as appearance/interaction references inspected on 2026-11-09. The [NOI Linux 2.0 release list](https://www.noi.cn/gynoi/jsgz/2021-07-16/732450.shtml), published 2021-07-16, establishes the named release's bundled editors; it is not a claim about every current exam installation. Current Embarcadero Dev-C++ appearance does not identify an exact Orwell 5.x setup.
+
+The two new design images are generated review illustrations, not captured third-party application screenshots or shipped editor implementations. They are not a record of actual compiler results, scores or exact UI version emulation. Referenced software branding, code, icons, screenshots and operating-system assets are not automatically covered by the project's Apache license. Any actual imported implementation or asset requires a separately recorded compatible license.
 ## Rights and corrections
 
 The project-code license is [Apache-2.0](LICENSE), with scope in [NOTICE](NOTICE). Third-party archives, contestant files, official material, quoted sources, fonts and marks retain their own rights. Do not infer permission from a checksum, a source URL, or this index.
