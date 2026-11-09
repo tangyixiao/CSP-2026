@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  discussions: read
 
 concurrency:
   group: pages
@@ -39,6 +40,12 @@ jobs:
       - name: Build code browser and pinned catalog
         run: npm run build
         working-directory: website
+      - name: Publish read-only discussion metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node website/scripts/sync-discussion-metadata.mjs
+      - name: Include discussion metadata in the built browser
+        run: cp website/public/discussion-metadata.json website/dist/discussion-metadata.json
       - name: Assemble landing page, documentation, and code browser
         run: node website/scripts/package-site.mjs
       - name: Upload GitHub Pages artifact

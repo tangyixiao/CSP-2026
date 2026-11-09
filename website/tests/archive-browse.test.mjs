@@ -63,3 +63,13 @@ test('malformed records get explicit fallbacks and invalid sizes never become ze
   assert.equal(sampleContestant(rows, { random: () => 1 }), rows[1]);
   assert.equal(sampleContestant(rows, { random: () => Number.NaN }), rows[0]);
 });
+test('latest discussion ordering uses actual timestamps and leaves absent or malformed dates last', () => {
+  const items = [
+    { id: 'ZJ/S/a', discussionUpdatedAt: null },
+    { id: 'ZJ/S/b', discussionUpdatedAt: '2026-11-08T10:00:00Z' },
+    { id: 'ZJ/S/c', discussionUpdatedAt: 'not-a-date' },
+    { id: 'ZJ/S/d', discussionUpdatedAt: '2026-11-09T10:00:00Z' },
+  ];
+  assert.deepEqual(sortContestants(items, { by: 'recent', direction: 'desc' }).map(item => item.id), ['ZJ/S/d', 'ZJ/S/b', 'ZJ/S/a', 'ZJ/S/c']);
+  assert.deepEqual(sortContestants(items, { by: 'recent', direction: 'asc' }).map(item => item.id), ['ZJ/S/b', 'ZJ/S/d', 'ZJ/S/a', 'ZJ/S/c']);
+});

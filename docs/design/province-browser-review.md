@@ -1,6 +1,16 @@
 # CSP browser and reading-view review
 
-Status: revised design proposal for human review; no new browser, reader or preset UI has been implemented. README, source attribution and licensing changes in this branch are concrete documentation changes. Existing `/code/` and `/preview/` remain the deployed experience.
+Status: a running review implementation now accompanies the design proposal. The branch implements the national/region browser, separate discovery/source views, both random actions, scoped sorting, optional NOI appearance and Dev-C++/Geany reading profiles. Existing public `/code/` and `/preview/` remain the deployed experience until these changes pass review and are merged. Code::Blocks and a completed nationwide content study are not implemented by this website change.
+
+## Running review implementation
+
+![Running national home at desktop size](runtime-home-desktop.jpg)
+
+![Running spacious reader at desktop size](runtime-reader-desktop.jpg)
+
+These JPEGs show actual code. The older PNGs below record the earlier visual discussion and are not evidence that every detail of those drawings has shipped. The local review entry is `http://127.0.0.1:4173/browse.html`; the final built entry is `code/browse.html`. Its source previews use the current catalog and verify original Git bytes. For the partial local checkout, development can stream the already-published source buckets on demand without hydrating the archive. Complete source packaging and size coverage still require CI.
+
+The tested browse scope is sorting within each complete filtered region, not an undisclosed national flattened ranking. Discussion values use a timestamped read-only snapshot, unique linked threads and the stated single-file/recorded-case mapping; arbitrary unmapped pairs remain a gap. The current discovery page contains three traceable reading entry points, not completed DSH research. Details and synchronization notes expand on demand. Desktop uses three contestant columns, intermediate widths two, and a 390-pixel phone one.
 
 The maintainer rejected the original narrow boxed province rail, permanent bottom provenance band, cramped mixed catalog/editor screen, low useful density, dated table styling and Shanghai-only national imagery. Those generated concepts are not approved targets. Later feedback asks for familiar editor ergonomics without cloning all of VS Code, and optional contest-editor views for Windows and NOI Linux, especially Dev-C++.
 
@@ -20,7 +30,7 @@ The uniform four-problem-icon card sample below was also rejected for homogenizi
 
 </details>
 
-![CSP default versus manually selected Dev-C++ and Geany reference-style reading views; not implemented](reading-view-presets.png)
+![Earlier drawing comparing CSP default and optional editor reference views; see running implementation above](reading-view-presets.png)
 
 These are visual discussion samples, not screenshots of a working feature. The regional sample has been revised using the maintainer-selected pale Shanghai skyline as an art-language reference: quiet, low-contrast, nearly monochromatic regional contours behind content. The bright tourist-postcard versions with pandas, palace cards and tea-garden cartoons are rejected. Different regions use different content in this restrained language; they do not inherit Shanghai landmarks. The default UI remains subject to review, and raised controls, repeated boxed forms and spreadsheet styling are not implementation targets. Actual implementation must use flat controls and bind archive paths, code, line numbers and metadata from the data model rather than reproduce image artifacts. The reading-view comparison uses shortened code to compare appearance; it does not prescribe an oversized editor font or an artificially narrow desktop viewport. Code space and real desktop/mobile readability need separate acceptance.
 ## One site, different reading tasks
@@ -51,7 +61,7 @@ A bounded inspection on 2026-11-09 read 12 small source files, 10,909 bytes in t
 
 These observations are not a new closed set of card genres. Do not force every contestant to be exceptional or assign one card of each kind. A representative fragment, source-derived overview, meaningful note or file structure should be chosen only when supported by actual material. Avoid boilerplate such as the same include lines on every cover. Keep visible wording short, retain the selected source path, disclose excerpts/truncation, and open the full original on demand. With a problem filter, keep the preview aligned with that filter. Empty, unreadable and unsupported content uses an honest neutral fallback rather than a fabricated personalized cover.
 
-Different proportions or compositions may help specific content, but random masonry, random colors and fake profile images are not substitutes for content. The shared site remains coherent and scan-friendly. The next composition is intentionally deferred until this real-content evidence informs it; the rejected uniform-icon drawing must not be implemented meanwhile.
+Different proportions or compositions may help specific content, but random masonry, random colors and fake profile images are not substitutes for content. The running review uses actual source excerpts with directory previews as a fallback, while discovery entry points retain their own source context. DSH research can supply further distinct content; the rejected uniform-icon drawing is not an implementation target.
 ## Default reader: borrow ergonomics, keep the project's design
 
 The default remains a modern CSP reader. VS Code is the interaction reference, not a page to reproduce wholesale. Reuse familiar tabs, breadcrumbs, find, folding, resizable/collapsible file navigation, quick-open/command entry and a thin status bar where they help archive reading. Keep the editor flexible and dominant; hide supporting panels for focused reading. The existing implementation already uses Monaco with find, folding and bracket matching, so another runtime or a full IDE clone is unnecessary.
@@ -66,7 +76,7 @@ The maintainer additionally requested a theme referencing [the official NOI webs
 
 Retain the modern CSP default and the agreed content architecture. The reference theme can use restrained red accents and blue-purple hierarchy while preserving spacious code, concise contestant blocks and quiet regional artwork. The official site's news lists, large banners and repeated portal panels are not a replacement layout for the archive. Do not copy its logo, news artwork or imply official affiliation. Cite the reference on the source page.
 
-Site appearance and reading view are independent: the NOI website reference is not the NOI Linux/Geany editor profile. Keep light/dark/system preferences available; define and visually audit combinations rather than silently overriding a reader choice. Show the NOI option on the same real-content desktop/mobile review composition before implementing its new visual treatment. It is requested and planned, not implemented or deployed.
+Site appearance and reading view are independent: the NOI website reference is not the NOI Linux/Geany editor profile. Light/dark/system choices remain on the browser; the reader keeps its existing light/dark controls. The running review supports NOI and each reader profile independently. Desktop/mobile switching was inspected against real source files; it has not been deployed.
 
 ## Optional contest-editor views
 

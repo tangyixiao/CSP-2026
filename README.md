@@ -109,11 +109,19 @@ node website/scripts/package-site.mjs
 
 A full source-pack build needs the indexed blobs. Use CI or an already complete environment; do not expand a partial clone merely to inspect documentation. Local tests, a complete build, CI, deployment and live use are separate verification steps.
 
-## Proposed browsing improvements
+## Browsing and reading review
 
 A [DSH research brief](outputs/csp2026-national-review/dsh-handoff.zh-CN.md) assigns nationwide source reading, distinctive-material discovery, evidence review and statistics to DSH/DeepSeek. Codex coordinates the work and implements the website and supporting tools. The optional NOI website reference theme is separate from the NOI Linux editor reading views and is not the default.
 
-A [desktop/mobile overview and interaction proposal](docs/design/province-browser-review.md) is available for review. It covers continuous region browsing, dedicated spacious reading/comparison pages, random-person and random-problem navigation, sorting, regional visual identities and visible provenance. It also proposes manually selected Windows/NOI Linux editor-style reading views, prioritizing Dev-C++; the modern CSP reader remains the default and borrows useful VS Code ergonomics without cloning its entire interface. **This is a proposal, not a description of deployed features.** Current catalogs do not have complete byte sizes; discussion-count sorting is not implemented. The Discussions API returned zero discussions on 2026-11-09, which is distinct from the 39 attributed comparison records.
+The review branch now implements `website/browse.html`: a national home, regional contestant tiles, incremental region sections, a discovery page with traceable reading examples, and a source/rights page. Each of the 29 regions has a separate original line illustration. Tiles open the dedicated reader; filenames and comparison actions expand on demand rather than filling every tile.
+
+![Running national browser, captured during desktop verification](docs/design/runtime-home-desktop.jpg)
+
+Sorting covers natural contestant ID, aggregate stored bytes, file count, linked discussion threads and latest linked discussion. It applies to the complete filtered region, rather than the visible page. Unknown sizes remain unknown and sort last; complete CI source builds reuse observed blob sizes to populate the catalog. Discussion snapshots identify their time and mapping scope, count a thread once per directory, and preserve unmapped pairs. The API returned **zero discussions** during verification on 2026-11-09; the 39 attributed comparison records are separate material.
+
+Random person samples directory identities uniformly, while random problem deduplicates problem choices. The reader can collapse its file panel, wrap code, and use manually chosen Dev-C++ or Geany reference views. CSP remains the initial reading view. NOI is an independent optional site theme; it does not select a Linux editor or provide an IDE/compiler runtime. Appearance switches retain the source model and reading state.
+
+**These changes are implemented for review, not yet merged or deployed.** The existing public URLs above remain the deployed experience. See the [design and verification scope](docs/design/province-browser-review.md) and [local preview instructions](website/README.md). The discovery examples are inspected entry points, not a completed nationwide selection or content study; DSH/DeepSeek owns that research work.
 
 ## License and attribution
 

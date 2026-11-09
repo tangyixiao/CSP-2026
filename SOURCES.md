@@ -52,7 +52,9 @@ The eight retained font files were identified from their embedded family names a
 
 ## Reading-view reference material
 
-The [official NOI homepage](https://noi.cn/) was visually inspected on 2026-11-09 for a requested optional site theme: white surfaces, red navigation, dark blue-purple heading/active accents and pale gray sections. This is an appearance reference, not an affiliation or a copied official portal. No official logo, news banner or article image is imported. The requested NOI site theme is separate from the NOI Linux editor reading profiles and remains a proposal.
+The [official NOI homepage](https://noi.cn/) was visually inspected on 2026-11-09 for a requested optional site theme: white surfaces, red navigation, dark blue-purple heading/active accents and pale gray sections. This is an appearance reference, not an affiliation or a copied official portal. No official logo, news banner or article image is imported. The NOI site appearance is implemented in the review branch, separately from the NOI Linux editor reading profiles; it has not been deployed.
+
+The review implementation contains 29 original abstract regional SVG line drawings in [regions.js](website/src/regions.js), drawn for this project without external images or official emblems. Their regional cues are editorial illustrations, not maps or exclusive definitions of those places. JPEGs named `runtime-*` in `docs/design/` are screenshots of the running review implementation; the older PNG boards remain generated design discussion images.
 
 The optional reading-view proposal uses [VS Code web](https://vscode.dev/), [Embarcadero Dev-C++ and its official screenshot](https://www.embarcadero.com/free-tools/dev-cpp/), and [Geany's screenshot gallery](https://www.geany.org/documentation/screenshots/) as appearance/interaction references inspected on 2026-11-09. The [NOI Linux 2.0 release list](https://www.noi.cn/gynoi/jsgz/2021-07-16/732450.shtml), published 2021-07-16, establishes the named release's bundled editors; it is not a claim about every current exam installation. Current Embarcadero Dev-C++ appearance does not identify an exact Orwell 5.x setup.
 

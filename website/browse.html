@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light" data-appearance="csp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="按地区浏览 CSP-J/S 2026 代码归档，发现原始文件，随机探索并在线阅读。">
+  <title>CSP 2026 · 全国代码归档</title>
+</head>
+<body>
+  <a class="skip" href="#content">跳到正文</a>
+  <header class="site-header">
+    <a class="wordmark" href="?view=home">CSP <span>2026</span><i aria-hidden="true"></i></a>
+    <nav aria-label="主导航"><a href="?view=home" data-view="home">首页</a><a href="?view=browse" data-view="browse">浏览</a><a href="?view=discover" data-view="discover">发现</a><a href="./">阅读与比较</a><a href="?view=sources" data-view="sources">来源</a><a href="../preview/downloads.html">下载</a></nav>
+    <details class="appearance-menu"><summary aria-label="外观设置">外观 <span aria-hidden="true">◐</span></summary><div>
+      <label>站点主题<select id="appearance"><option value="csp">CSP</option><option value="noi">NOI 参考</option></select></label>
+      <label>明暗<select id="color-mode"><option value="light">浅色</option><option value="dark">深色</option><option value="system">跟随系统</option></select></label>
+      <a href="https://noi.cn/" target="_blank" rel="noreferrer">NOI 主题参考 ↗</a>
+    </div></details>
+  </header>
+  <main id="content" tabindex="-1"><div class="loading">正在打开归档…</div></main>
+  <footer class="site-footer"><span id="revision">归档版本载入中</span><a href="?view=sources">来源与许可</a><a href="https://github.com/tangyixiao/CSP-2026" target="_blank" rel="noreferrer">GitHub ↗</a></footer>
+  <dialog id="regions-dialog" aria-labelledby="regions-title"><div class="dialog-heading"><h2 id="regions-title">选择地区</h2><button id="close-regions" aria-label="关闭地区目录">×</button></div><div id="region-directory"></div></dialog>
+  <div id="notice" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="/src/browse-main.js"></script>
+</body>
+</html>
