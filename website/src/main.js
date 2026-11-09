@@ -13,7 +13,7 @@ import { loadSource, githubUrl } from './source.js';
 import { mountDiscussion } from './discussions.js';
 import { saveOriginalFile, saveContestantDirectory } from './downloads.js';
 import { DOWNLOAD_MODE_KEY, savedDownloadMode } from '../project-site/download-mode.js';
-import { groupContestants, sampleContestant, sampleProblem } from './archive-browse.js';
+import { groupContestants, sampleContestant, sampleProblem, contestProblemFiles } from './archive-browse.js';
 import { applyAppearance, getSavedAppearance } from './site-appearance.js';
 import { getProvenance } from './provenance.js';
 import { normalizeReadingProfile } from './reading-profiles.js';
@@ -691,6 +691,7 @@ async function randomJump(kind, control) {
       if (item) { nextSearch = item.contestant; toast(`随机目录：${item.contestant} · 当前省区/组别与题目筛选范围`); }
     } else {
       if (!active) files = groupContestants(files, { query: $('contestant-input').value, problem: $('problem-select').value }).flatMap(item => item.files);
+      files = contestProblemFiles(files);
       const problem = sampleProblem(files, { contestant: activeId, previousProblem: active?.problem });
       if (active && problem === active.problem) { toast('这个目录当前只有这一道可用题目。'); return; }
       file = files.find(item => item.problem === problem && (!activeId || item.path.startsWith(`${activeId}/`)));

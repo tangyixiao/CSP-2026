@@ -1,8 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { groupContestants, sortContestants, sampleContestant, sampleProblem } from '../src/archive-browse.js';
+import { groupContestants, sortContestants, sampleContestant, sampleProblem, contestProblemFiles } from '../src/archive-browse.js';
 
 const file = (contestant, problem = 'hub', size = 10, province = 'ZJ', group = 'S', name = `${problem}.cpp`) => ({ path: `${province}/${group}/${contestant}/${problem}/${name}`, contestant: contestant.trim().toUpperCase(), problem, size, name });
+
+test('random contest-task eligibility excludes unknown path labels and tasks from the other group without removing archive entries', () => {
+  const rows = [file('ZJ-S1', 'hub'), file('ZJ-S1', 'mycode'), file('ZJ-S1', 'card'), file('ZJ-J1', 'card', 1, 'ZJ', 'J'), file('ZJ-J1', 'hub', 1, 'ZJ', 'J'), file('ZJ-S1', 'crystal', 1, 'ZJ', 'S', 'crystal.cpp.bak')];
+  assert.deepEqual(contestProblemFiles(rows), [rows[0], rows[3], rows[5]]);
+  assert.equal(rows.length, 6);
+});
 
 test('directory identities preserve original casing and whitespace instead of merging normalized labels', () => {
   const rows = groupContestants([file('ZJ-S00002'), file(' ZJ-S00002'), file('Zj-S00002')]);

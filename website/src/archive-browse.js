@@ -3,6 +3,13 @@ const natural = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
 const text = value => typeof value === 'string' ? value : '';
 const knownCount = value => typeof value === 'number' && Number.isFinite(value) && value >= 0;
 const comparePath = (a, b) => a < b ? -1 : a > b ? 1 : 0;
+const contestProblems = { J: ['and', 'card', 'string', 'travel'], S: ['crystal', 'hub', 'migrate', 'subway'] };
+
+/** Navigation may retain unknown path-derived labels, but random contest tasks
+ * must come from the identified task set of the file's actual J/S group. */
+export function contestProblemFiles(files) {
+  return (Array.isArray(files) ? files : []).filter((file, index) => file && contestProblems[identity(file, index).group]?.includes(text(file.problem).trim()));
+}
 
 function identity(file, index) {
   const parts = text(file.path).split('/');

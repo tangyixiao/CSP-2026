@@ -1,5 +1,5 @@
 import './browse.css';
-import { groupContestants, sortContestants, sampleContestant, sampleProblem } from './archive-browse.js';
+import { groupContestants, sortContestants, sampleContestant, sampleProblem, contestProblemFiles } from './archive-browse.js';
 import { REGIONS, regionArtwork } from './regions.js';
 import { applyAppearance, getSavedAppearance } from './site-appearance.js';
 import { loadSource, githubUrl } from './source.js';
@@ -218,7 +218,7 @@ async function randomPerson(scope = {}) {
 async function randomProblem(scope = {}) {
   const current = { ...params(), ...scope }, token = state.token;
   if (state.busy) return; state.busy = true;
-  try { const pool = new Set(); for (const group of groupsFor(current.province, current.group)) { announce(`正在汇集可用题目 · ${regionName(group.province)} ${group.group}`); const files = await groupFiles(group); if (token !== state.token) return; for (const item of groupContestants(files, { query: current.query })) for (const problem of item.problems) pool.add(problem); } const problem = sampleProblem([...pool].map(problem => ({ path: 'XX/S/p/file.cpp', problem })), { previousProblem: state.previousProblem }); if (!problem) { announce('当前范围内没有可用题目。'); return; } state.previousProblem = problem; navigate({ view: 'browse', province: current.province, group: current.group, query: current.query, problem }); announce(`随机题目：${problem}`); } catch (error) { announce(error.message); } finally { state.busy = false; }
+  try { const pool = new Map(); for (const group of groupsFor(current.province, current.group)) { announce(`正在汇集可用题目 · ${regionName(group.province)} ${group.group}`); const files = await groupFiles(group); if (token !== state.token) return; for (const item of groupContestants(contestProblemFiles(files), { query: current.query })) for (const file of item.files) if (!pool.has(file.problem)) pool.set(file.problem, file); } const problem = sampleProblem([...pool.values()], { previousProblem: state.previousProblem }); if (!problem) { announce('当前范围内没有可用题目。'); return; } state.previousProblem = problem; navigate({ view: 'browse', province: current.province, group: current.group, query: current.query, problem }); announce(`随机题目：${problem}`); } catch (error) { announce(error.message); } finally { state.busy = false; }
 }
 function openRegions() { const directory = $('region-directory'); directory.replaceChildren(link('全部地区', routeURL({ view: 'browse', province: '', query: '', problem: '' })), ...regionCodes().map(code => link(`${regionName(code)} ${code}`, routeURL({ view: 'browse', province: code, query: '', problem: '' })))); $('regions-dialog').showModal(); }
 async function renderRoute() {
