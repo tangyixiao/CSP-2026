@@ -111,6 +111,8 @@ A full source-pack build needs the indexed blobs. Use CI or an already complete 
 
 ## Proposed browsing improvements
 
+A coordinated [DSH implementation brief](outputs/csp2026-national-review/dsh-handoff.zh-CN.md) records ownership, parallel work, review gates and safe startup in the existing partial checkout. The optional NOI website reference theme is separate from the NOI Linux editor reading views and is not the default.
+
 A [desktop/mobile overview and interaction proposal](docs/design/province-browser-review.md) is available for review. It covers continuous region browsing, dedicated spacious reading/comparison pages, random-person and random-problem navigation, sorting, regional visual identities and visible provenance. It also proposes manually selected Windows/NOI Linux editor-style reading views, prioritizing Dev-C++; the modern CSP reader remains the default and borrows useful VS Code ergonomics without cloning its entire interface. **This is a proposal, not a description of deployed features.** Current catalogs do not have complete byte sizes; discussion-count sorting is not implemented. The Discussions API returned zero discussions on 2026-11-09, which is distinct from the 39 attributed comparison records.
 
 ## License and attribution

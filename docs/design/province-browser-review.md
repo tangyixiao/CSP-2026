@@ -7,6 +7,10 @@ The maintainer rejected the original narrow boxed province rail, permanent botto
 
 ## Current visual review samples
 
+![National home desktop/mobile composition using real archive examples; awaiting visual approval](national-home-review.png)
+
+The latest home composition puts regional covers first and real file discoveries second. Its desktop and mobile arrangements are review material, not deployed UI or an approved final drawing. Generated code lettering is illustrative: the implementation must render the actual source bytes. The maintainer agreed to the overall separation of home, regional catalog, discovery, reader, comparison, sources and downloads; that agreement does not approve every image detail. The current coordinated implementation handoff is [the DSH brief](../../outputs/csp2026-national-review/dsh-handoff.zh-CN.md).
+
 The uniform four-problem-icon card sample below was also rejected for homogenizing the content. Its pale regional art remains a reference preference, but the repeated icon composition is not an approved implementation target.
 
 <details>
@@ -55,6 +59,14 @@ The default remains a modern CSP reader. VS Code is the interaction reference, n
 Random person/problem, archive source and discussion are CSP operations. They belong in discoverable compact commands or contextual panels rather than a large extra toolbar. Source details open on demand or on the provenance page; a permanent bottom legal/provenance stripe is rejected. Do not add decorative terminal, extension marketplace, debug or source-control controls that the archive does not provide. Do not use Microsoft's product branding as this project's identity.
 
 Mobile is a dedicated single-column reader with a clear return action, file selection and compact commands. It must not be a shrunk desktop shell. Preserve readable code, an explicit wrap option and horizontal scrolling where appropriate. Switching reading views does not reset the source, location, selection or compare context.
+
+## Optional NOI site theme
+
+The maintainer additionally requested a theme referencing [the official NOI website](https://noi.cn/). Its live homepage was visually inspected on 2026-11-09: white surfaces, a red primary navigation band, dark blue-purple headings/active navigation and pale gray section backgrounds. These observed relationships inform an optional **NOI reference** site appearance, with exact accessible tokens chosen and checked in the actual CSP composition. Do not claim approximate colors as official brand specifications.
+
+Retain the modern CSP default and the agreed content architecture. The reference theme can use restrained red accents and blue-purple hierarchy while preserving spacious code, concise contestant blocks and quiet regional artwork. The official site's news lists, large banners and repeated portal panels are not a replacement layout for the archive. Do not copy its logo, news artwork or imply official affiliation. Cite the reference on the source page.
+
+Site appearance and reading view are independent: the NOI website reference is not the NOI Linux/Geany editor profile. Keep light/dark/system preferences available; define and visually audit combinations rather than silently overriding a reader choice. Show the NOI option on the same real-content desktop/mobile review composition before implementing its new visual treatment. It is requested and planned, not implemented or deployed.
 
 ## Optional contest-editor views
 
