@@ -9,7 +9,7 @@ The maintainer rejected the original narrow boxed province rail, permanent botto
 
 ![National home desktop/mobile composition using real archive examples; awaiting visual approval](national-home-review.png)
 
-The latest home composition puts regional covers first and real file discoveries second. Its desktop and mobile arrangements are review material, not deployed UI or an approved final drawing. Generated code lettering is illustrative: the implementation must render the actual source bytes. The maintainer agreed to the overall separation of home, regional catalog, discovery, reader, comparison, sources and downloads; that agreement does not approve every image detail. The current coordinated implementation handoff is [the DSH brief](../../outputs/csp2026-national-review/dsh-handoff.zh-CN.md).
+The latest home composition puts regional covers first and real file discoveries second. Its desktop and mobile arrangements are review material, not deployed UI or an approved final drawing. Generated code lettering is illustrative: the implementation must render the actual source bytes. The maintainer agreed to the overall separation of home, regional catalog, discovery, reader, comparison, sources and downloads; that agreement does not approve every image detail. [The DSH brief](../../outputs/csp2026-national-review/dsh-handoff.zh-CN.md) is for nationwide source research, evidence and statistics; Codex coordinates the project and owns website/tool implementation. DSH is not assigned website development.
 
 The uniform four-problem-icon card sample below was also rejected for homogenizing the content. Its pale regional art remains a reference preference, but the repeated icon composition is not an approved implementation target.
 
