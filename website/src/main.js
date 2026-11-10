@@ -631,7 +631,9 @@ window.addEventListener('beforeunload', () => { state.left.controller?.abort(); 
 
 function initializeReadingControls() {
   const nav = document.querySelector('.main-nav');
-  const browse = el('a', '', '浏览'); browse.href = './browse.html'; nav.prepend(browse);
+  const browse = el('a', '', '浏览'); browse.href = './browse.html?view=browse'; nav.prepend(browse);
+  const home = nav.querySelector('.nav-home'); if (home) home.href = './browse.html';
+  const docs = nav.querySelector('a[href="../docs.html"]'); if (docs) { docs.href = './browse.html?view=sources'; docs.textContent = '来源'; }
   const toolbar = document.querySelector('.editor-toolbar');
   const controls = el('div', 'reader-options');
   const profileLabel = el('label', '', '阅读视图');
