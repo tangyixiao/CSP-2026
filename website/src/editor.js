@@ -6,14 +6,18 @@ import 'monaco-editor/esm/vs/editor/contrib/find/browser/findController.js';
 import 'monaco-editor/esm/vs/editor/contrib/folding/browser/folding.js';
 import 'monaco-editor/esm/vs/editor/contrib/bracketMatching/browser/bracketMatching.js';
 import 'monaco-editor/esm/vs/basic-languages/cpp/cpp.contribution.js';
+import { conf as cppConfiguration, language as cppLanguage } from 'monaco-editor/esm/vs/basic-languages/cpp/cpp.js';
 import 'monaco-editor/esm/vs/basic-languages/pascal/pascal.contribution.js';
 import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js';
 import 'monaco-editor/esm/vs/basic-languages/java/java.contribution.js';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
-import { normalizeReadingProfile, getReadingProfileOptions, getReadingTheme, READING_THEMES } from './reading-profiles.js';
+import { normalizeReadingProfile, getReadingProfileOptions, getReadingTheme, getReadingLanguage, getReadingBracketOptions, createClassicPlusLanguage, CLASSIC_PLUS_LANGUAGE, READING_THEMES } from './reading-profiles.js';
 
 globalThis.MonacoEnvironment = { getWorker() { return new EditorWorker(); } };
 for (const [name, definition] of Object.entries(READING_THEMES)) monaco.editor.defineTheme(name, definition);
+monaco.languages.register({ id: CLASSIC_PLUS_LANGUAGE });
+monaco.languages.setLanguageConfiguration(CLASSIC_PLUS_LANGUAGE, cppConfiguration);
+monaco.languages.setMonarchTokensProvider(CLASSIC_PLUS_LANGUAGE, createClassicPlusLanguage(cppLanguage));
 
 export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
   let sources = [null, null], models = [], instance, diffListener;
@@ -21,10 +25,12 @@ export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
   let readingProfile = 'csp';
   let wordWrap = false;
   const viewStates = new Map();
+  const originalBracketOptions = new Map();
   const narrow = matchMedia('(max-width: 700px)');
   const editorHost = document.createElement('div');
   editorHost.style.cssText = 'height:100%;min-height:420px;width:100%';
   const fallback = document.createElement('div');
+  fallback.className = 'source-fallback';
   fallback.style.cssText = 'height:100%;overflow:auto;padding:16px;box-sizing:border-box';
   container.replaceChildren(editorHost, fallback);
   const options = {
@@ -63,8 +69,47 @@ export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
 
   function fallbackPalette() {
     const palette = READING_THEMES[getReadingTheme(readingProfile, theme)]?.colors;
+    fallback.classList.toggle('classicplus-fallback', readingProfile === 'devcpp');
+    fallback.classList.toggle('source-wrapped', wordWrap);
+    fallback.style.setProperty('--fallback-gutter', palette?.['editorGutter.background'] || 'transparent');
+    fallback.style.setProperty('--fallback-line', palette?.['editor.lineHighlightBackground'] || 'transparent');
     fallback.style.background = palette?.['editor.background'] || (theme === 'vs' ? '#ffffff' : '#1e1e1e');
     fallback.style.color = palette?.['editor.foreground'] || (theme === 'vs' ? '#17202c' : '#d4d4d4');
+  }
+
+  function presentationOptions() {
+    const classic = readingProfile === 'devcpp';
+    return {
+      ...getReadingProfileOptions(readingProfile),
+      fontLigatures: false,
+      bracketPairColorization: { enabled: !classic },
+      renderLineHighlight: 'line',
+      renderLineHighlightOnlyWhenFocus: false,
+      lineNumbersMinChars: classic ? 3 : 5,
+      lineDecorationsWidth: 10,
+      padding: classic ? { top: 7, bottom: 20 } : { top: 18, bottom: 18 },
+    };
+  }
+
+  function updateModelPresentation() {
+    for (const model of models) {
+      if (!model) continue;
+      if (!originalBracketOptions.has(model)) originalBracketOptions.set(model, { ...model.getOptions().bracketPairColorizationOptions });
+      // This is a text-model option in Monaco 0.55. Editor options alone do not
+      // reliably remove already-present bracket decoration classes.
+      model.updateOptions({ bracketColorizationOptions: getReadingBracketOptions(readingProfile, originalBracketOptions.get(model)) });
+    }
+  }
+
+  async function colorizeSource(source) {
+    const html = await monaco.editor.colorize(source.text, getReadingLanguage(readingProfile, source.language || 'cpp'), { theme: getReadingTheme(readingProfile, theme) });
+    // Every fallback profile uses the same newline-bearing text structure so
+    // cross-line selection offsets remain stable when switching profiles.
+    // Monaco produces escaped, highlighted HTML. Decorative line numbers use a
+    // pseudo-element, keeping numbers out of copied code and selection offsets.
+    const lines = html.split(/<br\s*\/?\s*>/i);
+    if (lines.at(-1) === '') lines.pop();
+    return lines.map((line, index) => `<span class="reader-code-line" data-line="${index + 1}"><span class="reader-code-text">${line}</span></span>`).join('\n');
   }
 
   async function refreshFallbackAppearance() {
@@ -90,7 +135,7 @@ export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
           offsets = [prefix.toString().length, prefix.toString().length + selected.toString().length];
         }
       }
-      const html = await monaco.editor.colorize(source.text, source.language || 'cpp', { theme: getReadingTheme(readingProfile, theme) });
+      const html = await colorizeSource(source);
       if (token !== generation) return;
       Object.assign(pre.style, { fontFamily: typography.fontFamily, fontSize: `${typography.fontSize}px`, lineHeight: `${typography.lineHeight}px` });
       pre.innerHTML = html;
@@ -132,7 +177,7 @@ export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
       Object.assign(pre.style, { fontFamily: typography.fontFamily, fontSize: `${typography.fontSize}px`, lineHeight: `${typography.lineHeight}px` });
       pre.tabIndex = 0; pre.setAttribute('aria-label', source.path);
       section.append(label, pre); fallback.append(section);
-      const html = await monaco.editor.colorize(source.text, source.language || 'cpp', { theme: getReadingTheme(readingProfile, theme) });
+      const html = await colorizeSource(source);
       if (token !== generation) return;
       pre.innerHTML = html;
     }
@@ -145,9 +190,10 @@ export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
     onDiffUpdate?.(null);
     const selectedTheme = getReadingTheme(readingProfile, theme);
     monaco.editor.setTheme(selectedTheme);
-    const profileOptions = getReadingProfileOptions(readingProfile);
+    const profileOptions = presentationOptions();
     options.wordWrap = wordWrap ? 'on' : 'off';
     const mobile = narrow.matches;
+    updateModelPresentation();
     editorHost.hidden = mobile; fallback.hidden = !mobile;
     if (mobile) { void renderFallback(); return; }
     if (mode === 'view' || !models[0] || !models[1]) {
@@ -168,6 +214,7 @@ export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
         onDiffUpdate?.(changes == null ? null : { changeCount: changes.length, quitEarly: Boolean(result?.quitEarly) });
       });
     }
+    updateModelPresentation();
     restoreView();
   }
 
@@ -183,9 +230,14 @@ export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
       clearInstance();
       const previousModels = models;
       models = nextSources.map((source, index) => unchanged[index] ? previousModels[index] || null
-        : source ? monaco.editor.createModel(source.text, source.language || 'cpp') : null);
+        : source ? monaco.editor.createModel(source.text, getReadingLanguage(readingProfile, source.language || 'cpp')) : null);
+      // Capture defaults before attaching the model to an editor whose current
+      // profile may already disable decoration colors.
+      for (const model of models) if (model && !originalBracketOptions.has(model)) {
+        originalBracketOptions.set(model, { ...model.getOptions().bracketPairColorizationOptions });
+      }
       for (const model of previousModels) {
-        if (model && !models.includes(model)) { viewStates.delete(model); model.dispose(); }
+        if (model && !models.includes(model)) { viewStates.delete(model); originalBracketOptions.delete(model); model.dispose(); }
       }
       // Snapshot the descriptors so a caller mutating its object cannot conceal
       // a changed text/language behind a previously reused object reference.
@@ -202,7 +254,11 @@ export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
       readingProfile = normalizeReadingProfile(value);
       // Updating the existing editor leaves its models, cursor and scroll intact.
       rememberView();
-      instance?.updateOptions(getReadingProfileOptions(readingProfile));
+      for (const [index, model] of models.entries()) {
+        if (model) monaco.editor.setModelLanguage(model, getReadingLanguage(readingProfile, sources[index]?.language || 'cpp'));
+      }
+      instance?.updateOptions(presentationOptions());
+      updateModelPresentation();
       monaco.editor.setTheme(getReadingTheme(readingProfile, theme));
       restoreView();
       if (narrow.matches) void refreshFallbackAppearance();
@@ -210,6 +266,7 @@ export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
     getReadingProfile() { return readingProfile; },
     setWordWrap(value) {
       wordWrap = Boolean(value);
+      fallback.classList.toggle('source-wrapped', wordWrap);
       instance?.updateOptions({ wordWrap: wordWrap ? 'on' : 'off', diffWordWrap: wordWrap ? 'on' : 'off' });
       for (const pre of fallback.querySelectorAll('pre')) {
         pre.style.whiteSpace = wordWrap ? 'pre-wrap' : 'pre';
@@ -226,6 +283,7 @@ export async function createCodeWorkbench(container, { onDiffUpdate } = {}) {
       clearInstance(); ++generation;
       for (const model of models) model?.dispose();
       viewStates.clear();
+      originalBracketOptions.clear();
       narrow.removeEventListener('change', render);
       container.replaceChildren();
     },
