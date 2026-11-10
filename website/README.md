@@ -13,7 +13,19 @@ npm --prefix website run build
 node website/scripts/package-site.mjs
 ```
 
-For the Vite development server, run `npm --prefix website run build` once to generate the catalog and source packs, and then `npm --prefix website run dev`. `npm --prefix website run preview` serves the built code browser for local inspection. The combined Pages artifact is `website/site-dist/`, containing the landing page, `docs.html`, and the browser under `code/`.
+The full build above requires a complete source checkout; use CI for it when working in a partial clone. Reuse a compatible existing dependency installation before running `npm ci` again. `npm --prefix website run preview` serves an existing build. The combined Pages artifact is `website/site-dist/`, containing the landing page, `docs.html`, and the browser under `code/`.
+
+For a bounded local preview in a partial checkout, generate only the tree catalog and stream the already-published public source buckets on demand:
+
+```powershell
+npm --prefix website run catalog
+$env:CSP_USE_PUBLISHED_SOURCES = '1'
+npm --prefix website run dev -- --port 4173
+```
+
+Open `http://127.0.0.1:4173/browse.html` for the national browser and `http://127.0.0.1:4173/` for reading/comparison. The optional Vite proxy is development-only, targets this project's fixed public Pages path, and strips authorization/cookie headers. The client still verifies each file's Git blob ID. A blob absent from the published snapshot cannot be invented by the proxy. This mode does not create a complete source artifact and must not be packaged as one. Locally sampled byte sizes remain partial; complete CI builds fill all available sizes.
+
+The new browser exposes region tiles, on-demand region selection, incremental region sections, original-code/directory previews, separate discovery and source pages, scoped sorting, random directory/problem navigation and a two-file comparison selection. Its default reading view is CSP; Dev-C++/Geany are manually selected presentation profiles, separate from the optional NOI site appearance. No contestant program is executed.
 
 The browser's Vite base is relative (`./`) so its assets and worker files work at the repository's `/CSP-2026/code/` path. Keep the trailing slash when linking to that directory. Monaco is bundled from the `monaco-editor` npm package, including its worker; viewing code does not require VS Code to be installed.
 
@@ -42,7 +54,7 @@ Catalog metadata has specific limits:
 - Candidate and problem searches are navigation aids derived from paths. Retained archive paths remain the source of truth.
 - Metrics computed after loading two files describe their text or bytes. They do not establish why the files are similar, an official result, or a misconduct finding. Algorithmic similarity requires separate review and context.
 
-Generated catalogs, `dist/`, `site-dist/`, and `node_modules/` should remain untracked.
+Generated catalogs, source packs, discussion snapshots, `dist/`, `site-dist/`, and `node_modules/` should remain untracked. Source generation reuses its existing `cat-file --batch-check` size observations to fill both preview files and download-only extras. `sizeAvailability` and `sizeCoverage` report whether that metadata is complete.
 
 ## GitHub login and discussions
 
@@ -53,6 +65,8 @@ The site embeds [giscus](https://giscus.app/), which stores comments in this rep
 The repository owner must enable Discussions, select a supported category, and authorize the [giscus GitHub App](https://github.com/apps/giscus) for this repository. An enabled Discussions tab and public category IDs alone do not prove that the App can create discussions. A deployed verification should confirm that the widget loads for the intended page, and a visitor can authorize GitHub and publish a comment. Until that real flow is checked, report the App or OAuth verification as pending. The direct GitHub Discussions link remains useful if a browser blocks the embedded widget.
 
 Discussion forms are stored in `.github/DISCUSSION_TEMPLATE/general.yml` and `q-a.yml` for the existing General and Q&A categories. Material submissions and corrections should include the original source, exact repository revision and file paths, concrete line or diff observations, and remaining uncertainty. No local comment counter or example comment is presented as real GitHub activity.
+
+`node website/scripts/sync-discussion-metadata.mjs` creates a timestamped read-only snapshot using a server-side `GH_TOKEN`/`GITHUB_TOKEN`. It reads thread metadata and top-level comment/reaction totals, not message bodies. The UI aggregates unique linked threads by raw contestant directory. Single-file terms, recorded cases and their unique file pairs can be associated; arbitrary hashed pairs remain explicitly unmapped. Failed or incomplete synchronization produces unknown values, never fabricated zero. The token is never written into frontend assets. CI creates and copies this snapshot after the source build.
 
 ## Source materials
 
@@ -83,8 +97,9 @@ URLs separate from official GitHub URLs and never forward credentials.
 `.github/workflows/code-browser-pages.yml` uses official GitHub Actions to check out the complete archive at depth 1, install dependencies, run checks, build the code browser and all source packs, assemble the complete static site, upload that artifact, and deploy it to the `github-pages` environment.
 
 - A pull request builds and checks the site without deploying it.
+- Pull requests retain a three-day `catalog-review` artifact containing only the generated catalog and discussion metadata, so reviewers can inspect complete size ordering without downloading source packs or replacing the formal homepage.
 - A push to `main`, or a manual workflow run on `main`, can deploy the assembled `website/site-dist/` artifact.
-- The build job has `contents: read`. Only the deployment job receives `pages: write` and `id-token: write`.
+- The build job has `contents: read` and `discussions: read`. Only the deployment job receives `pages: write` and `id-token: write`.
 - The Pages publishing source must be set to **GitHub Actions** in repository settings. The workflow does not push a generated branch or publish the source checkout itself.
 - The shared `pages` concurrency group has cancellation disabled so an active Pages deployment is not interrupted by a newer run.
 

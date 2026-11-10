@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  discussions: read
 
 concurrency:
   group: pages
@@ -39,8 +40,24 @@ jobs:
       - name: Build code browser and pinned catalog
         run: npm run build
         working-directory: website
+      - name: Publish read-only discussion metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node website/scripts/sync-discussion-metadata.mjs
+      - name: Include discussion metadata in the built browser
+        run: cp website/public/discussion-metadata.json website/dist/discussion-metadata.json
       - name: Assemble landing page, documentation, and code browser
         run: node website/scripts/package-site.mjs
+      - name: Retain bounded metadata for pull-request review
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-review
+          path: |
+            website/dist/catalog/
+            website/dist/discussion-metadata.json
+          retention-days: 3
+          compression-level: 9
       - name: Upload GitHub Pages artifact
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v4

@@ -3,3 +3,4 @@ dist/
 site-dist/
 public/catalog/
 public/source-packs/
+public/discussion-metadata.json

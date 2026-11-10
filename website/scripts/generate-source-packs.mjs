@@ -4,6 +4,7 @@ import { mkdir, open, readFile, readdir, unlink, writeFile } from 'node:fs/promi
 import { dirname, resolve } from 'node:path';
 import { createInterface } from 'node:readline';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { updateCatalogSizes } from './catalog-sizes.mjs';
 
 export const SOURCE_LIMIT = 2 * 1024 * 1024;
 export const PACK_LIMIT = 32 * 1024 * 1024;
@@ -190,6 +191,7 @@ async function main() {
     missingSamples: [], skippedSamples: [],
   };
   const availableHashes = [];
+  const blobSizes = new Map();
   const checking = startGit(['cat-file', '--batch-check=%(objectname) %(objecttype) %(objectsize)'], repositoryRoot);
   const feedingCheck = feedHashes(checking.child, hashes);
   feedingCheck.catch(() => {});
@@ -200,6 +202,7 @@ async function main() {
       const record = classifyBatchCheck(line);
       if (record.sha !== hashes[checkedCount++]) throw new Error('Unexpected git cat-file check order');
       summary[record.status]++;
+      if (record.size !== null) blobSizes.set(record.sha, record.size);
       if (record.status === 'available') availableHashes.push(record.sha);
       else if (summary[`${record.status}Samples`].length < 8) summary[`${record.status}Samples`].push(record.sha);
     }
@@ -220,6 +223,7 @@ async function main() {
     if (packed.available !== summary.available) throw new Error('Source pack count differs from Git check');
     summary.buckets = packed.buckets;
   } catch (error) { reading.child.kill(); throw error; }
+  await updateCatalogSizes(resolve(repositoryRoot, 'website/public'), blobSizes, revision);
   await writeFile(resolve(outputDirectory, 'index.json'), `${JSON.stringify(summary, null, 2)}\n`, 'utf8');
   console.log(JSON.stringify({ ...summary, peakRssMiB: Math.round(process.resourceUsage().maxRSS / 1024) }));
 }

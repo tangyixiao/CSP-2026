@@ -13,6 +13,10 @@ import { loadSource, githubUrl } from './source.js';
 import { mountDiscussion } from './discussions.js';
 import { saveOriginalFile, saveContestantDirectory } from './downloads.js';
 import { DOWNLOAD_MODE_KEY, savedDownloadMode } from '../project-site/download-mode.js';
+import { groupContestants, sampleContestant, sampleProblem, contestProblemFiles } from './archive-browse.js';
+import { applyAppearance, getSavedAppearance } from './site-appearance.js';
+import { getProvenance } from './provenance.js';
+import { normalizeReadingProfile } from './reading-profiles.js';
 
 const $ = (id) => document.getElementById(id);
 const PAGE_SIZE = 24;
@@ -22,13 +26,19 @@ const mobile = window.matchMedia('(max-width: 700px)');
 const initialQuery = new URLSearchParams(window.location.search);
 const state = {
   catalog: null, files: [], page: 0, directorySequence: 0, caseSequence: 0,
-  activeCase: null, ambiguity: [], directoryError: null,
+  activeCase: null, ambiguity: [], directoryError: null, directoryReady: false, loadedDirectory: null,
   downloadMode: savedDownloadMode(),
   theme: ['light', 'dark'].includes(initialQuery.get('theme')) ? initialQuery.get('theme') : getSavedTheme(),
   mode: mobile.matches ? 'inline' : validMode(initialQuery.get('mode')),
   ignoreWhitespace: true, editor: null, diffCount: null, diffIncomplete: false, commentsOpen: true,
   left: emptySlot(), right: emptySlot(),
+  readingProfile: getSavedReadingProfile(),
 };
+
+function getSavedReadingProfile() {
+  try { return normalizeReadingProfile(initialQuery.get('profile') || localStorage.getItem('csp-reading-profile')); }
+  catch { return 'csp'; }
+}
 
 function emptySlot() { return { file: null, source: null, status: 'empty', error: '', sequence: 0, controller: null }; }
 function validMode(mode) { return ['view', 'split', 'inline'].includes(mode) ? mode : 'split'; }
@@ -67,6 +77,9 @@ function setTheme(theme, { preserveProjectChoice = false } = {}) {
 
 function setMode(mode, { announce = false } = {}) {
   state.mode = mobile.matches ? 'inline' : validMode(mode);
+  document.body.dataset.readerMode = state.mode;
+  document.querySelector('.workbench-heading h1').textContent = state.mode === 'view' || !state.left.file || !state.right.file ? '代码阅读' : '代码比对';
+  document.body.dataset.viewSide = state.left.file ? 'left' : 'right';
   document.querySelectorAll('[data-mode]').forEach((button) => { button.setAttribute('aria-pressed', String(button.dataset.mode === state.mode)); });
   document.querySelector('[data-mode="inline"]').textContent = mobile.matches ? '单栏阅读' : '内联';
   for (const id of ['ignore-whitespace', 'previous-change', 'next-change']) {
@@ -96,7 +109,18 @@ function updateLocation() {
   if (state.activeCase) url.searchParams.set('case', state.activeCase.id); else url.searchParams.delete('case');
   url.searchParams.set('mode', state.mode);
   url.searchParams.set('theme', state.theme);
-  window.history.replaceState({}, '', url);
+  if (state.readingProfile !== 'csp') url.searchParams.set('profile', state.readingProfile); else url.searchParams.delete('profile');
+  const selectedGroup = currentGroup();
+  if (state.directoryReady && selectedGroup?.key === state.loadedDirectory?.key) {
+    url.searchParams.set('province', selectedGroup.province);
+    url.searchParams.set('group', selectedGroup.group);
+    const search = $('contestant-input').value.trim();
+    if (search) url.searchParams.set('search', search); else url.searchParams.delete('search');
+    const problem = $('problem-select').value;
+    if (problem) url.searchParams.set('problem', problem); else url.searchParams.delete('problem');
+    url.searchParams.set('page', String(state.page));
+  }
+  window.history.replaceState(window.history.state, '', url);
 }
 
 async function fetchJSON(url) {
@@ -122,9 +146,9 @@ async function groupFiles(group, { includeExtras = false } = {}) {
 
 let downloadBusy = false;
 function initializeDownloads() {
-  const downloadsLink=el('a','','下载');downloadsLink.href='../preview/downloads.html';
+  const downloadsLink=el('a','','下载');downloadsLink.href=import.meta.env.DEV?'https://tangyixiao.github.io/CSP-2026/preview/downloads.html':'../preview/downloads.html';
   document.querySelector('.app-header .main-nav').append(downloadsLink);
-  const modeLabel = el('label','download-mode-label','下载');
+  const modeLabel = el('label','download-mode-label');
   const select = document.createElement('select');
   select.setAttribute('aria-label','下载模式');
   select.append(new Option('国际直连','international'),new Option('国内加速','domestic'));
@@ -186,14 +210,15 @@ function populateProblems(preserve = '') {
   $('problem-select').disabled = false;
 }
 
-async function loadDirectory({ province, group, search, problem } = {}) {
+async function loadDirectory({ province, group, search, problem, page = 0 } = {}) {
   if (!state.catalog) return;
   if (province) $('province-select').value = province;
   if (group) $('group-select').value = group;
   if (search !== undefined) $('contestant-input').value = search;
   const sequence = ++state.directorySequence;
   state.files = [];
-  state.page = 0;
+  state.page = Number.isSafeInteger(Number(page)) && Number(page) >= 0 ? Number(page) : 0;
+  state.directoryReady = false;
   state.directoryError = null;
   $('file-list').setAttribute('aria-busy', 'true');
   $('file-list').replaceChildren(el('div', 'list-empty', '正在读取此省区的源文件目录…'));
@@ -208,6 +233,8 @@ async function loadDirectory({ province, group, search, problem } = {}) {
     const files = await groupFiles(selectedGroup);
     if (sequence !== state.directorySequence) return;
     state.files = files;
+    state.loadedDirectory = selectedGroup;
+    state.directoryReady = true;
     populateProblems(problem ?? '');
     renderFiles();
   } catch (error) {
@@ -222,7 +249,7 @@ async function loadDirectory({ province, group, search, problem } = {}) {
 }
 
 function renderFiles() {
-  if (state.directoryError) return;
+  if (state.directoryError || !state.directoryReady) return;
   const search = $('contestant-input').value.trim().toLowerCase();
   const problem = $('problem-select').value;
   const matched = state.files.filter((file) => (!problem || file.problem === problem) && (!search || `${file.contestant} ${file.name} ${file.path}`.toLowerCase().includes(search)));
@@ -258,6 +285,7 @@ function renderFiles() {
   $('page-indicator').textContent = `${state.page + 1} / ${formatNumber(pages)}`;
   $('page-prev').disabled = state.page <= 0;
   $('page-next').disabled = state.page + 1 >= pages;
+  updateLocation();
 }
 
 function renderCases() {
@@ -413,6 +441,11 @@ function renderMetadata(side) {
   const raw = el('a', '', '查看原始文件 ↗'); raw.href = githubUrl(slot.file.path, state.catalog.revision); raw.target = '_blank'; raw.rel = 'noreferrer';
   actions.append(copy, raw);
   container.append(dl, actions);
+  const provenance = getProvenance(slot.file.path, state.catalog.revision);
+  const record = el('div', 'source-provenance');
+  const citation = el('a', '', provenance.title); citation.href = provenance.sourceUrl; citation.target = '_blank'; citation.rel = 'noreferrer';
+  record.append(citation, el('p', '', provenance.verificationScope), el('p', '', provenance.licenseScope));
+  container.append(record);
   if (source.compressed) container.append(el('p', '', '这里的 SHA-256 对解压后的源文件字节计算。'));
 }
 
@@ -435,6 +468,9 @@ function renderComparisonStatus() {
 }
 
 function renderSources() {
+  document.querySelector('.workbench-heading h1').textContent = state.mode === 'view' || !state.left.file || !state.right.file ? '代码阅读' : '代码比对';
+  document.body.dataset.viewSide = state.left.file ? 'left' : 'right';
+  document.body.classList.toggle('single-file', Boolean(state.left.file) !== Boolean(state.right.file));
   const messages = [];
   let hasError = false;
   for (const side of ['left', 'right']) {
@@ -518,6 +554,7 @@ async function loadCatalog() {
     const leftPath = initialQuery.get('left');
     const rightPath = initialQuery.get('right');
     const requestedCase = caseItems.find((item) => item.id === initialQuery.get('case'));
+    const hasDirectoryQuery = ['province', 'group', 'search', 'problem', 'page'].some(key => initialQuery.has(key));
     if (leftPath || rightPath) {
       const results = await Promise.allSettled([leftPath ? fileFromPath(leftPath) : Promise.resolve(null), rightPath ? fileFromPath(rightPath) : Promise.resolve(null)]);
       const matchesSelector = (result, selector) => result.status === 'fulfilled' && result.value && normalized(result.value.contestant) === normalized(selector.contestant) && normalized(result.value.problem) === normalized(selector.problem);
@@ -530,10 +567,16 @@ async function loadCatalog() {
       }
       const first = state.left.file || state.right.file;
       const [province, group] = first?.path.split('/') || [];
-      await loadDirectory({ province, group, search: first?.contestant || '' });
-    } else if (initialQuery.has('province') || initialQuery.has('group') || initialQuery.has('search')) {
+      const requestedDirectory = findGroup(initialQuery.get('province') || province, initialQuery.get('group') || group);
+      await loadDirectory({
+        province: requestedDirectory?.province || province,
+        group: requestedDirectory?.group || group,
+        search: hasDirectoryQuery ? initialQuery.get('search') || '' : first?.contestant || '',
+        problem: initialQuery.get('problem') || '', page: initialQuery.get('page') || 0,
+      });
+    } else if (hasDirectoryQuery) {
       switchPanel('files');
-      await loadDirectory({province:initialQuery.get('province'),group:initialQuery.get('group'),search:initialQuery.get('search') || ''});
+      await loadDirectory({province:initialQuery.get('province'),group:initialQuery.get('group'),search:initialQuery.get('search') || '',problem:initialQuery.get('problem') || '',page:initialQuery.get('page') || 0});
     } else if (requestedCase || caseItems.length) {
       switchPanel('cases');
       await selectCase(requestedCase || caseItems[0]);
@@ -543,6 +586,8 @@ async function loadCatalog() {
     }
     renderDiscussion();
     updateLocation();
+    const directoryScroll = window.history.state?.directoryScroll;
+    if (state.directoryReady && Number.isFinite(directoryScroll) && directoryScroll >= 0) $('file-list').scrollTop = directoryScroll;
   } catch (error) {
     $('archive-count').textContent = '目录离线';
     $('result-count').textContent = '目录未能载入';
@@ -584,6 +629,85 @@ $('share-button').addEventListener('click', async () => { updateLocation(); try 
 mobile.addEventListener('change', () => { setMode(mobile.matches && state.mode === 'split' ? 'inline' : state.mode); });
 window.addEventListener('beforeunload', () => { state.left.controller?.abort(); state.right.controller?.abort(); state.editor?.dispose(); });
 
+function initializeReadingControls() {
+  const nav = document.querySelector('.main-nav');
+  const browse = el('a', '', '浏览'); browse.href = './browse.html'; nav.prepend(browse);
+  const toolbar = document.querySelector('.editor-toolbar');
+  const controls = el('div', 'reader-options');
+  const profileLabel = el('label', '', '阅读视图');
+  const profile = el('select'); profile.id = 'reading-profile'; profile.setAttribute('aria-label', '阅读视图');
+  profile.append(new Option('CSP 默认', 'csp'), new Option('Dev-C++ · Windows 参考', 'devcpp'), new Option('Geany · NOI Linux 参考', 'geany'));
+  profile.value = state.readingProfile;
+  profile.addEventListener('change', () => {
+    state.readingProfile = normalizeReadingProfile(profile.value);
+    state.editor?.setReadingProfile(state.readingProfile);
+    document.documentElement.dataset.readingProfile = state.readingProfile;
+    try { localStorage.setItem('csp-reading-profile', state.readingProfile); } catch { /* Current view works without storage. */ }
+    updateLocation();
+  });
+  profileLabel.append(profile);
+  const appearanceLabel = el('label', '', '站点');
+  const appearance = el('select'); appearance.id = 'site-appearance'; appearance.setAttribute('aria-label', '站点主题');
+  appearance.append(new Option('CSP', 'csp'), new Option('NOI 参考', 'noi'));
+  appearance.value = applyAppearance(getSavedAppearance());
+  appearance.addEventListener('change', () => applyAppearance(appearance.value)); appearanceLabel.append(appearance);
+  const focus = el('button', '', '收起文件区'); focus.type = 'button'; focus.id = 'focus-reader';
+  const setFocus = value => { document.body.classList.toggle('focused-reader', value); focus.textContent = value ? '打开文件区' : '收起文件区'; focus.setAttribute('aria-expanded', String(!value)); };
+  focus.addEventListener('click', () => setFocus(!document.body.classList.contains('focused-reader')));
+  if (initialQuery.get('focus') === '1') setFocus(true);
+  const wrap = el('button', '', '自动换行'); wrap.type = 'button'; wrap.id = 'reader-wrap'; wrap.setAttribute('aria-pressed', 'false');
+  wrap.addEventListener('click', () => { const enabled = wrap.getAttribute('aria-pressed') !== 'true'; wrap.setAttribute('aria-pressed', String(enabled)); state.editor?.setWordWrap?.(enabled); });
+  controls.append(profileLabel, appearanceLabel, focus, wrap); toolbar.append(controls);
+  const actions = el('div', 'random-actions');
+  for (const [kind, label] of [['person', '随机跳人'], ['problem', '随机跳题']]) {
+    const control = el('button', '', label); control.type = 'button'; control.id = `random-${kind}`;
+    control.addEventListener('click', () => { void randomJump(kind, control); }); actions.append(control);
+  }
+  document.querySelector('.workbench-heading').append(actions);
+  document.documentElement.dataset.readingProfile = state.readingProfile;
+}
+
+async function randomJump(kind, control) {
+  if (!state.catalog || state.randomBusy) return;
+  state.randomBusy = true;
+  const randomControls = document.querySelectorAll('.random-actions button');
+  randomControls.forEach(button => { button.disabled = true; });
+  const sourceSequences = [state.left.sequence, state.right.sequence];
+  const directorySequence = state.directorySequence;
+  try {
+    let files = state.files;
+    const active = state.left.file || state.right.file;
+    if (kind === 'problem' && active) {
+      const [province, group] = active.path.split('/'); files = await groupFiles(findGroup(province, group));
+    }
+    if (sourceSequences[0] !== state.left.sequence || sourceSequences[1] !== state.right.sequence || directorySequence !== state.directorySequence) return;
+    const activeId = active?.path.split('/').slice(0, 3).join('/');
+    let file, nextSearch;
+    if (kind === 'person') {
+      const query = $('contestant-input').value.trim() === active?.contestant ? '' : $('contestant-input').value;
+      const items = groupContestants(files, { query, problem: $('problem-select').value }).filter(item => item.identityValid);
+      if (items.length === 1 && items[0].id === activeId) { toast('当前筛选只有这一个目录，可调整题目或搜索条件后再随机。'); return; }
+      const item = sampleContestant(items, { previousId: activeId }); file = item?.files[0];
+      if (item) { nextSearch = item.contestant; toast(`随机目录：${item.contestant} · 当前省区/组别与题目筛选范围`); }
+    } else {
+      if (!active) files = groupContestants(files, { query: $('contestant-input').value, problem: $('problem-select').value }).flatMap(item => item.files);
+      files = contestProblemFiles(files);
+      const problem = sampleProblem(files, { contestant: activeId, previousProblem: active?.problem });
+      if (active && problem === active.problem) { toast('这个目录当前只有这一道可用题目。'); return; }
+      file = files.find(item => item.problem === problem && (!activeId || item.path.startsWith(`${activeId}/`)));
+      if (file) toast(`随机题目：${problem}${active ? ` · ${active.contestant}` : ' · 当前省区/组别'}`);
+    }
+    if (!file) { toast('当前范围没有可用选项；可调整筛选后重试。'); return; }
+    updateLocation();
+    history.replaceState({ ...history.state, directoryScroll: $('file-list').scrollTop }, '', location.href);
+    history.pushState({ ...history.state, directoryScroll: 0 }, '', location.href);
+    if (nextSearch !== undefined) { $('contestant-input').value = nextSearch; state.page = 0; }
+    clearSource('right'); setMode('view'); await selectFile('left', file);
+  } catch (error) { toast(formatError(error)); }
+  finally { state.randomBusy = false; randomControls.forEach(button => { button.disabled = false; }); }
+}
+window.addEventListener('popstate', () => location.reload());
+initializeReadingControls();
 initializeDownloads();
 initializeIcons();
 setTheme(state.theme,{preserveProjectChoice:true});
@@ -595,6 +719,8 @@ const editorReady = createCodeWorkbench($('editor-container'), { onDiffUpdate(in
   state.editor = editor;
   editor.setMode(state.mode);
   editor.setTheme(state.theme === 'dark' ? 'vs-dark' : 'vs');
+  editor.setReadingProfile(state.readingProfile);
+  editor.setWordWrap($('reader-wrap').getAttribute('aria-pressed') === 'true');
   editor.setIgnoreWhitespace(state.ignoreWhitespace);
   syncEditor();
 }).catch((error) => {

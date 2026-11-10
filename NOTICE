@@ -1,0 +1,27 @@
+CSP-2026
+Copyright 2026 Tangyixiao and the CSP-2026 project contributors.
+
+The Apache License, Version 2.0 in LICENSE applies to repository-owned website
+implementation, maintenance scripts, configuration and original documentation,
+where the copyright holder has authorized that license. It does not replace
+existing third-party notices, licenses, or rights.
+
+Excluded materials include contestant directories, official test data, original
+archive packages and answer summaries, copied source responses, quotations and
+transcriptions of third-party posts, font files and other third-party assets.
+Their rights remain with their respective owners. Inclusion, public availability,
+byte verification, and attribution do not confer a blanket redistribution license.
+
+The preserved landing implementation originates in this repository's project-pages
+branch at 18973f751ccddfa941150d2a3480cf6ecc5a29ac. Its separately copyrighted assets
+remain excluded. This notice does not claim independent authorship of that work.
+
+Primer CSS, Primer Primitives, Octicons, Monaco Editor and giscus retain their
+existing notices in website/public/third-party-licenses.txt. Geist / Geist Mono
+and Barlow Condensed retain the SIL Open Font License notices in
+website/landing/assets/fonts/OFL-*.txt. Font names and ownership are also indexed
+in SOURCES.md. Third-party names and marks are not transferred by this license.
+
+Source records and attributed comparison materials are indexed in SOURCES.md.
+This NOTICE is attribution and scope information; it does not amend third-party
+license texts or make an official affiliation or authenticity claim.
