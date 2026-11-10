@@ -1,6 +1,6 @@
 import './browse.css';
 import { groupContestants, sortContestants, sampleContestant, sampleProblem, contestProblemFiles } from './archive-browse.js';
-import { REGIONS, regionArtwork } from './regions.js';
+import { REGIONS, regionImage } from './regions.js';
 import { applyAppearance, getSavedAppearance } from './site-appearance.js';
 import { loadSource, githubUrl } from './source.js';
 import { SOURCE_INDEX_REVISION } from './provenance.js';
@@ -18,7 +18,7 @@ const link = (label, href, className) => { const value = node('a', className, la
 const button = (label, action, className) => { const value = node('button', className, label); value.type = 'button'; value.addEventListener('click', action); return value; };
 const sourceIndex = `https://github.com/tangyixiao/CSP-2026/blob/${SOURCE_INDEX_REVISION}/SOURCES.md`;
 function announce(message) { $('notice').textContent = message; $('notice').hidden = false; clearTimeout(announce.timer); announce.timer = setTimeout(() => { $('notice').hidden = true; }, 5000); }
-function params() { const query = new URLSearchParams(location.search); return { view: query.get('view') || 'home', province: query.get('province') || '', group: ['J', 'S', 'all'].includes(query.get('group')) ? query.get('group') : 'S', query: query.get('q') || '', problem: query.get('problem') || '', sort: query.get('sort') || 'id', direction: query.get('direction') === 'desc' ? 'desc' : 'asc' }; }
+function params() { const query = new URLSearchParams(location.search); return { view: query.get('view') || 'home', province: Object.hasOwn(REGIONS, query.get('province')) ? query.get('province') : '', group: ['J', 'S', 'all'].includes(query.get('group')) ? query.get('group') : 'S', query: query.get('q') || '', problem: query.get('problem') || '', sort: query.get('sort') || 'id', direction: query.get('direction') === 'desc' ? 'desc' : 'asc' }; }
 function routeURL(next = {}) { const values = { ...params(), ...next }; const url = new URL(location.href); url.search = ''; for (const [key, value] of Object.entries(values)) if (value !== '' && value != null) url.searchParams.set(key === 'query' ? 'q' : key, value); return `${url.pathname}${url.search}`; }
 function navigate(next) { scrollPositions.set(location.href, scrollY); history.pushState({}, '', routeURL(next)); void renderRoute(); }
 function readerURL(file, other) { const query = new URLSearchParams({ left: file.path, mode: other ? 'split' : 'view', focus: '1' }); if (other) query.set('right', other.path); return `./?${query}`; }
@@ -36,28 +36,33 @@ async function groupFiles(group) {
 function groupsFor(province, group) { return state.catalog.groups.filter(item => (!province || item.province === province) && (group === 'all' || item.group === group)); }
 function regionCodes() { return [...new Set(state.catalog.groups.map(item => item.province))]; }
 function regionName(code) { return REGIONS[code]?.name || code; }
-function putArtwork(container, code) { const art = node('div'); art.innerHTML = regionArtwork(code); container.append(...art.childNodes); container.style.setProperty('--region-color', REGIONS[code]?.accent || 'currentColor'); }
+function putArtwork(container, code, { cover = false, eager = false } = {}) {
+  const url = regionImage(code); if (!url) return;
+  const art = node('img', `region-art${cover ? ' region-cover-image' : ''}`);
+  art.src = url; art.alt = ''; art.setAttribute('aria-hidden', 'true'); art.dataset.region = code;
+  art.loading = eager ? 'eager' : 'lazy'; art.decoding = 'async';
+  container.append(art); container.style.setProperty('--region-color', REGIONS[code]?.accent || 'currentColor');
+}
 function intro(title, text, eyebrow) { const header = node('section', 'intro'); if (eyebrow) header.append(node('p', 'eyebrow', eyebrow)); header.append(node('h1', '', title)); if (text) header.append(node('p', 'lede', text)); return header; }
 function sectionHeading(title, destination, label = '查看全部 →') { const row = node('div', 'section-heading'); row.append(node('h2', '', title)); if (destination) row.append(link(label, destination)); return row; }
 function regionCover(code) {
-  const cover = node('article', 'region-cover'); putArtwork(cover, code);
+  const cover = node('article', 'region-cover');
   const heading = node('div'), title = node('h3', 'region-title', regionName(code)); title.append(node('span', 'region-code', code));
   const groups = state.catalog.groups.filter(item => item.province === code);
-  heading.append(title, node('p', 'region-count', `${number(groups.reduce((sum, item) => sum + item.contestantCount, 0))} 个组别目录标识`));
+  heading.append(title, node('p', 'region-count', `${number(groups.reduce((sum, item) => sum + item.contestantCount, 0))} 份档案`));
   const actions = node('div', 'region-links');
-  for (const group of groups) actions.append(link(`${group.group} 归档 ↗`, routeURL({ view: 'browse', province: code, group: group.group, query: '', problem: '' })));
-  cover.append(heading, actions); return cover;
+  for (const group of groups) actions.append(link(`进入 ${group.group} →`, routeURL({ view: 'browse', province: code, group: group.group, query: '', problem: '' })));
+  cover.append(heading); putArtwork(cover, code, { cover: true, eager: ['ZJ', 'BJ'].includes(code) }); cover.append(actions); return cover;
 }
 function renderHome() {
-  const header = intro('全国代码归档', 'CSP-J/S 2026 第二轮选手文件，按地区归档。', 'CSP 2026 / SOURCE ARCHIVE');
-  header.append(node('p', 'facts', `已收录 ${regionCodes().length} 个地区 · J / S`));
+  const header = intro('全国代码归档', 'CSP-J/S 2026 · 第二轮'); header.classList.add('home-intro'); putArtwork(header, 'ZJ', { eager: true });
+  header.append(node('p', 'facts', `${regionCodes().length} 个地区 · J / S`));
   const actions = node('div', 'intro-actions');
   actions.append(link('浏览归档 →', routeURL({ view: 'browse', province: '', query: '', problem: '' }), 'primary-action'), button('随机一人 ↗', () => void randomPerson({ province: '', group: 'all', query: '', problem: '' }), 'quiet-action'), button('随机一题 ↗', () => void randomProblem({ province: '', group: 'all', query: '', problem: '' }), 'quiet-action'));
   header.append(actions); $('content').append(header);
-  const preferred = ['ZJ', 'BJ', 'SC', 'FJ', 'GD', 'JS', 'LN', 'SH'];
+  const preferred = ['ZJ', 'BJ', 'SC', 'SH', 'GD'];
   const codes = preferred.filter(code => regionCodes().includes(code));
   const covers = node('div', 'region-grid'); covers.append(...codes.slice(0, 5).map(regionCover)); $('content').append(covers);
-  const small = node('div', 'region-grid compact'); small.append(...codes.slice(5).map(regionCover)); small.style.marginTop = '18px'; $('content').append(small);
   $('content').append(button(`全部 ${regionCodes().length} 个地区 ↓`, openRegions, 'all-regions'), sectionHeading('从文件里看看', routeURL({ view: 'discover' }), '前往发现 →'));
   void renderDiscoveries(false);
 }
@@ -96,7 +101,7 @@ function shortSource(text) {
   let start = lines.findIndex(line => /\b(?:bool|void|int|ll|long\s+long)\s+(?!main\b)[a-zA-Z_]\w*\s*\([^;]*\)\s*\{/.test(line));
   if (start < 0) start = lines.findIndex(line => line.trim() && !/^\s*(?:#include|using namespace|\/\/|freopen\b)/.test(line));
   if (start < 0) start = 0;
-  return { snippet: lines.slice(start, start + 6).join('\n'), start: start + 1, end: Math.min(lines.length, start + 6) };
+  return { snippet: lines.slice(start, start + 4).join('\n'), start: start + 1, end: Math.min(lines.length, start + 4) };
 }
 function addDiscussionCounts(items) {
   const snapshot = state.discussions;
@@ -110,18 +115,19 @@ function contestantTile(item, current, token) {
   else if (current.sort === 'files') heading.append(node('span', '', `${item.files.length} 个文件`));
   else if (current.sort === 'discussions') heading.append(node('span', '', item.discussionCount == null ? '讨论待同步' : `${item.discussionCount} 场关联讨论`));
   else if (current.sort === 'recent') heading.append(node('span', '', item.discussionUpdatedAt ? new Date(item.discussionUpdatedAt).toLocaleDateString('zh-CN') : '暂无讨论时间'));
-  const pre = node('pre', 'tile-preview', item.files.slice(0, 6).map(file => file.path.slice(item.id.length + 1)).join('\n'));
+  const pre = node('pre', 'tile-preview', item.files.slice(0, 4).map(file => file.path.slice(item.id.length + 1)).join('\n'));
+  const fileLabel = node('div', 'tile-file', first.name || first.path.split('/').at(-1));
   const caption = node('p', 'preview-caption', '原目录中的文件');
   const bottom = node('div', 'tile-bottom'), problems = node('div', 'tile-problems');
-  for (const problem of item.problems.slice(0, 4)) { const file = item.files.find(value => value.problem === problem); problems.append(link(problem, readerURL(file))); }
+  problems.append(link(first.problem || '文件', readerURL(first)));
   const menu = node('details', 'tile-menu'); menu.append(node('summary', '', '⋯')); menu.firstChild.setAttribute('aria-label', `${item.contestant} 的文件和比较操作`);
   const details = node('div');
   for (const file of item.files) {
     const row = node('div', 'file-detail-row'); row.append(link(`${file.path.slice(item.id.length + 1)} · ${bytes(file.size)}`, readerURL(file)));
     const compare = button('比较', () => { addCompare(file); menu.open = false; }); compare.setAttribute('aria-label', `将 ${file.path} 加入比较`); row.append(compare); details.append(row);
   }
-  menu.append(details); bottom.append(problems, menu);
-  tile.append(heading, pre, caption, bottom);
+  menu.append(details); bottom.append(problems, link('打开 ↗', readerURL(first), 'tile-open'), menu);
+  tile.append(heading, fileLabel, pre, caption, bottom);
   artworkObserver.observe(tile);
   tile.loadPreview = () => { queuePreview(async () => { try { const source = await loadSource(first, { revision: state.catalog.revision }); if (state.token !== token || !tile.isConnected) return; const snippet = shortSource(source.text); pre.textContent = snippet.snippet; pre.classList.add('code-preview'); caption.textContent = `${first.problem} · 原文 L${snippet.start}–${snippet.end}`; } catch { /* Keep the real directory preview, not a fabricated code cover. */ } }); };
   return tile;
@@ -133,14 +139,14 @@ function addCompare(file) {
 function renderCompareTray() { document.querySelector('.compare-tray')?.remove(); if (!state.compare.length) return; const tray = node('aside', 'compare-tray'); tray.setAttribute('aria-label', '待比较文件'); tray.append(node('span', '', state.compare.map(file => file.contestant).join(' / '))); if (state.compare.length === 2) tray.append(link('并排比较 →', readerURL(state.compare[0], state.compare[1]))); else tray.append(node('span', '', '再选一份文件')); tray.append(button('×', () => { state.compare = []; renderCompareTray(); })); tray.lastChild.setAttribute('aria-label', '清空比较选择'); document.body.append(tray); }
 function renderBrowse() {
   const current = params(), code = regionCodes().includes(current.province) ? current.province : '';
-  const header = intro(code ? `${regionName(code)}归档` : '按地区，慢慢翻阅', code ? `CSP-${current.group === 'all' ? 'J / S' : current.group} · 保留原始文件与目录` : '按省份连续浏览；进入一名选手，再展开他的文件。', 'BROWSE THE ARCHIVE');
-  const actions = node('div', 'intro-actions'); actions.append(button('随机跳人 ↗', () => void randomPerson(), 'quiet-action'), button('随机跳题 ↗', () => void randomProblem(), 'quiet-action')); header.append(actions);
+  const header = intro(code ? `${regionName(code)} / CSP-${current.group === 'all' ? 'J / S' : current.group}` : '全国 / CSP-J·S', code ? '' : '按地区连续浏览原始文件。'); header.classList.add('browse-intro');
+  if (code) putArtwork(header, code, { eager: true });
   const toolbar = node('form', 'browse-toolbar'); toolbar.addEventListener('submit', event => event.preventDefault());
-  toolbar.append(button(code ? `${regionName(code)} ${code} · 更换地区` : '全部地区 · 选择地区', openRegions, 'scope-button'));
   const searchLabel = node('label'), search = node('input'); search.type = 'search'; search.placeholder = '搜索考号、题目或文件名'; search.value = current.query; search.setAttribute('aria-label', '搜索归档'); searchLabel.append(search);
   const selects = [['group', '组别', [['S', 'CSP-S'], ['J', 'CSP-J'], ['all', 'J / S']]], ['problem', '题目', [['', '全部题目'], ...['and', 'card', 'string', 'travel', 'crystal', 'hub', 'migrate', 'subway'].map(value => [value, value])]], ['sort', '排序', [['id', '考号'], ['bytes', '字节数'], ['files', '文件数'], ['discussions', '已关联讨论'], ['recent', '最近讨论']]], ['direction', '方向', [['asc', '升序'], ['desc', '降序']]]];
   toolbar.append(searchLabel);
   for (const [key, label, options] of selects) { const wrapper = node('label', '', label), select = node('select'); select.setAttribute('aria-label', label); for (const [value, name] of options) select.add(new Option(name, value)); select.value = current[key]; select.addEventListener('change', () => navigate({ [key]: select.value, query: search.value })); wrapper.append(select); toolbar.append(wrapper); }
+  toolbar.append(button('随机一人', () => void randomPerson(), 'quiet-action'), button('随机一题', () => void randomProblem(), 'quiet-action'), button('地区目录', openRegions, 'scope-button'));
   $('content').append(header, toolbar);
   const measureDetails = node('details', 'scope-note'); measureDetails.append(node('summary', '', '口径与同步状态'));
   const note = node('p', '', '排序范围为每个地区的完整当前筛选结果；字节数为筛选中源码/文本及备份的存储字节合计，不含下载目录中的其他格式，未知值置后。讨论按已关联线程去重，不是引用案例数。'); measureDetails.append(note); $('content').append(measureDetails);
@@ -192,7 +198,7 @@ function renderSources() {
     ['省份原始资料', '来源索引整理官方入口、提供的资料包与实际核验范围。没有原始发布记录的地区明确保留缺口。', sourceIndex, '查看来源索引 ↗'],
     ['洛谷参考与比较材料', '保留原作者、发布时间和原链接。引用的相似度主张与独立字节核对分别呈现；缺原链接的摘录不补造网址。', `${sourceIndex}#attributed-luogu-comparison-materials`, '查看署名与材料 ↗'],
     ['项目代码与第三方内容', '项目自行拥有的网站、脚本与原创文档使用 Apache-2.0。选手代码、官方数据、引用与第三方资产保留各自权利。', `https://github.com/tangyixiao/CSP-2026/blob/${SOURCE_INDEX_REVISION}/NOTICE`, '查看许可范围 ↗'],
-    ['主题、编辑器与地区配图', 'NOI 官网与 Dev-C++、Geany 是已注明的视觉参考。本站地区轮廓为原创抽象线稿，不是官方标识；阅读视图不提供编译或系统模拟。', `${sourceIndex}#reading-view-reference-material`, '查看参考与组件声明 ↗'],
+    ['主题、编辑器与地区配图', 'NOI 官网与 Dev-C++、Geany 是已注明的视觉参考。本站地域插画为项目生成的编辑性配图，不是官方标识或地图；阅读视图不提供编译或系统模拟。', 'https://github.com/tangyixiao/CSP-2026/blob/main/website/src/assets/regions/manifest.json', '查看配图来源与说明 ↗'],
   ];
   for (const [title, text, href, label] of entries) { const card = node('section', 'source-card'); card.append(node('h2', '', title), node('p', '', text), link(label, href)); grid.append(card); }
   $('content').append(grid, node('p', 'method-note', `当前目录：${regionCodes().length} 地区、${state.catalog.groups.length} 组别、${number(state.catalog.totalFiles)} 个源码或文本候选路径。文件包含备份、空文件及异常内容；目录身份不是自然人数或官方有效提交数。全国内容研究尚在进行。`));
@@ -222,6 +228,9 @@ async function randomProblem(scope = {}) {
 }
 function openRegions() { const directory = $('region-directory'); directory.replaceChildren(link('全部地区', routeURL({ view: 'browse', province: '', query: '', problem: '' })), ...regionCodes().map(code => link(`${regionName(code)} ${code}`, routeURL({ view: 'browse', province: code, query: '', problem: '' })))); $('regions-dialog').showModal(); }
 async function renderRoute() {
+  closeNavigation();
+  document.querySelector('.appearance-menu').open = false;
+  $('regions-dialog').close();
   state.token++; previews = []; artworkObserver?.disconnect();
   clearTimeout(searchTimer); clearRegionObservers();
   artworkObserver = new IntersectionObserver(entries => { for (const entry of entries) if (entry.isIntersecting) { artworkObserver.unobserve(entry.target); entry.target.loadPreview?.(); } }, { rootMargin: '80px' });
@@ -237,6 +246,11 @@ try { $('color-mode').value = ['light', 'dark', 'system'].includes(localStorage.
 applyColorMode($('color-mode').value); $('color-mode').addEventListener('change', event => applyColorMode(event.target.value));
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if ($('color-mode').value === 'system') applyColorMode('system'); });
 $('close-regions').addEventListener('click', () => $('regions-dialog').close());
+const navToggle = document.querySelector('.nav-toggle'), mainNav = $('main-nav');
+function closeNavigation() { mainNav.classList.remove('is-open'); navToggle.setAttribute('aria-expanded', 'false'); navToggle.setAttribute('aria-label', '打开导航菜单'); }
+navToggle.addEventListener('click', () => { const open = !mainNav.classList.contains('is-open'); mainNav.classList.toggle('is-open', open); navToggle.setAttribute('aria-expanded', String(open)); navToggle.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单'); });
+mainNav.addEventListener('click', event => { if (event.target.closest('a')) closeNavigation(); });
+document.addEventListener('keydown', event => { if (event.key === 'Escape') closeNavigation(); });
 if (import.meta.env.DEV) document.querySelector('a[href="../preview/downloads.html"]').href = 'https://tangyixiao.github.io/CSP-2026/preview/downloads.html';
 document.addEventListener('click', event => { const target = event.target.closest('a'); if (!target || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; const url = new URL(target.href, location.href); if (url.origin === location.origin && url.pathname === location.pathname && url.search) { event.preventDefault(); $('regions-dialog').close(); scrollPositions.set(location.href, scrollY); history.pushState({}, '', url); void renderRoute(); } });
 window.addEventListener('popstate', () => void renderRoute());

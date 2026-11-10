@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "createdFor": "CSP-2026",
+  "generatedOn": "2026-11-10",
+  "generator": "OpenAI built-in image_gen",
+  "purpose": "Decorative regional editorial illustrations; not official emblems, maps or exact geographic depictions",
+  "styleReference": "Illustrated national-home and province-browser concepts approved by the maintainer on 2026-11-10",
+  "commonPrompt": "New standalone panoramic production website illustration, approximately 3:1. Finished pale near-monochrome editorial illustration with softly shaded solids, architectural or natural detail, gentle texture and layered atmospheric depth. Clean near-white backdrop and fading edges. Identifiable regional subjects occupy lower middle and right with quiet upper-left for UI text. No UI, text, logos, frames, photographs, vivid tourist-poster colors, cartoon stickers or crude outline symbols. Retain a coherent art language while each regional subject is distinct.",
+  "optimization": {
+    "format": "WebP",
+    "maximumWidth": 1280,
+    "individualBudgetKiB": 240,
+    "totalBudgetMiB": 5
+  },
+  "regions": [
+    {
+      "code": "AH",
+      "name": "Anhui",
+      "subject": "Huangshan's jagged granite peaks and sculptural pines, a small group of Huizhou white walls and dark roofs along the lower right",
+      "palette": "pale slate and lavender",
+      "file": "AH.webp"
+    },
+    {
+      "code": "BJ",
+      "name": "Beijing",
+      "subject": "the Forbidden City's layered palace roofs and broad forecourt, symmetrical graceful architecture, distant city trees",
+      "palette": "dusty rose and lavender",
+      "file": "BJ.webp"
+    },
+    {
+      "code": "CQ",
+      "name": "Chongqing",
+      "subject": "river crossing below a dramatically terraced hillside city, Hongyadong-like wooden stilt buildings rising above the river, a slender suspension bridge fading into mist",
+      "palette": "dusty rose gray and lilac",
+      "file": "CQ.webp"
+    },
+    {
+      "code": "FJ",
+      "name": "Fujian",
+      "subject": "distinctive round earthen Fujian tulou courtyards nestled into layered green-gray hills, tiled roofs, quiet vegetation and mist; make the circular architecture clearly recognizable",
+      "palette": "pale blue gray and muted mauve",
+      "file": "FJ.webp"
+    },
+    {
+      "code": "GD",
+      "name": "Guangdong",
+      "subject": "Guangzhou Pearl River waterfront, recognizable slender Canton Tower and a graceful river bridge, a layered contemporary city skyline",
+      "palette": "pale blue gray and lavender",
+      "file": "GD.webp"
+    },
+    {
+      "code": "GS",
+      "name": "Gansu",
+      "subject": "Jiayuguan's fortified gate towers and long rammed-earth wall, layered desert dunes and distant weathered mountains",
+      "palette": "very pale ochre and lilac gray",
+      "file": "GS.webp"
+    },
+    {
+      "code": "GX",
+      "name": "Guangxi",
+      "subject": "Guilin limestone karst peaks, quiet Li River reflections, delicate riverside bamboo and a tiny moored raft without people",
+      "palette": "pale sage gray and lavender",
+      "file": "GX.webp"
+    },
+    {
+      "code": "GZ",
+      "name": "Guizhou",
+      "subject": "steep misty karst valleys, a beautiful multi-arch stone bridge and traditional hillside roofs near a broad natural waterfall; coherent atmospheric landscape",
+      "palette": "pale blue gray and lilac",
+      "file": "GZ.webp"
+    },
+    {
+      "code": "HA",
+      "name": "Henan",
+      "subject": "a Shaolin-like forest of slender historic brick pagodas among quiet trees and distant Songshan hills, a low ancient stone pathway",
+      "palette": "pale stone gray and lavender",
+      "file": "HA.webp"
+    },
+    {
+      "code": "HB",
+      "name": "Hubei",
+      "subject": "the Yellow Crane Tower's distinct tiered golden-roof silhouette rendered in muted monochrome, Yangtze River below and a long distant river bridge",
+      "palette": "subdued dusty rose and lilac",
+      "file": "HB.webp"
+    },
+    {
+      "code": "HE",
+      "name": "Hebei",
+      "subject": "Shanhaiguan-like Great Wall gate fortifications, stone battlements climbing rugged green-gray ridges with a distant coastal haze",
+      "palette": "pale slate and gray lavender",
+      "file": "HE.webp"
+    },
+    {
+      "code": "HI",
+      "name": "Hainan",
+      "subject": "a quiet tropical coastline with gracefully curving coconut palms, white sand shoreline, calm sea reflections and distant low headlands; no bright sunset or travel-poster saturation",
+      "palette": "pale seafoam gray and lavender",
+      "file": "HI.webp"
+    },
+    {
+      "code": "HL",
+      "name": "Heilongjiang",
+      "subject": "Harbin Saint Sophia-like onion domes and historic brick arches, the quiet Songhua riverbank and bare elegant winter trees",
+      "palette": "pale rose stone and lavender gray",
+      "file": "HL.webp"
+    },
+    {
+      "code": "HN",
+      "name": "Hunan",
+      "subject": "Yueyang Tower rising gently over the vast misty Dongting Lake, delicate lakeside willows and a small island silhouette",
+      "palette": "pale gray green and mauve",
+      "file": "HN.webp"
+    },
+    {
+      "code": "JL",
+      "name": "Jilin",
+      "subject": "Changbai Mountain Tianchi crater lake enclosed by sweeping high volcanic ridges, snow traces and distant pine forest, serene water surface",
+      "palette": "pale icy blue and lavender",
+      "file": "JL.webp"
+    },
+    {
+      "code": "JS",
+      "name": "Jiangsu",
+      "subject": "a Suzhou classical garden with a long covered corridor, Taihu scholar rocks, small elegant garden pavilion and still reflecting pond; distinct from a canal water town",
+      "palette": "pale plum and gray green",
+      "file": "JS.webp"
+    },
+    {
+      "code": "JX",
+      "name": "Jiangxi",
+      "subject": "Tengwang Pavilion's tall elaborate layered roofs at a broad river's edge, Poyang-like distant open water and softly receding Lushan hills",
+      "palette": "pale blue gray and mauve",
+      "file": "JX.webp"
+    },
+    {
+      "code": "LN",
+      "name": "Liaoning",
+      "subject": "Dalian-like curving coastal bay and long sea-crossing bridge, gentle coastal hills and subtle historic waterfront architecture",
+      "palette": "pale maritime blue and lavender",
+      "file": "LN.webp"
+    },
+    {
+      "code": "NM",
+      "name": "Inner Mongolia",
+      "subject": "wide rolling grassland with distant gentle hills, two small traditional white yurts and a winding stream; vast but not empty composition, no cartoon animals",
+      "palette": "pale sage and blue gray",
+      "file": "NM.webp"
+    },
+    {
+      "code": "QH",
+      "name": "Qinghai",
+      "subject": "broad Qinghai Lake reflecting distant high snow mountains, a gently curving stony shore and sparse alpine vegetation",
+      "palette": "pale icy blue and lilac gray",
+      "file": "QH.webp"
+    },
+    {
+      "code": "SC",
+      "name": "Sichuan",
+      "subject": "deep layered mountain ridges, Emei-like peaks, bamboo in the foreground and a small mountain pavilion, a winding river in mist; no pandas",
+      "palette": "pale sage and lilac gray",
+      "file": "SC.webp"
+    },
+    {
+      "code": "SD",
+      "name": "Shandong",
+      "subject": "Mount Tai's monumental granite ridges, a winding ancient stone staircase and a small traditional gate with windswept pines",
+      "palette": "pale mauve granite and gray",
+      "file": "SD.webp"
+    },
+    {
+      "code": "SH",
+      "name": "Shanghai",
+      "subject": "recognizable Oriental Pearl tower, Bund waterfront and modern skyline across Huangpu River with subtle reflections; architectural silhouette like the approved original Shanghai crop",
+      "palette": "pale mauve and plum",
+      "file": "SH.webp"
+    },
+    {
+      "code": "SN",
+      "name": "Shaanxi",
+      "subject": "Xi'an's broad ancient city wall with battlements and a distinctive Bell Tower-like traditional building, layered historic tiled roofs",
+      "palette": "pale ochre stone and lavender",
+      "file": "SN.webp"
+    },
+    {
+      "code": "SX",
+      "name": "Shanxi",
+      "subject": "Pingyao-like historic walled town with low orderly tiled rooftops, an elegant wooden gate tower and distant Loess hills",
+      "palette": "pale earth gray and plum",
+      "file": "SX.webp"
+    },
+    {
+      "code": "TJ",
+      "name": "Tianjin",
+      "subject": "Haihe River, recognizable Tianjin Eye ferris wheel across a bridge and quiet European-style stone waterfront facades",
+      "palette": "pale mauve and blue gray",
+      "file": "TJ.webp"
+    },
+    {
+      "code": "XJ",
+      "name": "Xinjiang",
+      "subject": "Tianshan snow mountain ridges around a clear alpine lake, foreground evergreen trees and a broad distant high grassland",
+      "palette": "pale glacier blue and lilac",
+      "file": "XJ.webp"
+    },
+    {
+      "code": "YN",
+      "name": "Yunnan",
+      "subject": "sweeping Yuanyang rice terraces with layered curved water reflections, a few small hillside roofs and distant misty alpine ridges",
+      "palette": "pale warm gray and lavender",
+      "file": "YN.webp"
+    },
+    {
+      "code": "ZJ",
+      "name": "Zhejiang",
+      "subject": "Jiangnan water town, old stone arch bridge, whitewashed tiled houses, canal reflections and distant hills",
+      "palette": "pale mauve and lilac",
+      "file": "ZJ.webp"
+    }
+  ],
+  "displayStyling": "The browser applies restrained regional hue shifts in CSS; native illustration bytes remain unchanged. Dark mode uses inversion and screen blending with reduced saturation to fade the near-white image background into the dark surface."
+}

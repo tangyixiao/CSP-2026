@@ -47,16 +47,26 @@ The preserved landing assets originate from this repository's [`project-pages` r
 
 The eight retained font files were identified from their embedded family names and license URLs. Their upstream SIL Open Font License texts are retained beside the files; the source for the copied notices is the matching family directories in [Google Fonts](https://github.com/google/fonts/tree/main/ofl). No font bytes were changed.
 
-[website/DESIGN.md](website/DESIGN.md) records OIerDb and VitePress as design references; it does not claim that their application code or branding was copied. The new [browser proposal](docs/design/province-browser-review.md) separately records the real pages inspected for that proposal.
+[website/DESIGN.md](website/DESIGN.md) records OIerDb and VitePress as design references; it does not claim that their application code or branding was copied. The [browser design record](docs/design/province-browser-review.md) separately records the inspected references and current approved compositions.
 
+
+## NOI appearance reference
+
+The [official NOI homepage](https://noi.cn/) was visually inspected on 2026-11-09 for a requested optional site theme: white surfaces, red navigation, dark blue-purple heading/active accents and pale gray sections. This is an appearance reference, not an affiliation or a copied official portal. No official logo, news banner or article image is imported. The NOI site appearance is separate from the NOI Linux editor reading profiles and remains an optional choice in the illustrated redesign.
+
+## Regional illustration provenance
+
+The maintainer approved the [illustrated home](docs/design/illustrated-home-approved.png) and [province browser](docs/design/illustrated-browse-approved.png) compositions on 2026-11-10. The current assets are **29 independently generated raster illustrations**, created specifically for this project through OpenAI's built-in `image_gen` tool. They replace the earlier SVG line-art treatment. Each region has a different specified landscape or architectural subject within a shared pale editorial style; these are not downloaded tourist photographs, official emblems, maps or exact geographic depictions.
+
+[The public illustration manifest](website/src/assets/regions/manifest.json) records the generation date, generator, common prompt, per-region subject/palette and output filename. [regions.js](website/src/regions.js) maps each supported code to its own WebP; unknown codes have no borrowed-region fallback. The shipped 29 WebP files are each 1280 × 427 and total 1,791,746 bytes (1.71 MiB). Native generation outputs remain outside the product tree; the private local conversion-input manifest is not a publication source record and contains no public attribution authority.
+
+[The optimization script](website/scripts/optimize-region-art.mjs) performs format and size conversion only, using an existing WebP encoder. The current assets retain quality 82 without needing lower-quality budget fallbacks. Asset checks verify real raster containers, dimensions, distinct hashes and byte budgets; the generated illustrations do not claim official geographic or architectural accuracy. Their inclusion does not relicense third-party contestant material or the referenced software's assets.
+
+PNG files named `illustrated-*-approved.png` are approved generated composition boards, not captures of a deployed website. Older `runtime-*` JPEGs show the previous running review implementation, before this illustrated revision, and must not be presented as its final validation screenshots. Final CI, deployment and live visual checks are recorded separately from asset generation.
 
 ## Reading-view reference material
 
-The [official NOI homepage](https://noi.cn/) was visually inspected on 2026-11-09 for a requested optional site theme: white surfaces, red navigation, dark blue-purple heading/active accents and pale gray sections. This is an appearance reference, not an affiliation or a copied official portal. No official logo, news banner or article image is imported. The NOI site appearance is implemented in the review branch, separately from the NOI Linux editor reading profiles; it has not been deployed.
-
-The review implementation contains 29 original abstract regional SVG line drawings in [regions.js](website/src/regions.js), drawn for this project without external images or official emblems. Their regional cues are editorial illustrations, not maps or exclusive definitions of those places. JPEGs named `runtime-*` in `docs/design/` are screenshots of the running review implementation; the older PNG boards remain generated design discussion images.
-
-The optional reading-view proposal uses [VS Code web](https://vscode.dev/), [Embarcadero Dev-C++ and its official screenshot](https://www.embarcadero.com/free-tools/dev-cpp/), and [Geany's screenshot gallery](https://www.geany.org/documentation/screenshots/) as appearance/interaction references inspected on 2026-11-09. The [NOI Linux 2.0 release list](https://www.noi.cn/gynoi/jsgz/2021-07-16/732450.shtml), published 2021-07-16, establishes the named release's bundled editors; it is not a claim about every current exam installation. Current Embarcadero Dev-C++ appearance does not identify an exact Orwell 5.x setup.
+The optional reading views use [VS Code web](https://vscode.dev/), [Embarcadero Dev-C++ and its official screenshot](https://www.embarcadero.com/free-tools/dev-cpp/), and [Geany's screenshot gallery](https://www.geany.org/documentation/screenshots/) as appearance/interaction references inspected on 2026-11-09. The [NOI Linux 2.0 release list](https://www.noi.cn/gynoi/jsgz/2021-07-16/732450.shtml), published 2021-07-16, establishes the named release's bundled editors; it is not a claim about every current exam installation. Current Embarcadero Dev-C++ appearance does not identify an exact Orwell 5.x setup.
 
 The design images are generated review illustrations, not captured third-party application screenshots or shipped editor implementations. They are not a record of actual compiler results, scores or exact UI version emulation. Referenced software branding, code, icons, screenshots and operating-system assets are not automatically covered by the project's Apache license. Any actual imported implementation or asset requires a separately recorded compatible license.
 ## Rights and corrections
