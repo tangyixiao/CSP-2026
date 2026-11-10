@@ -1,5 +1,7 @@
 # CSP browser and reading-view review
 
+> Superseded visual direction: the maintainer approved the neutral root homepage, full NOI navigation and Classic Plus reader in [the corrected design record](root-noi-classic-plus.md) on 2026-11-10. The lavender boards below remain historical discussion evidence.
+
 Status, 2026-11-10: the maintainer has approved the illustrated home and province-browser compositions and authorized implementation. The current revision integrates that visual language across browsing, reading/comparison and sources. All 29 independent regional raster assets are present and validated. Local functional, frontend-build and desktop/mobile checks have passed as recorded below; current CI and deployment remain separate integration outcomes. This document does not claim a published result for this revision. Code::Blocks and a completed nationwide content study remain outside the completed website work.
 
 ## Approved illustrated direction

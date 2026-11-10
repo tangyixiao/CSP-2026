@@ -52,7 +52,7 @@ The eight retained font files were identified from their embedded family names a
 
 ## NOI appearance reference
 
-The [official NOI homepage](https://noi.cn/) was visually inspected on 2026-11-09 for a requested optional site theme: white surfaces, red navigation, dark blue-purple heading/active accents and pale gray sections. This is an appearance reference, not an affiliation or a copied official portal. No official logo, news banner or article image is imported. The NOI site appearance is separate from the NOI Linux editor reading profiles and remains an optional choice in the illustrated redesign.
+The [official NOI homepage](https://noi.cn/) was visually inspected again on 2026-11-10 for the corrected optional site appearance: a separate masthead, full red navigation (`#D22525`), navy active items/headings (`#29255C`), white content panels and pale gray background. The maintainer approved [the corrected root and NOI compositions](docs/design/root-home-noi-approved.png). This is an appearance reference, not an affiliation or a copied official portal. No official logo, news banner or article image is imported. The NOI site appearance is separate from the NOI Linux editor reading profiles and remains optional.
 
 ## Regional illustration provenance
 
@@ -69,6 +69,12 @@ PNG files named `illustrated-*-approved.png` are approved generated composition 
 The optional reading views use [VS Code web](https://vscode.dev/), [Embarcadero Dev-C++ and its official screenshot](https://www.embarcadero.com/free-tools/dev-cpp/), and [Geany's screenshot gallery](https://www.geany.org/documentation/screenshots/) as appearance/interaction references inspected on 2026-11-09. The [NOI Linux 2.0 release list](https://www.noi.cn/gynoi/jsgz/2021-07-16/732450.shtml), published 2021-07-16, establishes the named release's bundled editors; it is not a claim about every current exam installation. Current Embarcadero Dev-C++ appearance does not identify an exact Orwell 5.x setup.
 
 The design images are generated review illustrations, not captured third-party application screenshots or shipped editor implementations. They are not a record of actual compiler results, scores or exact UI version emulation. Referenced software branding, code, icons, screenshots and operating-system assets are not automatically covered by the project's Apache license. Any actual imported implementation or asset requires a separately recorded compatible license.
+## Classic Plus palette and fonts
+
+The maintainer approved [the corrected reader composition](docs/design/devcpp-classic-plus-approved.png) on 2026-11-10. The Dev-C++ reader's Classic Plus colors were checked against official Embarcadero source revision `882c23760e3b66be75b877a8d1e33aee9f52e44f`: [palette definitions in DefaultFiles.rc](https://github.com/Embarcadero/Dev-Cpp/blob/882c23760e3b66be75b877a8d1e33aee9f52e44f/Source/DefaultFiles.rc#L57), [font, gutter and current-line initialization in devCFG.pas](https://github.com/Embarcadero/Dev-Cpp/blob/882c23760e3b66be75b877a8d1e33aee9f52e44f/Source/devCFG.pas#L2490), and [first-run selection in LangFrm.pas](https://github.com/Embarcadero/Dev-Cpp/blob/882c23760e3b66be75b877a8d1e33aee9f52e44f/Source/LangFrm.pas#L159). New Look is a separate [icon-theme name](https://github.com/Embarcadero/Dev-Cpp/blob/882c23760e3b66be75b877a8d1e33aee9f52e44f/Source/ImageTheme.pas#L373).
+
+The project-authored web theme maps the documented colors and token roles; no Dev-C++ implementation or toolbar artwork is bundled. `clHighlight` and `clBtnFace` are Windows system colors, so web values are approximations. A dark adaptation is project-specific. Consolas is selected at the maintainer's request through the CSS/editor font stack, using a locally installed font when available; no Microsoft font file is copied or redistributed. This does not claim that every Dev-C++ version or first-run environment selects the same font.
+
 ## Rights and corrections
 
 The project-code license is [Apache-2.0](LICENSE), with scope in [NOTICE](NOTICE). Third-party archives, contestant files, official material, quoted sources, fonts and marks retain their own rights. Do not infer permission from a checksum, a source URL, or this index.

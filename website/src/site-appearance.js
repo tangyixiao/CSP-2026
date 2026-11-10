@@ -7,12 +7,12 @@ export const APPEARANCES = Object.freeze([
 // Site accents are independent of the light/dark mode and the editor profile.
 export const APPEARANCE_TOKENS = Object.freeze({
   csp: Object.freeze({
-    light: Object.freeze({ accent: '#16776d', navigation: '#143b3a', soft: '#edf6f3' }),
-    dark: Object.freeze({ accent: '#83d9ca', navigation: '#b9e8df', soft: '#162d2b' }),
+    light: Object.freeze({ accent: '#245caa', navigation: '#182d4b', soft: '#edf3fa' }),
+    dark: Object.freeze({ accent: '#9fc3fa', navigation: '#e1e9f5', soft: '#243349' }),
   }),
   noi: Object.freeze({
-    light: Object.freeze({ accent: '#b62d32', navigation: '#342c63', soft: '#faf0f0' }),
-    dark: Object.freeze({ accent: '#ff999e', navigation: '#c9bfff', soft: '#352328' }),
+    light: Object.freeze({ accent: '#d22525', navigation: '#29255c', soft: '#f7eeee', navigationBand: '#d22525', activeNavigation: '#29255c' }),
+    dark: Object.freeze({ accent: '#ff999e', navigation: '#d1ccf5', soft: '#35282d', navigationBand: '#d22525', activeNavigation: '#29255c' }),
   }),
 });
 

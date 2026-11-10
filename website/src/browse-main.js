@@ -6,9 +6,18 @@ import { loadSource, githubUrl } from './source.js';
 import { SOURCE_INDEX_REVISION } from './provenance.js';
 
 const $ = id => document.getElementById(id);
+// The root homepage can hand off one explicit random action. Consume the flag
+// before loading data so reload/back navigation cannot repeat the draw.
+const entryURL = new URL(location.href);
+const entryRandomAction = ['person', 'problem'].includes(entryURL.searchParams.get('random')) ? entryURL.searchParams.get('random') : null;
+if (entryURL.searchParams.has('random')) {
+  entryURL.searchParams.delete('random');
+  history.replaceState(history.state, '', `${entryURL.pathname}${entryURL.search}${entryURL.hash}`);
+}
 const pageSize = 18, cache = new Map(), scrollPositions = new Map();
 const state = { catalog: null, discussions: null, token: 0, cards: [], compare: [], busy: false, previousPerson: null, previousProblem: null };
 let previews = [], previewActive = 0, artworkObserver, searchTimer;
+let navigationVersion = 0;
 const regionObservers = new Set();
 function clearRegionObservers() { for (const observer of regionObservers) observer.disconnect(); regionObservers.clear(); }
 const number = value => Number(value).toLocaleString('zh-CN');
@@ -20,7 +29,7 @@ const sourceIndex = `https://github.com/tangyixiao/CSP-2026/blob/${SOURCE_INDEX_
 function announce(message) { $('notice').textContent = message; $('notice').hidden = false; clearTimeout(announce.timer); announce.timer = setTimeout(() => { $('notice').hidden = true; }, 5000); }
 function params() { const query = new URLSearchParams(location.search); return { view: query.get('view') || 'home', province: Object.hasOwn(REGIONS, query.get('province')) ? query.get('province') : '', group: ['J', 'S', 'all'].includes(query.get('group')) ? query.get('group') : 'S', query: query.get('q') || '', problem: query.get('problem') || '', sort: query.get('sort') || 'id', direction: query.get('direction') === 'desc' ? 'desc' : 'asc' }; }
 function routeURL(next = {}) { const values = { ...params(), ...next }; const url = new URL(location.href); url.search = ''; for (const [key, value] of Object.entries(values)) if (value !== '' && value != null) url.searchParams.set(key === 'query' ? 'q' : key, value); return `${url.pathname}${url.search}`; }
-function navigate(next) { scrollPositions.set(location.href, scrollY); history.pushState({}, '', routeURL(next)); void renderRoute(); }
+function navigate(next) { navigationVersion++; scrollPositions.set(location.href, scrollY); history.pushState({}, '', routeURL(next)); void renderRoute(); }
 function readerURL(file, other) { const query = new URLSearchParams({ left: file.path, mode: other ? 'split' : 'view', focus: '1' }); if (other) query.set('right', other.path); return `./?${query}`; }
 async function json(url) { const response = await fetch(url); if (!response.ok) throw new Error(`目录读取失败（${response.status}）`); return response.json(); }
 async function groupFiles(group) {
@@ -231,6 +240,7 @@ async function renderRoute() {
   closeNavigation();
   document.querySelector('.appearance-menu').open = false;
   $('regions-dialog').close();
+  if (!state.catalog) { $('content').replaceChildren(node('div', 'loading', '正在打开归档…')); return; }
   state.token++; previews = []; artworkObserver?.disconnect();
   clearTimeout(searchTimer); clearRegionObservers();
   artworkObserver = new IntersectionObserver(entries => { for (const entry of entries) if (entry.isIntersecting) { artworkObserver.unobserve(entry.target); entry.target.loadPreview?.(); } }, { rootMargin: '80px' });
@@ -247,17 +257,21 @@ applyColorMode($('color-mode').value); $('color-mode').addEventListener('change'
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if ($('color-mode').value === 'system') applyColorMode('system'); });
 $('close-regions').addEventListener('click', () => $('regions-dialog').close());
 const navToggle = document.querySelector('.nav-toggle'), mainNav = $('main-nav');
+document.querySelector('.wordmark').href = '../';
+mainNav.querySelector('[data-view="home"]').href = '../';
 function closeNavigation() { mainNav.classList.remove('is-open'); navToggle.setAttribute('aria-expanded', 'false'); navToggle.setAttribute('aria-label', '打开导航菜单'); }
 navToggle.addEventListener('click', () => { const open = !mainNav.classList.contains('is-open'); mainNav.classList.toggle('is-open', open); navToggle.setAttribute('aria-expanded', String(open)); navToggle.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单'); });
 mainNav.addEventListener('click', event => { if (event.target.closest('a')) closeNavigation(); });
 document.addEventListener('keydown', event => { if (event.key === 'Escape') closeNavigation(); });
 if (import.meta.env.DEV) document.querySelector('a[href="../preview/downloads.html"]').href = 'https://tangyixiao.github.io/CSP-2026/preview/downloads.html';
-document.addEventListener('click', event => { const target = event.target.closest('a'); if (!target || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; const url = new URL(target.href, location.href); if (url.origin === location.origin && url.pathname === location.pathname && url.search) { event.preventDefault(); $('regions-dialog').close(); scrollPositions.set(location.href, scrollY); history.pushState({}, '', url); void renderRoute(); } });
-window.addEventListener('popstate', () => void renderRoute());
+document.addEventListener('click', event => { const target = event.target.closest('a'); if (!target || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; const url = new URL(target.href, location.href); if (url.origin === location.origin && url.pathname === location.pathname && url.search) { event.preventDefault(); navigationVersion++; $('regions-dialog').close(); scrollPositions.set(location.href, scrollY); history.pushState({}, '', url); void renderRoute(); } });
+window.addEventListener('popstate', () => { navigationVersion++; void renderRoute(); });
 try {
   state.catalog = await json('./catalog/index.json');
   if (!state.catalog.groups?.length || !/^[a-f0-9]{40}$/.test(state.catalog.revision)) throw new Error('归档目录格式无效');
   $('revision').textContent = `归档 ${state.catalog.revision.slice(0, 8)} · ${regionCodes().length} 地区`;
   state.discussions = await json('./discussion-metadata.json').catch(() => null);
   await renderRoute();
+  if (navigationVersion === 0 && entryRandomAction === 'person') await randomPerson();
+  else if (navigationVersion === 0 && entryRandomAction === 'problem') await randomProblem();
 } catch (error) { $('content').replaceChildren(node('h1', '', '归档暂未打开'), node('p', 'empty error', error.message), button('重新读取', () => location.reload(), 'quiet-action')); }
