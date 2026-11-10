@@ -2,7 +2,7 @@ import { githubUrl, REPOSITORY } from './source.js';
 
 // Attribution was added after the archived catalog revision. Pin the index to a
 // revision containing it, rather than inventing a SOURCES.md in the older tree.
-export const SOURCE_INDEX_REVISION = '84f07b557bbd9e4928ba33ddcd6ae854e5b01faa';
+export const SOURCE_INDEX_REVISION = 'bcd5cc7b8f668a8b5fd80497909d214430f27b74';
 const LICENSE_SCOPE = '归档中的选手文件及第三方材料保留各自权利；网站代码的 Apache-2.0 许可不授予这些文件的再分发权。';
 const RECORDS = Object.freeze({
   ZJ: {
