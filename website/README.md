@@ -1,6 +1,23 @@
 # CSP 2026 code browser
 
-The existing CSP 2026 landing page and documentation stay at the site root. The code browser is published at [`/CSP-2026/code/`](https://tangyixiao.github.io/CSP-2026/code/), with Monaco syntax highlighting and a side-by-side diff editor. Source snapshots are served from the same website, so a first visit does not depend on a connection to `raw.githubusercontent.com`. Public source materials are linked from the browser so readers can check the original observations and files.
+The existing CSP 2026 landing page and documentation stay at the site root. The national browsing entry is [`/CSP-2026/code/browse.html`](https://tangyixiao.github.io/CSP-2026/code/browse.html); the dedicated reader and comparison workbench is [`/CSP-2026/code/`](https://tangyixiao.github.io/CSP-2026/code/), with Monaco syntax highlighting and a side-by-side diff editor. Source snapshots are served from the same website, so a first visit does not depend on a connection to `raw.githubusercontent.com`. Public source materials are linked from the browser so readers can check the original observations and files.
+
+## Illustrated presentation
+
+The 2026-11-10 revision follows the maintainer-approved [national home](../docs/design/illustrated-home-approved.png) and [province browser](../docs/design/illustrated-browse-approved.png) boards. The browser, dedicated reader and source views share pale surfaces, restrained regional imagery and readable Chinese hierarchy. The formal homepage remains separate. These boards prescribe composition and atmosphere; actual filenames, code and metadata come from the archive, not generated lettering.
+
+`src/assets/regions/` contains 29 separate AI-generated regional illustrations, each optimized to a 1280 × 427 WebP. Together they use 1,791,746 bytes (1.71 MiB). [The public asset manifest](src/assets/regions/manifest.json) records the generator, common prompt and each region's subject. `src/regions.js` uses explicit region-to-image URLs so Vite includes the assets; unsupported codes return no image rather than another region's landmark.
+
+To optimize native originals without copying a second PNG set into the product, provide a local JSON file with `entries: [{ code, path }]`, where each `path` is the absolute native image location, and run:
+
+```sh
+node website/scripts/optimize-region-art.mjs --manifest work/illustrated-redesign/image-inputs.json
+node --test website/tests/regions.test.mjs
+```
+
+The encoder defaults to the cross-platform `ffmpeg` command, or a compatible existing executable selected with `FFMPEG_PATH`. It processes images sequentially, validates existing outputs before skipping, and tries WebP quality 82/74/66 against a 240 KiB individual budget. The 29-image total budget is 5 MiB. Current files all meet the budget at quality 82. The local input manifest may contain machine paths and must remain in `work/`; the public source manifest must not contain those paths. Native originals remain in their original tool output location.
+
+The full region asset check has passed for all 29 actual files, including container/raster parsing, dimensions, distinct hashes and budgets; the bundled image codec also decoded all files while creating an internal QA contact sheet. The integrated revision passed 62/62 local Node tests and the Vite frontend build, retaining the existing Monaco size warning. Desktop validation used 1280 pixels and mobile validation 390 pixels; the mobile page had no horizontal overflow, and all regional image mappings and the menu were checked. Current CI, complete source packaging and deployment still require their separate verification records.
 
 ## Development
 

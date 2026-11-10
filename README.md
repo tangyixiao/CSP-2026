@@ -2,9 +2,9 @@
 
 Contestant files from the second round of CSP-J/S 2026, preserved by region, group, contestant and problem. Read the original files in your browser, compare two versions, follow attributed discussion materials, or download only the part you need.
 
-[Read and compare code](https://tangyixiao.github.io/CSP-2026/code/) · [Project website preview](https://tangyixiao.github.io/CSP-2026/preview/) · [Downloads](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) · [Sources and attribution](SOURCES.md) · [Contribute](CONTRIBUTING.md)
+[Browse the national archive](https://tangyixiao.github.io/CSP-2026/code/browse.html) · [Read and compare code](https://tangyixiao.github.io/CSP-2026/code/) · [Project website preview](https://tangyixiao.github.io/CSP-2026/preview/) · [Downloads](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) · [Sources and attribution](SOURCES.md) · [Contribute](CONTRIBUTING.md)
 
-![The code workbench displaying archived submissions](website/project-site/workbench.png)
+![The illustrated national archive home running with actual catalog data](docs/design/runtime-illustrated-home-desktop.png)
 
 ## What you can use today
 
@@ -113,15 +113,17 @@ A full source-pack build needs the indexed blobs. Use CI or an already complete 
 
 A [DSH research brief](outputs/csp2026-national-review/dsh-handoff.zh-CN.md) assigns nationwide source reading, distinctive-material discovery, evidence review and statistics to DSH/DeepSeek. Codex coordinates the work and implements the website and supporting tools. The optional NOI website reference theme is separate from the NOI Linux editor reading views and is not the default.
 
-The review branch now implements `website/browse.html`: a national home, regional contestant tiles, incremental region sections, a discovery page with traceable reading examples, and a source/rights page. Each of the 29 regions has a separate original line illustration. Tiles open the dedicated reader; filenames and comparison actions expand on demand rather than filling every tile.
+Start at [`/code/browse.html`](https://tangyixiao.github.io/CSP-2026/code/browse.html) for the national home, regional contestant tiles, incremental region sections, traceable discovery examples and source/rights views; [`/code/`](https://tangyixiao.github.io/CSP-2026/code/) is the dedicated reader and comparison workbench. The original formal homepage at the site root remains separate. Tiles open the reader; filenames and comparison actions expand on demand rather than filling every tile.
 
-![Running national browser, captured during desktop verification](docs/design/runtime-home-desktop.jpg)
+The maintainer approved the [illustrated national home](docs/design/illustrated-home-approved.png) and [province browser](docs/design/illustrated-browse-approved.png) compositions on 2026-11-10. Browsing, reading and source views share the resulting pale, spacious visual language. Each of the 29 regions has its own separately AI-generated panoramic illustration, with regional subjects rather than a recolored Shanghai landmark. The actual optimized WebP assets total **1,791,746 bytes (1.71 MiB)** at **1280 × 427** each. Their [asset manifest](website/src/assets/regions/manifest.json) records the generator, shared prompt, individual subject and file mapping. Approved boards are design references, not runtime screenshots.
 
 Sorting covers natural contestant ID, aggregate stored bytes, file count, linked discussion threads and latest linked discussion. It applies to the complete filtered region, rather than the visible page. Unknown sizes remain unknown and sort last; complete CI source builds reuse observed blob sizes to populate the catalog. Discussion snapshots identify their time and mapping scope, count a thread once per directory, and preserve unmapped pairs. The API returned **zero discussions** during verification on 2026-11-09; the 39 attributed comparison records are separate material.
 
 Random person samples directory identities uniformly, while random problem deduplicates problem choices. The reader can collapse its file panel, wrap code, and use manually chosen Dev-C++ or Geany reference views. CSP remains the initial reading view. NOI is an independent optional site theme; it does not select a Linux editor or provide an IDE/compiler runtime. Appearance switches retain the source model and reading state.
 
-**These changes are implemented for review, not yet merged or deployed.** The existing public URLs above remain the deployed experience. See the [design and verification scope](docs/design/province-browser-review.md) and [local preview instructions](website/README.md). The discovery examples are inspected entry points, not a completed nationwide selection or content study; DSH/DeepSeek owns that research work.
+Local validation of this revision passed 62/62 Node tests and the Vite frontend build, with the existing Monaco bundle-size warning retained. Desktop checks used a 1280-pixel viewport, including three browser columns and the spacious reader; mobile checks used 390 pixels with no horizontal page overflow. All 29 image mappings and the menu were checked.
+
+**The 2026-11-10 illustrated revision is ready for CI and review deployment verification.** These local results do not certify the final CI run, complete source packaging or published result. See the [design and verification scope](docs/design/province-browser-review.md) and [local preview instructions](website/README.md). The discovery examples are inspected entry points, not a completed nationwide selection or content study; DSH/DeepSeek owns that research work.
 
 ## License and attribution
 
