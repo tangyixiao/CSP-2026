@@ -2,6 +2,7 @@ import { cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, rm
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { writeProjectPreview } from '../project-site/render.mjs';
+import { renderRootHome, ROOT_FEATURED_REGIONS } from './root-home.mjs';
 
 const websiteRoot = path.resolve(fileURLToPath(new URL('../', import.meta.url)));
 const landingRoot = path.join(websiteRoot, 'landing');
@@ -59,9 +60,11 @@ if (sourcePacks.revision !== catalog.revision || sourcePacks.schemaVersion !== 1
   throw new Error('A complete same-origin source snapshot for the catalog revision is required; partial builds cannot be packaged');
 }
 const catalogBlobs = new Set();
+const catalogShards = {};
 for (const group of catalog.groups) {
   if (!/^catalog\/[A-Z]{2}-[JS]\.json$/.test(group.url)) throw new Error('Invalid catalog shard path');
   const shard = JSON.parse(readFileSync(path.join(browserRoot, group.url), 'utf8'));
+  catalogShards[group.key || `${group.province}-${group.group}`] = shard;
   for (const file of [...shard.files, ...(shard.extraFiles ?? [])]) {
     if (!/^[a-f0-9]{40}$/i.test(file.blob)) throw new Error('Invalid catalog source blob ID');
     catalogBlobs.add(file.blob);
@@ -82,18 +85,13 @@ for (const group of catalog.groups) {
 }
 const sortedProvinces = [...provinces].sort(([left], [right]) => left.localeCompare(right));
 const sourceBase = `https://github.com/${catalog.repository}/tree/${catalog.revision}`;
-const directories = sortedProvinces.map(([province, groups]) =>
-  `<li><a href="${sourceBase}/${province}"><strong>${province}</strong><span class="file-type">${[...groups].sort().join(' / ')}</span><span aria-hidden="true">↗</span></a></li>`
-).join('');
 const tableRows = sortedProvinces.map(([province, groups]) =>
   `<tr><td>${province}</td>${['J', 'S'].map(group => groups.has(group)
     ? `<td><a href="${sourceBase}/${province}/${group}">${province}/${group}</a></td>`
     : '<td>—</td>').join('')}</tr>`
 ).join('\n');
 
-let landingHtml = readFileSync(path.join(landingRoot, 'index.html'), 'utf8');
-landingHtml = replaceRequired(landingHtml, /<ul class="directory-list" data-current-provinces>[\s\S]*?<\/ul>/,
-  `<ul class="directory-list" data-current-provinces>${directories}</ul>`, 'province directory list');
+let landingHtml = renderRootHome(readFileSync(path.join(landingRoot, 'index.html'), 'utf8'), catalog, { shards: catalogShards });
 let documentationHtml = readFileSync(path.join(landingRoot, 'docs.html'), 'utf8');
 documentationHtml = replaceRequired(documentationHtml, /<tbody data-current-province-table>[\s\S]*?<\/tbody>/,
   `<tbody data-current-province-table>${tableRows}</tbody>`, 'province documentation table');
@@ -102,10 +100,24 @@ function pinRevision(html) {
     .replaceAll('__CATALOG_SHORT_REVISION__', escapeHtml(catalog.revision.slice(0, 12)));
 }
 
-// Sources and catalog are validated before the old generated output is replaced.
+// Check the five root-home resources before replacing any previous output.
+const rootIllustrations = ROOT_FEATURED_REGIONS.map(code => {
+  const source = path.join(websiteRoot, 'src', 'assets', 'regions', `${code}.webp`);
+  const metadata = lstatSync(source);
+  if (!metadata.isFile() || metadata.isSymbolicLink()) throw new Error('A root-home illustration must be a regular file');
+  const bytes = readFileSync(source);
+  if (bytes.length < 20 || bytes.toString('ascii', 0, 4) !== 'RIFF' || bytes.toString('ascii', 8, 12) !== 'WEBP' || bytes.readUInt32LE(4) + 8 !== bytes.length) throw new Error(`Invalid root-home WebP: ${code}`);
+  return { code, source };
+});
+// Sources, catalog and root assets are validated before old output is replaced.
 rmSync(outputRoot, { recursive: true, force: true });
 mkdirSync(outputRoot, { recursive: true });
 cpSync(landingRoot, outputRoot, { recursive: true });
+const rootArtDirectory = path.join(outputRoot, 'assets', 'regions');
+mkdirSync(rootArtDirectory, { recursive: true });
+for (const { code, source } of rootIllustrations) {
+  cpSync(source, path.join(rootArtDirectory, `${code}.webp`));
+}
 cpSync(browserRoot, path.join(outputRoot, 'code'), { recursive: true });
 cpSync(path.join(websiteRoot,'..','project.json'),path.join(outputRoot,'project.json'));
 const projectCases = JSON.parse(readFileSync(path.join(websiteRoot,'src','cases.json'),'utf8'));
@@ -123,7 +135,8 @@ writeFileSync(path.join(outputRoot, 'source-receipt.json'), JSON.stringify({
   totalContestants: catalog.totalContestants,
   provinceCount: sortedProvinces.length,
   groupCount: catalog.groups.length,
-  legacyLanding: { branch: 'project-pages', revision: landingRevision },
+  legacyLanding: { branch: 'project-pages', revision: landingRevision, retainedFor: 'documentation and historical asset provenance' },
+  currentHomepage: { template: 'landing/index.html', style: 'approved NOI and CSP recalibration', catalogRevision: catalog.revision, featuredRegions: ROOT_FEATURED_REGIONS },
   sourceSnapshots: {
     revision: sourcePacks.revision,
     expectedBlobs: sourcePacks.expected,
@@ -133,7 +146,7 @@ writeFileSync(path.join(outputRoot, 'source-receipt.json'), JSON.stringify({
     complete: sourcePacks.complete,
     limit: sourcePacks.limit,
   },
-  paths: { landing: '/', documentation: 'docs.html', codeBrowser: 'code/', projectPreview: 'preview/' },
+  paths: { landing: '/', documentation: 'docs.html', nationalBrowser: 'code/browse.html', codeBrowser: 'code/', projectPreview: 'preview/' },
 }, null, 2) + '\n');
 
 console.log(`Packaged ${sortedProvinces.length} provinces and ${catalog.groups.length} groups at ${catalog.revision}`);

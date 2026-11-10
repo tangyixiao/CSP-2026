@@ -28,7 +28,7 @@ const state = {
   catalog: null, files: [], page: 0, directorySequence: 0, caseSequence: 0,
   activeCase: null, ambiguity: [], directoryError: null, directoryReady: false, loadedDirectory: null,
   downloadMode: savedDownloadMode(),
-  theme: ['light', 'dark'].includes(initialQuery.get('theme')) ? initialQuery.get('theme') : getSavedTheme(),
+  theme: ['light', 'dark'].includes(initialQuery.get('theme')) ? initialQuery.get('theme') : initialQuery.get('profile') === 'devcpp' ? 'light' : getSavedTheme(),
   mode: mobile.matches ? 'inline' : validMode(initialQuery.get('mode')),
   ignoreWhitespace: true, editor: null, diffCount: null, diffIncomplete: false, commentsOpen: true,
   left: emptySlot(), right: emptySlot(),
@@ -71,6 +71,7 @@ function setTheme(theme, { preserveProjectChoice = false } = {}) {
     if(!preserveProjectChoice)localStorage.setItem('csp-project-theme',theme);
   } catch { /* The current theme still works without storage. */ }
   state.editor?.setTheme(theme === 'dark' ? 'vs-dark' : 'vs');
+  updateReadingProfileLabel();
   if (state.commentsOpen) renderDiscussion();
   updateLocation();
 }
@@ -102,8 +103,20 @@ function switchPanel(panel) {
   }
 }
 
+function updateReaderNavigation(url = new URL(window.location.href)) {
+  const comparing = Boolean(state.left.file && state.right.file && state.mode !== 'view');
+  for (const anchor of document.querySelectorAll('a[data-reader-nav]')) {
+    const comparisonLink = anchor.dataset.readerNav === 'compare';
+    const destination = new URL(url);
+    destination.searchParams.set('mode', comparisonLink ? state.mode === 'inline' ? 'inline' : 'split' : 'view');
+    anchor.href = `${destination.pathname}${destination.search}${destination.hash}`;
+    if (comparing === comparisonLink) anchor.setAttribute('aria-current', 'page');
+    else anchor.removeAttribute('aria-current');
+  }
+}
+
 function updateLocation() {
-  if (!state.catalog) return;
+  if (!state.catalog) { updateReaderNavigation(); return; }
   const url = new URL(window.location.href);
   for (const side of ['left', 'right']) { const path = state[side].file?.path; if (path) url.searchParams.set(side, path); else url.searchParams.delete(side); }
   if (state.activeCase) url.searchParams.set('case', state.activeCase.id); else url.searchParams.delete('case');
@@ -121,6 +134,7 @@ function updateLocation() {
     url.searchParams.set('page', String(state.page));
   }
   window.history.replaceState(window.history.state, '', url);
+  updateReaderNavigation(url);
 }
 
 async function fetchJSON(url) {
@@ -146,8 +160,8 @@ async function groupFiles(group, { includeExtras = false } = {}) {
 
 let downloadBusy = false;
 function initializeDownloads() {
-  const downloadsLink=el('a','','下载');downloadsLink.href=import.meta.env.DEV?'https://tangyixiao.github.io/CSP-2026/preview/downloads.html':'../preview/downloads.html';
-  document.querySelector('.app-header .main-nav').append(downloadsLink);
+  const downloadsLink = document.querySelector('.nav-downloads');
+  downloadsLink.href = import.meta.env.DEV ? 'https://tangyixiao.github.io/CSP-2026/preview/downloads.html' : '../preview/downloads.html';
   const modeLabel = el('label','download-mode-label');
   const select = document.createElement('select');
   select.setAttribute('aria-label','下载模式');
@@ -468,6 +482,7 @@ function renderComparisonStatus() {
 }
 
 function renderSources() {
+  updateReaderNavigation();
   document.querySelector('.workbench-heading h1').textContent = state.mode === 'view' || !state.left.file || !state.right.file ? '代码阅读' : '代码比对';
   document.body.dataset.viewSide = state.left.file ? 'left' : 'right';
   document.body.classList.toggle('single-file', Boolean(state.left.file) !== Boolean(state.right.file));
@@ -629,26 +644,56 @@ $('share-button').addEventListener('click', async () => { updateLocation(); try 
 mobile.addEventListener('change', () => { setMode(mobile.matches && state.mode === 'split' ? 'inline' : state.mode); });
 window.addEventListener('beforeunload', () => { state.left.controller?.abort(); state.right.controller?.abort(); state.editor?.dispose(); });
 
+function updateReadingProfileLabel() {
+  const note = $('reading-profile-note');
+  if (!note) return;
+  note.hidden = state.readingProfile !== 'devcpp';
+  note.textContent = state.theme === 'dark' ? 'Consolas · 深色适配，非官方预设' : 'Consolas · Classic Plus';
+}
+
 function initializeReadingControls() {
   const nav = document.querySelector('.main-nav');
-  const browse = el('a', '', '浏览'); browse.href = './browse.html?view=browse'; nav.prepend(browse);
-  const home = nav.querySelector('.nav-home'); if (home) home.href = './browse.html';
-  const docs = nav.querySelector('a[href="../docs.html"]'); if (docs) { docs.href = './browse.html?view=sources'; docs.textContent = '来源'; }
+  const navToggle = $('reader-nav-toggle');
+  const closeNavigation = (restoreFocus = false) => {
+    nav.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', '打开导航菜单');
+    if (restoreFocus) navToggle.focus();
+  };
+  navToggle.addEventListener('click', () => {
+    const open = !nav.classList.contains('is-open');
+    nav.classList.toggle('is-open', open);
+    navToggle.setAttribute('aria-expanded', String(open));
+    navToggle.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
+  });
+  nav.addEventListener('click', event => { const anchor = event.target.closest('a'); if (anchor) closeNavigation(Boolean(anchor.dataset.readerNav)); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && nav.classList.contains('is-open')) closeNavigation(true); });
+  mobile.addEventListener('change', () => closeNavigation());
+  document.querySelector('.brand').href = '../';
+  for (const anchor of nav.querySelectorAll('a[data-reader-nav]')) anchor.addEventListener('click', event => {
+    if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    setMode(anchor.dataset.readerNav === 'view' ? 'view' : state.mode === 'inline' ? 'inline' : 'split', { announce: true });
+  });
   const toolbar = document.querySelector('.editor-toolbar');
   const controls = el('div', 'reader-options');
-  const profileLabel = el('label', '', '阅读视图');
+  const profileLabel = el('label', 'profile-control', '阅读视图');
   const profile = el('select'); profile.id = 'reading-profile'; profile.setAttribute('aria-label', '阅读视图');
-  profile.append(new Option('CSP 默认', 'csp'), new Option('Dev-C++ · Windows 参考', 'devcpp'), new Option('Geany · NOI Linux 参考', 'geany'));
+  profile.append(new Option('CSP 默认', 'csp'), new Option('Dev-C++ · Classic Plus', 'devcpp'), new Option('Geany · NOI Linux 参考', 'geany'));
   profile.value = state.readingProfile;
   profile.addEventListener('change', () => {
     state.readingProfile = normalizeReadingProfile(profile.value);
+    // Choosing the requested IDE preset starts with its white Classic Plus
+    // palette. Subsequent light/dark changes stay independent and shareable.
+    if (state.readingProfile === 'devcpp') setTheme('light', { preserveProjectChoice: true });
     state.editor?.setReadingProfile(state.readingProfile);
     document.documentElement.dataset.readingProfile = state.readingProfile;
     try { localStorage.setItem('csp-reading-profile', state.readingProfile); } catch { /* Current view works without storage. */ }
+    updateReadingProfileLabel();
     updateLocation();
   });
   profileLabel.append(profile);
-  const appearanceLabel = el('label', '', '站点');
+  const appearanceLabel = el('label', 'appearance-control', '站点');
   const appearance = el('select'); appearance.id = 'site-appearance'; appearance.setAttribute('aria-label', '站点主题');
   appearance.append(new Option('CSP', 'csp'), new Option('NOI 参考', 'noi'));
   appearance.value = applyAppearance(getSavedAppearance());
@@ -659,7 +704,8 @@ function initializeReadingControls() {
   if (initialQuery.get('focus') === '1') setFocus(true);
   const wrap = el('button', '', '自动换行'); wrap.type = 'button'; wrap.id = 'reader-wrap'; wrap.setAttribute('aria-pressed', 'false');
   wrap.addEventListener('click', () => { const enabled = wrap.getAttribute('aria-pressed') !== 'true'; wrap.setAttribute('aria-pressed', String(enabled)); state.editor?.setWordWrap?.(enabled); });
-  controls.append(profileLabel, appearanceLabel, focus, wrap); toolbar.append(controls);
+  const profileNote = el('span', 'reading-profile-note'); profileNote.id = 'reading-profile-note'; profileNote.setAttribute('role', 'status');
+  controls.append(profileLabel, appearanceLabel, focus, wrap, profileNote); toolbar.append(controls);
   const actions = el('div', 'random-actions');
   for (const [kind, label] of [['person', '随机跳人'], ['problem', '随机跳题']]) {
     const control = el('button', '', label); control.type = 'button'; control.id = `random-${kind}`;
@@ -667,6 +713,7 @@ function initializeReadingControls() {
   }
   document.querySelector('.workbench-heading').append(actions);
   document.documentElement.dataset.readingProfile = state.readingProfile;
+  updateReadingProfileLabel();
 }
 
 async function randomJump(kind, control) {

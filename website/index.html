@@ -11,8 +11,9 @@
     <a class="skip-link" href="#code-area">跳到代码</a>
     <div id="app">
       <header class="app-header">
-        <a class="brand" href="./browse.html" aria-label="CSP 2026 全国归档首页"><span class="brand-mark" data-icon="code" aria-hidden="true"></span><strong>CSP 2026</strong></a>
-        <nav class="main-nav" aria-label="主导航"><a class="nav-home" href="../">首页</a><a href="../docs.html">文档</a><a href="https://github.com/tangyixiao/CSP-2026/discussions" target="_blank" rel="noreferrer">讨论区</a><a href="https://github.com/tangyixiao/CSP-2026" target="_blank" rel="noreferrer">GitHub</a></nav>
+        <button id="reader-nav-toggle" class="btn icon-button reader-nav-toggle" type="button" aria-label="打开导航菜单" aria-controls="reader-main-nav" aria-expanded="false">☰</button>
+        <a class="brand" href="../" aria-label="CSP 2026 全国归档首页"><span class="brand-mark" data-icon="code" aria-hidden="true"></span><strong>CSP 2026</strong></a>
+        <nav id="reader-main-nav" class="main-nav" aria-label="主导航"><a class="nav-home" href="../">首页</a><a class="nav-browse" href="./browse.html?view=browse">浏览</a><a href="./browse.html?view=discover">发现</a><a href="?mode=view" data-reader-nav="view" aria-current="page">阅读</a><a href="?mode=split" data-reader-nav="compare">比较</a><a href="./browse.html?view=sources">来源</a><a class="nav-downloads" href="../preview/downloads.html">下载</a></nav>
         <button id="theme-toggle" class="btn icon-button theme-toggle" type="button" aria-label="切换为浅色主题" title="切换主题" data-icon="sun"></button>
       </header>
       <div class="workspace">
@@ -35,7 +36,7 @@
           </section>
         </aside>
         <main class="main-content">
-          <section class="workbench-heading" aria-labelledby="page-title"><h1 id="page-title">代码比对</h1><div class="page-actions"><button id="open-discussion" class="btn secondary-button" type="button"><span data-icon="discussion" aria-hidden="true"></span>评论</button><button id="share-button" class="btn secondary-button" type="button" aria-label="复制分享链接"><span data-icon="link" aria-hidden="true"></span>分享</button></div></section>
+          <section class="workbench-heading" aria-labelledby="page-title"><h1 id="page-title">代码比对</h1><div class="page-actions"><button id="open-discussion" class="btn secondary-button" type="button" aria-label="打开评论" title="评论"><span data-icon="discussion" aria-hidden="true"></span><span class="action-label">评论</span></button><button id="share-button" class="btn secondary-button" type="button" aria-label="复制分享链接" title="复制分享链接"><span data-icon="link" aria-hidden="true"></span><span class="action-label">分享</span></button></div></section>
           <section id="case-context" class="case-context" aria-labelledby="case-context-title" hidden>
             <div class="context-summary"><h2 id="case-context-title"></h2><a id="case-source" target="_blank" rel="noreferrer">原帖</a></div>
             <details class="case-details"><summary>来源与说明</summary><p id="case-claim"></p><p id="case-note" class="context-note"></p><p id="case-provenance" class="context-provenance"></p></details>
