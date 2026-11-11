@@ -104,6 +104,17 @@ function switchPanel(panel) {
 }
 
 function updateReaderNavigation(url = new URL(window.location.href)) {
+  const folderReturn = url.searchParams.get('returnTo');
+  if (folderReturn) {
+    try {
+      const destination = new URL(folderReturn, window.location.href);
+      if (destination.origin === location.origin && destination.pathname === new URL('./browse.html', location.href).pathname && destination.searchParams.get('view') === 'contestant' && !destination.username && !destination.password) {
+        const browseLink = document.querySelector('.nav-browse');
+        browseLink.href = `${destination.pathname}${destination.search}`;
+        browseLink.textContent = '选手目录';
+      }
+    } catch { /* Invalid return links keep the regular archive navigation. */ }
+  }
   const comparing = Boolean(state.left.file && state.right.file && state.mode !== 'view');
   for (const anchor of document.querySelectorAll('a[data-reader-nav]')) {
     const comparisonLink = anchor.dataset.readerNav === 'compare';
