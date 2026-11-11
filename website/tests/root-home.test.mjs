@@ -11,10 +11,18 @@ const catalog = { revision, groups, totalFiles: groups.reduce((sum, group) => su
 const template = await readFile(new URL('../landing/index.html', import.meta.url), 'utf8');
 const examplePath = 'ZJ/S/ZJ-S00007/mycode/pre_hub.cpp';
 
-test('actual root HTML contains dynamic coverage, five approved covers and every region with real group links', () => {
+test('root home gives every region an illustrated card while retaining the five featured covers first', () => {
   const html = renderRootHome(template, catalog, { shards: { 'ZJ-S': { files: [{ path: examplePath }] } } });
-  assert.equal((html.match(/<article class="region"/g) || []).length, 5);
-  assert.deepEqual([...html.matchAll(/<article class="region" data-code="([A-Z]{2})"/g)].map(match => match[1]), ROOT_FEATURED_REGIONS);
+  const cards = [...html.matchAll(/<article class="region" data-code="([A-Z]{2})">([\s\S]*?)<\/article>/g)];
+  assert.equal(cards.length, 29);
+  assert.deepEqual(cards.slice(0, 5).map(match => match[1]), ROOT_FEATURED_REGIONS);
+  assert.equal(new Set(cards.map(match => match[1])).size, 29);
+  for (const [, code, card] of cards) {
+    assert.ok(card.includes(`src="assets/regions/${code}.webp"`), `${code} has its own illustration`);
+    for (const group of ['J', 'S']) assert.ok(card.includes(`province=${code}&amp;group=${group}`));
+  }
+  const expanded = html.match(/<details class="directory" id="all-regions">([\s\S]*?)<\/details>/)?.[1];
+  assert.equal((expanded.match(/<article class="region"/g) || []).length, 24);
   assert.match(html, /29 个地区 · 58 个组别/);
   assert.ok(html.includes(`${catalog.totalFiles.toLocaleString('en-US')} 个文件条目`));
   for (const code of Object.keys(REGIONS)) {

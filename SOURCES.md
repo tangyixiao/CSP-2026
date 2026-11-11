@@ -19,6 +19,25 @@ This index separates where material came from, what has been checked and which r
 
 This index does not reproduce extraction passwords. Existing historical source responses need a separate credential/content hygiene review before their content is copied into a new public interface.
 
+## First- and second-round paper PDFs
+
+The [paper library](papers/README.md) records the four preserved source PDFs and
+links first-round OCR, community reference answers and discussion. Its
+[machine-readable manifest](papers/sources.json) records the exact source URLs,
+retrieval times, byte sizes, PDF page counts and SHA-256 values;
+[SHA256SUMS](papers/SHA256SUMS) verifies the archived copies.
+
+| Material | Public source | Edition and verification boundary |
+| --- | --- | --- |
+| Round 1 Junior, 9 pages | [Very2 source page](https://very2.cn/?id=88) | Third-party public paper copy; downloaded PDF bytes are preserved, but official distribution has not been independently authenticated |
+| Round 1 Senior, 14 pages | [AKCode paper](https://www.cspfirstround.com/papers/csp-s-2026/round-1) | Community typeset paper with reference answers, not an authenticated original exam PDF |
+| Round 2 Junior, 12 pages | [Gym 106813 public mirror](https://cf.m27.workers.dev/gym/106813) | Chinese Gym reading edition; its own cover identifies re-typesetting and adaptation to standard input/output |
+| Round 2 Senior, 12 pages | [Gym 106814 public mirror](https://cf.m27.workers.dev/gym/106814) | Same reading-edition boundary; it is distinct from the original contest's file I/O requirements |
+
+PDF metadata, page inspection and checksums establish the recorded copies, not
+official authenticity. Problem copyrights and third-party typesetting remain with
+their respective owners and are excluded from the project's Apache-2.0 grant.
+
 ## Attributed Luogu comparison materials
 
 The machine-readable records are in [website/src/cases.json](website/src/cases.json). Authors' claims, independent byte identity and the viewer's text diff are different observations.

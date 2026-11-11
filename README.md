@@ -1,132 +1,148 @@
 # CSP-2026
 
-Contestant files from the second round of CSP-J/S 2026, preserved by region, group, contestant and problem. Read the original files in your browser, compare two versions, follow attributed discussion materials, or download only the part you need.
+简体中文 · [English](README.en.md)
 
-[Browse the national archive](https://tangyixiao.github.io/CSP-2026/) · [Read and compare code](https://tangyixiao.github.io/CSP-2026/code/) · [Project website preview](https://tangyixiao.github.io/CSP-2026/preview/) · [Downloads](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) · [Sources and attribution](SOURCES.md) · [Contribute](CONTRIBUTING.md)
+归档 CSP-J/S 2026 第一轮试卷与参考资料、第二轮题面和选手文件，供赛后阅读、对比与学习。选手文件按地区、组别、选手编号和题目整理，可在线查看或按需下载。
 
-![The national archive root homepage running with actual catalog data](docs/design/runtime-root-home-csp-desktop.png)
+[试题 PDF](https://tangyixiao.github.io/CSP-2026/papers/) · [在线浏览](https://tangyixiao.github.io/CSP-2026/) · [代码阅读与对比](https://tangyixiao.github.io/CSP-2026/code/) · [分地区下载](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) · [资料来源](SOURCES.md) · [参与贡献](CONTRIBUTING.md)
 
-## What you can use today
+![CSP-2026 全国归档首页的实际运行画面](docs/design/runtime-root-home-csp-desktop.png)
 
-The code workbench searches region/group catalogs by contestant ID, problem or filename. It provides syntax highlighting, single-file reading, side-by-side and inline comparisons, changed-line navigation, and shareable selections. The displayed files come from a pinned same-origin byte snapshot; an original-file link remains available for independent inspection.
+## 第一轮与第二轮试题
 
-The project preview has four pages in Chinese and English, light/dark/system themes, and mobile layouts. Its download controls support GitHub direct links and an explicitly identified third-party acceleration service. The root homepage provides the national archive entry; the bilingual project pages remain available under `/preview/`.
+| 资料 | 在线阅读 | 仓库副本 | 版本说明 |
+| --- | --- | --- | --- |
+| 第一轮 · 入门组 J | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-j-2026.pdf) | [9 页试卷](papers/round-1/csp-j-2026.pdf) | 第三方公开副本 |
+| 第一轮 · 提高组 S | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-s-2026-community.pdf) | [14 页试卷与答案](papers/round-1/csp-s-2026-community.pdf) | 社区排印版 |
+| 第二轮 · 入门组 J | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [12 页题面](papers/round-2/csp-j-2026.pdf) | Gym 中文阅读版 |
+| 第二轮 · 提高组 S | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [12 页题面](papers/round-2/csp-s-2026.pdf) | Gym 中文阅读版 |
 
-Download a single original file, a ZIP of one contestant directory, or one region archive containing the available J/S material. A contestant ZIP retains tracked filenames, relative paths and binary entries; it is limited to 64 MiB in the browser. Larger downloads use the region release. Files are preserved for study and provenance, not compiled or executed by this project.
+[试题资料页](https://tangyixiao.github.io/CSP-2026/papers/)提供浏览器阅读和 PDF 下载；[资料说明](papers/README.md)另列第一轮题面 OCR、参考答案与讨论、考试信息及第二轮官方测试数据。PDF 保留原站下载字节。第二轮阅读版使用标准输入输出，版本差异、来源和校验值见资料说明。
 
-Discussion materials retain their attributed claims and sources. Computed byte/text differences are a separate observation and do not establish misconduct. The embedded comments use GitHub/giscus; enabling Discussions is not proof that an external visitor's sign-in and posting flow has been fully verified.
+<a id="what-you-can-use-today"></a>
 
-## Coverage and interpretation
+## 开始使用
 
-Directory inventory checked on **2026-11-09**, using archive revision [`e55a367f`](https://github.com/tangyixiao/CSP-2026/commit/e55a367faa8b689ad26e152af821fdfce43c24b1):
+无需安装，打开网站即可浏览：
 
-| Catalog measure | Junior (J) | Senior (S) | Total |
+| 想做什么 | 从哪里开始 |
+| --- | --- |
+| 找到某位选手或一道题 | 在[归档首页](https://tangyixiao.github.io/CSP-2026/)搜索，或进入[地区浏览](https://tangyixiao.github.io/CSP-2026/code/browse.html?view=browse)选择地区和 J/S 组别 |
+| 阅读或对比代码 | 在[阅读器](https://tangyixiao.github.io/CSP-2026/code/)中选择文件；选取两份文件后查看并排或行内差异 |
+| 下载一个文件或选手目录 | 打开文件后，使用原文件下载或选手目录 ZIP 下载 |
+| 保存某个地区的材料 | 打开[下载页](https://tangyixiao.github.io/CSP-2026/preview/downloads.html)，选择对应地区 |
+| 提问、交流或补充资料 | 前往 [Discussions](https://github.com/tangyixiao/CSP-2026/discussions)；明确的文件或网站问题请提 [Issue](https://github.com/tangyixiao/CSP-2026/issues/new/choose) |
+
+阅读器支持语法高亮、差异行跳转和可分享的选区链接。地区浏览支持排序与随机选手、随机题目入口；项目介绍页提供中文、英文及浅色、深色、跟随系统外观。网站只展示和下载归档文件，不编译或运行选手程序。
+
+<a id="coverage-and-interpretation"></a>
+
+## 第二轮选手文件
+
+以下统计的核对日期为 **2026-11-09**，对应归档版本 [`e55a367f`](https://github.com/tangyixiao/CSP-2026/commit/e55a367faa8b689ad26e152af821fdfce43c24b1)：
+
+| 统计口径 | 入门组 J | 提高组 S | 合计 |
 | --- | ---: | ---: | ---: |
-| Region/group catalogs | 29 | 29 | 58 |
-| Source-like or text paths | 168,484 | 114,868 | 283,352 |
-| Contestant/group directory identifiers | 43,147 | 32,362 | 75,509 |
+| 地区／组别目录 | 29 | 29 | 58 |
+| 按路径分类的源码或文本条目 | 168,484 | 114,868 | 283,352 |
+| 选手／组别目录标识 | 43,147 | 32,362 | 75,509 |
 
-Both groups cover the same **29 regions**. These are directory-derived counts, not verified valid submissions or unique people. Backups, empty files, invalid code and source-named binary content may be present. Availability in this archive does not establish complete regional coverage, official authenticity or redistribution permission. This repository does not contain official scores.
+J/S 两组均涉及同一批 **29 个地区**。这些数字来自目录统计，不能直接当作独立人数或有效提交数；归档中可能有备份、空文件、无效代码及使用源码文件名的二进制内容。本仓库不提供官方成绩，各地区材料的完整程度和来源核验程度见[来源说明](SOURCES.md)。
 
-The directory layout is usually `region/group/contestant/problem/file`. Original casing, unusual names, extensionless files and nested directories are retained. GitHub shows at most 1,000 entries in some directory views; for example, Shanghai Senior has 1,505 contestant directories through `SH-S01518`. Use the workbench or region downloads to browse beyond the GitHub listing limit.
+文件通常按 `地区/组别/选手编号/题目/文件` 保存，保留原始大小写、特殊名称、无扩展名文件和嵌套目录。GitHub 的部分目录页面最多显示 1,000 个条目，浏览完整目录请使用网站或地区下载包。
 
-## Choose a download scope
+<a id="regions-in-this-snapshot"></a>
 
-| Need | Entry point | Notes |
+<details>
+<summary>展开 29 个地区的仓库目录</summary>
+
+| 地区 | 入门组 J | 提高组 S |
 | --- | --- | --- |
-| Read a file without cloning | [Code workbench](https://tangyixiao.github.io/CSP-2026/code/) | Preview limits apply to unusually large or unsupported files |
-| Save one original file | Select the file, then **Download file** | Preserves original bytes and filename |
-| Save one contestant directory | Select any of its files, then **Download contestant directory ZIP** | Includes tracked entries outside the source preview catalog |
-| Save a region | [Region downloads](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) | J/S material available in that release |
-| Verify an archive | [Archive release](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) | 29 region ZIPs, `SHA256SUMS` and `release-index.json` |
+| 安徽 AH | [AH/J](AH/J) | [AH/S](AH/S) |
+| 北京 BJ | [BJ/J](BJ/J) | [BJ/S](BJ/S) |
+| 重庆 CQ | [CQ/J](CQ/J) | [CQ/S](CQ/S) |
+| 福建 FJ | [FJ/J](FJ/J) | [FJ/S](FJ/S) |
+| 甘肃 GS | [GS/J](GS/J) | [GS/S](GS/S) |
+| 广东 GD | [GD/J](GD/J) | [GD/S](GD/S) |
+| 广西 GX | [GX/J](GX/J) | [GX/S](GX/S) |
+| 贵州 GZ | [GZ/J](GZ/J) | [GZ/S](GZ/S) |
+| 海南 HI | [HI/J](HI/J) | [HI/S](HI/S) |
+| 河北 HE | [HE/J](HE/J) | [HE/S](HE/S) |
+| 黑龙江 HL | [HL/J](HL/J) | [HL/S](HL/S) |
+| 河南 HA | [HA/J](HA/J) | [HA/S](HA/S) |
+| 湖北 HB | [HB/J](HB/J) | [HB/S](HB/S) |
+| 湖南 HN | [HN/J](HN/J) | [HN/S](HN/S) |
+| 内蒙古 NM | [NM/J](NM/J) | [NM/S](NM/S) |
+| 江苏 JS | [JS/J](JS/J) | [JS/S](JS/S) |
+| 江西 JX | [JX/J](JX/J) | [JX/S](JX/S) |
+| 吉林 JL | [JL/J](JL/J) | [JL/S](JL/S) |
+| 辽宁 LN | [LN/J](LN/J) | [LN/S](LN/S) |
+| 青海 QH | [QH/J](QH/J) | [QH/S](QH/S) |
+| 陕西 SN | [SN/J](SN/J) | [SN/S](SN/S) |
+| 山东 SD | [SD/J](SD/J) | [SD/S](SD/S) |
+| 上海 SH | [SH/J](SH/J) | [SH/S](SH/S) |
+| 山西 SX | [SX/J](SX/J) | [SX/S](SX/S) |
+| 四川 SC | [SC/J](SC/J) | [SC/S](SC/S) |
+| 天津 TJ | [TJ/J](TJ/J) | [TJ/S](TJ/S) |
+| 新疆 XJ | [XJ/J](XJ/J) | [XJ/S](XJ/S) |
+| 云南 YN | [YN/J](YN/J) | [YN/S](YN/S) |
+| 浙江 ZJ | [ZJ/J](ZJ/J) | [ZJ/S](ZJ/S) |
 
-Some oversized sources use a lossless `.gz` suffix; decompress to recover the original bytes. Git does not preserve empty directories. Original Zhejiang packages and answer summaries are retained under `ZJ/J/` and `ZJ/S/`; extracting the corresponding `answers.zip` restores the package's empty-directory layout.
+</details>
 
-Use sparse checkout when version control is useful; a full working copy contains many small files and can require substantially more disk space than the compressed download:
+<a id="choose-a-download-scope"></a>
+
+## 下载与本地查看
+
+单文件下载保留原始字节和文件名；选手目录 ZIP 包含该目录在归档中的已跟踪文件，包括未进入源码预览目录的其他文件。单文件预览上限为 **2 MiB**，浏览器生成选手目录 ZIP 的上限为 **64 MiB**；超出时请使用原文件链接或地区发布包。
+
+已发布的 [`archive-2026-11-08`](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) 提供 **29 个地区 ZIP**、`SHA256SUMS` 和 `release-index.json`。下载内容以该版本的清单为准；需要校验时，将文件的 SHA-256 与清单比对。下载页同时提供 GitHub 直连和标明服务来源的第三方加速入口。
+
+部分较大的源码使用无损 `.gz` 压缩，解压即可恢复原始字节。Git 不保存空目录；浙江原始包和答卷汇总保留在 `ZJ/J/`、`ZJ/S/`，对应的 `answers.zip` 可恢复原始包的空目录结构。
+
+需要 Git 版本管理时，可以只检出一个地区和组别。例如查看上海提高组：
 
 ```sh
 git clone --filter=blob:none --sparse https://github.com/tangyixiao/CSP-2026.git
 cd CSP-2026
-git sparse-checkout add /SH/S/
+git sparse-checkout set SH/S
 ```
 
-Adding a large region hydrates its selected files. Check available space before expanding the checkout.
+检出所选目录会下载对应文件。完整工作副本包含大量小文件，占用空间可能明显大于压缩包，请按需扩大检出范围。
 
-## Regions in this snapshot
+<a id="sources-verification-and-corrections"></a>
 
-| Region | Junior | Senior |
-| --- | --- | --- |
-| Anhui (AH) | [AH/J](AH/J) | [AH/S](AH/S) |
-| Beijing (BJ) | [BJ/J](BJ/J) | [BJ/S](BJ/S) |
-| Chongqing (CQ) | [CQ/J](CQ/J) | [CQ/S](CQ/S) |
-| Fujian (FJ) | [FJ/J](FJ/J) | [FJ/S](FJ/S) |
-| Gansu (GS) | [GS/J](GS/J) | [GS/S](GS/S) |
-| Guangdong (GD) | [GD/J](GD/J) | [GD/S](GD/S) |
-| Guangxi (GX) | [GX/J](GX/J) | [GX/S](GX/S) |
-| Guizhou (GZ) | [GZ/J](GZ/J) | [GZ/S](GZ/S) |
-| Hainan (HI) | [HI/J](HI/J) | [HI/S](HI/S) |
-| Hebei (HE) | [HE/J](HE/J) | [HE/S](HE/S) |
-| Heilongjiang (HL) | [HL/J](HL/J) | [HL/S](HL/S) |
-| Henan (HA) | [HA/J](HA/J) | [HA/S](HA/S) |
-| Hubei (HB) | [HB/J](HB/J) | [HB/S](HB/S) |
-| Hunan (HN) | [HN/J](HN/J) | [HN/S](HN/S) |
-| Inner Mongolia (NM) | [NM/J](NM/J) | [NM/S](NM/S) |
-| Jiangsu (JS) | [JS/J](JS/J) | [JS/S](JS/S) |
-| Jiangxi (JX) | [JX/J](JX/J) | [JX/S](JX/S) |
-| Jilin (JL) | [JL/J](JL/J) | [JL/S](JL/S) |
-| Liaoning (LN) | [LN/J](LN/J) | [LN/S](LN/S) |
-| Qinghai (QH) | [QH/J](QH/J) | [QH/S](QH/S) |
-| Shaanxi (SN) | [SN/J](SN/J) | [SN/S](SN/S) |
-| Shandong (SD) | [SD/J](SD/J) | [SD/S](SD/S) |
-| Shanghai (SH) | [SH/J](SH/J) | [SH/S](SH/S) |
-| Shanxi (SX) | [SX/J](SX/J) | [SX/S](SX/S) |
-| Sichuan (SC) | [SC/J](SC/J) | [SC/S](SC/S) |
-| Tianjin (TJ) | [TJ/J](TJ/J) | [TJ/S](TJ/S) |
-| Xinjiang (XJ) | [XJ/J](XJ/J) | [XJ/S](XJ/S) |
-| Yunnan (YN) | [YN/J](YN/J) | [YN/S](YN/S) |
-| Zhejiang (ZJ) | [ZJ/J](ZJ/J) | [ZJ/S](ZJ/S) |
+## 来源与资料解读
 
-## Sources, verification and corrections
+[SOURCES.md](SOURCES.md) 汇总官方发布入口、提供者交付的材料包、地区核验记录、公开讨论及网站素材来源。官方测试数据分别保存在 [J 组](test-data/J/official)和 [S 组](test-data/S/official)。地区插画为 AI 生成，其来源记录也在该文档中。
 
-[SOURCES.md](SOURCES.md) indexes official announcements, supplied-package records, attributed Luogu materials, the website's origin and third-party assets. It distinguishes original publication evidence, a matching supplied package and an independently inspected code difference. Two comparison records currently have attributed excerpts without an original permalink; that gap is disclosed rather than filled with a guessed URL.
+代码对比展示文本或字节差异，收录的相似代码资料保留作者和原始来源。原帖观点、对比结果与官方认定各有不同含义，不能相互替代；完整来源和核验范围请查看对应记录。
 
-Zhejiang Junior was compared file by file with its official package. Guangxi Senior was compared with a locally supplied decrypted archive whose original distributor has not been independently verified. Hebei J/S were checked against supplied packages and MD5 manifests. Hainan J, Chongqing J/S and Qinghai J/S have their own source records. Verification is not a blanket claim for the remaining regions.
+## 反馈与贡献
 
-Official test data is retained under [test-data/J/official](test-data/J/official) and [test-data/S/official](test-data/S/official). A public source link or a matching checksum does not itself grant reuse rights.
+欢迎中文和英文贡献。报告问题时，请附上地区、J/S 组别、原始路径、归档版本及具体证据：
 
-To report an issue, include the region/group, original path, source revision and concrete difference. Use [Issues](https://github.com/tangyixiao/CSP-2026/issues/new/choose) for file or website defects and [Discussions](https://github.com/tangyixiao/CSP-2026/discussions) for contextual observations. Follow [CONTRIBUTING.md](CONTRIBUTING.md); send security reports through the [private reporting entry](https://github.com/tangyixiao/CSP-2026/security/advisories/new).
+| 事项 | 入口 |
+| --- | --- |
+| 文件缺失、损坏、版本冲突或网站故障 | [Issues](https://github.com/tangyixiao/CSP-2026/issues/new/choose) |
+| 使用提问、资料补充、代码交流与讨论记录订正 | [Discussions](https://github.com/tangyixiao/CSP-2026/discussions) |
+| 提交文件或网站修改 | 阅读[贡献指南](CONTRIBUTING.md)，通过 Pull Request 提交 |
+| 网站或工作流的安全问题 | 使用[私密报告入口](https://github.com/tangyixiao/CSP-2026/security/advisories/new) |
 
-## Website development
+提交归档材料时保留原始名称、路径和字节，并说明来源与实际完成的核验。公开报告请勿包含密码、令牌或私人通信。使用 AI 辅助贡献时，贡献者仍需理解修改并核实结果；仓库内的执行约定见 [AGENTS.md](AGENTS.md)。
 
-The website is a static build with Monaco, Primer and giscus. The [maintenance guide](website/README.md) describes catalog generation, source snapshots, complete-build requirements and Pages packaging. Node.js 22 or newer and npm are used by this project.
+<a id="browsing-and-reading-review"></a>
 
-```sh
-npm ci --prefix website
-npm test --prefix website
-npm run build --prefix website
-node website/scripts/package-site.mjs
-```
+<a id="website-development"></a>
 
-A full source-pack build needs the indexed blobs. Use CI or an already complete environment; do not expand a partial clone merely to inspect documentation. Local tests, a complete build, CI, deployment and live use are separate verification steps.
+## 网站开发
 
-## Browsing and reading review
+网站使用 Node.js 22 及以上版本和 npm。开发命令、本地预览、完整源码快照构建及 Pages 打包步骤见[网站维护指南](website/README.md)。部分克隆环境请先阅读其中的受限预览方法，避免为小范围修改下载全部归档。外观设计与运行核验记录见[设计记录](docs/design/root-noi-classic-plus.md)。
 
-A [DSH research brief](outputs/csp2026-national-review/dsh-handoff.zh-CN.md) assigns nationwide source reading, distinctive-material discovery, evidence review and statistics to DSH/DeepSeek. Codex coordinates the work and implements the website and supporting tools. The optional NOI website reference theme is separate from the NOI Linux editor reading views and is not the default.
+<a id="license-and-attribution"></a>
 
-Start at [the site root](https://tangyixiao.github.io/CSP-2026/) for the national archive home, search and both random actions. [`/code/browse.html?view=browse`](https://tangyixiao.github.io/CSP-2026/code/browse.html?view=browse) provides regional contestant tiles, incremental region sections, traceable discovery examples and source/rights views; [`/code/`](https://tangyixiao.github.io/CSP-2026/code/) is the dedicated reader and comparison workbench. Tiles open the reader; filenames and comparison actions expand on demand rather than filling every tile.
+## 许可与署名
 
-The maintainer approved the [corrected root home and NOI appearance](docs/design/root-home-noi-approved.png) and [Classic Plus reader](docs/design/devcpp-classic-plus-approved.png) on 2026-11-10. The default site uses white surfaces, ink text and blue actions. The optional NOI appearance uses red navigation and a navy active state, independently from reading profiles. Each of the 29 regions has its own separately AI-generated panoramic illustration, with regional subjects rather than a recolored Shanghai landmark. The actual optimized WebP assets total **1,791,746 bytes (1.71 MiB)** at **1280 × 427** each. Their [asset manifest](website/src/assets/regions/manifest.json) records the generator, shared prompt, individual subject and file mapping. Approved boards are design references, not runtime screenshots.
+本仓库原创的网站代码、维护脚本、配置和文档采用 [Apache-2.0](LICENSE)，具体范围见 [NOTICE](NOTICE)。
 
-Sorting covers natural contestant ID, aggregate stored bytes, file count, linked discussion threads and latest linked discussion. It applies to the complete filtered region, rather than the visible page. Unknown sizes remain unknown and sort last; complete CI source builds reuse observed blob sizes to populate the catalog. Discussion snapshots identify their time and mapping scope, count a thread once per directory, and preserve unmapped pairs. The API returned **zero discussions** during verification on 2026-11-09; the 39 attributed comparison records are separate material.
-
-Random person samples directory identities uniformly, while random problem deduplicates problem choices. The reader can collapse its file panel, wrap code, and use manually chosen Dev-C++ Classic Plus with Consolas, or Geany reference views. CSP remains the initial reading view. NOI is an independent optional site theme; it does not select a Linux editor or provide an IDE/compiler runtime. Appearance switches retain the source model and reading state.
-
-Local validation of this revision passed 69/69 Node tests and the Vite frontend build, with the existing Monaco bundle-size warning retained. Desktop checks used a 1280-pixel viewport, including three browser columns and the spacious reader; mobile checks used 390 pixels with no horizontal page overflow. All 29 image mappings and the menu were checked.
-
-The PR and its main-branch workflow record complete-build and deployment results separately from local visual validation. See the [corrected design and verification scope](docs/design/root-noi-classic-plus.md) and [local preview instructions](website/README.md). The discovery examples are inspected entry points, not a completed nationwide selection or content study; DSH/DeepSeek owns that research work.
-
-## License and attribution
-
-Repository-owned website code, maintenance scripts, configuration and original documentation are offered under [Apache-2.0](LICENSE), subject to the scope in [NOTICE](NOTICE). Existing third-party notices and licenses remain in force.
-
-**Contestant files, official test data, original archive packages, copied source responses, quoted posts, fonts and other third-party assets are excluded from that project-code grant.** They retain their respective rights and any independently documented terms. Archiving or citing material does not relicense it. See [SOURCES.md](SOURCES.md), [NOTICE](NOTICE), the [component license notices](website/public/third-party-licenses.txt) and the font licenses distributed with the font files.
+选手文件、试卷与参考答案、官方测试数据、原始归档包、引用内容、字体及其他第三方素材保留各自权利和已有许可，不因收录而改用本项目的软件许可。详细来源和组件声明见 [SOURCES.md](SOURCES.md)及[第三方许可清单](website/public/third-party-licenses.txt)。
