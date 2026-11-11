@@ -26,12 +26,12 @@ CSP-J/S 2026 first-round papers and reference materials, second-round statements
 
 | Material | Read online | Repository copy | Edition |
 | --- | --- | --- | --- |
-| Round 1 · Junior J | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-j-2026.pdf) | [9-page paper](papers/round-1/csp-j-2026.pdf) | Third-party public copy |
-| Round 1 · Senior S | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-s-2026-community.pdf) | [14-page paper and answers](papers/round-1/csp-s-2026-community.pdf) | Community typeset edition |
-| Round 2 · Junior J | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [12-page statements](papers/round-2/csp-j-2026.pdf) | Gym Chinese reading edition |
-| Round 2 · Senior S | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [12-page statements](papers/round-2/csp-s-2026.pdf) | Gym Chinese reading edition |
+| Round 1 · Junior J | [Reference only](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-j-2026.pdf) | [9-page reference](papers/round-1/csp-j-2026.pdf) | **Original missing**; third-party reference |
+| Round 1 · Senior S | [Reference only](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-s-2026-community.pdf) | [14-page typeset reference and answers](papers/round-1/csp-s-2026-community.pdf) | **Original missing**; community reference |
+| Round 2 · Junior J | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [13-page contest paper](papers/round-2/csp-j-2026.pdf) | Original contest layout and file I/O |
+| Round 2 · Senior S | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [13-page contest paper](papers/round-2/csp-s-2026.pdf) | Original contest layout and file I/O |
 
-The [paper library](https://tangyixiao.github.io/CSP-2026/papers/) provides browser reading and PDF downloads. The [material guide](papers/README.md) also links first-round OCR, community reference answers and discussion, exam information, and second-round official test data. PDFs retain their downloaded bytes. The second-round reading editions use standard input/output; see the guide for edition differences, sources and checksums.
+The [paper library](https://tangyixiao.github.io/CSP-2026/papers/) provides browser reading and PDF downloads. The [material guide](papers/README.md) also links first-round OCR, community reference answers and discussion, exam information, and second-round official test data. Round 2 PDFs preserve the contest layout and file I/O and match contestant-distributed files. Original Round 1 PDFs are still missing; community references do not count as originals. See the guide for provenance and verification boundaries.
 
 <a id="what-you-can-use-today"></a>
 

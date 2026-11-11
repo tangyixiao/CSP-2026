@@ -26,12 +26,12 @@
 
 | 资料 | 在线阅读 | 仓库副本 | 版本说明 |
 | --- | --- | --- | --- |
-| 第一轮 · 入门组 J | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-j-2026.pdf) | [9 页试卷](papers/round-1/csp-j-2026.pdf) | 第三方公开副本 |
-| 第一轮 · 提高组 S | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-s-2026-community.pdf) | [14 页试卷与答案](papers/round-1/csp-s-2026-community.pdf) | 社区排印版 |
-| 第二轮 · 入门组 J | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [12 页题面](papers/round-2/csp-j-2026.pdf) | Gym 中文阅读版 |
-| 第二轮 · 提高组 S | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [12 页题面](papers/round-2/csp-s-2026.pdf) | Gym 中文阅读版 |
+| 第一轮 · 入门组 J | [参考版（非原卷）](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-j-2026.pdf) | [9 页参考副本](papers/round-1/csp-j-2026.pdf) | **原版待补充**；第三方参考 |
+| 第一轮 · 提高组 S | [参考版（非原卷）](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-s-2026-community.pdf) | [14 页排印与答案](papers/round-1/csp-s-2026-community.pdf) | **原版待补充**；社区参考 |
+| 第二轮 · 入门组 J | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [13 页原卷版式](papers/round-2/csp-j-2026.pdf) | 考场题面副本，文件输入输出 |
+| 第二轮 · 提高组 S | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [13 页原卷版式](papers/round-2/csp-s-2026.pdf) | 考场题面副本，文件输入输出 |
 
-[试题资料页](https://tangyixiao.github.io/CSP-2026/papers/)提供浏览器阅读和 PDF 下载；[资料说明](papers/README.md)另列第一轮题面 OCR、参考答案与讨论、考试信息及第二轮官方测试数据。PDF 保留原站下载字节。第二轮阅读版使用标准输入输出，版本差异、来源和校验值见资料说明。
+[试题资料页](https://tangyixiao.github.io/CSP-2026/papers/)提供浏览器阅读和 PDF 下载；[资料说明](papers/README.md)另列第一轮题面 OCR、参考答案与讨论、考试信息及第二轮官方测试数据。第二轮 PDF 保留考场原卷版式与文件输入输出，并与选手下发文件交叉核对。第一轮 J/S 原版仍待补充，现有社区资料不计作原卷。来源与核验边界见资料说明。
 
 <a id="what-you-can-use-today"></a>
 
