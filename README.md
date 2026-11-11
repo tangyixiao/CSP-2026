@@ -1,6 +1,20 @@
-# CSP-2026
+<p align="center"><img src="docs/assets/readme/logo.svg" width="160" height="160" alt="CSP-2026 project logo"></p>
 
-简体中文 · [English](README.en.md)
+<h1 align="center">CSP-2026</h1>
+
+<p align="center">CSP-J/S 2026 试题与选手文件归档，在线阅读、对比与下载。</p>
+
+<p align="center"><a href="https://tangyixiao.github.io/CSP-2026/"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/banner-zh-CN-dark.svg"><img src="docs/assets/readme/banner-zh-CN-light.svg" width="100%" alt="CSP-2026 — 进入在线归档 ↗"></picture></a></p>
+
+<p align="center"><a href="README.md">简体中文</a> · <a href="README.en.md">English</a></p>
+
+<p align="center"><a href="https://github.com/tangyixiao/CSP-2026/stargazers"><img src="https://img.shields.io/github/stars/tangyixiao/CSP-2026?style=flat" alt="Stars"></a> <a href="https://github.com/tangyixiao/CSP-2026/actions/workflows/code-browser-pages.yml"><img src="https://img.shields.io/github/actions/workflow/status/tangyixiao/CSP-2026/code-browser-pages.yml?branch=main" alt="CI"></a> <a href="NOTICE"><img src="https://img.shields.io/badge/Project_code-Apache--2.0-blue" alt="Project code license"></a></p>
+
+<p align="center">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/feature-1-zh-CN-dark.svg"><img src="docs/assets/readme/feature-1-zh-CN-light.svg" width="260" alt="浏览 29 个地区: 保留原始路径、名称和字节"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/feature-2-zh-CN-dark.svg"><img src="docs/assets/readme/feature-2-zh-CN-light.svg" width="260" alt="阅读与对比: 语法高亮 · 并排与行内差异"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/feature-3-zh-CN-dark.svg"><img src="docs/assets/readme/feature-3-zh-CN-light.svg" width="260" alt="试题与下载: 两轮 PDF · 文件与地区归档包"></picture>
+</p>
 
 归档 CSP-J/S 2026 第一轮试卷与参考资料、第二轮题面和选手文件，供赛后阅读、对比与学习。选手文件按地区、组别、选手编号和题目整理，可在线查看或按需下载。
 
@@ -138,6 +152,14 @@ git sparse-checkout set SH/S
 ## 网站开发
 
 网站使用 Node.js 22 及以上版本和 npm。开发命令、本地预览、完整源码快照构建及 Pages 打包步骤见[网站维护指南](website/README.md)。部分克隆环境请先阅读其中的受限预览方法，避免为小范围修改下载全部归档。外观设计与运行核验记录见[设计记录](docs/design/root-noi-classic-plus.md)。
+
+## Star History
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=tangyixiao/CSP-2026&amp;type=date&amp;theme=dark&amp;legend=top-left"><img src="https://api.star-history.com/chart?repos=tangyixiao/CSP-2026&amp;type=date&amp;legend=top-left" width="900" alt="CSP-2026 Star History"></picture>
+
+[交互式历史曲线](https://www.star-history.com/?repos=tangyixiao%2FCSP-2026&type=date) · [GitHub Stars](https://github.com/tangyixiao/CSP-2026/stargazers)
+
+Star 数量与历史曲线使用真实 GitHub 数据，由外部服务展示，可能存在缓存延迟。
 
 <a id="license-and-attribution"></a>
 

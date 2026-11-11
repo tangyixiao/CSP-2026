@@ -1,6 +1,20 @@
-# CSP-2026
+<p align="center"><img src="docs/assets/readme/logo.svg" width="160" height="160" alt="CSP-2026 project logo"></p>
 
-English · [简体中文](README.md)
+<h1 align="center">CSP-2026</h1>
+
+<p align="center">CSP-J/S 2026 papers and contestant files, ready to browse, compare and download.</p>
+
+<p align="center"><a href="https://tangyixiao.github.io/CSP-2026/"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/banner-en-dark.svg"><img src="docs/assets/readme/banner-en-light.svg" width="100%" alt="CSP-2026 — Explore the online archive ↗"></picture></a></p>
+
+<p align="center"><a href="README.md">简体中文</a> · <a href="README.en.md">English</a></p>
+
+<p align="center"><a href="https://github.com/tangyixiao/CSP-2026/stargazers"><img src="https://img.shields.io/github/stars/tangyixiao/CSP-2026?style=flat" alt="Stars"></a> <a href="https://github.com/tangyixiao/CSP-2026/actions/workflows/code-browser-pages.yml"><img src="https://img.shields.io/github/actions/workflow/status/tangyixiao/CSP-2026/code-browser-pages.yml?branch=main" alt="CI"></a> <a href="NOTICE"><img src="https://img.shields.io/badge/Project_code-Apache--2.0-blue" alt="Project code license"></a></p>
+
+<p align="center">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/feature-1-en-dark.svg"><img src="docs/assets/readme/feature-1-en-light.svg" width="260" alt="Browse 29 regions: Original paths, names and file bytes"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/feature-2-en-dark.svg"><img src="docs/assets/readme/feature-2-en-light.svg" width="260" alt="Read and compare: Highlighting · Side-by-side and inline diffs"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/feature-3-en-dark.svg"><img src="docs/assets/readme/feature-3-en-light.svg" width="260" alt="Papers and downloads: Round 1 &amp; 2 PDFs · Scoped archive downloads"></picture>
+</p>
 
 CSP-J/S 2026 first-round papers and reference materials, second-round statements and contestant files for post-contest reading, comparison and study. Contestant files are organized by region, group, contestant ID and problem, with online reading and scoped downloads.
 
@@ -136,6 +150,14 @@ Preserve original filenames, paths and bytes when contributing archive materials
 ## Website development
 
 The website uses Node.js 22 or newer and npm. See the [website maintenance guide](website/README.md) for development commands, local previews, complete source snapshots and Pages packaging. In a partial clone, read its bounded-preview instructions before downloading the entire archive for a small change. Appearance and runtime verification records are in the [design record](docs/design/root-noi-classic-plus.md).
+
+## Star History
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=tangyixiao/CSP-2026&amp;type=date&amp;theme=dark&amp;legend=top-left"><img src="https://api.star-history.com/chart?repos=tangyixiao/CSP-2026&amp;type=date&amp;legend=top-left" width="900" alt="CSP-2026 Star History"></picture>
+
+[Interactive chart](https://www.star-history.com/?repos=tangyixiao%2FCSP-2026&type=date) · [GitHub Stars](https://github.com/tangyixiao/CSP-2026/stargazers)
+
+Star counts and history use real GitHub data displayed by external services and may be cached.
 
 ## License and attribution
 

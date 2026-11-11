@@ -54,6 +54,13 @@ The machine-readable records are in [website/src/cases.json](website/src/cases.j
 
 ## Website origin and components
 
+The README presentation follows the maintainer's own
+[DSH Provider Doctor](https://github.com/tangyixiao/dsh-provider-doctor) and
+[DSH Plugin Market](https://github.com/tangyixiao/dsh-plugin-market) layout:
+logo, bilingual banner, theme-aware feature cards, Star badge and history chart.
+The [CSP-2026 artwork record](docs/assets/readme/README.md) identifies the original
+project-specific SVGs and the external data services; no DSH mascot art is reused.
+
 The preserved landing assets originate from this repository's [`project-pages` revision 18973f7](https://github.com/tangyixiao/CSP-2026/tree/18973f751ccddfa941150d2a3480cf6ecc5a29ac). See [the landing record](website/landing/README.md) and [source receipt](website/landing/source-receipt.json). The later project pages reuse that project's own assets and existing website implementation. An external template is not claimed as the author of the contestant archive.
 
 | Component | Primary project | Distributed notice |
