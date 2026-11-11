@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/assets/readme/logo.svg" width="160" height="160" alt="CSP-2026 project logo"></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/logo-dark.svg"><img src="docs/assets/readme/logo.svg" width="240" height="144" alt="CSP-J/S 2026 informatics archive wordmark"></picture></p>
 
 <h1 align="center">CSP-2026</h1>
 
