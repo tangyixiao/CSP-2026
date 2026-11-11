@@ -1,4 +1,5 @@
 import { hexPage, HEX_PAGE_BYTES, parseHexOffset } from './hex-view.js';
+import { mountFormatControls } from './format-controls.js';
 import { catalogPreviewFiles } from './archive-browse.js';
 import '@primer/primitives/dist/css/functional/themes/light.css';
 import '@primer/primitives/dist/css/functional/themes/dark.css';
@@ -20,6 +21,7 @@ import { applyAppearance, getSavedAppearance } from './site-appearance.js';
 import { getProvenance } from './provenance.js';
 import { normalizeReadingProfile } from './reading-profiles.js';
 
+let formatControls;
 const $ = (id) => document.getElementById(id);
 const PAGE_SIZE = 24;
 const caseItems = Array.isArray(cases) ? cases : [];
@@ -431,6 +433,7 @@ async function selectFile(side, file, { keepCase = false } = {}) {
       let offset = 0; try { offset = parseHexOffset(initialQuery.get(side) === file.path ? initialQuery.get(`${side}Offset`) || '0' : '0'); } catch { /* start at zero */ }
       Object.assign(source, hexPage(source.bytes, offset));
     }
+    void formatControls?.formatSource(source);
   } catch (error) {
     if (state[side].sequence !== sequence || controller.signal.aborted) return;
     state[side].status = 'error';
@@ -443,7 +446,7 @@ async function selectFile(side, file, { keepCase = false } = {}) {
 function sourceModel(side) {
   const slot = state[side];
   if (slot.status !== 'ready' || !slot.source) return null;
-  return { path: slot.file.path, text: slot.source.text, language: slot.source.language || 'cpp' };
+  return { path: slot.file.path, text: formatControls?.display(slot.source) ?? slot.source.text, language: slot.source.language || 'cpp' };
 }
 
 function syncEditor() {
@@ -521,6 +524,8 @@ function renderSources() {
     if (slot.status === 'loading') messages.push(`${letter}：正在读取 ${fileName(slot.file)}`);
     else if (slot.status === 'error') { messages.push(`${letter}：${slot.error}`); hasError = true; }
     else if (slot.source) {
+      const status = formatControls?.status(slot.source);
+      if (status) messages.push(`${letter}：${status}`);
       if (slot.source.viewFormat === 'hex') messages.push(`${letter}：十六进制 · 归档字节只读${slot.source.compressed ? '（解压后）' : ''}${slot.source.previewNote ? ` · ${slot.source.previewNote}` : ''}`);
     }
     renderMetadata(side);
@@ -682,7 +687,7 @@ for (const side of ['left', 'right']) $(`${side}-copy`).addEventListener('click'
 $('open-discussion').addEventListener('click', () => { state.commentsOpen = true; renderDiscussion(); $('discussion-title').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 $('share-button').addEventListener('click', async () => { updateLocation(); try { await copyText(window.location.href); toast('分享链接已复制，包含当前文件、视图与主题。'); } catch { toast('复制失败，可直接复制浏览器地址栏中的链接。'); } });
 mobile.addEventListener('change', () => { setMode(mobile.matches && state.mode === 'split' ? 'inline' : state.mode); });
-window.addEventListener('beforeunload', () => { state.left.controller?.abort(); state.right.controller?.abort(); state.editor?.dispose(); });
+window.addEventListener('beforeunload', () => { state.left.controller?.abort(); state.right.controller?.abort(); state.editor?.dispose(); formatControls?.dispose(); });
 
 function updateReadingProfileLabel() {
   const note = $('reading-profile-note');
@@ -798,6 +803,7 @@ async function randomJump(kind, control) {
 window.addEventListener('popstate', () => location.reload());
 initializeReadingControls();
 initializeDownloads();
+formatControls = mountFormatControls({ toolbar: document.querySelector('.editor-toolbar'), getSources: () => [state.left.source, state.right.source].filter(Boolean), onChange: () => { renderSources(); syncEditor(); } });
 initializeIcons();
 setTheme(state.theme,{preserveProjectChoice:true});
 setMode(state.mode);

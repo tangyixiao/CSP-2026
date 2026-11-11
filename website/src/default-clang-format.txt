@@ -1,0 +1,23 @@
+# 基于 LLVM 风格，这是 LLVM 项目本身的编码规范，适合大多数 C++ 项目。
+BasedOnStyle: LLVM
+
+# 指定语言为 C++，只对 C++ 文件生效。
+Language: Cpp
+
+# 缩进宽度：使用 4 个空格（LLVM 默认）。
+IndentWidth: 4
+
+# 续行缩进宽度：函数调用或表达式换行时的额外缩进（LLVM 默认 4）。
+ContinuationIndentWidth: 4
+
+# 列限制：每行字符数限制（LLVM 默认 80）。
+ColumnLimit: 0
+
+# 竞赛实现压行：保留简短的分支、循环、函数和语句块。
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+AllowShortLoopsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
+AllowShortBlocksOnASingleLine: Always
+
+# 即使压成一行，条件分支和循环也要保留大括号。
+InsertBraces: true
