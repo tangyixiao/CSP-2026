@@ -1,3 +1,4 @@
+import { renderSiteHeader } from '../shared/site-header.js';
 import { cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -94,7 +95,7 @@ const tableRows = sortedProvinces.map(([province, groups]) =>
 ).join('\n');
 
 let landingHtml = renderRootHome(readFileSync(path.join(landingRoot, 'index.html'), 'utf8'), catalog, { shards: catalogShards });
-let documentationHtml = readFileSync(path.join(landingRoot, 'docs.html'), 'utf8');
+let documentationHtml = readFileSync(path.join(landingRoot, 'docs.html'), 'utf8').replace('__SITE_HEADER__', renderSiteHeader({ root: './', active: 'docs' }));
 documentationHtml = replaceRequired(documentationHtml, /<tbody data-current-province-table>[\s\S]*?<\/tbody>/,
   `<tbody data-current-province-table>${tableRows}</tbody>`, 'province documentation table');
 function pinRevision(html) {
@@ -115,6 +116,7 @@ const rootIllustrations = sortedProvinces.map(([code]) => {
 rmSync(outputRoot, { recursive: true, force: true });
 mkdirSync(outputRoot, { recursive: true });
 cpSync(landingRoot, outputRoot, { recursive: true });
+for (const file of ['site-shell.css', 'site-shell.js', 'site-header.js', 'site-init.js', 'theme.js']) cpSync(path.join(websiteRoot, 'shared', file), path.join(outputRoot, 'assets', file));
 const rootArtDirectory = path.join(outputRoot, 'assets', 'regions');
 mkdirSync(rootArtDirectory, { recursive: true });
 for (const { code, source } of rootIllustrations) {
@@ -125,6 +127,8 @@ cpSync(browserRoot, path.join(outputRoot, 'code'), { recursive: true });
 cpSync(path.join(websiteRoot,'..','project.json'),path.join(outputRoot,'project.json'));
 const projectCases = JSON.parse(readFileSync(path.join(websiteRoot,'src','cases.json'),'utf8'));
 writeProjectPreview(path.join(outputRoot,'preview'),{ catalog, caseCount:projectCases.length });
+const paperIndex = path.join(outputRoot, 'papers/index.html');
+if (existsSync(paperIndex)) writeFileSync(paperIndex, readFileSync(paperIndex, 'utf8').replace('__SITE_HEADER__', renderSiteHeader({ root: '../', active: 'papers' })));
 writeFileSync(path.join(outputRoot, 'index.html'), pinRevision(landingHtml));
 writeFileSync(path.join(outputRoot, 'docs.html'), pinRevision(documentationHtml));
 writeFileSync(path.join(outputRoot, '.nojekyll'), '');

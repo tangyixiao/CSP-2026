@@ -1,12 +1,14 @@
+import '../shared/site-shell.css';
+import { mountSiteShell } from '../shared/site-shell.js';
 import { previewUnavailableLabel } from './archive-browse.js';
 import './browse.css';
 import { groupContestants, sortContestants, sampleContestant, sampleProblem, contestProblemFiles, contestProblemOptions, parseBrowseRoute, scopeGroups, browseContestants, contestantTree, loadScopeCatalogs } from './archive-browse.js';
 import { REGIONS, regionImage } from './regions.js';
-import { applyAppearance, getSavedAppearance } from './site-appearance.js';
 import { loadSource, githubUrl } from './source.js';
 import { SOURCE_INDEX_REVISION } from './provenance.js';
 import { saveContestantDirectory } from './downloads.js';
 
+const siteShell = mountSiteShell({ root: '../', active: 'browse' });
 const $ = id => document.getElementById(id);
 // The root homepage can hand off one explicit random action. Consume the flag
 // before loading data so reload/back navigation cannot repeat the draw.
@@ -329,20 +331,8 @@ async function renderRoute() {
   if (current.view === 'browse') renderBrowse(); else if (current.view === 'contestant') void renderContestant(); else if (current.view === 'discover') { $('content').append(intro('在原文件里，找线索', '从具体内容开始阅读，保留上下文，也保留疑问。', 'DISCOVER / READ CLOSELY')); void renderDiscoveries(true); } else if (current.view === 'sources') renderSources(); else renderHome();
   scrollTo(0, scrollPositions.get(location.href) || 0);
 }
-function applyColorMode(choice) { let theme = choice; if (theme === 'system') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.documentElement.dataset.theme = theme === 'dark' ? 'dark' : 'light'; try { localStorage.setItem('csp-project-theme', choice); } catch { /* Current mode still works. */ } }
-$('appearance').value = applyAppearance(getSavedAppearance());
-$('appearance').addEventListener('change', event => applyAppearance(event.target.value));
-try { $('color-mode').value = ['light', 'dark', 'system'].includes(localStorage.getItem('csp-project-theme')) ? localStorage.getItem('csp-project-theme') : 'light'; } catch { /* Default light. */ }
-applyColorMode($('color-mode').value); $('color-mode').addEventListener('change', event => applyColorMode(event.target.value));
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if ($('color-mode').value === 'system') applyColorMode('system'); });
+function closeNavigation() { siteShell.closeMenu(); }
 $('close-regions').addEventListener('click', () => $('regions-dialog').close());
-const navToggle = document.querySelector('.nav-toggle'), mainNav = $('main-nav');
-document.querySelector('.wordmark').href = '../';
-mainNav.querySelector('[data-view="home"]').href = '../';
-function closeNavigation() { mainNav.classList.remove('is-open'); navToggle.setAttribute('aria-expanded', 'false'); navToggle.setAttribute('aria-label', '打开导航菜单'); }
-navToggle.addEventListener('click', () => { const open = !mainNav.classList.contains('is-open'); mainNav.classList.toggle('is-open', open); navToggle.setAttribute('aria-expanded', String(open)); navToggle.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单'); });
-mainNav.addEventListener('click', event => { if (event.target.closest('a')) closeNavigation(); });
-document.addEventListener('keydown', event => { if (event.key === 'Escape') closeNavigation(); });
 if (import.meta.env.DEV) document.querySelector('a[href="../preview/downloads.html"]').href = 'https://tangyixiao.github.io/CSP-2026/preview/downloads.html';
 document.addEventListener('click', event => { const target = event.target.closest('a'); if (!target || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; const url = new URL(target.href, location.href); if (url.origin === location.origin && url.pathname === location.pathname && url.search) { event.preventDefault(); navigationVersion++; $('regions-dialog').close(); scrollPositions.set(location.href, scrollY); history.pushState({}, '', url); void renderRoute(); } });
 window.addEventListener('popstate', () => { navigationVersion++; void renderRoute(); });

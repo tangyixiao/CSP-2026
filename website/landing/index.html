@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="light" data-appearance="csp">
+<html data-site-shell="true" lang="zh-CN" data-theme="light" data-appearance="csp">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -9,30 +9,11 @@
   <title>CSP 2026 · 全国代码归档</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="assets/home.css">
-  <script src="assets/home.js"></script>
+  <script src="assets/theme.js"></script><link rel="stylesheet" href="assets/site-shell.css"><script type="module" src="assets/home.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">跳到正文</a>
-  <div class="header-shell">
-    <div class="wrap header-layout">
-      <header class="masthead">
-        <button class="hamburger" type="button" aria-label="打开导航菜单" aria-expanded="false" aria-controls="home-navigation">☰</button>
-        <a class="brand" href="./">CSP <b>2026</b></a>
-        <span class="brand-sub">CSP-J/S 第二轮代码归档</span>
-        <details class="appearance">
-          <summary aria-label="外观设置"><span id="appearance-label">CSP 主题</span><span aria-hidden="true"> ◐</span></summary>
-          <div class="appearance-panel">
-            <label>站点主题<select id="home-appearance"><option value="csp">CSP</option><option value="noi">NOI 参考</option></select></label>
-            <label>明暗<select id="home-color-mode"><option value="light">浅色</option><option value="dark">深色</option><option value="system">跟随系统</option></select></label>
-            <a href="https://noi.cn/" target="_blank" rel="noreferrer">NOI 主题参考 ↗</a>
-          </div>
-        </details>
-      </header>
-      <nav id="home-navigation" class="nav" aria-label="主导航">
-        <a class="active" href="./" aria-current="page">首页</a><a href="code/browse.html?view=browse&amp;group=all">浏览</a><a href="code/browse.html?view=discover">发现</a><a href="code/?mode=view">阅读</a><a href="code/?mode=split">比较</a><a href="papers/">试题 PDF</a><a href="code/browse.html?view=sources">来源</a><a href="preview/downloads.html">下载</a>
-      </nav>
-    </div>
-  </div>
+  __SITE_HEADER__
   <main id="content" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="home-title">
       <div><h1 id="home-title">全国代码归档</h1><p>CSP-J/S 2026 · 第二轮 <span aria-hidden="true">／</span> __HOME_REGION_COUNT__ 个地区 · __HOME_GROUP_COUNT__ 个组别</p>

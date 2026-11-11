@@ -1,3 +1,4 @@
+import { renderSiteHeader } from '../shared/site-header.js';
 import { REGIONS } from '../src/regions.js';
 
 export const ROOT_FEATURED_REGIONS = Object.freeze(['ZJ', 'BJ', 'SC', 'SH', 'GD']);
@@ -32,6 +33,7 @@ export function renderRootHome(template, catalog, { shards = {} } = {}) {
   const readerURL = example.length ? `code/?${new URLSearchParams({ left: example[0].path, mode: 'view', focus: '1' })}` : browseURL('ZJ', 'S');
   const tree = example.length ? example.map((file, index) => `${index === example.length - 1 ? '└─' : '├─'} ${escape(file.path.slice('ZJ/S/ZJ-S00007/'.length))}`).join('\n') : '可用文件以当前归档目录为准';
   const replacements = {
+    __SITE_HEADER__: renderSiteHeader({ root: './', active: 'home' }),
     __HOME_REGION_CARDS__: cards,
     __HOME_REGION_DIRECTORY__: directory,
     __HOME_REGION_COUNT__: String(regions.size),

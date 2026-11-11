@@ -10,8 +10,8 @@ test('all project pages have matching locale navigation, native links and theme 
     const html=renderProjectPage(page,language,{catalog});
     assert.match(html,new RegExp(`<html lang="${language}"`));
     assert.match(html,new RegExp(`href="${language==='en'?'../':'en/'}${page}\\.html"`));
-    for(const mode of ['light','dark','system'])assert(html.includes(`data-theme-choice="${mode}"`));
-    assert(html.includes('aria-current="page"'));assert(html.includes('id="main"'));
+    for(const mode of ['light','dark','system'])assert(html.includes(`option value="${mode}"`));
+    if (page === 'index' || page === 'downloads') assert(html.includes('aria-current="page"')); assert(html.includes('data-site-header')); assert(html.includes('id="main"'));
     assert(!html.includes('OJ NEXUS'));assert(!html.includes('Android'));assert(!/href="#"/.test(html));
   }
 });

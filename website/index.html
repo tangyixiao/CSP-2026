@@ -10,19 +10,14 @@
   <body>
     <a class="skip-link" href="#code-area">跳到代码</a>
     <div id="app">
-      <header class="app-header">
-        <button id="reader-nav-toggle" class="btn icon-button reader-nav-toggle" type="button" aria-label="打开导航菜单" aria-controls="reader-main-nav" aria-expanded="false">☰</button>
-        <a class="brand" href="../" aria-label="CSP 2026 全国归档首页"><span class="brand-mark" data-icon="code" aria-hidden="true"></span><strong>CSP 2026</strong></a>
-        <nav id="reader-main-nav" class="main-nav" aria-label="主导航"><a class="nav-home" href="../">首页</a><a class="nav-browse" href="./browse.html?view=browse">浏览</a><a href="./browse.html?view=discover">发现</a><a href="?mode=view" data-reader-nav="view" aria-current="page">阅读</a><a href="?mode=split" data-reader-nav="compare">比较</a><a href="./browse.html?view=sources">来源</a><a class="nav-downloads" href="../preview/downloads.html">下载</a></nav>
-        <button id="theme-toggle" class="btn icon-button theme-toggle" type="button" aria-label="切换为浅色主题" title="切换主题" data-icon="sun"></button>
-      </header>
+      <header class="app-header" data-site-header data-root="../"></header>
       <div class="workspace">
         <aside class="explorer" aria-label="档案浏览器">
           <div class="explorer-heading"><h2>代码库</h2><span id="archive-count" class="tiny-pill">载入中</span></div>
           <div class="explorer-tabs subnav" role="tablist" aria-label="选择浏览方式"><button id="tab-files" class="btn explorer-tab subnav-item is-active" role="tab" type="button" aria-selected="true" aria-controls="panel-files">文件</button><button id="tab-cases" class="btn explorer-tab subnav-item" role="tab" type="button" aria-selected="false" aria-controls="panel-cases" tabindex="-1">讨论案例 <span id="case-count"></span></button></div>
           <section id="panel-files" role="tabpanel" aria-labelledby="tab-files">
             <form id="filter-form" class="filter-form" aria-label="筛选源文件">
-              <div class="filter-pair"><label for="province-select">省区<select class="form-select" id="province-select" disabled><option>载入中…</option></select></label><label for="group-select">组别<select class="form-select" id="group-select" disabled><option value="S">CSP-S</option><option value="J">CSP-J</option></select></label></div>
+              <div class="filter-pair"><label for="province-select">省份<select class="form-select" id="province-select" disabled><option>载入中…</option></select></label><label for="group-select">组别<select class="form-select" id="group-select" disabled><option value="S">CSP-S</option><option value="J">CSP-J</option></select></label></div>
               <label for="contestant-input">考号 / 文件名<div class="search-field"><span data-icon="search" aria-hidden="true"></span><input class="form-control" id="contestant-input" type="search" placeholder="例如 SD-S00639" autocomplete="off" spellcheck="false" /></div></label>
               <label for="problem-select">题目<select class="form-select" id="problem-select" disabled><option value="">全部题目</option></select></label>
             </form>
@@ -31,7 +26,7 @@
             <div class="pagination"><button id="page-prev" class="btn small-button" type="button" aria-label="上一页" data-icon="left"></button><span id="page-indicator">—</span><button id="page-next" class="btn small-button" type="button" aria-label="下一页" data-icon="right"></button></div>
           </section>
           <section id="panel-cases" role="tabpanel" aria-labelledby="tab-cases" hidden>
-            <div class="case-search"><label class="sr-only" for="case-input">搜索讨论案例</label><div class="search-field"><span data-icon="search" aria-hidden="true"></span><input class="form-control" id="case-input" type="search" placeholder="考号、题目、省区" autocomplete="off" /></div></div>
+            <div class="case-search"><label class="sr-only" for="case-input">搜索讨论案例</label><div class="search-field"><span data-icon="search" aria-hidden="true"></span><input class="form-control" id="case-input" type="search" placeholder="考号、题目、省份" autocomplete="off" /></div></div>
             <div id="case-list" class="case-list"></div>
           </section>
         </aside>

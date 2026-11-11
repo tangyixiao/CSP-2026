@@ -71,7 +71,7 @@ test('root renderer rejects missing catalog coverage and never fabricates group 
   assert.ok(invalidDirectoryCount.includes('— 份档案'));
 });
 
-test('root appearance and darkness remain independent and leave an independently saved code theme untouched', async () => {
+test('root appearance and darkness use the shared cross-page theme preference', async () => {
   const callbacks = new Map(), windowCallbacks = new Map();
   const makeElement = () => ({ value: '', content: '', textContent: '', open: false, handlers: new Map(), attrs: {}, addEventListener(name, action) { this.handlers.set(name, action); }, setAttribute(name, value) { this.attrs[name] = value; }, contains() { return false; }, focus() {} });
   const root = { dataset: {} }, appearance = makeElement(), color = makeElement(), label = makeElement(), toggle = makeElement(), nav = makeElement(), panel = makeElement(), meta = makeElement();
@@ -82,21 +82,21 @@ test('root appearance and darkness remain independent and leave an independently
     window: { matchMedia: () => ({ matches: false, addEventListener() {} }), addEventListener: (name, action) => windowCallbacks.set(name, action) },
     localStorage: { getItem: key => saved.get(key), setItem: (key, value) => saved.set(key, value) },
   };
-  vm.runInNewContext(await readFile(new URL('../landing/assets/home.js', import.meta.url), 'utf8'), context);
-  callbacks.get('DOMContentLoaded')();
+  context.matchMedia = context.window.matchMedia;
+  context.CustomEvent = class { constructor(type, options) { this.type = type; this.detail = options.detail; } };
+  context.document.dispatchEvent = () => {};
+  context.mountSiteShell = () => {};
+  vm.runInNewContext(await readFile(new URL('../shared/theme.js', import.meta.url), 'utf8'), context);
+  vm.runInNewContext((await readFile(new URL('../landing/assets/home.js', import.meta.url), 'utf8')).replace(/^import .*;\n/m, ''), context);
   assert.equal(root.dataset.appearance, 'csp');
   assert.equal(root.dataset.theme, 'light');
-  appearance.value = 'noi'; appearance.handlers.get('change')();
+  context.window.CspProjectTheme.setAppearance('noi');
   assert.equal(root.dataset.appearance, 'noi');
   assert.equal(root.dataset.theme, 'light');
-  color.value = 'dark'; color.handlers.get('change')();
+  context.window.CspProjectTheme.setChoice('dark');
   assert.equal(root.dataset.theme, 'dark');
   assert.equal(saved.get('csp-site-appearance'), 'noi');
   assert.equal(saved.get('csp-project-theme'), 'dark');
-  assert.equal(saved.get('csp-code-theme'), 'light');
-  toggle.handlers.get('click')();
-  assert.equal(root.dataset.menuOpen, 'true');
-  callbacks.get('keydown')({ key: 'Escape' });
-  assert.equal(root.dataset.menuOpen, 'false');
-  assert.equal(toggle.attrs['aria-expanded'], 'false');
+  assert.equal(saved.get('csp-code-theme'), 'dark');
+
 });
