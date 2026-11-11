@@ -15,6 +15,7 @@
     "@primer/css": "^22.3.3",
     "@primer/octicons": "^19.42.0",
     "@primer/primitives": "^11.10.0",
+    "@wasm-fmt/clang-format": "23.1.1",
     "giscus": "^1.6.0",
     "monaco-editor": "^0.55.1"
   },

@@ -1,3 +1,4 @@
+import { hexPage } from './hex-view.js';
 export const REPOSITORY = 'tangyixiao/CSP-2026';
 export const MAX_SOURCE_BYTES = 2 * 1024 * 1024;
 export const MAX_SOURCE_PACK_BYTES = 32 * 1024 * 1024;
@@ -124,16 +125,24 @@ export async function loadArchiveBytes(file, { revision, signal } = {}) {
 export async function loadSource(file, { revision, signal } = {}) {
   const archiveBytes = await loadArchiveBytes(file, { revision, signal });
   let bytes = archiveBytes;
-  if (/\.gz$/i.test(file.path)) {
-    if (typeof DecompressionStream === 'undefined') throw new Error('此浏览器不支持 gzip 预览，请下载后解压。');
-    bytes = await readLimited(new Blob([archiveBytes]).stream().pipeThrough(new DecompressionStream('gzip')));
+  let archiveHex = false, previewNote = '';
+  if (archiveBytes[0] === 0x1f && archiveBytes[1] === 0x8b) {
+    try {
+      if (typeof DecompressionStream === 'undefined') throw new Error('此浏览器不支持解压');
+      bytes = await readLimited(new Blob([archiveBytes]).stream().pipeThrough(new DecompressionStream('gzip')));
+    } catch (error) {
+      signal?.throwIfAborted();
+      archiveHex = true; previewNote = `无法展开压缩内容（${error.message}），显示归档原始字节。`;
+    }
   }
   signal?.throwIfAborted();
-  const decoded = decodeSource(bytes);
+  let decoded;
+  try { if (archiveHex) throw new Error(); decoded = { ...decodeSource(bytes), viewFormat: 'text' }; }
+  catch { decoded = { ...hexPage(bytes), encoding: '二进制（十六进制）', viewFormat: 'hex' }; }
   const [sha256, contentSha256] = await Promise.all([
     hashBytes(archiveBytes), archiveBytes === bytes ? hashBytes(archiveBytes) : hashBytes(bytes),
   ]);
   signal?.throwIfAborted();
-  return { ...decoded, bytes, byteLength: bytes.length, archiveByteLength: archiveBytes.length,
-    sha256, contentSha256, compressed: archiveBytes !== bytes, language: file.language || languageFor(file.path) };
+  return { ...decoded, previewNote, bytes, byteLength: bytes.length, archiveByteLength: archiveBytes.length,
+    sha256, contentSha256, compressed: archiveBytes !== bytes, language: decoded.viewFormat === 'hex' ? 'plaintext' : file.language || languageFor(file.path) };
 }

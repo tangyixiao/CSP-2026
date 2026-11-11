@@ -100,7 +100,7 @@ export function buildCatalog(entries, revision) {
     if (!shards[key] || (!contestantSets.get(key).has(parts[2]) && !parts[2].toUpperCase().startsWith(`${key}`))) continue;
     contestantSets.get(key).add(parts[2]);
     (shards[key].extraFiles ??= []).push({ path:entry.path, blob:entry.blob, size:entry.size ?? null,
-      name:parts.at(-1), contestantDirectory:parts[2] });
+      name:parts.at(-1), contestant:parts[2].trim().toUpperCase(), contestantDirectory:parts[2] });
   }
   const groups = Object.keys(shards).sort().map((key) => {
     const [province, group] = key.split('-');

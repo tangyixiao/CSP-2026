@@ -1,3 +1,4 @@
+import { previewUnavailableLabel } from './archive-browse.js';
 import './browse.css';
 import { groupContestants, sortContestants, sampleContestant, sampleProblem, contestProblemFiles, parseBrowseRoute, scopeGroups, browseContestants, contestantTree, loadScopeCatalogs } from './archive-browse.js';
 import { REGIONS, regionImage } from './regions.js';
@@ -270,8 +271,8 @@ async function renderContestant() {
       filename.title = file.path; row.dataset.path = file.path;
       row.append(filename, node('span', 'directory-file-size', bytes(file.size)));
       const actions = node('div', 'directory-file-actions');
-      if (file.previewable !== false) actions.append(link('阅读', readerURL(file)), button('加入比较', () => addCompare(file)));
-      else actions.append(node('span', 'archive-only-label', '原格式文件'));
+      if (file.previewable !== false) actions.append(link(file.previewKind === 'hex' ? '十六进制' : '阅读', readerURL(file)), button('加入比较', () => addCompare(file)));
+      else actions.append(node('span', 'archive-only-label', previewUnavailableLabel(file)));
       actions.append(link('原文件 ↗', archivePathURL(file.path)));
       row.append(actions); parent.append(row);
     }

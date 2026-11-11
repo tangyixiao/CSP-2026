@@ -344,3 +344,16 @@ body[data-reader-mode="view"] .diff-tools { display: none; }
   .brand-mark { display: none; }
   .app-header .main-nav { gap: 16px; }
 }
+
+/* Reader-only tools preserve the archived source and use the existing palette. */
+.format-config { border-bottom: 1px solid var(--line); font-size: 13px; }
+.format-config summary { padding: 10px 14px; cursor: pointer; }
+.format-config-body { padding: 0 14px 14px; }
+.format-config-body p { line-height: 1.7; margin: 8px 0; }
+.format-config-body textarea { width: 100%; min-height: 280px; resize: vertical; padding: 12px; font: 13px/1.7 Consolas, monospace; color: inherit; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; white-space: pre; }
+.format-config-actions, .hex-controls, .hex-jump { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.format-config-actions { margin-top: 10px; }
+.format-config .has-error { color: var(--error); white-space: pre-wrap; overflow-wrap: anywhere; }
+.hex-controls { width: 100%; }
+.hex-jump input { min-width: 0; max-width: 150px; color: inherit; background: transparent; border: 1px solid var(--line); border-radius: 4px; padding: 5px; }
+@media(max-width:700px) { .format-config-actions .btn, .hex-controls button, .hex-jump input { min-height: 44px; } }
