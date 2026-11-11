@@ -5,6 +5,10 @@ const knownCount = value => typeof value === 'number' && Number.isFinite(value) 
 const comparePath = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 const contestProblems = { J: ['and', 'card', 'string', 'travel'], S: ['crystal', 'hub', 'migrate', 'subway'] };
 
+export function contestProblemOptions(group) {
+  return group === 'all' ? Object.values(contestProblems).flat() : [...(contestProblems[group] || [])];
+}
+
 /** Navigation may retain unknown path-derived labels, but random contest tasks
  * must come from the identified task set of the file's actual J/S group. */
 export function contestProblemFiles(files) {
@@ -123,10 +127,11 @@ export function parseBrowseRoute(search, availableProvinces) {
   if (scope === 'single') { province ||= available.has('ZJ') ? 'ZJ' : [...available][0] || ''; provinces = ''; }
   if (scope === 'multiple') province = '';
   const view = ['home', 'browse', 'contestant', 'discover', 'sources'].includes(query.get('view')) ? query.get('view') : 'home';
+  const group = ['J', 'S', 'all'].includes(query.get('group')) ? query.get('group') : view === 'discover' ? 'all' : 'S';
+  const problem = contestProblemOptions(group).includes(query.get('problem')) ? query.get('problem') : '';
   return {
-    view, scope, province, provinces,
-    group: ['J', 'S', 'all'].includes(query.get('group')) ? query.get('group') : view === 'discover' ? 'all' : 'S',
-    query: query.get('q') || '', problem: query.get('problem') || '',
+    view, scope, province, provinces, group,
+    query: query.get('q') || '', problem,
     sort: ['id', 'bytes', 'files', 'discussions', 'recent'].includes(query.get('sort')) ? query.get('sort') : 'id',
     direction: query.get('direction') === 'desc' ? 'desc' : 'asc',
     batch: [60, 120, 240].includes(Number(query.get('batch'))) ? Number(query.get('batch')) : 60,

@@ -1,6 +1,6 @@
 import { hexPage, HEX_PAGE_BYTES, parseHexOffset } from './hex-view.js';
 import { mountFormatControls } from './format-controls.js';
-import { catalogPreviewFiles } from './archive-browse.js';
+import { catalogPreviewFiles, contestProblemOptions } from './archive-browse.js';
 import '@primer/primitives/dist/css/functional/themes/light.css';
 import '@primer/primitives/dist/css/functional/themes/dark.css';
 import '@primer/css/dist/primitives.css';
@@ -234,7 +234,7 @@ function populateProvinces() {
 }
 
 function populateProblems(preserve = '') {
-  const problems = [...new Set(state.files.map((file) => file.problem).filter(Boolean))].sort();
+  const problems = contestProblemOptions(currentGroup()?.group);
   $('problem-select').replaceChildren(new Option('全部题目', ''), ...problems.map((problem) => new Option(problem, problem)));
   $('problem-select').value = problems.includes(preserve) ? preserve : '';
   $('problem-select').disabled = false;

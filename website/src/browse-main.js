@@ -1,6 +1,6 @@
 import { previewUnavailableLabel } from './archive-browse.js';
 import './browse.css';
-import { groupContestants, sortContestants, sampleContestant, sampleProblem, contestProblemFiles, parseBrowseRoute, scopeGroups, browseContestants, contestantTree, loadScopeCatalogs } from './archive-browse.js';
+import { groupContestants, sortContestants, sampleContestant, sampleProblem, contestProblemFiles, contestProblemOptions, parseBrowseRoute, scopeGroups, browseContestants, contestantTree, loadScopeCatalogs } from './archive-browse.js';
 import { REGIONS, regionImage } from './regions.js';
 import { applyAppearance, getSavedAppearance } from './site-appearance.js';
 import { loadSource, githubUrl } from './source.js';
@@ -192,7 +192,7 @@ function renderBrowse() {
   const searchLabel = node('label'), search = node('input'); search.type = 'search'; search.placeholder = '搜索考号、题目或文件名'; search.value = current.query; search.setAttribute('aria-label', '搜索归档'); searchLabel.append(search);
   toolbar.append(searchLabel);
   renderScopeControls(toolbar, current, next => navigate({ ...next, query: search.value, directory: '' }));
-  const selects = [['group', '组别', [['S', 'CSP-S'], ['J', 'CSP-J'], ['all', 'J / S']]], ['problem', '题目', [['', '全部题目'], ...['and', 'card', 'string', 'travel', 'crystal', 'hub', 'migrate', 'subway'].map(value => [value, value])]], ['sort', '排序', [['id', '考号'], ['bytes', '字节数'], ['files', '文件数'], ['discussions', '已关联讨论'], ['recent', '最近讨论']]], ['direction', '方向', [['asc', '升序'], ['desc', '降序']]], ['batch', '每批', [[60, '60 位选手'], [120, '120 位选手'], [240, '240 位选手']]]];
+  const selects = [['group', '组别', [['S', 'CSP-S'], ['J', 'CSP-J'], ['all', 'J / S']]], ['problem', '题目', [['', '全部题目'], ...contestProblemOptions(current.group).map(value => [value, value])]], ['sort', '排序', [['id', '考号'], ['bytes', '字节数'], ['files', '文件数'], ['discussions', '已关联讨论'], ['recent', '最近讨论']]], ['direction', '方向', [['asc', '升序'], ['desc', '降序']]], ['batch', '每批', [[60, '60 位选手'], [120, '120 位选手'], [240, '240 位选手']]]];
   for (const [key, label, options] of selects) {
     const wrapper = node('label', '', label), select = node('select'); select.setAttribute('aria-label', label);
     for (const [value, name] of options) select.add(new Option(name, value)); select.value = current[key];
@@ -323,7 +323,9 @@ async function renderRoute() {
   state.token++; previews = [];
   clearTimeout(searchTimer);
   $('content').replaceChildren();
-  const current = params(); for (const item of document.querySelectorAll('[data-view]')) { if (item.dataset.view === (current.view === 'contestant' ? 'browse' : current.view)) item.setAttribute('aria-current', 'page'); else item.removeAttribute('aria-current'); }
+  const current = params();
+  if (new URLSearchParams(location.search).has('problem') && !current.problem) { const url = new URL(location.href); url.searchParams.delete('problem'); history.replaceState(history.state, '', url); }
+  for (const item of document.querySelectorAll('[data-view]')) { if (item.dataset.view === (current.view === 'contestant' ? 'browse' : current.view)) item.setAttribute('aria-current', 'page'); else item.removeAttribute('aria-current'); }
   if (current.view === 'browse') renderBrowse(); else if (current.view === 'contestant') void renderContestant(); else if (current.view === 'discover') { $('content').append(intro('在原文件里，找线索', '从具体内容开始阅读，保留上下文，也保留疑问。', 'DISCOVER / READ CLOSELY')); void renderDiscoveries(true); } else if (current.view === 'sources') renderSources(); else renderHome();
   scrollTo(0, scrollPositions.get(location.href) || 0);
 }
