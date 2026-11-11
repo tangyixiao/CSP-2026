@@ -78,11 +78,7 @@ a:hover { color: var(--accent); }
 .directory[open] > summary span { display: inline-block; transform: rotate(180deg); }
 .directory-panel { margin-top: 12px; border: 1px solid var(--line); border-radius: 7px; padding: 17px; background: var(--surface); }
 .directory-panel h2 { font-size: 18px; margin-bottom: 12px; color: var(--heading); }
-.directory-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 24px; padding: 0; margin: 0; list-style: none; max-height: 65vh; overflow: auto; }
-.directory-list li { border-top: 1px solid var(--line); padding-top: 8px; min-width: 0; }
-.directory-name { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 600; }
-.directory-name span { font: 12px/1.8 Consolas, monospace; color: var(--muted); }
-.directory-list li > div { display: flex; gap: 17px; color: var(--accent); font-size: 12px; margin-top: 4px; }
+.directory-regions .region:first-child { grid-column: span 2; }
 .section-head { display: flex; justify-content: space-between; align-items: baseline; margin: 20px 0 12px; gap: 16px; }
 .section-head h2 { font-size: 21px; color: var(--heading); }
 .section-head a { color: var(--accent); font-size: 12px; }
@@ -120,6 +116,11 @@ html[data-appearance="noi"] .directory > summary { color: var(--heading); }
 html[data-appearance="noi"] .hero { padding: 22px 0 20px; }
 html[data-theme="dark"] { --ink: #e4ebf5; --muted: #a2b0c4; --accent: #89b8f5; --soft: #1a2d46; --line: #334256; --page: #111a28; --surface: #182435; --subtle: #1c2a3e; --heading: #eef4ff; color-scheme: dark; }
 html[data-theme="dark"][data-appearance="noi"] { --accent: #ff9b9b; --heading: #edf1ff; --page: #141a25; --soft: #372529; }
+html[data-theme="dark"] .scene { background: var(--surface); }
+html[data-theme="dark"] .scene img { filter: hue-rotate(var(--hue, -35deg)) saturate(.57) brightness(.58); }
+html[data-theme="dark"] .scene::after { background: linear-gradient(180deg, #142033f5 0%, #14203394 42%, #14203324 100%); }
+html[data-theme="dark"] .scene h2 { color: var(--heading); }
+html[data-theme="dark"] .scene h2 span, html[data-theme="dark"] .scene p { color: var(--muted); }
 html[data-theme="dark"] .button.primary { color: #101a2b; }
 html[data-theme="dark"][data-appearance="noi"] .button.primary { background: #d22525; border-color: #d22525; color: #fff; }
 
@@ -174,7 +175,7 @@ html[data-theme="dark"][data-appearance="noi"] .button.primary { background: #d2
   .feature header { font-size: 12px; }
   .directory { margin: 9px 0 16px; }
   .directory-panel { margin: 12px 0 0; padding: 12px; }
-  .directory-list { grid-template-columns: 1fr 1fr; gap: 12px 17px; }
+  .directory-regions .region, .directory-regions .region:first-child { grid-column: span 1; }
   .footer { flex-wrap: wrap; gap: 9px; margin-top: 22px; font-size: 11px; }
   .footer nav { gap: 18px; }
 }

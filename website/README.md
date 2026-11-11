@@ -2,6 +2,17 @@
 
 The national archive homepage is the actual [`/CSP-2026/`](https://tangyixiao.github.io/CSP-2026/) root, with catalog-derived region cards, search and random actions. Regional browsing is [`/CSP-2026/code/browse.html?view=browse`](https://tangyixiao.github.io/CSP-2026/code/browse.html?view=browse); the dedicated reader and comparison workbench is [`/CSP-2026/code/`](https://tangyixiao.github.io/CSP-2026/code/), with Monaco syntax highlighting and a side-by-side diff editor. Source snapshots are served from the same website, so a first visit does not depend on a connection to `raw.githubusercontent.com`. Public source materials are linked from the browser so readers can check the original observations and files. The root documentation remains available at `docs.html`.
 
+The root initially highlights five regions. Expanding **全部地区** adds the other
+24 as illustrated cards, each with its own J/S links and catalog-derived count.
+The packager includes all 29 WebP assets at the site root. Dark appearance adjusts
+the image brightness, overlay and captions together; light appearance retains its
+existing treatment.
+
+The root navigation also links the [paper library](../papers/README.md). Its static
+page and preserved PDFs are copied from `papers/` to `site-dist/papers/`, providing
+same-origin browser viewing and downloads. The source manifest identifies public
+copies and reading editions, including the Gym editions' standard-I/O adaptation.
+
 ## Illustrated presentation
 
 The corrected 2026-11-10 revision follows the maintainer-approved [root home and NOI appearance](../docs/design/root-home-noi-approved.png) and [Classic Plus reader](../docs/design/devcpp-classic-plus-approved.png) boards. The default uses white surfaces, ink text and blue controls. Optional NOI appearance has a separate masthead and full red navigation with a navy active state. Dev-C++ is an independently selected Classic Plus/Consolas reading profile; the CSP reader remains the default. Actual filenames, code and metadata come from the archive. See [the corrected design record](../docs/design/root-noi-classic-plus.md).

@@ -1,0 +1,23 @@
+.papers { padding-bottom: 20px; }
+.paper-grid h2 { font-size: 16px; line-height: 1.5; }
+.paper-grid h2 small { display: block; font-family: inherit; font-weight: 400; }
+.paper-grid header > span { flex-shrink: 0; color: var(--muted); font-size: 12px; }
+.paper-grid .feature-body { padding: 16px; }
+.paper-grid .feature-body > p { font-size: 13px; }
+.paper-grid .feature-body > p:first-child { margin-top: 0; }
+.paper-grid .feature-body a:not(.button), .paper-notes a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.paper-grid .feature-body .paper-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 12px; }
+.paper-notes { margin-top: 26px; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 7px; }
+.paper-notes h2 { font-size: 20px; margin-bottom: 10px; color: var(--heading); }
+.paper-notes p { margin-top: 12px; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.paper-notes ul { padding-left: 22px; }
+.paper-notes li + li { margin-top: 8px; }
+.papers [lang="en"] { color: var(--muted); }
+@media (max-width: 700px) {
+  .paper-grid { grid-template-columns: 1fr; }
+  .paper-grid header { gap: 8px; }
+  .paper-grid .feature-body .paper-actions .button { font-size: 12px; padding: 8px 11px; }
+  .paper-notes { padding: 16px; }
+  .appearance-panel label { display: grid; gap: 6px; }
+  .appearance-panel select { width: 100%; }
+}
