@@ -191,7 +191,7 @@ export async function loadScopeCatalogs(groups, loadGroup, { onProgress = () => 
         for (const [files, previewable] of [[data.files, true], [data.extraFiles || [], false]]) {
           for (const file of files) {
             if (!validFilePath(file?.path) || !file.path.startsWith(`${group.province}/${group.group}/`) || entries.has(file.path)) continue;
-            entries.set(file.path, previewable ? file : { ...file, previewable: false });
+            entries.set(file.path, previewable || file.previewable === true ? file : { ...file, previewable: false });
           }
         }
         results[index] = [...entries.values()];
@@ -206,4 +206,12 @@ export async function loadScopeCatalogs(groups, loadGroup, { onProgress = () => 
   const count = Math.min(groups.length, Math.max(1, Math.min(4, Math.floor(concurrency) || 4)));
   await Promise.all(Array.from({ length: count }, worker));
   return { files: isCurrent() ? results.flatMap(files => files || []) : [], failedGroups, cancelled: !isCurrent() };
+}
+
+/** Legacy source candidates work; extras require byte inspection at publication. */
+export function catalogPreviewFiles(data) {
+  return [...data.files.filter(file => file.previewable !== false), ...(data.extraFiles || []).filter(file => file.previewable === true)].map(file => file.contestant ? file : { ...file, contestant: file.path.split('/')[2].trim().toUpperCase() });
+}
+export function previewUnavailableLabel(file) {
+  return ({ 'too-large': '超过 2 MiB 预览上限', 'binary': '二进制文件', 'not-in-snapshot': '阅读能力待核验' })[file.previewReason] || '阅读能力待核验';
 }

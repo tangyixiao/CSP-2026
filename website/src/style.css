@@ -344,3 +344,8 @@ body[data-reader-mode="view"] .diff-tools { display: none; }
   .brand-mark { display: none; }
   .app-header .main-nav { gap: 16px; }
 }
+
+.hex-controls, .hex-jump { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.hex-controls { width: 100%; }
+.hex-jump input { min-width: 0; max-width: 150px; color: inherit; background: transparent; border: 1px solid var(--line); border-radius: 4px; padding: 5px; }
+@media(max-width:700px) { .hex-controls button, .hex-jump input { min-height: 44px; } }

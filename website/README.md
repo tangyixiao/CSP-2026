@@ -140,3 +140,8 @@ URLs separate from official GitHub URLs and never forward credentials.
 The preserved landing assets originate from `project-pages` commit `18973f751ccddfa941150d2a3480cf6ecc5a29ac`. Font files retain their original bytes. Landing navigation and archive links are maintained in `landing/`; current directories are generated from the catalog at packaging time. Official test data is linked at `test-data/J/official` and `test-data/S/official`, and Zhejiang source records at `ZJ/sources`.
 
 A successful local build proves that the artifact can be generated. A successful workflow run, live Pages response, source fetch, Monaco worker load, and GitHub comment submission are separate checks.
+
+
+### Content previews
+
+All contestant blobs included in the byte-preserving source snapshot are inspected during generation, independently of filenames. Plain UTF-8, GB18030 and BOM-marked UTF-16 files, including extensionless input data, are readable. Binary files have paged read-only hexadecimal/ASCII views with offsets. Gzip is detected from its signature, with bounded expansion; a failed or oversized expansion offers the archived compressed bytes in hex. Files above the existing 2 MiB snapshot limit retain original-download links and show a concrete limit label. Catalog preview coverage reports inspected text, hex, unavailable and unchecked paths.

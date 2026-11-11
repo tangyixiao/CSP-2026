@@ -56,5 +56,17 @@ test('caps expanded gzip data before it reaches the code editor', async t => {
   const stream = new Blob([new Uint8Array(MAX_SOURCE_BYTES + 1)]).stream().pipeThrough(new CompressionStream('gzip'));
   const bytes = new Uint8Array(await new Response(stream).arrayBuffer());
   t.mock.method(globalThis, 'fetch', async () => new Response(snapshot(bytes)));
-  await assert.rejects(loadSource({path:'SC/J/A/large.cpp.gz',blob:gitHash(bytes)}, {revision}), /2 MiB/);
+  const result = await loadSource({path:'SC/J/A/large.cpp.gz',blob:gitHash(bytes)}, {revision});
+  assert.equal(result.viewFormat, 'hex');
+  assert.deepEqual(result.bytes, bytes);
+  assert.match(result.previewNote, /2 MiB/);
+});
+
+test('binary bytes use read-only paged hex with original hashes and no decoding corruption', async t => {
+  const bytes = new Uint8Array([0x7f, 0x45, 0x4c, 0x46, 2, 1, 1, 0, 65]);
+  t.mock.method(globalThis, 'fetch', async () => new Response(snapshot(bytes)));
+  const result = await loadSource({ path: 'ZJ/S/ZJ-S1/hub/program.cpp', blob: gitHash(bytes) }, { revision });
+  assert.equal(result.viewFormat, 'hex'); assert.equal(result.language, 'plaintext');
+  assert.deepEqual(result.bytes, bytes); assert.equal(result.sha256, await hashBytes(bytes));
+  assert.match(result.text, /7F 45 4C 46 02 01 01 00/); assert.match(result.text, /\.ELF\.\.\.\.A/);
 });

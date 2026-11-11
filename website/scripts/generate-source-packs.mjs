@@ -4,6 +4,7 @@ import { mkdir, open, readFile, readdir, unlink, writeFile } from 'node:fs/promi
 import { dirname, resolve } from 'node:path';
 import { createInterface } from 'node:readline';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { inspectPreviewContent } from './preview-content.mjs';
 import { updateCatalogSizes } from './catalog-sizes.mjs';
 
 export const SOURCE_LIMIT = 2 * 1024 * 1024;
@@ -83,7 +84,7 @@ export async function* readBatchObjects(stream, { limit = SOURCE_LIMIT } = {}) {
 }
 
 /** SHA ordering makes each bucket a single streaming write, with one open file. */
-export async function writeSourcePacks(objects, outputDirectory) {
+export async function writeSourcePacks(objects, outputDirectory, { onObject = () => {} } = {}) {
   await mkdir(outputDirectory, { recursive: true });
   let currentBucket = null;
   let handle = null;
@@ -94,6 +95,7 @@ export async function writeSourcePacks(objects, outputDirectory) {
   let bucketBytes = 0;
   try {
     for await (const object of objects) {
+      await onObject(object);
       const bucket = sourceBucket(object.sha);
       if (object.sha <= previousSha) throw new Error('Source objects must have unique, sorted SHAs');
       previousSha = object.sha;
@@ -192,6 +194,7 @@ async function main() {
   };
   const availableHashes = [];
   const blobSizes = new Map();
+  const previews = new Map();
   const checking = startGit(['cat-file', '--batch-check=%(objectname) %(objecttype) %(objectsize)'], repositoryRoot);
   const feedingCheck = feedHashes(checking.child, hashes);
   feedingCheck.catch(() => {});
@@ -202,6 +205,7 @@ async function main() {
       const record = classifyBatchCheck(line);
       if (record.sha !== hashes[checkedCount++]) throw new Error('Unexpected git cat-file check order');
       summary[record.status]++;
+      if (record.status !== 'available') previews.set(record.sha, { previewable: false, previewReason: record.status === 'skipped' ? 'too-large' : 'not-in-snapshot' });
       if (record.size !== null) blobSizes.set(record.sha, record.size);
       if (record.status === 'available') availableHashes.push(record.sha);
       else if (summary[`${record.status}Samples`].length < 8) summary[`${record.status}Samples`].push(record.sha);
@@ -218,12 +222,13 @@ async function main() {
   const feedingRead = feedHashes(reading.child, availableHashes);
   feedingRead.catch(() => {});
   try {
-    const packed = await writeSourcePacks(readBatchObjects(reading.child.stdout), outputDirectory);
+    const packed = await writeSourcePacks(readBatchObjects(reading.child.stdout), outputDirectory, { onObject: ({ sha, bytes }) => previews.set(sha, inspectPreviewContent(bytes)) });
     await Promise.all([feedingRead, reading.done]);
     if (packed.available !== summary.available) throw new Error('Source pack count differs from Git check');
     summary.buckets = packed.buckets;
   } catch (error) { reading.child.kill(); throw error; }
-  await updateCatalogSizes(resolve(repositoryRoot, 'website/public'), blobSizes, revision);
+  await updateCatalogSizes(resolve(repositoryRoot, 'website/public'), blobSizes, revision, previews);
+  summary.previewCoverage = JSON.parse(await readFile(resolve(repositoryRoot, 'website/public/catalog/index.json'), 'utf8')).previewCoverage;
   await writeFile(resolve(outputDirectory, 'index.json'), `${JSON.stringify(summary, null, 2)}\n`, 'utf8');
   console.log(JSON.stringify({ ...summary, peakRssMiB: Math.round(process.resourceUsage().maxRSS / 1024) }));
 }

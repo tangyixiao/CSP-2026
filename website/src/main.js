@@ -1,3 +1,5 @@
+import { hexPage, HEX_PAGE_BYTES, parseHexOffset } from './hex-view.js';
+import { catalogPreviewFiles } from './archive-browse.js';
 import '@primer/primitives/dist/css/functional/themes/light.css';
 import '@primer/primitives/dist/css/functional/themes/dark.css';
 import '@primer/css/dist/primitives.css';
@@ -79,7 +81,7 @@ function setTheme(theme, { preserveProjectChoice = false } = {}) {
 function setMode(mode, { announce = false } = {}) {
   state.mode = mobile.matches ? 'inline' : validMode(mode);
   document.body.dataset.readerMode = state.mode;
-  document.querySelector('.workbench-heading h1').textContent = state.mode === 'view' || !state.left.file || !state.right.file ? '代码阅读' : '代码比对';
+  document.querySelector('.workbench-heading h1').textContent = state.mode === 'view' || !state.left.file || !state.right.file ? (state.left.source?.viewFormat === 'hex' || state.right.source?.viewFormat === 'hex' ? '十六进制查看' : '代码阅读') : '代码比对';
   document.body.dataset.viewSide = state.left.file ? 'left' : 'right';
   document.querySelectorAll('[data-mode]').forEach((button) => { button.setAttribute('aria-pressed', String(button.dataset.mode === state.mode)); });
   document.querySelector('[data-mode="inline"]').textContent = mobile.matches ? '单栏阅读' : '内联';
@@ -130,6 +132,7 @@ function updateLocation() {
   if (!state.catalog) { updateReaderNavigation(); return; }
   const url = new URL(window.location.href);
   for (const side of ['left', 'right']) { const path = state[side].file?.path; if (path) url.searchParams.set(side, path); else url.searchParams.delete(side); }
+  for (const side of ['left', 'right']) { if (state[side].status === 'loading') continue; const source = state[side].source; if (source?.viewFormat === 'hex' && source.offset) url.searchParams.set(`${side}Offset`, String(source.offset)); else url.searchParams.delete(`${side}Offset`); }
   if (state.activeCase) url.searchParams.set('case', state.activeCase.id); else url.searchParams.delete('case');
   url.searchParams.set('mode', state.mode);
   url.searchParams.set('theme', state.theme);
@@ -166,7 +169,7 @@ async function groupFiles(group, { includeExtras = false } = {}) {
     catalogCache.set(group.key, request);
   }
   const data = await catalogCache.get(group.key);
-  return includeExtras ? [...data.files, ...(data.extraFiles || [])] : data.files;
+  return includeExtras ? [...data.files, ...(data.extraFiles || [])] : catalogPreviewFiles(data);
 }
 
 let downloadBusy = false;
@@ -424,13 +427,17 @@ async function selectFile(side, file, { keepCase = false } = {}) {
     if (state[side].sequence !== sequence || controller.signal.aborted) return;
     state[side].source = source;
     state[side].status = 'ready';
+    if (source.viewFormat === 'hex') {
+      let offset = 0; try { offset = parseHexOffset(initialQuery.get(side) === file.path ? initialQuery.get(`${side}Offset`) || '0' : '0'); } catch { /* start at zero */ }
+      Object.assign(source, hexPage(source.bytes, offset));
+    }
   } catch (error) {
     if (state[side].sequence !== sequence || controller.signal.aborted) return;
     state[side].status = 'error';
     state[side].error = formatError(error);
   }
   if (state[side].sequence !== sequence) return;
-  renderSources(); syncEditor();
+  renderSources(); syncEditor(); updateLocation();
 }
 
 function sourceModel(side) {
@@ -462,7 +469,7 @@ function renderMetadata(side) {
     dl.append(el('dt', '', name), el('dd', '', value));
   }
   const actions = el('div', 'metadata-actions');
-  const copy = el('button', '', '复制代码'); copy.type = 'button'; copy.addEventListener('click', async () => { try { await copyText(source.text); toast(`${side === 'left' ? 'A' : 'B'} 文件代码已复制。`); } catch { toast('复制失败，请在代码视图中选择并复制。'); } });
+  const copy = el('button', '', source.viewFormat === 'hex' ? '复制当前页十六进制' : '复制原文'); copy.type = 'button'; copy.addEventListener('click', async () => { try { await copyText(source.text); toast(`${side === 'left' ? 'A' : 'B'} ${source.viewFormat === 'hex' ? '当前页十六进制' : '文件原文'}已复制。`); } catch { toast('复制失败，请在代码视图中选择并复制。'); } });
   const raw = el('a', '', '查看原始文件 ↗'); raw.href = githubUrl(slot.file.path, state.catalog.revision); raw.target = '_blank'; raw.rel = 'noreferrer';
   actions.append(copy, raw);
   container.append(dl, actions);
@@ -488,13 +495,14 @@ function renderComparisonStatus() {
   else if (left || right) target.textContent = '已打开 1 份源文件 · 选择另一份即可比较';
   else target.textContent = '选择两份文件即可比较';
   if (state.diffIncomplete && left && right) target.textContent += ' · 差异计算达到时限，当前显示结果可能不完整';
+  const isHex = left?.viewFormat === 'hex' || right?.viewFormat === 'hex';
   const language = left?.language || right?.language || 'cpp';
-  $('editor-language').textContent = `${language === 'cpp' ? 'C++' : language} · 只读`;
+  $('editor-language').textContent = `${isHex ? 'HEX · 16 字节 / 行' : language === 'cpp' ? 'C++' : language} · 只读`;
 }
 
 function renderSources() {
   updateReaderNavigation();
-  document.querySelector('.workbench-heading h1').textContent = state.mode === 'view' || !state.left.file || !state.right.file ? '代码阅读' : '代码比对';
+  document.querySelector('.workbench-heading h1').textContent = state.mode === 'view' || !state.left.file || !state.right.file ? (state.left.source?.viewFormat === 'hex' || state.right.source?.viewFormat === 'hex' ? '十六进制查看' : '代码阅读') : '代码比对';
   document.body.dataset.viewSide = state.left.file ? 'left' : 'right';
   document.body.classList.toggle('single-file', Boolean(state.left.file) !== Boolean(state.right.file));
   const messages = [];
@@ -507,9 +515,14 @@ function renderSources() {
     $(`${side}-path`).title = slot.file?.path || '';
     $(`${side}-clear`).disabled = !slot.file;
     $(`${side}-copy`).disabled = slot.status !== 'ready';
+    $(`${side}-copy`).setAttribute('aria-label', slot.source?.viewFormat === 'hex' ? `复制 ${letter} 当前页十六进制` : `复制 ${letter} 文件代码`);
+    $(`${side}-copy`).title = $(`${side}-copy`).getAttribute('aria-label');
     $(`${side}-download-menu`).hidden = !slot.file;
     if (slot.status === 'loading') messages.push(`${letter}：正在读取 ${fileName(slot.file)}`);
     else if (slot.status === 'error') { messages.push(`${letter}：${slot.error}`); hasError = true; }
+    else if (slot.source) {
+      if (slot.source.viewFormat === 'hex') messages.push(`${letter}：十六进制 · 归档字节只读${slot.source.compressed ? '（解压后）' : ''}${slot.source.previewNote ? ` · ${slot.source.previewNote}` : ''}`);
+    }
     renderMetadata(side);
   }
   $('source-status').classList.toggle('has-error', hasError);
@@ -518,7 +531,23 @@ function renderSources() {
   for (const side of ['left', 'right']) if (state[side].status === 'error') {
     const button = el('button', '', `重试 ${side === 'left' ? 'A' : 'B'}`); button.type = 'button'; button.addEventListener('click', () => { void selectFile(side, state[side].file, { keepCase: true }); }); $('source-status').append(button);
   }
+  for (const side of ['left', 'right']) if (state[side].source?.viewFormat === 'hex') appendHexControls(side);
   renderComparisonStatus();
+}
+
+function appendHexControls(side) {
+  const source = state[side].source, letter = side === 'left' ? 'A' : 'B';
+  const controls = el('div', 'hex-controls'); controls.dataset.side = side;
+  const change = offset => { Object.assign(source, hexPage(source.bytes, offset)); renderSources(); syncEditor(); updateLocation(); };
+  controls.append(el('span', '', `${letter}：0x${source.offset.toString(16).toUpperCase()}–0x${source.end.toString(16).toUpperCase()} / ${formatBytes(source.total)}（结束偏移不含）`));
+  for (const [name, offset, disabled] of [['上一页', source.offset - HEX_PAGE_BYTES, source.offset === 0], ['下一页', source.end, source.end >= source.total]]) {
+    const button = el('button', '', name); button.type = 'button'; button.disabled = disabled; button.setAttribute('aria-label', `${letter} 十六进制${name}`); button.addEventListener('click', () => change(offset)); controls.append(button);
+  }
+  const form = el('form', 'hex-jump');
+  const input = el('input'); input.type = 'text'; input.placeholder = '0x100 或 256'; input.setAttribute('aria-label', `${letter} 字节偏移`); input.size = 12;
+  const jump = el('button', '', '跳转'); jump.type = 'submit';
+  form.append(input, jump); form.addEventListener('submit', event => { event.preventDefault(); try { const offset = parseHexOffset(input.value); if (offset >= source.total && source.total) throw new Error('偏移超出文件大小。'); change(offset); } catch (error) { toast(error.message); } });
+  controls.append(form); $('source-status').append(controls);
 }
 
 function discussionContext() {
@@ -647,7 +676,7 @@ $('left-clear').addEventListener('click', () => clearSource('left'));
 $('right-clear').addEventListener('click', () => clearSource('right'));
 for (const side of ['left', 'right']) $(`${side}-copy`).addEventListener('click', async () => {
   if (!state[side].source) return;
-  try { await copyText(state[side].source.text); toast(`${side === 'left' ? 'A' : 'B'} 文件代码已复制。`); }
+  try { await copyText(state[side].source.text); toast(`${side === 'left' ? 'A' : 'B'} ${state[side].source.viewFormat === 'hex' ? '当前页十六进制' : '文件原文'}已复制。`); }
   catch { toast('复制失败，请在代码视图中选择并复制。'); }
 });
 $('open-discussion').addEventListener('click', () => { state.commentsOpen = true; renderDiscussion(); $('discussion-title').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
