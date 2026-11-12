@@ -764,6 +764,7 @@ function initializeReadingControls() {
 
 async function randomJump(kind, control) {
   if (!state.catalog || state.randomBusy) return;
+  if (!state.directoryReady || state.failedGroups.length) { toast('文件索引尚未完整加载，请等待加载完成或重试目录后再随机。'); return; }
   state.randomBusy = true;
   const randomControls = document.querySelectorAll('.random-actions button');
   randomControls.forEach(button => { button.disabled = true; });

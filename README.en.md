@@ -26,10 +26,10 @@ CSP-J/S 2026 first-round papers and reference materials, second-round statements
 
 | Date | Category | Published change | Record |
 | --- | --- | --- | --- |
+| 2026-11-12 | Website | Shared compact random selection, cross-region reader scopes and direct search-hit navigation | [PR #66](https://github.com/tangyixiao/CSP-2026/pull/66) |
+| 2026-11-12 | Website/docs | Task-based usage guide, explicit actions and actionable failure messages | [PR #65](https://github.com/tangyixiao/CSP-2026/pull/65) |
 | 2026-11-12 | Website | Compact nationwide indexes, one Appearance menu and revised Chinese/English copy | [PR #64](https://github.com/tangyixiao/CSP-2026/pull/64) |
 | 2026-11-12 | Website/docs | Round 2 files obtained; acquisition, checks and publication tracked separately | [PR #63](https://github.com/tangyixiao/CSP-2026/pull/63) |
-| 2026-11-12 | Website/docs | FAQ, verification status, changelog and checksum/maintenance guides | [PR #62](https://github.com/tangyixiao/CSP-2026/pull/62) |
-| 2026-11-12 | Website | Shared SVG identity/navigation, group-aware tasks, original text by default | [PR #60](https://github.com/tangyixiao/CSP-2026/pull/60) |
 | 2026-11-08 | Archive release | 29 region ZIPs, checksums and release index | [Archive snapshot](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) |
 
 [The full changelog](CHANGELOG.md) lists website/docs changes and archive materials separately. Inventory dates and revisions are recorded with the statistics below.
@@ -91,7 +91,7 @@ Online previews are limited to 2 MiB per file. Oversized entries show a concrete
 <details>
 <summary>How do I search, sort or compare across provinces?</summary>
 
-Choose nationwide scope or selected provinces in the browser, then choose group, task and order. Sorting covers the complete selected scope. Add two files from contestant folders to compare them, including across provinces. Links retain scope/filter state; switching J/S resets incompatible task filters.
+Choose nationwide scope or selected provinces in the browser, then choose group, task and order. Sorting covers the complete selected scope. The reader offers the same scope controls, so files from different provinces can be selected as A and B. Opening files, switching reading/comparison and sharing links retain scope and search state; switching J/S resets incompatible task filters.
 
 </details>
 
@@ -112,7 +112,7 @@ No. The merged library includes third-party copies, a community typeset edition 
 <details>
 <summary>Why does a task-filtered contestant folder still contain other files?</summary>
 
-The outer filter selects contestant directories. Opening one shows its complete file tree, including other tasks, backups and nested folders. This lets you inspect the full directory. Batches default to 60 folders, with 120 and 240 options.
+The outer filter selects contestant directories. Cards show matching files first and highlight search terms. Clicking a filename focuses that file in the complete folder tree, which retains other tasks, backups and nested folders. Batches default to 60 folders, with 120 and 240 options.
 
 </details>
 

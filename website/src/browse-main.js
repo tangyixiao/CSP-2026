@@ -45,7 +45,7 @@ function navigate(next) { navigationVersion++; scrollPositions.set(location.href
 function directoryURL(directory, file = '') { return routeURL({ view: 'contestant', directory, file }); }
 function readerURL(file, other) {
   const current = params();
-  const query = new URLSearchParams({ left: file.path, mode: other ? 'split' : 'view', focus: '1', returnTo: directoryURL(file.path.split('/').slice(0, 3).join('/')),
+  const query = new URLSearchParams({ left: file.path, mode: other ? 'split' : 'view', focus: '1', returnTo: directoryURL(file.path.split('/').slice(0, 3).join('/'), file.path),
     scope: current.scope, province: current.province, provinces: current.provinces, group: current.group, search: current.query, problem: current.problem });
   if (other) query.set('right', other.path); return `./?${query}`;
 }

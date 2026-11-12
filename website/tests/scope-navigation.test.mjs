@@ -44,6 +44,7 @@ test('reader scopes round trip national, single and multiple selections while re
  const inherited=navigation.readReaderScope('?left=ZJ/S/raw/a.cpp',codes,{province:'ZJ',group:'S',search:'raw'});
  assert.equal(inherited.scope,'single');assert.equal(inherited.search,'raw');
  assert.equal(navigation.readReaderScope('?scope=multiple&provinces=XX',codes).provinces,'');
+  assert.equal(navigation.readReaderScope('?scope=all&group=J&problem=hub',codes).problem,'');
 });
 
 test('scoped random choices stay uniform over folders and select only query-compatible contest tasks',()=>{
