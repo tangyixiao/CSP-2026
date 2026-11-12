@@ -1,6 +1,6 @@
 # CSP 2026 code browser
 
-The national archive homepage is the actual [`/CSP-2026/`](https://tangyixiao.github.io/CSP-2026/) root, with catalog-derived region cards, search and random actions. Regional browsing is [`/CSP-2026/code/browse.html?view=browse`](https://tangyixiao.github.io/CSP-2026/code/browse.html?view=browse); the dedicated reader and comparison workbench is [`/CSP-2026/code/`](https://tangyixiao.github.io/CSP-2026/code/), with Monaco syntax highlighting and a side-by-side diff editor. Source snapshots are served from the same website, so a first visit does not depend on a connection to `raw.githubusercontent.com`. Public source materials are linked from the browser so readers can check the original observations and files. The root documentation remains available at `docs.html`.
+The national archive homepage is the actual [`/CSP-2026/`](https://tangyixiao.github.io/CSP-2026/) root, with catalog-derived region cards, search and random actions. Contestant browsing is [`/CSP-2026/code/browse.html?view=browse`](https://tangyixiao.github.io/CSP-2026/code/browse.html?view=browse); the dedicated reader and comparison workbench is [`/CSP-2026/code/`](https://tangyixiao.github.io/CSP-2026/code/), with Monaco syntax highlighting and a side-by-side diff editor. Source snapshots are served from the same website, so a first visit does not depend on a connection to `raw.githubusercontent.com`. Public source materials are linked from the browser so readers can check the original observations and files. The root documentation remains available at `docs.html`.
 
 The root initially highlights five regions. Expanding **全部地区** adds the other
 24 as illustrated cards, each with its own J/S links and catalog-derived count.
@@ -13,9 +13,13 @@ page and preserved PDFs are copied from `papers/` to `site-dist/papers/`, provid
 same-origin browser viewing and downloads. The source manifest identifies public
 copies and reading editions, including the Gym editions' standard-I/O adaptation.
 
-## Illustrated presentation
+## Shared identity and presentation
 
-The corrected 2026-11-10 revision follows the maintainer-approved [root home and NOI appearance](../docs/design/root-home-noi-approved.png) and [Classic Plus reader](../docs/design/devcpp-classic-plus-approved.png) boards. The default uses white surfaces, ink text and blue controls. Optional NOI appearance has a separate masthead and full red navigation with a navy active state. Dev-C++ is an independently selected Classic Plus/Consolas reading profile; the CSP reader remains the default. Actual filenames, code and metadata come from the archive. See [the corrected design record](../docs/design/root-noi-classic-plus.md).
+The maintainer-approved 2026-11-12 identity uses equal-height navy C/P and a curved crimson S from [`shared/brand.js`](shared/brand.js). Headers and homepage branding render the same SVG paths, including dark-mode colors. The README [light](../docs/assets/readme/logo.svg) and [dark](../docs/assets/readme/logo-dark.svg) exports use those exact paths; the current [homepage screenshot](../docs/design/runtime-brand-home-20261112.jpg) records the published page.
+
+`shared/site-header.js`, `shared/site-shell.js`, `shared/site-shell.css` and `shared/theme.js` provide common navigation, appearance controls and typography across all public page types. New visitors default to the NOI-reference red navigation with a navy active state; saved CSP/NOI choices remain respected. Regular titles use neutral ink. Light/dark/system choice persists across page types. The favicon is included in reader/browse HTML by the Vite transform and linked by the static/generated pages. Packaging must ship `shared/brand.js` alongside the other shell modules.
+
+Site appearance is independent of editor reading profiles. CSP remains the initial reading view; Dev-C++ Classic Plus/Consolas and Geany are manually selected presentation profiles. Earlier [root-home](../docs/design/root-home-noi-approved.png), [reader](../docs/design/devcpp-classic-plus-approved.png) and [design-scope](../docs/design/root-noi-classic-plus.md) records remain historical references.
 
 `src/assets/regions/` contains 29 separate AI-generated regional illustrations, each optimized to a 1280 × 427 WebP. Together they use 1,791,746 bytes (1.71 MiB). [The public asset manifest](src/assets/regions/manifest.json) records the generator, common prompt and each region's subject. `src/regions.js` uses explicit region-to-image URLs so Vite includes the assets; unsupported codes return no image rather than another region's landmark.
 
@@ -28,7 +32,7 @@ node --test website/tests/regions.test.mjs
 
 The encoder defaults to the cross-platform `ffmpeg` command, or a compatible existing executable selected with `FFMPEG_PATH`. It processes images sequentially, validates existing outputs before skipping, and tries WebP quality 82/74/66 against a 240 KiB individual budget. The 29-image total budget is 5 MiB. Current files all meet the budget at quality 82. The local input manifest may contain machine paths and must remain in `work/`; the public source manifest must not contain those paths. Native originals remain in their original tool output location.
 
-The full region asset check has passed for all 29 actual files, including container/raster parsing, dimensions, distinct hashes and budgets; the bundled image codec also decoded all files while creating an internal QA contact sheet. The integrated revision passed 69/69 local Node tests and the Vite frontend build, retaining the existing Monaco size warning. Desktop validation used 1280 pixels and mobile validation 390 pixels; the mobile page had no horizontal overflow, and all regional image mappings and the menu were checked. Current CI, complete source packaging and deployment still require their separate verification records.
+The full region asset check has passed for all 29 actual files, including container/raster parsing, dimensions, distinct hashes and budgets; the bundled image codec also decoded all files while creating an internal QA contact sheet. The 2026-11-12 shared-shell and branding revision passed 93 local Node tests and the Vite build. Browser checks covered 16 Chinese/English page types, desktop, 390/320-pixel mobile widths, dark mode and saved compact appearance without document-width overflow or broken images. Complete archive packaging, Pages construction and deployment passed in [the publication workflow](https://github.com/tangyixiao/CSP-2026/actions/runs/43206965864). These results describe that revision; later changes need their own current checks.
 
 ## Development
 
@@ -57,7 +61,7 @@ The archive browser represents each exact original contestant directory as a fol
 
 The scope selector supports nationwide aggregation, one fixed province and a selected set of provinces. Search and sorting operate across the complete selected scope, rather than separately within province sections. File-count and byte metrics use the whole directory, and unknown values remain last. All selected catalog shards are fetched with at most four concurrent metadata requests; failures are labeled as partial results with a retry action. Cached shards are reused when filters change. Source bodies are not prefetched for folder cards. The default batch is 60 contestant folders, with 120 and 240 options and an explicit next-batch control. Scope, filters, order, batch size and exact directory identities are URL-addressable.
 
-Discovery, source attribution, random directory/problem navigation and two-file comparison remain available. The default reading view is CSP; Dev-C++/Geany are manually selected presentation profiles, separate from the optional NOI site appearance. No contestant program is executed.
+Discovery, source attribution, random directory/problem navigation and two-file comparison remain available. The default reading view is CSP; Dev-C++/Geany are manually selected presentation profiles, separate from the site appearance setting. No contestant program is executed.
 
 The browser's Vite base is relative (`./`) so its assets and worker files work at the repository's `/CSP-2026/code/` path. Keep the trailing slash when linking to that directory. Monaco is bundled from the `monaco-editor` npm package, including its worker; viewing code does not require VS Code to be installed.
 
@@ -112,7 +116,7 @@ The [supplementary Luogu article record](sources/luogu-r62p05jf.md) accounts for
 
 The bilingual project-site preview is published at `/preview/` with four pages,
 language-preserving navigation, light/dark/system themes and domestic/direct
-download modes. The formal landing page remains in place until visual approval.
+download modes. The formal root homepage is the approved national archive entry; the four bilingual information pages remain under `/preview/` and share its identity, navigation and appearance settings.
 `project.json` holds the repository facts, release tag and download proxy setting.
 
 Each source pane offers an original-file download and a ZIP of the complete

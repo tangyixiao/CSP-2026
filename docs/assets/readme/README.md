@@ -1,37 +1,13 @@
 # README presentation assets
 
-The logo, banners and feature cards are original CSP-2026 vector artwork,
-distributed under the project's Apache-2.0 license. The wordmark and banners
-reference the typography of the NOI website masthead: bold italic serif letters,
-navy and red, heavy Chinese Song-style headings, and a horizontal rule. The CSP
-lettering and archive layout are a project-specific composition, not an official
-CCF or NOI logo. No institutional logos, DSH mascot art or remote images are
-embedded.
+The CSP lettermark was synchronized with the approved website identity on 2026-11-12. The three paths in `logo.svg`, `logo-dark.svg` and each localized banner come directly from [`website/shared/brand.js`](../../../website/shared/brand.js). C/S/P have matching cap heights and baselines; the red S has curved transitions and no detached red dot. The logo uses vector contours rather than installed font glyphs and remains sharp when scaled.
 
-The wordmark uses Liberation Serif Bold Italic and Regular; banner headings use
-Noto Serif CJK SC Black and Regular. Both typefaces use SIL Open Font License 1.1.
-Their lettering is converted to SVG paths, so the artwork needs no installed
-fonts, remote font requests or scripts. Font files are not distributed here.
+The logo, banners and feature cards are original project-specific CSP-2026 artwork under the project's Apache-2.0 scope. The design references the [NOI masthead](https://www.noi.cn/) and official visual material from [2021](https://www.noi.cn/xw/2021-04-22/726635.shtml), [2023](https://www.noi.cn/xw/2023-07-29/794492.shtml), [2024](https://noi.cn/xw/2024-07-23/828235.shtml) and [2025](https://noi.cn/xw/2025-07-18/846585.shtml). It is a CSP archive identity, not an official CCF/NOI emblem.
 
-The subject and palette reference the [NOI homepage](https://www.noi.cn/) and its
-[introduction to the NOI series and CSP-J/S](https://www.noi.cn/gynoi/jj/2020-09-29/708625.shtml).
-The artwork labels this repository's CSP-J/S 2026 archive; it does not claim to
-contain NOI national-final papers or submissions.
+The remaining banner labels and feature-card lettering retain the earlier Liberation Serif and Noto Serif CJK SC outlines. Both font families use SIL Open Font License 1.1; no font files, remote font requests or scripts are embedded in these SVGs. Updating the CSP contours does not change that text or its attribution.
 
-The presentation order follows the maintainer's own
-[DSH Provider Doctor README](https://github.com/tangyixiao/dsh-provider-doctor)
-and [DSH Plugin Market README](https://github.com/tangyixiao/dsh-plugin-market):
-centered logo, localized banner, feature cards, current Star badge and Star History.
-Only that layout pattern is referenced; each displayed capability describes CSP-2026.
+Chinese and English banners and feature cards retain explicit light/dark variants. The presentation order references the maintainer's [DSH Provider Doctor](https://github.com/tangyixiao/dsh-provider-doctor) and [DSH Plugin Market](https://github.com/tangyixiao/dsh-plugin-market) READMEs: centered logo, localized banner, feature cards, live Star badge and Star History. Those projects supply a layout reference, not CSP capabilities. No DSH mascot art or institutional logo is embedded.
 
-Chinese and English banners and cards have explicit light/dark SVG variants.
-The local artwork contains no Star totals or synthesized history. README badges
-and charts request real repository data from Shields.io and Star History, with
-links to GitHub stargazers and the interactive history view.
+Star badges and charts use external Shields.io/Star History responses linked to actual GitHub data; the local assets contain no synthesized Star totals or history. The separate `docs/design/runtime-brand-home-20261112.jpg` is a screenshot of the published CSP homepage, not a concept board.
 
-Logo、Banner 和功能卡片为本项目原创 SVG，采用项目 Apache-2.0 许可。
-Logo 与 Banner 参考 NOI 官网字标的粗斜体衬线字、深蓝和红色，以及厚宋体
-中文标题和横线排版。字标写作 CSP，附 J/S 与 2026；这是项目标识，不是
-CCF 或 NOI 官方徽标。Logo 和 Banner 的文字均已转为矢量路径，避免设备
-字体差异。Logo、中英文 Banner 和卡片提供深浅色版本。DSH 插件仅作为
-展示结构的参考；Star 数量和历史由外部服务按真实数据展示。
+README 字标和中英文 Banner 已同步网站的等高 CSP 矢量轮廓，并保留深浅色版本。Banner 其余文字与功能卡片沿用原有字体转曲及许可说明。正式站截图与设计参考图分别保留。

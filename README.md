@@ -1,4 +1,4 @@
-<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/logo-dark.svg"><img src="docs/assets/readme/logo.svg" width="240" height="144" alt="CSP-J/S 2026 信息学竞赛归档字标"></picture></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/logo-dark.svg"><img src="docs/assets/readme/logo.svg" width="300" height="74" alt="CSP-J/S 2026 信息学竞赛归档字标"></picture></p>
 
 <h1 align="center">CSP-2026</h1>
 
@@ -20,7 +20,7 @@
 
 [试题 PDF](https://tangyixiao.github.io/CSP-2026/papers/) · [在线浏览](https://tangyixiao.github.io/CSP-2026/) · [代码阅读与对比](https://tangyixiao.github.io/CSP-2026/code/) · [分地区下载](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) · [资料来源](SOURCES.md) · [参与贡献](CONTRIBUTING.md)
 
-![CSP-2026 全国归档首页的实际运行画面](docs/design/runtime-root-home-csp-desktop.png)
+![CSP-2026 全国归档首页的实际运行画面](docs/design/runtime-brand-home-20261112.jpg)
 
 ## 第一轮与第二轮试题
 
@@ -47,7 +47,12 @@
 | 保存某个地区的材料 | 打开[下载页](https://tangyixiao.github.io/CSP-2026/preview/downloads.html)，选择对应地区 |
 | 提问、交流或补充资料 | 前往 [Discussions](https://github.com/tangyixiao/CSP-2026/discussions)；明确的文件或网站问题请提 [Issue](https://github.com/tangyixiao/CSP-2026/issues/new/choose) |
 
-阅读器支持语法高亮、差异行跳转和可分享的选区链接。地区浏览支持排序与随机选手、随机题目入口；项目介绍页提供中文、英文及浅色、深色、跟随系统外观。网站只展示和下载归档文件，不编译或运行选手程序。
+阅读器支持语法高亮、差异行跳转和可分享的选区链接。网站只展示和下载归档文件，不编译或运行选手程序。
+
+- **选手文件夹与范围筛选**：每位选手以原始目录显示为文件夹，进入后可查看全部文件和嵌套目录。支持全国汇总、固定省份及自选多个省份；搜索与排序统一作用于整个选定范围。默认每批 60 个文件夹，可切换为 120 或 240 个。
+- **题目与文件阅读**：J/S 组别各自显示对应题目，切换组别会清除不兼容的题目筛选。无扩展名文件按内容识别；二进制内容可通过分页十六进制／ASCII 视图查看。单文件快照上限仍为 2 MiB。
+- **默认显示原文**：C/C++ 格式化需要手动开启。完整 `.clang-format` 内容可以编辑、校验、导入、导出及恢复默认；复制、下载和字节校验始终使用归档原文件。
+- **统一外观**：首页、浏览、发现、阅读／比较、来源、试题、下载、文档和英文页共用导航、明暗设置与 SVG 字标。C、S、P 等高，浅色／深色版本支持无损缩放。新访客默认使用红色导航的 NOI 参考外观，已有外观偏好会保留。
 
 <a id="coverage-and-interpretation"></a>
 
