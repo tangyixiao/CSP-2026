@@ -26,7 +26,7 @@
 
 | 日期 | 类别 | 已发布内容 | 记录 |
 | --- | --- | --- | --- |
-| 2026-11-12 | 网站／文档 | 中英文 README、品牌配图与说明同步 | [PR #61](https://github.com/tangyixiao/CSP-2026/pull/61) |
+| 2026-11-12 | 网站／文档 | 折叠 FAQ、核验进度、更新记录与校验／维护指南 | [PR #62](https://github.com/tangyixiao/CSP-2026/pull/62) |
 | 2026-11-12 | 网站功能 | 统一 SVG 字标与导航、组别题目筛选、默认显示原文 | [PR #60](https://github.com/tangyixiao/CSP-2026/pull/60) |
 | 2026-11-11 | 网站功能 | 按内容识别文本／二进制、十六进制阅读、完整格式化配置 | [PR #59](https://github.com/tangyixiao/CSP-2026/pull/59) |
 | 2026-11-11 | 网站功能 | 完整选手文件夹与全国／单省／多省范围 | [PR #58](https://github.com/tangyixiao/CSP-2026/pull/58) |

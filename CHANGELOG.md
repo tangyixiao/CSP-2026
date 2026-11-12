@@ -8,6 +8,7 @@ Dates use **Asia/Shanghai (UTC+8)**. Website/docs updates and archive-material c
 
 ### 网站、文档与维护 / Website, documentation and maintenance
 
+- [PR #62](https://github.com/tangyixiao/CSP-2026/pull/62): add folded FAQ, verification/collection progress, dated history, checksum examples and maintainer navigation. / 补充本次五项文档。
 - [PR #61](https://github.com/tangyixiao/CSP-2026/pull/61): Sync bilingual READMEs with the published branding and reader behavior
 - [PR #60](https://github.com/tangyixiao/CSP-2026/pull/60): Unify site branding, navigation and J/S task filters
 

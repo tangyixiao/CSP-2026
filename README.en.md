@@ -26,7 +26,7 @@ CSP-J/S 2026 first-round papers and reference materials, second-round statements
 
 | Date | Category | Published change | Record |
 | --- | --- | --- | --- |
-| 2026-11-12 | Website/docs | Bilingual READMEs, brand assets and current usage descriptions | [PR #61](https://github.com/tangyixiao/CSP-2026/pull/61) |
+| 2026-11-12 | Website/docs | FAQ, verification status, changelog and checksum/maintenance guides | [PR #62](https://github.com/tangyixiao/CSP-2026/pull/62) |
 | 2026-11-12 | Website | Shared SVG identity/navigation, group-aware tasks, original text by default | [PR #60](https://github.com/tangyixiao/CSP-2026/pull/60) |
 | 2026-11-11 | Website | Content-aware text/binary previews, hex reader and full formatter configuration | [PR #59](https://github.com/tangyixiao/CSP-2026/pull/59) |
 | 2026-11-11 | Website | Complete contestant folders and national/single/multiple-province scopes | [PR #58](https://github.com/tangyixiao/CSP-2026/pull/58) |
