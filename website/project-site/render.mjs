@@ -1,4 +1,5 @@
 import { renderSiteHeader } from '../shared/site-header.js';
+import { renderBrandMark } from '../shared/brand.js';
 import { cpSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -83,7 +84,7 @@ export function renderProjectPage(page, language, { catalog, caseCount = 39 } = 
   const image = `<img src="${assets}workbench.png" alt="${escape(t.screen)}" width="1266" height="712" loading="lazy">`;
   const browserLink = `${root}code/`;
   let content = '';
-  if (page === 'index') content = `<section class="intro"><p class="eyebrow">${t.eyebrow}</p><h1>${t.headline}</h1><p class="lede">${t.intro}</p><div class="hero-actions"><a class="button" href="${browserLink}">${t.browse} <span aria-hidden="true">↗</span></a><a href="downloads.html">${t.download} →</a></div><div class="facts"><span>${provinces.length} ${t.regions}</span><span>${catalog.groups.length} ${t.groups}</span><span>${caseCount} ${t.cases}</span></div></section>
+  if (page === 'index') content = `<section class="intro brand-intro">${renderBrandMark()}<p class="eyebrow">${t.eyebrow}</p><h1>${t.headline}</h1><p class="lede">${t.intro}</p><div class="hero-actions"><a class="button" href="${browserLink}">${t.browse} <span aria-hidden="true">↗</span></a><a href="downloads.html">${t.download} →</a></div><div class="facts"><span>${provinces.length} ${t.regions}</span><span>${catalog.groups.length} ${t.groups}</span><span>${caseCount} ${t.cases}</span></div></section>
   <figure class="workbench-figure"><div class="figure-toolbar"><span>${t.screen}</span><a href="${browserLink}">${t.try}</a></div><a class="workbench-image" href="${browserLink}">${image}</a><figcaption>${t.caption}</figcaption></figure>
   <section class="section"><div class="task-row"><h2>${t.taskTitle}</h2><div><p>${t.taskText}</p><a href="${browserLink}">${t.taskLink}</a></div></div><div class="task-row"><h2>${t.compareTitle}</h2><div><p>${t.compareText}</p><a href="${browserLink}?case=sd-j01423-sd-j01948-card">${t.compareLink}</a></div></div></section>
   <section class="section"><h2>${t.coverage}</h2><p class="section-lead">${t.coverageText}</p><div class="province-inline">${provinces.map(code=>`<a href="${browserLink}?province=${code}&group=S" title="${escape((names[code]||[code,code])[en?1:0])}">${code}</a>`).join('')}</div></section>`;
@@ -101,7 +102,7 @@ git sparse-checkout add /SH/S/</pre></section>`;
     content=`<section class="page-intro"><p class="eyebrow">${t.nav[3]}</p><h1>${t.communityTitle}</h1><p>${t.communityIntro}</p></section><ul class="community-list">${t.communityRows.map(([icon,title,text],i)=>`<li><a href="${links[i]}"><span class="community-icon" aria-hidden="true">${icon}</span><div><h2>${title}</h2><p>${text}</p></div><span class="arrow" aria-hidden="true">→</span></a></li>`).join('')}</ul><section class="section"><h2>${t.contribution}</h2><p class="section-lead">${t.contributionText}</p><p class="section-lead"><a href="${REPOSITORY}/blob/main/CONTRIBUTING.md">${t.readme} ↗</a></p></section>`;
   }
   const otherLanguage = en ? `../${page}.html` : `en/${page}.html`;
-  return `<!doctype html><html lang="${language}" data-site-shell="true" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${escape(page==='index'?t.intro:t.downloadsIntro)}"><meta name="color-scheme" content="light dark"><meta name="robots" content="noindex"><title>${escape(t.nav[pageNames.indexOf(page)])} · CSP 2026</title><script src="${assets}theme.js"></script><link rel="stylesheet" href="${assets}site.css"><link rel="stylesheet" href="${assets}site-shell.css"></head><body><a class="skip" href="#main">${t.skip}</a>${renderSiteHeader({ root, active: page === 'index' ? 'home' : page, language })}<main id="main" class="wrap">${content}</main><footer class="site-footer"><div class="wrap footer-inner"><p>CSP 2026 · ${t.footer}</p><nav><a href="${otherLanguage}" lang="${en?'zh-CN':'en'}">${en?'简体中文':'English'}</a><a href="${root}docs.html">${t.docs}</a><a href="${REPOSITORY}">GitHub</a><a href="${REPOSITORY}/issues/new/choose">${t.issues}</a></nav></div></footer><script type="module" src="${assets}site.js"></script></body></html>\n`;
+  return `<!doctype html><html lang="${language}" data-site-shell="true" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${escape(page==='index'?t.intro:t.downloadsIntro)}"><meta name="color-scheme" content="light dark"><meta name="robots" content="noindex"><link rel="icon" href="${root}favicon.svg" type="image/svg+xml"><title>${escape(t.nav[pageNames.indexOf(page)])} · CSP 2026</title><script src="${assets}theme.js"></script><link rel="stylesheet" href="${assets}site.css"><link rel="stylesheet" href="${assets}site-shell.css"></head><body><a class="skip" href="#main">${t.skip}</a>${renderSiteHeader({ root, active: page === 'index' ? 'home' : page, language })}<main id="main" class="wrap">${content}</main><footer class="site-footer"><div class="wrap footer-inner"><p>CSP 2026 · ${t.footer}</p><nav><a href="${otherLanguage}" lang="${en?'zh-CN':'en'}">${en?'简体中文':'English'}</a><a href="${root}docs.html">${t.docs}</a><a href="${REPOSITORY}">GitHub</a><a href="${REPOSITORY}/issues/new/choose">${t.issues}</a></nav></div></footer><script type="module" src="${assets}site.js"></script></body></html>\n`;
 }
 
 export function writeProjectPreview(outputDirectory, options) {
@@ -110,7 +111,7 @@ export function writeProjectPreview(outputDirectory, options) {
   for (const file of ['site.css','site.js','theme.js','download-mode.js','workbench.png']) {
     cpSync(resolve(sourceDirectory,file),resolve(outputDirectory,'assets',file));
   }
-  for (const file of ['site-shell.css', 'site-shell.js', 'site-header.js', 'site-init.js', 'theme.js']) cpSync(resolve(sourceDirectory, '../shared', file), resolve(outputDirectory, 'assets', file));
+  for (const file of ['site-shell.css', 'site-shell.js', 'site-header.js', 'site-init.js', 'theme.js', 'brand.js']) cpSync(resolve(sourceDirectory, '../shared', file), resolve(outputDirectory, 'assets', file));
   for (const language of ['zh-CN','en']) for (const page of pageNames) {
     writeFileSync(resolve(outputDirectory,language==='en'?'en':'',page+'.html'),renderProjectPage(page,language,options));
   }

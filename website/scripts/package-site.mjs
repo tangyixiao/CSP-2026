@@ -116,7 +116,7 @@ const rootIllustrations = sortedProvinces.map(([code]) => {
 rmSync(outputRoot, { recursive: true, force: true });
 mkdirSync(outputRoot, { recursive: true });
 cpSync(landingRoot, outputRoot, { recursive: true });
-for (const file of ['site-shell.css', 'site-shell.js', 'site-header.js', 'site-init.js', 'theme.js']) cpSync(path.join(websiteRoot, 'shared', file), path.join(outputRoot, 'assets', file));
+for (const file of ['site-shell.css', 'site-shell.js', 'site-header.js', 'site-init.js', 'theme.js', 'brand.js']) cpSync(path.join(websiteRoot, 'shared', file), path.join(outputRoot, 'assets', file));
 const rootArtDirectory = path.join(outputRoot, 'assets', 'regions');
 mkdirSync(rootArtDirectory, { recursive: true });
 for (const { code, source } of rootIllustrations) {

@@ -88,7 +88,7 @@ test('root appearance and darkness use the shared cross-page theme preference', 
   context.mountSiteShell = () => {};
   vm.runInNewContext(await readFile(new URL('../shared/theme.js', import.meta.url), 'utf8'), context);
   vm.runInNewContext((await readFile(new URL('../landing/assets/home.js', import.meta.url), 'utf8')).replace(/^import .*;\n/m, ''), context);
-  assert.equal(root.dataset.appearance, 'csp');
+  assert.equal(root.dataset.appearance, 'noi');
   assert.equal(root.dataset.theme, 'light');
   context.window.CspProjectTheme.setAppearance('noi');
   assert.equal(root.dataset.appearance, 'noi');

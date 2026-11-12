@@ -1,4 +1,5 @@
 import { renderSiteHeader } from '../shared/site-header.js';
+import { renderBrandMark } from '../shared/brand.js';
 import { REGIONS } from '../src/regions.js';
 
 export const ROOT_FEATURED_REGIONS = Object.freeze(['ZJ', 'BJ', 'SC', 'SH', 'GD']);
@@ -44,7 +45,7 @@ export function renderRootHome(template, catalog, { shards = {} } = {}) {
     __HOME_REVISION__: escape(catalog.revision),
     __HOME_SHORT_REVISION__: escape(catalog.revision.slice(0, 12)),
   };
-  let html = template;
+  let html = template.replace('<section class="hero" aria-labelledby="home-title">', `<section class="hero brand-banner" aria-labelledby="home-title"><div class="brand-banner-art" aria-hidden="true">${renderBrandMark()}<pre>ZJ/S/ZJ-S00007/\n${tree}</pre></div>`);
   for (const [marker, replacement] of Object.entries(replacements)) {
     if (!html.includes(marker)) throw new Error(`Missing root-home template marker: ${marker}`);
     html = html.replaceAll(marker, replacement);

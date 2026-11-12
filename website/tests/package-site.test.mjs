@@ -52,7 +52,9 @@ test('Pages packaging includes every displayed regional illustration and preserv
     assert.deepEqual(await readFile(path.join(website, 'site-dist/papers/round-2/example.pdf')), pdf);
     const paperHTML = await readFile(path.join(website, 'site-dist/papers/index.html'), 'utf8');
     assert.match(paperHTML, /data-site-header/); assert.match(paperHTML, /href="round-2\/example.pdf"/);
-    for (const asset of ['site-shell.css', 'site-shell.js', 'site-header.js', 'theme.js']) assert.ok((await readFile(path.join(website, 'site-dist/assets', asset))).length);
+    for (const asset of ['site-shell.css', 'site-shell.js', 'site-header.js', 'theme.js', 'brand.js']) assert.ok((await readFile(path.join(website, 'site-dist/assets', asset))).length);
+    const favicon = await readFile(path.join(website, 'site-dist/favicon.svg'), 'utf8');
+    assert.match(favicon, /viewBox="0 0 128 128"/);
   } finally {
     await rm(fixture, { recursive: true, force: true });
   }

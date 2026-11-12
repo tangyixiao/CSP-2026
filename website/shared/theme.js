@@ -2,11 +2,12 @@
   if (window.CspProjectTheme?.unified) return;
   const root = document.documentElement, system = matchMedia('(prefers-color-scheme: dark)');
   root.dataset.siteShell = 'true';
-  let choice = 'light', appearance = 'csp';
+  let choice = 'light', appearance = 'noi';
   try {
     const saved = localStorage.getItem('csp-project-theme');
     if (['light', 'dark', 'system'].includes(saved)) choice = saved;
-    appearance = localStorage.getItem('csp-site-appearance') === 'noi' ? 'noi' : 'csp';
+    const savedAppearance = localStorage.getItem('csp-site-appearance');
+    if (['csp', 'noi'].includes(savedAppearance)) appearance = savedAppearance;
   } catch { /* Settings still work without storage. */ }
   function apply(persist = false) {
     const theme = choice === 'system' ? system.matches ? 'dark' : 'light' : choice;
@@ -27,7 +28,7 @@
   system.addEventListener('change', () => { if (choice === 'system') apply(); });
   window.addEventListener('storage', event => {
     if (event.key === 'csp-project-theme') choice = ['light', 'dark', 'system'].includes(event.newValue) ? event.newValue : 'light';
-    else if (event.key === 'csp-site-appearance') appearance = event.newValue === 'noi' ? 'noi' : 'csp';
+    else if (event.key === 'csp-site-appearance') appearance = event.newValue === 'csp' ? 'csp' : 'noi';
     else return;
     apply();
   });
