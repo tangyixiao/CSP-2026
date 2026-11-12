@@ -83,12 +83,12 @@ function renderHome() {
   const preferred = ['ZJ', 'BJ', 'SC', 'SH', 'GD'];
   const codes = preferred.filter(code => regionCodes().includes(code));
   const covers = node('div', 'region-grid'); covers.append(...codes.slice(0, 5).map(regionCover)); $('content').append(covers);
-  $('content').append(button(`全部 ${regionCodes().length} 个地区 ↓`, openRegions, 'all-regions'), sectionHeading('从文件里看看', routeURL({ view: 'discover' }), '前往发现 →'));
+  $('content').append(button(`全部 ${regionCodes().length} 个地区 ↓`, openRegions, 'all-regions'), sectionHeading('发现文件', routeURL({ view: 'discover' }), '前往发现 →'));
   void renderDiscoveries(false);
 }
 const discoveries = [
   { id: 'ZJ-S00007', title: '题目目录之外', path: 'ZJ/S/ZJ-S00007/mycode/pre_hub.cpp', kind: 'directory', description: '打开 mycode 子目录，阅读其中的多份程序。' },
-  { id: 'ZJ-S00004', title: '从一段实现开始', path: 'ZJ/S/ZJ-S00004/crystal/crystal.cpp', kind: 'source', description: '查看 ch(int k) 的原始实现与上下文。这里是一条阅读入口，尚非特色定论。' },
+  { id: 'ZJ-S00004', title: '一段函数实现', path: 'ZJ/S/ZJ-S00004/crystal/crystal.cpp', kind: 'source', description: '查看 ch(int k) 的实现及其所在文件。' },
   { id: 'ZJ-S00006', title: '注释中的样例', path: 'ZJ/S/ZJ-S00006/hub/hub.cpp', kind: 'comment', description: '阅读代码中的长样例注释及其上下文。' },
 ];
 async function renderDiscoveries(full) {
@@ -219,7 +219,7 @@ async function renderBrowseResults(container, current) {
   container.replaceChildren(); container.setAttribute('aria-busy', 'true');
   const status = node('p', 'browse-summary', '正在加载选手索引…'); status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite'); container.append(status);
   const groups = scopeGroups(state.catalog.groups, current);
-  if (!groups.length) { status.textContent = '当前范围没有归档目录，请选择至少一个已收录省份。'; container.removeAttribute('aria-busy'); return; }
+  if (!groups.length) { status.textContent = '当前范围没有选手目录，请调整省份或组别。多省合并时需至少选中一个省份。'; container.removeAttribute('aria-busy'); return; }
   loadBrowseScope ||= createBrowseLoader(state.catalog, json, groupData);
   const loaded = await loadBrowseScope(groups, { isCurrent: active, onProgress: value => { status.textContent = `正在加载 ${scopeLabel(current)} 选手索引${value.failed ? `（${value.failed} 份目录暂不可用）` : ''}…`; } });
   if (!active() || loaded.cancelled) return;
@@ -249,7 +249,7 @@ async function renderContestant() {
   const back = link('← 返回选手列表', routeURL({ view: 'browse', directory: '' }), 'folder-back'); $('content').append(back);
   if (!directory || !catalogGroup) { $('content').append(intro('选手目录无效', '请从归档列表重新选择选手。')); return; }
   const header = intro(name, `${regionName(province)} · CSP-${group} · 该选手归档的全部文件`); header.classList.add('contestant-intro'); $('content').append(header);
-  const result = node('div', 'directory-content'); result.setAttribute('aria-busy', 'true'); result.append(node('p', 'loading', '正在读取完整选手目录…')); $('content').append(result);
+  const result = node('div', 'directory-content'); result.setAttribute('aria-busy', 'true'); result.append(node('p', 'loading', '正在加载选手的全部文件…')); $('content').append(result);
   const active = () => token === state.token && result.isConnected;
   const loaded = await loadScopeCatalogs([catalogGroup], groupData, { isCurrent: active });
   if (!active()) return;
@@ -262,7 +262,7 @@ async function renderContestant() {
   actions.append(button('展开全部', () => { for (const item of listing.querySelectorAll('details')) item.open = true; }, 'quiet-action'), button('折叠目录', () => { for (const item of listing.querySelectorAll('details')) item.open = false; }, 'quiet-action'));
   const download = button('下载选手目录 ZIP', async () => {
     download.disabled = true;
-    try { announce('正在准备完整选手目录 ZIP…'); const count = await saveContestantDirectory(files[0], files, state.catalog.revision); announce(`已下载选手目录 ZIP，共 ${count} 个文件。`); }
+    try { announce('正在打包选手目录 ZIP…'); const count = await saveContestantDirectory(files[0], files, state.catalog.revision); announce(`已下载选手目录 ZIP，共 ${count} 个文件。`); }
     catch (error) { announce(error.message); } finally { download.disabled = false; }
   }, 'quiet-action');
   actions.append(download, link('GitHub 原目录 ↗', archivePathURL(directory, true), 'quiet-action'));
@@ -334,7 +334,7 @@ async function renderRoute() {
   const current = params();
   if (new URLSearchParams(location.search).has('problem') && !current.problem) { const url = new URL(location.href); url.searchParams.delete('problem'); history.replaceState(history.state, '', url); }
   for (const item of document.querySelectorAll('[data-view]')) { if (item.dataset.view === (current.view === 'contestant' ? 'browse' : current.view)) item.setAttribute('aria-current', 'page'); else item.removeAttribute('aria-current'); }
-  if (current.view === 'browse') renderBrowse(); else if (current.view === 'contestant') void renderContestant(); else if (current.view === 'discover') { $('content').append(intro('发现归档文件', '浏览程序、注释和子目录，打开原文件查看上下文。', 'DISCOVER / READ CLOSELY')); void renderDiscoveries(true); } else if (current.view === 'sources') renderSources(); else renderHome();
+  if (current.view === 'browse') renderBrowse(); else if (current.view === 'contestant') void renderContestant(); else if (current.view === 'discover') { $('content').append(intro('发现文件', '浏览程序、注释和子目录，打开原文件查看上下文。', 'DISCOVER / READ CLOSELY')); void renderDiscoveries(true); } else if (current.view === 'sources') renderSources(); else renderHome();
   scrollTo(0, scrollPositions.get(location.href) || 0);
 }
 function closeNavigation() { siteShell.closeMenu(); }

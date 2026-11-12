@@ -1,7 +1,7 @@
 export const MAX_CONFIG_BYTES = 64 * 1024;
 export function validateConfigText(config) {
-  if (typeof config !== 'string' || !config.trim()) throw new Error('配置不能为空。');
-  if (new TextEncoder().encode(config).length > MAX_CONFIG_BYTES) throw new Error('配置超过 64 KiB 上限。');
+  if (typeof config !== 'string' || !config.trim()) throw new Error('配置不能为空，请填写内容或应用默认配置。');
+  if (new TextEncoder().encode(config).length > MAX_CONFIG_BYTES) throw new Error('配置超过 64 KiB 上限，请精简内容后重试。');
   return config;
 }
 
@@ -22,7 +22,7 @@ export function createFormatter() {
         pending.delete(data.id); clearTimeout(job.timer);
         if (data.error) job.reject(new Error(data.error)); else job.resolve(data.text);
       };
-      worker.onerror = () => stop('格式化引擎载入失败，请重试或切换原文。');
+      worker.onerror = () => stop('格式化引擎加载失败，请重试或点击“显示原文”。');
     }
     const id = ++nextId;
     return new Promise((resolve, reject) => {
