@@ -3,6 +3,9 @@ import { mountSiteShell } from '../shared/site-shell.js';
 import { hexPage, HEX_PAGE_BYTES, parseHexOffset } from './hex-view.js';
 import { mountFormatControls } from './format-controls.js';
 import { catalogPreviewFiles, contestProblemOptions } from './archive-browse.js';
+import { scopeGroups } from './archive-browse.js';
+import { createBrowseLoader } from './browse-index.js';
+import { readReaderScope, writeReaderScope, readerScopeKey, filterReaderFiles, resolveReaderFile, appendSearchText } from './scope-navigation.js';
 import '@primer/primitives/dist/css/functional/themes/light.css';
 import '@primer/primitives/dist/css/functional/themes/dark.css';
 import '@primer/css/dist/primitives.css';
@@ -22,7 +25,7 @@ import { groupContestants, sampleContestant, sampleProblem, contestProblemFiles 
 import { getProvenance } from './provenance.js';
 import { normalizeReadingProfile } from './reading-profiles.js';
 
-let formatControls;
+let formatControls, loadReaderScope, readerSearchTimer;
 const $ = (id) => document.getElementById(id);
 const PAGE_SIZE = 24;
 const caseItems = Array.isArray(cases) ? cases : [];
@@ -32,6 +35,7 @@ const initialQuery = new URLSearchParams(window.location.search);
 const state = {
   catalog: null, files: [], page: 0, directorySequence: 0, caseSequence: 0,
   activeCase: null, ambiguity: [], directoryError: null, directoryReady: false, loadedDirectory: null,
+  provinces: '', failedGroups: [],
   downloadMode: savedDownloadMode(),
   theme: initialQuery.get('theme') === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : ['light', 'dark'].includes(initialQuery.get('theme')) ? initialQuery.get('theme') : initialQuery.get('profile') === 'devcpp' ? 'light' : getSavedTheme(),
   mode: mobile.matches ? 'inline' : validMode(initialQuery.get('mode')),
@@ -131,15 +135,8 @@ function updateLocation() {
   url.searchParams.set('mode', state.mode);
   url.searchParams.set('theme', window.CspProjectTheme.getChoice());
   if (state.readingProfile !== 'csp') url.searchParams.set('profile', state.readingProfile); else url.searchParams.delete('profile');
-  const selectedGroup = currentGroup();
-  if (state.directoryReady && selectedGroup?.key === state.loadedDirectory?.key) {
-    url.searchParams.set('province', selectedGroup.province);
-    url.searchParams.set('group', selectedGroup.group);
-    const search = $('contestant-input').value.trim();
-    if (search) url.searchParams.set('search', search); else url.searchParams.delete('search');
-    const problem = $('problem-select').value;
-    if (problem) url.searchParams.set('problem', problem); else url.searchParams.delete('problem');
-    url.searchParams.set('page', String(state.page));
+  if (state.directoryReady && readerScopeKey(currentReaderScope()) === state.loadedDirectory) {
+    url.search = writeReaderScope(url.searchParams, currentReaderScope(), { search: $('contestant-input').value.trim(), problem: $('problem-select').value, page: state.page }).toString();
   }
   window.history.replaceState(window.history.state, '', url);
   updateReaderNavigation(url);
@@ -151,10 +148,11 @@ async function fetchJSON(url) {
   return response.json();
 }
 
-async function groupFiles(group, { includeExtras = false } = {}) {
-  if (!group) return [];
+async function groupData(group) {
+  if (!group) return null;
   if (!catalogCache.has(group.key)) {
     const url = new URL(group.url, new URL('.', document.baseURI));
+    url.searchParams.set('v', state.catalog.revision);
     const request = fetchJSON(url).then((data) => {
       if (!Array.isArray(data.files)) throw new Error('目录格式无效，缺少文件列表。');
       if (data.extraFiles !== undefined && !Array.isArray(data.extraFiles)) throw new Error('下载目录格式无效。');
@@ -162,7 +160,11 @@ async function groupFiles(group, { includeExtras = false } = {}) {
     }).catch((error) => { catalogCache.delete(group.key); throw error; });
     catalogCache.set(group.key, request);
   }
-  const data = await catalogCache.get(group.key);
+  return catalogCache.get(group.key);
+}
+async function groupFiles(group, { includeExtras = false } = {}) {
+  const data = await groupData(group);
+  if (!data) return [];
   return includeExtras ? [...data.files, ...(data.extraFiles || [])] : catalogPreviewFiles(data);
 }
 
@@ -215,66 +217,83 @@ function initializeDownloads() {
 }
 
 function findGroup(province, group) { return state.catalog?.groups.find((item) => normalized(item.province) === normalized(province) && normalized(item.group) === normalized(group)); }
-function currentGroup() { return findGroup($('province-select').value, $('group-select').value); }
-
+function readerRegionCodes() { return [...new Set(state.catalog.groups.map(group => group.province))]; }
+function currentReaderScope() {
+  const scope = $('reader-scope').value;
+  return { scope, province: scope === 'single' ? $('province-select').value : '', provinces: scope === 'multiple' ? state.provinces : '', group: $('group-select').value };
+}
+function refreshReaderScope() {
+  const scope = $('reader-scope').value, multiple = scope === 'multiple';
+  $('reader-province-field').hidden = scope !== 'single';
+  $('reader-scope-pair').classList.toggle('is-wide-group', scope !== 'single');
+  $('reader-provinces').hidden = !multiple;
+  const chosen = new Set(state.provinces.split(','));
+  for (const checkbox of $('reader-province-options').querySelectorAll('input')) checkbox.checked = chosen.has(checkbox.value);
+  $('reader-provinces').querySelector('summary').textContent = `选择省份（${chosen.has('') ? chosen.size - 1 : chosen.size}）`;
+  updateReaderProvinceApply();
+}
+function updateReaderProvinceApply() {
+  const count = [...$('reader-province-options').querySelectorAll('input')].filter(input => input.checked).length;
+  $('reader-apply-provinces').disabled = count === 0;
+  $('reader-provinces').querySelector('summary').textContent = `选择省份（${count}）`;
+}
 function populateProvinces() {
   const provinces = new Map();
   for (const group of state.catalog.groups) if (!provinces.has(group.province)) provinces.set(group.province, group.label?.split(' · ')[0] || group.province);
   $('province-select').replaceChildren(...Array.from(provinces, ([value, label]) => new Option(`${label} · ${value}`, value)));
-  $('province-select').disabled = false;
-  $('group-select').disabled = false;
+  const legend = el('legend', '', '合并浏览的省份'); $('reader-province-options').replaceChildren(legend);
+  for (const [code, title] of provinces) {
+    const label = el('label'), checkbox = el('input'); checkbox.type = 'checkbox'; checkbox.value = code;
+    checkbox.addEventListener('change', updateReaderProvinceApply); label.append(checkbox, el('span', '', `${title} ${code}`)); $('reader-province-options').append(label);
+  }
+  for (const id of ['province-select', 'group-select', 'reader-scope']) $(id).disabled = false;
+  refreshReaderScope();
 }
-
 function populateProblems(preserve = '') {
-  const problems = contestProblemOptions(currentGroup()?.group);
-  $('problem-select').replaceChildren(new Option('全部题目', ''), ...problems.map((problem) => new Option(problem, problem)));
-  $('problem-select').value = problems.includes(preserve) ? preserve : '';
-  $('problem-select').disabled = false;
+  const problems = contestProblemOptions($('group-select').value);
+  $('problem-select').replaceChildren(new Option('全部题目', ''), ...problems.map(problem => new Option(problem, problem)));
+  $('problem-select').value = problems.includes(preserve) ? preserve : ''; $('problem-select').disabled = false;
 }
-
-async function loadDirectory({ province, group, search, problem, page = 0 } = {}) {
+async function loadDirectory(options = {}) {
   if (!state.catalog) return;
+  const { province, group, provinces, scope, search, problem, page = 0 } = options;
   if (province) $('province-select').value = province;
   if (group) $('group-select').value = group;
+  if (scope) $('reader-scope').value = scope;
+  else if (province) $('reader-scope').value = 'single';
+  if (provinces !== undefined) state.provinces = provinces;
+  if ($('reader-scope').value === 'multiple' && !state.provinces && provinces === undefined) state.provinces = $('province-select').value;
   if (search !== undefined) $('contestant-input').value = search;
-  const sequence = ++state.directorySequence;
-  state.files = [];
-  state.page = Number.isSafeInteger(Number(page)) && Number(page) >= 0 ? Number(page) : 0;
-  state.directoryReady = false;
-  state.directoryError = null;
-  $('file-list').setAttribute('aria-busy', 'true');
-  $('file-list').replaceChildren(el('div', 'list-empty', '正在加载文件目录…'));
-  $('result-count').textContent = '正在读取目录';
-  $('retry-catalog').hidden = true;
-  $('problem-select').disabled = true;
-  $('page-prev').disabled = true;
-  $('page-next').disabled = true;
+  refreshReaderScope();
+  const sequence = ++state.directorySequence, active = () => sequence === state.directorySequence;
+  state.files = []; state.failedGroups = []; state.page = Number.isSafeInteger(Number(page)) && Number(page) >= 0 ? Number(page) : 0;
+  state.directoryReady = false; state.directoryError = null;
+  $('file-list').setAttribute('aria-busy', 'true'); $('file-list').replaceChildren(el('div', 'list-empty', '正在加载所选范围的文件索引…'));
+  $('result-count').textContent = '正在加载目录'; $('retry-catalog').hidden = true;
+  $('problem-select').disabled = true; $('page-prev').disabled = true; $('page-next').disabled = true;
   try {
-    const selectedGroup = currentGroup();
-    if (!selectedGroup) throw new Error('该省份暂无所选组别的档案，请切换省份或组别。');
-    const files = await groupFiles(selectedGroup);
-    if (sequence !== state.directorySequence) return;
-    state.files = files;
-    state.loadedDirectory = selectedGroup;
-    state.directoryReady = true;
-    populateProblems(problem ?? '');
-    renderFiles();
+    const selection = currentReaderScope(), groups = scopeGroups(state.catalog.groups, selection);
+    if (!groups.length) throw new Error('当前范围没有文件，请调整省份或组别。');
+    loadReaderScope ||= createBrowseLoader(state.catalog, fetchJSON, groupData);
+    const loaded = await loadReaderScope(groups, { isCurrent: active });
+    if (!active() || loaded.cancelled) return;
+    if (!loaded.files.length && loaded.failedGroups.length) throw new Error('所选范围的文件索引加载失败，请重试。');
+    state.files = loaded.files; state.failedGroups = loaded.failedGroups;
+    state.loadedDirectory = readerScopeKey(selection); state.directoryReady = true;
+    populateProblems(problem ?? ''); renderFiles();
+    $('retry-catalog').hidden = !loaded.failedGroups.length;
   } catch (error) {
-    if (sequence !== state.directorySequence) return;
-    state.directoryError = error;
-    $('file-list').replaceChildren(el('div', 'list-empty', formatError(error)));
-    $('result-count').textContent = '目录加载失败';
-    $('retry-catalog').hidden = false;
-  } finally {
-    if (sequence === state.directorySequence) $('file-list').setAttribute('aria-busy', 'false');
-  }
+    if (!active()) return;
+    state.directoryError = error; $('file-list').replaceChildren(el('div', 'list-empty', formatError(error)));
+    $('result-count').textContent = '目录加载失败'; $('retry-catalog').hidden = false;
+  } finally { if (active()) $('file-list').setAttribute('aria-busy', 'false'); }
 }
 
 function renderFiles() {
   if (state.directoryError || !state.directoryReady) return;
   const search = $('contestant-input').value.trim().toLowerCase();
   const problem = $('problem-select').value;
-  const matched = state.files.filter((file) => (!problem || file.problem === problem) && (!search || `${file.contestant} ${file.name} ${file.path}`.toLowerCase().includes(search)));
+  const matched = filterReaderFiles(state.files, { query: search, problem });
   const pages = Math.max(1, Math.ceil(matched.length / PAGE_SIZE));
   state.page = Math.min(state.page, pages - 1);
   const nodes = matched.slice(state.page * PAGE_SIZE, (state.page + 1) * PAGE_SIZE).map((file) => {
@@ -284,8 +303,8 @@ function renderFiles() {
     const extension = fileName(file).toLowerCase().replace(/\.gz$/, '').split('.').at(-1);
     const fileType = ['cpp', 'cc', 'cxx', 'c', 'h', 'hpp'].includes(extension) ? 'C++' : extension === 'pas' ? 'PAS' : extension === 'py' ? 'PY' : 'SRC';
     const fileIcon = el('span', 'file-icon'); setIcon(fileIcon, 'file'); fileIcon.title = fileType;
-    heading.append(fileIcon, el('span', 'file-item-title', file.contestant || file.path.split('/').at(-2)));
-    const subtitle = el('p', 'file-item-subtitle', `${file.problem || '其他文件'} / ${fileName(file)}`);
+    const title = el('span', 'file-item-title'); appendSearchText(title, file.contestant || file.path.split('/').at(-2), search); heading.append(fileIcon, title);
+    const subtitle = el('p', 'file-item-subtitle'); appendSearchText(subtitle, `${file.problem || '其他文件'} / ${fileName(file)}`, search);
     subtitle.title = file.path;
     const bottom = el('div', 'file-item-bottom');
     const actions = el('div', 'file-actions');
@@ -303,7 +322,7 @@ function renderFiles() {
     return item;
   });
   $('file-list').replaceChildren(...(nodes.length ? nodes : [el('div', 'list-empty', '没有匹配文件，请调整考号、题目或省份。')]));
-  $('result-count').textContent = `${formatNumber(matched.length)} 份源文件${search || problem ? ' · 已筛选' : ''}`;
+  $('result-count').textContent = `${state.failedGroups.length ? '部分目录 · ' : ''}${formatNumber(matched.length)} 个文件${search || problem ? ' · 已筛选' : ''}`;
   $('page-indicator').textContent = `${state.page + 1} / ${formatNumber(pages)}`;
   $('page-prev').disabled = state.page <= 0;
   $('page-next').disabled = state.page + 1 >= pages;
@@ -417,6 +436,9 @@ async function selectFile(side, file, { keepCase = false } = {}) {
   renderSources(); syncEditor(); renderFiles(); updateLocation();
   if (state.commentsOpen) renderDiscussion();
   try {
+    file = await resolveReaderFile(file, fileFromPath);
+    if (state[side].sequence !== sequence || controller.signal.aborted) return;
+    state[side].file = file; renderSources();
     const source = await loadSource(file, { revision: state.catalog.revision, signal: controller.signal });
     if (state[side].sequence !== sequence || controller.signal.aborted) return;
     state[side].source = source;
@@ -457,7 +479,12 @@ function renderMetadata(side) {
   container.replaceChildren(label);
   if (!slot.file) { container.append(el('p', '', '请选择文件。')); return; }
   if (slot.status === 'loading') { container.append(el('p', '', '正在加载文件并校验…')); return; }
-  if (slot.status === 'error') { container.append(el('p', '', slot.error)); const retry = el('button', 'text-button', '重新加载文件'); retry.type = 'button'; retry.addEventListener('click', () => { void selectFile(side, slot.file, { keepCase: true }); }); container.append(retry); return; }
+  if (slot.status === 'error') {
+    container.append(el('p', '', slot.error)); const retry = el('button', 'text-button', '重新加载文件'); retry.type = 'button';
+    retry.addEventListener('click', () => { void selectFile(side, slot.file, { keepCase: true }); });
+    const raw = el('a', 'text-link', '打开原文件 ↗'); raw.href = githubUrl(slot.file.path, state.catalog.revision); raw.target = '_blank'; raw.rel = 'noreferrer';
+    container.append(retry, raw); return;
+  }
   const source = slot.source;
   const dl = el('dl');
   for (const [name, value] of [['路径', slot.file.path], ['大小', `${formatBytes(sourceBytes(source))}${source.compressed ? `（解压后；归档 ${formatBytes(source.archiveByteLength)}）` : ''}`], ['编码', source.encoding || '未提供'], ['SHA-256', source.contentSha256 || source.sha256 || '摘要未提供']]) {
@@ -512,7 +539,7 @@ function renderSources() {
     $(`${side}-copy`).disabled = slot.status !== 'ready';
     $(`${side}-copy`).setAttribute('aria-label', slot.source?.viewFormat === 'hex' ? `复制 ${letter} 当前页十六进制` : `复制 ${letter} 文件代码`);
     $(`${side}-copy`).title = $(`${side}-copy`).getAttribute('aria-label');
-    $(`${side}-download-menu`).hidden = !slot.file;
+    $(`${side}-download-menu`).hidden = !slot.file?.blob;
     if (slot.status === 'loading') messages.push(`${letter}：正在读取 ${fileName(slot.file)}`);
     else if (slot.status === 'error') { messages.push(`${letter}：${slot.error}`); hasError = true; }
     else if (slot.source) {
@@ -599,14 +626,14 @@ async function loadCatalog() {
     const catalog = await fetchJSON(new URL('./catalog/index.json', document.baseURI));
     if (!Array.isArray(catalog.groups) || !catalog.groups.length) throw new Error('公开档案目录为空。');
     state.catalog = catalog;
-    $('archive-count').textContent = `${formatNumber(catalog.totalFiles)} 份`;
+    $('archive-count').textContent = `${formatNumber(catalog.groups.reduce((n, group) => n + group.fileCount + (group.extraFileCount || 0), 0))} 文件`;
     $('revision-label').textContent = `档案版本 ${String(catalog.revision).slice(0, 8)}`;
     populateProvinces();
     renderCases();
     const leftPath = initialQuery.get('left');
     const rightPath = initialQuery.get('right');
     const requestedCase = caseItems.find((item) => item.id === initialQuery.get('case'));
-    const hasDirectoryQuery = ['province', 'group', 'search', 'problem', 'page'].some(key => initialQuery.has(key));
+    const hasDirectoryQuery = ['scope', 'provinces', 'province', 'group', 'search', 'problem', 'page'].some(key => initialQuery.has(key));
     if (leftPath || rightPath) {
       const results = await Promise.allSettled([leftPath ? fileFromPath(leftPath) : Promise.resolve(null), rightPath ? fileFromPath(rightPath) : Promise.resolve(null)]);
       const matchesSelector = (result, selector) => result.status === 'fulfilled' && result.value && normalized(result.value.contestant) === normalized(selector.contestant) && normalized(result.value.problem) === normalized(selector.problem);
@@ -619,16 +646,10 @@ async function loadCatalog() {
       }
       const first = state.left.file || state.right.file;
       const [province, group] = first?.path.split('/') || [];
-      const requestedDirectory = findGroup(initialQuery.get('province') || province, initialQuery.get('group') || group);
-      await loadDirectory({
-        province: requestedDirectory?.province || province,
-        group: requestedDirectory?.group || group,
-        search: hasDirectoryQuery ? initialQuery.get('search') || '' : first?.contestant || '',
-        problem: initialQuery.get('problem') || '', page: initialQuery.get('page') || 0,
-      });
+      await loadDirectory(readReaderScope(initialQuery, readerRegionCodes(), { province, group, search: hasDirectoryQuery ? '' : first?.contestant || '' }));
     } else if (hasDirectoryQuery) {
       switchPanel('files');
-      await loadDirectory({province:initialQuery.get('province'),group:initialQuery.get('group'),search:initialQuery.get('search') || '',problem:initialQuery.get('problem') || '',page:initialQuery.get('page') || 0});
+      await loadDirectory(readReaderScope(initialQuery, readerRegionCodes()));
     } else if (requestedCase || caseItems.length) {
       switchPanel('cases');
       await selectCase(requestedCase || caseItems[0]);
@@ -656,9 +677,20 @@ for (const panel of ['files', 'cases']) {
   $(`tab-${panel}`).addEventListener('keydown', (event) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); const next = panel === 'files' ? 'cases' : 'files'; switchPanel(next); $(`tab-${next}`).focus(); } });
 }
 $('filter-form').addEventListener('submit', (event) => event.preventDefault());
-$('province-select').addEventListener('change', () => { void loadDirectory(); });
-$('group-select').addEventListener('change', () => { void loadDirectory(); });
-$('contestant-input').addEventListener('input', () => { state.page = 0; renderFiles(); });
+const reloadScope = () => void loadDirectory({ problem: $('problem-select').value });
+$('reader-scope').addEventListener('change', () => {
+  const scope = $('reader-scope').value, province = (state.left.file || state.right.file)?.path.split('/')[0] || $('province-select').value;
+  void loadDirectory({ scope, ...(scope === 'single' ? { province } : {}), ...(scope === 'multiple' ? { provinces: state.provinces || province } : {}), problem: $('problem-select').value });
+});
+$('province-select').addEventListener('change', reloadScope);
+$('group-select').addEventListener('change', reloadScope);
+for (const [id, checked] of [['reader-select-all', true], ['reader-clear-all', false]]) $(id).addEventListener('click', () => { for (const input of $('reader-province-options').querySelectorAll('input')) input.checked = checked; updateReaderProvinceApply(); });
+$('reader-apply-provinces').addEventListener('click', () => {
+  const provinces = [...$('reader-province-options').querySelectorAll('input')].filter(input => input.checked).map(input => input.value).sort().join(',');
+  if (!provinces) return;
+  $('reader-provinces').open = false; void loadDirectory({ scope: 'multiple', provinces, problem: $('problem-select').value });
+});
+$('contestant-input').addEventListener('input', () => { clearTimeout(readerSearchTimer); readerSearchTimer = setTimeout(() => { state.page = 0; renderFiles(); }, 180); });
 $('problem-select').addEventListener('change', () => { state.page = 0; renderFiles(); });
 $('case-input').addEventListener('input', renderCases);
 $('page-prev').addEventListener('click', () => { state.page--; renderFiles(); $('file-list').scrollTop = 0; });
@@ -732,6 +764,7 @@ function initializeReadingControls() {
 
 async function randomJump(kind, control) {
   if (!state.catalog || state.randomBusy) return;
+  if (!state.directoryReady || state.failedGroups.length) { toast('文件索引尚未完整加载，请等待加载完成或重试目录后再随机。'); return; }
   state.randomBusy = true;
   const randomControls = document.querySelectorAll('.random-actions button');
   randomControls.forEach(button => { button.disabled = true; });

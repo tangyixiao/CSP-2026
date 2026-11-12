@@ -78,6 +78,14 @@ Discovery, source attribution, random directory/problem navigation and two-file 
 
 The browser's Vite base is relative (`./`) so its assets and worker files work at the repository's `/CSP-2026/code/` path. Keep the trailing slash when linking to that directory. Monaco is bundled from the `monaco-editor` npm package, including its worker; viewing code does not require VS Code to be installed.
 
+## Shared scope and search navigation
+
+`src/scope-navigation.js` shares reader scope parsing/serialization, literal search highlighting, matched-file previews, uniform directory/task selection and exact-path metadata hydration. `archive-browse.js` keeps `files` as the complete folder contents and records matching files separately. A `file` parameter on contestant routes can focus only a validated path inside the exact raw directory; it never filters the tree or uses the path as a selector.
+
+The browser's random actions reuse `createBrowseLoader` instead of fetching every full regional shard. Partial index loads stop random selection. The reader supports national, single-region and multi-region scopes with J/S/all groups. It loads compact file metadata for broad scopes, then resolves the selected A/B path through its full shard before loading or hashing source bytes. Scope changes retain active A/B files; links preserve scope, query, task and pagination. Incomplete reader scopes are labeled and offer retry.
+
+The previous single-region and file-only links remain supported. New scope/navigation regression tests cover raw path identity, URL round trips, literal filename syntax, matching-file order, unknown/invalid focus paths and selected-file hydration.
+
 ## Catalog and source revisions
 
 `scripts/generate-catalog.mjs` creates `public/catalog/index.json` and one catalog shard per province and J/S group. This catalog step reads the Git tree, including paths and blob IDs, without reading every source blob.

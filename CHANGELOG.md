@@ -8,6 +8,8 @@ Dates use **Asia/Shanghai (UTC+8)**. Website/docs updates and archive-material c
 
 ### 网站、文档与维护 / Website, documentation and maintenance
 
+- [PR #66](https://github.com/tangyixiao/CSP-2026/pull/66): shared scoped random/reader navigation and direct search-hit focus in complete folders. / 统一随机与阅读范围，支持命中文件定位。
+- [PR #65](https://github.com/tangyixiao/CSP-2026/pull/65): task-based usage copy, explicit formatter actions and actionable failure messages. / 按任务整理文案、明确格式化动作和失败提示。
 - [PR #64](https://github.com/tangyixiao/CSP-2026/pull/64): compact nationwide browse indexes, one Appearance menu and revised Chinese/English copy. / 精简全国汇总索引、统一外观入口并梳理中英文文案。
 - [PR #63](https://github.com/tangyixiao/CSP-2026/pull/63): clarify that both 13-page Round 2 contest-layout PDFs are already obtained and await publication. / 第二轮原赛版已取得，发布进度单独记录。
 - [PR #62](https://github.com/tangyixiao/CSP-2026/pull/62): add folded FAQ, verification/collection progress, dated history, checksum examples and maintainer navigation. / 补充本次五项文档。

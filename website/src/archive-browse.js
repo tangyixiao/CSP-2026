@@ -136,6 +136,7 @@ export function parseBrowseRoute(search, availableProvinces) {
     direction: query.get('direction') === 'desc' ? 'desc' : 'asc',
     batch: [60, 120, 240].includes(Number(query.get('batch'))) ? Number(query.get('batch')) : 60,
     directory: validDirectory(query.get('directory')) ? query.get('directory') : '',
+    file: validDirectory(query.get('directory')) && validFilePath(query.get('file')) && query.get('file').startsWith(`${query.get('directory')}/`) ? query.get('file') : '',
   };
 }
 
@@ -149,9 +150,9 @@ export function scopeGroups(groups, { scope = 'all', province = '', provinces = 
 export function browseContestants(files, { query = '', problem = '' } = {}) {
   const wanted = text(query).trim().toLocaleLowerCase(), task = text(problem).toLocaleLowerCase();
   return groupContestants(files).flatMap(item => {
-    const matchedFileCount = item.files.filter(file => (!task || text(file.problem).toLocaleLowerCase() === task)
-      && (!wanted || [item.contestant, item.id, file.path, file.name, file.problem].join(' ').toLocaleLowerCase().includes(wanted))).length;
-    return matchedFileCount ? [{ ...item, matchedFileCount }] : [];
+    const matchedFiles = item.files.filter(file => (!task || text(file.problem).toLocaleLowerCase() === task)
+      && (!wanted || [item.contestant, item.id, file.path, file.name, file.problem].join(' ').toLocaleLowerCase().includes(wanted)));
+    return matchedFiles.length ? [{ ...item, matchedFiles, matchedFileCount: matchedFiles.length }] : [];
   });
 }
 

@@ -1,5 +1,6 @@
 import '../shared/site-shell.css';
 import { createBrowseLoader } from './browse-index.js';
+import { appendSearchText, previewFolderFiles, pickScopePerson, pickScopeProblem } from './scope-navigation.js';
 import { mountSiteShell } from '../shared/site-shell.js';
 import { previewUnavailableLabel } from './archive-browse.js';
 import './browse.css';
@@ -36,12 +37,18 @@ function routeURL(next = {}) {
   const values = { ...params(), ...next };
   if (Object.hasOwn(next, 'province') && !Object.hasOwn(next, 'scope')) { values.scope = next.province ? 'single' : 'all'; values.provinces = ''; }
   const url = new URL(location.href); url.search = '';
+  if (values.view !== 'contestant' || !values.directory || !values.file?.startsWith(`${values.directory}/`)) values.file = '';
   for (const [key, value] of Object.entries(values)) if (value !== '' && value != null) url.searchParams.set(key === 'query' ? 'q' : key, value);
   return `${url.pathname}${url.search}`;
 }
 function navigate(next) { navigationVersion++; scrollPositions.set(location.href, scrollY); history.pushState({}, '', routeURL(next)); void renderRoute(); }
-function directoryURL(directory) { return routeURL({ view: 'contestant', directory }); }
-function readerURL(file, other) { const query = new URLSearchParams({ left: file.path, mode: other ? 'split' : 'view', focus: '1', returnTo: directoryURL(file.path.split('/').slice(0, 3).join('/')) }); if (other) query.set('right', other.path); return `./?${query}`; }
+function directoryURL(directory, file = '') { return routeURL({ view: 'contestant', directory, file }); }
+function readerURL(file, other) {
+  const current = params();
+  const query = new URLSearchParams({ left: file.path, mode: other ? 'split' : 'view', focus: '1', returnTo: directoryURL(file.path.split('/').slice(0, 3).join('/'), file.path),
+    scope: current.scope, province: current.province, provinces: current.provinces, group: current.group, search: current.query, problem: current.problem });
+  if (other) query.set('right', other.path); return `./?${query}`;
+}
 async function json(url) { const response = await fetch(url); if (!response.ok) throw new Error(`目录读取失败（${response.status}）`); return response.json(); }
 async function groupData(group) {
   if (!group || !/^catalog\/[A-Z]{2}-[JS]\.json$/.test(group.url)) throw new Error('地区目录无效');
@@ -129,23 +136,27 @@ function addDiscussionCounts(items) {
   return items.map(item => ({ ...item, discussionCount: snapshot.byContestant?.[item.id]?.threadCount || 0, discussionUpdatedAt: snapshot.byContestant?.[item.id]?.updatedAt || null }));
 }
 function contestantTile(item, current) {
-  const tile = node('article', 'contestant-tile folder-tile');
-  const entry = link('', directoryURL(item.id), 'folder-entry');
-  entry.setAttribute('aria-label', `打开选手 ${item.contestant} 的全部 ${item.files.length} 个文件`);
-  const heading = node('div', 'tile-top'), name = node('h3', '', item.contestant), icon = node('span', 'folder-glyph');
-  icon.setAttribute('aria-hidden', 'true');
-  heading.append(icon, name);
+  const tile = node('article', 'contestant-tile folder-tile'), entry = node('div', 'folder-entry');
+  const target = directoryURL(item.id), heading = link('', target, 'tile-top folder-heading');
+  heading.setAttribute('aria-label', `打开选手 ${item.contestant} 的全部 ${item.files.length} 个文件`);
+  const name = node('h3'), icon = node('span', 'folder-glyph'); icon.setAttribute('aria-hidden', 'true');
+  appendSearchText(name, item.contestant, current.query); heading.append(icon, name);
   const metric = current.sort === 'bytes' ? bytes(item.totalBytes) : current.sort === 'discussions' ? item.discussionCount == null ? '讨论待同步' : `${item.discussionCount} 场讨论` : `${item.files.length} 个文件`;
   heading.append(node('span', '', metric));
-  const paths = node('ul', 'folder-file-preview');
-  for (const file of item.files.slice(0, 4)) paths.append(node('li', '', file.path.slice(item.id.length + 1)));
-  if (item.files.length > 4) paths.append(node('li', 'folder-more-files', `另有 ${item.files.length - 4} 个文件`));
+  const paths = node('ul', 'folder-file-preview'), preview = previewFolderFiles(item, current);
+  for (const file of preview) {
+    const row = node('li', current.query || current.problem ? 'is-match' : ''), action = link('', directoryURL(item.id, file.path));
+    const relative = file.path.slice(item.id.length + 1), wanted = current.query.trim().toLocaleLowerCase();
+    const label = wanted && !relative.toLocaleLowerCase().includes(wanted) && file.path.toLocaleLowerCase().includes(wanted) ? file.path : relative;
+    action.title = file.path; action.setAttribute('aria-label', `在 ${item.contestant} 的完整目录中定位 ${relative}`);
+    appendSearchText(action, label, current.query); row.append(action); paths.append(row);
+  }
+  if (item.files.length > preview.length) paths.append(node('li', 'folder-more-files', `另有 ${item.files.length - preview.length} 个文件`));
   const bottom = node('div', 'tile-bottom');
-  bottom.append(node('span', 'folder-region', `${regionName(item.province)} · CSP-${item.group}`), node('span', 'tile-open', '打开文件夹 →'));
+  bottom.append(node('span', 'folder-region', `${regionName(item.province)} · CSP-${item.group}`), link('打开文件夹 →', target, 'tile-open'));
   entry.append(heading, paths);
   if (current.query || current.problem) entry.append(node('p', 'folder-match', `${item.matchedFileCount} 个文件符合筛选，进入后显示全部文件`));
-  entry.append(bottom); tile.append(entry);
-  return tile;
+  entry.append(bottom); tile.append(entry); return tile;
 }
 function addCompare(file) {
   if (!state.compare.some(item => item.path === file.path)) state.compare.push(file);
@@ -258,7 +269,7 @@ async function renderContestant() {
   const tree = contestantTree(loaded.files, directory), files = loaded.files.filter(file => file.path.startsWith(`${directory}/`));
   if (!tree?.fileCount) { result.append(node('p', 'empty', '当前归档版本中没有这个选手目录。')); return; }
   header.append(node('p', 'facts', `${number(tree.fileCount)} 个文件 · 原始子目录与文件名均保留`));
-  const actions = node('div', 'directory-actions'), listing = node('div', 'file-tree'); listing.setAttribute('aria-label', `${name} 的全部文件`);
+  const actions = node('div', 'directory-actions'), listing = node('div', 'file-tree'), focusedRows = new Map(); listing.setAttribute('aria-label', `${name} 的全部文件`);
   actions.append(button('展开全部', () => { for (const item of listing.querySelectorAll('details')) item.open = true; }, 'quiet-action'), button('折叠目录', () => { for (const item of listing.querySelectorAll('details')) item.open = false; }, 'quiet-action'));
   const download = button('下载选手目录 ZIP', async () => {
     download.disabled = true;
@@ -277,6 +288,7 @@ async function renderContestant() {
     for (const file of branch.files) {
       const row = node('div', 'directory-file'), filename = link(file.name, file.previewable === false ? archivePathURL(file.path) : readerURL(file), 'directory-filename');
       filename.title = file.path; row.dataset.path = file.path;
+      focusedRows.set(file.path, row);
       row.append(filename, node('span', 'directory-file-size', bytes(file.size)));
       const actions = node('div', 'directory-file-actions');
       if (file.previewable !== false) actions.append(link(file.previewKind === 'hex' ? '十六进制' : '阅读', readerURL(file)), button('加入比较', () => addCompare(file)));
@@ -286,6 +298,12 @@ async function renderContestant() {
     }
   }
   appendTree(listing, tree);
+  const focused = focusedRows.get(current.file);
+  if (focused) {
+    focused.classList.add('is-target'); focused.tabIndex = -1;
+    focused.setAttribute('aria-label', `已定位文件：${current.file.slice(directory.length + 1)}`);
+    requestAnimationFrame(() => { if (active()) { focused.scrollIntoView({ block: 'center' }); focused.focus({ preventScroll: true }); } });
+  }
 }
 function renderSources() {
   $('content').append(intro('来源与许可', '查看归档来源、核对记录和内容许可。', 'SOURCES / ATTRIBUTION'));
@@ -300,29 +318,33 @@ function renderSources() {
   $('content').append(grid, node('p', 'method-note', `当前目录：${regionCodes().length} 地区、${state.catalog.groups.length} 组别、${number(state.catalog.totalFiles)} 个源码或文本条目。数量按归档路径统计，包含备份与空文件；统计口径见来源说明。`));
   const links = node('div', 'source-links'); links.append(link('报告来源问题 ↗', 'https://github.com/tangyixiao/CSP-2026/issues/new/choose'), link('NOI 官网参考 ↗', 'https://noi.cn/'), link('组件许可 ↗', './third-party-licenses.txt')); $('content').append(links);
 }
-async function randomPerson(scope = {}) {
+async function randomSelection(kind, scope = {}) {
   if (state.busy) return;
-  state.busy = true; const token = state.token, current = { ...params(), ...scope, ...(Object.hasOwn(scope, 'province') ? { scope: scope.province ? 'single' : 'all' } : {}) }, groups = scopeGroups(state.catalog.groups, current); let winner = null, count = 0;
+  state.busy = true;
+  const token = state.token, current = { ...params(), ...scope, ...(Object.hasOwn(scope, 'province') ? { scope: scope.province ? 'single' : 'all' } : {}) };
+  const groups = scopeGroups(state.catalog.groups, current), active = () => token === state.token;
   try {
-    for (const [index, group] of groups.entries()) {
-      announce(`正在抽取目录 · ${regionName(group.province)} ${group.group}（${index + 1}/${groups.length}）`);
-      const items = groupContestants(await groupFiles(group), { query: current.query, problem: current.problem }).filter(item => item.identityValid);
-      if (token !== state.token) return;
-      for (const item of items) { if (item.id === state.previousPerson) continue; count++; if (Math.random() < 1 / count) winner = item; }
+    announce('正在从当前范围的选手索引中抽取…');
+    loadBrowseScope ||= createBrowseLoader(state.catalog, json, groupData);
+    const loaded = await loadBrowseScope(groups, { isCurrent: active });
+    if (!active() || loaded.cancelled) return;
+    if (loaded.failedGroups.length) throw new Error('部分地区索引加载失败，请重试后再随机抽取');
+    if (kind === 'person') {
+      const winner = pickScopePerson(loaded.files, current, state.previousPerson);
+      if (!winner) { announce('当前范围内没有可抽取的目录。'); return; }
+      if (winner.id === state.previousPerson) { announce('当前范围只有这一个可用目录。'); return; }
+      state.previousPerson = winner.id; navigate({ view: 'contestant', directory: winner.id, file: '' });
+    } else {
+      const problem = pickScopeProblem(loaded.files, current, state.previousProblem);
+      if (!problem) { announce('当前范围内没有符合搜索条件的比赛题目。'); return; }
+      state.previousProblem = problem; navigate({ view: 'browse', scope: current.scope, province: current.province, provinces: current.provinces, group: current.group, query: current.query, problem, directory: '', file: '' });
+      announce(`随机题目：${problem}`);
     }
-    if (!winner && state.previousPerson) { const [province, group] = state.previousPerson.split('/'); if (groups.some(item => item.province === province && item.group === group)) winner = sampleContestant(groupContestants(await groupFiles(groups.find(item => item.province === province && item.group === group)), { query: current.query, problem: current.problem })); }
-    if (token !== state.token) return;
-    if (!winner) { announce('当前范围内没有可抽取的目录。'); return; }
-    if (winner.id === state.previousPerson) { announce('当前范围只有这一个可用目录。'); return; }
-    state.previousPerson = winner.id; navigate({ view: 'contestant', directory: winner.id });
-  } catch (error) { announce(`抽取未完成：${error.message}。请重试。`); } finally { state.busy = false; }
+  } catch (error) { announce(`抽取未完成：${error.message}。`); }
+  finally { state.busy = false; }
 }
-async function randomProblem(scope = {}) {
-  const current = { ...params(), ...scope, ...(Object.hasOwn(scope, 'province') ? { scope: scope.province ? 'single' : 'all' } : {}) }, token = state.token;
-  if (state.busy) return; state.busy = true;
-  try { const pool = new Map(); for (const group of scopeGroups(state.catalog.groups, current)) { announce(`正在汇集可用题目 · ${regionName(group.province)} ${group.group}`); const files = await groupFiles(group); if (token !== state.token) return; for (const item of groupContestants(contestProblemFiles(files), { query: current.query })) for (const file of item.files) if (!pool.has(file.problem)) pool.set(file.problem, file); } const problem = sampleProblem([...pool.values()], { previousProblem: state.previousProblem }); if (!problem) { announce('当前范围内没有可用题目。'); return; } state.previousProblem = problem; navigate({ view: 'browse', scope: current.scope, province: current.province, provinces: current.provinces, group: current.group, query: current.query, problem, directory: '' }); announce(`随机题目：${problem}`); } catch (error) { announce(error.message); } finally { state.busy = false; }
-}
-function openRegions() { const directory = $('region-directory'); directory.replaceChildren(link('全部地区', routeURL({ view: 'browse', province: '', query: '', problem: '' })), ...regionCodes().map(code => link(`${regionName(code)} ${code}`, routeURL({ view: 'browse', province: code, query: '', problem: '' })))); $('regions-dialog').showModal(); }
+function randomPerson(scope) { return randomSelection('person', scope); }
+function randomProblem(scope) { return randomSelection('problem', scope); }
 async function renderRoute() {
   closeNavigation();
   document.querySelector('.appearance-menu').open = false;
