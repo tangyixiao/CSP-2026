@@ -1,4 +1,4 @@
-<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/logo-dark.svg"><img src="docs/assets/readme/logo.svg" width="240" height="144" alt="CSP-J/S 2026 informatics archive wordmark"></picture></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/logo-dark.svg"><img src="docs/assets/readme/logo.svg" width="300" height="74" alt="CSP-J/S 2026 informatics archive wordmark"></picture></p>
 
 <h1 align="center">CSP-2026</h1>
 
@@ -20,7 +20,7 @@ CSP-J/S 2026 first-round papers and reference materials, second-round statements
 
 [Paper PDFs](https://tangyixiao.github.io/CSP-2026/papers/) · [Browse online](https://tangyixiao.github.io/CSP-2026/) · [Read and compare code](https://tangyixiao.github.io/CSP-2026/code/) · [Region downloads](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) · [Sources](SOURCES.md) · [Contribute](CONTRIBUTING.md)
 
-![The national archive homepage running with actual catalog data](docs/design/runtime-root-home-csp-desktop.png)
+![The national archive homepage running with actual catalog data](docs/design/runtime-brand-home-20261112.jpg)
 
 ## First- and second-round papers
 
@@ -47,7 +47,12 @@ Open the website to browse without installing anything:
 | Save a region's materials | Choose a region on the [download page](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) |
 | Ask a question, discuss code or share materials | Use [Discussions](https://github.com/tangyixiao/CSP-2026/discussions); report a concrete file or website problem through [Issues](https://github.com/tangyixiao/CSP-2026/issues/new/choose) |
 
-The reader supports syntax highlighting, changed-line navigation and shareable selections. Regional browsing includes sorting, random contestant and random problem actions. Project introduction pages provide Chinese and English with light, dark and system appearance. The website displays and downloads archived files; it does not compile or run contestant programs.
+The reader supports syntax highlighting, changed-line navigation and shareable selections. The website displays and downloads archived files; it does not compile or run contestant programs.
+
+- **Contestant folders and scope:** each original contestant directory opens as a folder containing all its files and nested directories. Choose nationwide aggregation, a fixed province or selected provinces; search and sorting apply across the complete selected scope. Batches default to 60 folders, with 120 and 240 options.
+- **Tasks and file previews:** J/S groups offer their own task lists and reset incompatible task filters when switching groups. Content inspection recognizes extensionless text; binary content has paged hexadecimal/ASCII views. The source snapshot limit remains 2 MiB per file.
+- **Original text by default:** C/C++ formatting is opt-in. Edit, validate, import, export or restore the complete `.clang-format` configuration. Copying, downloads and byte verification continue to use the archived original.
+- **Shared appearance:** home, browser, discovery, reader/comparison, sources, papers, downloads, documentation and English pages share navigation, color-mode settings and SVG identity. C/S/P have matching cap heights, with scalable light/dark variants. New visitors default to the red-navigation NOI-reference appearance; saved appearance choices remain respected.
 
 <a id="coverage-and-interpretation"></a>
 
