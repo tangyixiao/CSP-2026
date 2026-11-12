@@ -26,9 +26,18 @@ Reviewed **2026-11-12 (Asia/Shanghai)** against the merged source records at the
 
 All four current manifest entries set `officialOriginAuthenticated` to `false`. Gym editions use standard input/output. Retrieval time, size, page count and SHA-256 are recorded in the manifest; checksums establish copy identity.
 
-**候选进度 / Candidate progress:** [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57) 在核对时仍为开放草稿。其记录称第二轮 J/S 的 13 页原赛版候选已与选手包中的 PDF 对应核对，但官方直接发布入口仍未恢复，桌面／手机浏览器验证也未完成。它未合并、未上线；本次文档更新不替换 PDF。
+### 第二轮原赛版：已取得，待发布 / Round 2 contest-layout files: obtained, awaiting publication
 
-PR #57 was an open draft at review time. Its record reports correspondence checks for 13-page Round 2 J/S contest-layout candidates against PDFs in contestant packages. Direct official publication origin and desktop/mobile browser validation remain outstanding. The candidates are unmerged and undeployed; this documentation update does not replace paper files.
+第二轮 J/S 的原赛版文件**已经取得**，各 13 页，供包中对应 PDF 的核对已有记录。它们不是待征集的缺失文件。当前流程状态如下：
+
+| 环节 / Stage | 状态 / Status | 记录 / Record |
+| --- | --- | --- |
+| 文件取得 / Acquisition | 已取得 / Obtained | [J：13 页原赛版 / J contest-layout PDF](https://github.com/tangyixiao/CSP-2026/blob/8dcabd96dc2878d7cd52ca6bd788d91efd3d15bb/papers/round-2/csp-j-2026.pdf)、[S：13 页原赛版 / S contest-layout PDF](https://github.com/tangyixiao/CSP-2026/blob/8dcabd96dc2878d7cd52ca6bd788d91efd3d15bb/papers/round-2/csp-s-2026.pdf) |
+| 供包对应核对 / Supplied-package correspondence | 已有核对记录 / Checks recorded | [PR #57 的比对范围与记录 / Comparison scope and record](https://github.com/tangyixiao/CSP-2026/pull/57) |
+| 正式发布 / Publication | 待完成发布前验证与合并 / Awaiting pre-publication validation and merge | PR #57 在核对时仍为开放草稿；桌面／手机浏览器验证未完成，未合并、未上线；正式站仍为 12 页 Gym 版 / Open draft at review time; desktop/mobile browser validation outstanding, unmerged and undeployed; the live library still serves 12-page Gym editions |
+| 官方原始发布入口 / Direct official publication entry | 待补 / Needed | 文件取得及供包对应核对不等同于官方来源认证 / Acquisition and supplied-package correspondence are separate from official-source authentication |
+
+Both 13-page Round 2 J/S contest-layout files have been obtained, with recorded correspondence checks against PDFs in contestant packages. The files themselves are not missing collection items. Publication and direct official-origin evidence remain separate outstanding steps.
 
 <a id="regions"></a>
 
@@ -50,7 +59,8 @@ PR #57 was an open draft at review time. Its record reports correspondence check
 ## 征集清单 / Collection requests
 
 - **宁夏、香港、澳门 J/S**：核对当天的 58 个组别目录中没有 `NX-J/S`、`HK-J/S`、`MO-J/S`。请提供原始发布入口或可追溯供包及 SHA-256。 / Ningxia, Hong Kong and Macao J/S were absent from the 58-group catalog checked that day; provide a publication entry or traceable supplied package with SHA-256.
-- **第一轮 J/S 原版 PDF 与第二轮官方原始附件入口**，以及草稿候选尚缺的核验。 / Round 1 J/S original PDFs, Round 2 official attachment entries, and outstanding draft-candidate validation.
+- **第一轮 J/S 原版 PDF 与官方发布入口**。 / Round 1 J/S original PDFs and official publication entries.
+- **第二轮官方原始附件入口**：J/S 各 13 页原赛版文件已取得，供包对应核对已有记录；此处征集的是官方来源证据，文件发布前验证另行跟进。 / Round 2 direct official attachment entries: both 13-page files are already obtained with recorded package correspondence; this request is for official-origin evidence, while publication validation is tracked separately.
 - **已有地区的独立来源页、官方清单与核验记录**；保持原目录、文件名、字节与版本差异。 / Independent regional records, official manifests and comparison evidence; retain original paths, names, bytes and differing versions.
 
 提交材料请按 [CONTRIBUTING.md](../CONTRIBUTING.md) 说明提供地区／组别、发布入口或供包来源、版本、哈希和已完成检查；公开报告中不要包含密码或凭据。 / Follow the contribution guide with region/group, origin, revision, hashes and completed checks; keep passwords and credentials out of public reports.

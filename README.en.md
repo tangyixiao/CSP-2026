@@ -110,7 +110,7 @@ README counts come from the stated directory snapshot. File entries can include 
 <details>
 <summary>Are all paper PDFs authenticated official originals?</summary>
 
-No. The merged library includes third-party copies, a community typeset edition and Gym reading editions, as labeled above. Gym editions use standard input/output. Checksums establish copy identity; authenticating the original official publication is a separate check. See [verification progress](docs/verification-progress.md#papers) for recorded status and draft candidates.
+No. The merged library includes third-party copies, a community typeset edition and Gym reading editions, as labeled above. Gym editions use standard input/output. Checksums establish copy identity; authenticating the original official publication is a separate check. The 13-page Round 2 J/S contest-layout files have been obtained and have recorded supplied-package correspondence checks; they await publication in draft PR #57. The live library still serves the 12-page Gym editions. See [verification progress](docs/verification-progress.md#papers).
 
 </details>
 
@@ -130,7 +130,8 @@ The outer filter selects contestant directories. Opening one shows its complete 
 
 | Material | Recorded scope | Still needed |
 | --- | --- | --- |
-| Four paper PDFs | Third-party/community/Gym copies with source/checksum records | Round 1 J/S originals and official publication entries; Round 2 contest-layout candidates remain in draft PR #57 |
+| Round 1 J/S original PDFs | The published library contains third-party/community copies | Original files and official publication entries |
+| Round 2 J/S contest-layout PDFs | **Obtained, 13 pages each; supplied-package correspondence checks recorded**; see [details](docs/verification-progress.md#papers) | Pre-publication validation and merge; direct official publication entries. The live library still serves 12-page Gym editions |
 | Regional contestant files | 29 regions and 58 group catalogs; verification scope varies | Ningxia, Hong Kong and Macao J/S; original-publication and independent source records for existing regions |
 | Official test data | J/S directories and official notice link recorded | Consolidated retrieval, checksum and source records |
 
