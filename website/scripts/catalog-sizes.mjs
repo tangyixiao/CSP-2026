@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { buildBrowseIndex, decodeBrowseIndex } from '../src/browse-index.js';
 
 const validSize = value => Number.isSafeInteger(value) && value >= 0;
 const groupURL = /^catalog\/[A-Z]{2}-[JS]\.json$/;
@@ -55,6 +56,12 @@ export async function updateCatalogSizes(publicDirectory, blobSizes, revision, p
   const latestIndex = JSON.parse(await readFile(indexPath, 'utf8'));
   if (latestIndex.revision !== revision) throw new Error('Catalog revision changed before size publication');
   for (const [url, shard] of Object.entries(enriched.shards)) await writeFile(resolve(publicDirectory, url), `${JSON.stringify(shard)}\n`, 'utf8');
+  for (const group of ['J', 'S']) {
+    const browse = await buildBrowseIndex(enriched.index, enriched.shards, group);
+    decodeBrowseIndex(browse, enriched.index, group);
+    await writeFile(resolve(publicDirectory, `catalog/browse-${group}.json`), `${JSON.stringify(browse)}\n`, 'utf8');
+  }
+  enriched.index.browseIndex = { schemaVersion: 1 };
   await writeFile(indexPath, `${JSON.stringify(enriched.index, null, 2)}\n`, 'utf8');
   return enriched.index.sizeCoverage;
 }

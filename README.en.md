@@ -75,7 +75,7 @@ The reader supports syntax highlighting, changed-line navigation and shareable s
 <details>
 <summary>Why do some files open in hexadecimal?</summary>
 
-Preview mode follows the bytes rather than only the extension. Recognized text opens in the text reader; binary content uses a read-only hexadecimal/ASCII view with offsets and 16 KiB pages. Hex viewing does not decompile or execute a file, or promise to recover source code.
+Preview mode follows the bytes rather than only the extension. Recognized text opens in the text reader; binary content uses a read-only hexadecimal/ASCII view with offsets and 16 KiB pages. Use it to inspect file bytes and readable characters.
 
 </details>
 
@@ -103,7 +103,7 @@ Choose nationwide scope or selected provinces in the browser, then choose group,
 <details>
 <summary>Why do file counts, directory counts and people counts differ?</summary>
 
-README counts come from the stated directory snapshot. File entries can include backups, empty files, non-text content and versions. A directory is not an independently verified person. Unknown size is not zero and sorts last; group-directory counts are not valid-submission counts.
+Counts use archive paths at the stated revision. Files include backups, empty files and versions; contestant directories are counted separately for each group. People and valid submissions require separate records. Unknown sizes are labeled and sort last.
 
 </details>
 
@@ -135,7 +135,7 @@ The outer filter selects contestant directories. Opening one shows its complete 
 | Regional contestant files | 29 regions and 58 group catalogs; verification scope varies | Ningxia, Hong Kong and Macao J/S; original-publication and independent source records for existing regions |
 | Official test data | J/S directories and official notice link recorded | Consolidated retrieval, checksum and source records |
 
-[The detailed status table](docs/verification-progress.md) lists recorded publication entries, checks, status and missing materials, with evidence in [SOURCES.md](SOURCES.md) and [the paper guide](papers/README.md). Presence, supplied-package comparison and official-source authentication are recorded separately.
+[The detailed status table](docs/verification-progress.md) lists recorded publication entries, checks, status and missing materials, with evidence in [SOURCES.md](SOURCES.md) and [the paper guide](papers/README.md). Acquisition, package checks and publication progress are listed separately.
 
 </details>
 
@@ -151,7 +151,7 @@ Inventory checked on **2026-11-09**, at archive revision [`e55a367f`](https://gi
 | Paths classified as source or text | 168,484 | 114,868 | 283,352 |
 | Contestant/group directory identifiers | 43,147 | 32,362 | 75,509 |
 
-Both groups cover the same **29 regions**. These are directory-derived counts, not unique people or valid submissions. Backups, empty files, invalid code and source-named binary content may be present. This repository does not provide official scores. See [Sources](SOURCES.md) for regional completeness and verification scope.
+Both groups cover the same **29 regions**. Counts include backups, empty files, invalid code and binary content stored with source filenames. People and valid submissions require separate records. See [Sources](SOURCES.md) for each region's materials and source records.
 
 Files usually follow `region/group/contestant/problem/file`. Original casing, unusual names, extensionless files and nested directories are retained. Some GitHub directory views display at most 1,000 entries; use the website or region downloads to browse complete directories.
 
@@ -202,7 +202,9 @@ Single-file downloads preserve original bytes and filenames. A contestant ZIP in
 
 The published [`archive-2026-11-08`](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) release contains **29 region ZIPs**, `SHA256SUMS` and `release-index.json`. Its manifest defines that version's contents. Compare downloaded files' SHA-256 values with the checksum list when verification is needed. The download page offers GitHub direct links and an explicitly identified third-party acceleration service.
 
-Some oversized sources use lossless `.gz` compression; decompress them to recover the original bytes. Git does not preserve empty directories. Zhejiang's original packages and answer summaries remain under `ZJ/J/` and `ZJ/S/`; the corresponding `answers.zip` restores the original package's empty-directory layout.
+Some oversized sources use lossless `.gz` compression; decompress them to recover the original bytes.
+
+Git does not track empty directories. Extract the corresponding `answers.zip` to restore the official package's complete directory layout.
 
 When version control is useful, check out only the region and group you need. For example, to browse Shanghai Senior:
 
@@ -227,7 +229,7 @@ Put the ZIP and `SHA256SUMS` from the same release in one directory. Copy the ma
 
 [SOURCES.md](SOURCES.md) indexes official publication links, supplied packages, regional verification records, public discussions and website assets. Official test data is retained under [Junior](test-data/J/official) and [Senior](test-data/S/official). Regional illustrations are AI-generated, with provenance recorded in the same source index.
 
-Code comparisons show text or byte differences. Collected similarity materials retain their authors and original sources. An author's claims, computed differences and official findings have different meanings and are not interchangeable; consult the corresponding record for its sources and verification scope.
+Code comparisons show text or byte differences. Comparison materials link to their authors and original sources; each record states which checks have been completed.
 
 ## Feedback and contributions
 

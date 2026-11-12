@@ -19,6 +19,5 @@ export function renderSiteHeader({ root = './', active = 'home', language = 'zh-
       <label>${label('站点主题', 'Site theme')}<select disabled id="site-appearance" aria-label="${label('站点主题', 'Site theme')}"><option value="csp">CSP</option><option value="noi">NOI ${label('参考', 'reference')}</option></select></label>
       <label>${label('明暗', 'Color mode')}<select disabled id="site-color-mode" aria-label="${label('明暗', 'Color mode')}"><option value="light">${label('浅色', 'Light')}</option><option value="dark">${label('深色', 'Dark')}</option><option value="system">${label('跟随系统', 'System')}</option></select></label>
     </div></details>
-    <button id="theme-toggle" class="shell-theme" type="button" disabled aria-label="${label('切换深浅色', 'Toggle color mode')}" title="${label('切换深浅色', 'Toggle color mode')}">◐</button>
   </div></div></header>`;
 }

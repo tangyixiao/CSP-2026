@@ -14,14 +14,10 @@ export function mountSiteShell({ host = document.querySelector('[data-site-heade
   const theme = window.CspProjectTheme;
   function sync() {
     appearance.value = theme.getAppearance(); color.value = theme.getChoice();
-    const dark = document.documentElement.dataset.theme === 'dark', button = host.querySelector('#theme-toggle');
-    button.textContent = dark ? '☀' : '☾';
-    button.setAttribute('aria-label', document.documentElement.lang === 'en' ? dark ? 'Switch to light mode' : 'Switch to dark mode' : dark ? '切换为浅色主题' : '切换为深色主题');
   }
   sync(); document.addEventListener('csp-project-theme', sync);
   appearance.addEventListener('change', () => theme.setAppearance(appearance.value));
   color.addEventListener('change', () => theme.setChoice(color.value));
-  host.querySelector('#theme-toggle').addEventListener('click', () => theme.setChoice(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
   function closeMenu() { host.classList.remove('shell-menu-open'); toggle.setAttribute('aria-expanded', 'false'); }
   toggle.addEventListener('click', () => { const open = !host.classList.contains('shell-menu-open'); host.classList.toggle('shell-menu-open', open); toggle.setAttribute('aria-expanded', String(open)); });
   nav.addEventListener('click', event => { if (event.target.closest('a')) closeMenu(); });

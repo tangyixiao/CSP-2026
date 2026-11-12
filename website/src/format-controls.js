@@ -13,7 +13,7 @@ export function mountFormatControls({ toolbar, onChange, getSources }) {
   function updateToggle() { toggle.textContent = enabled ? '恢复原文' : '格式化显示'; toggle.setAttribute('aria-pressed', String(enabled)); }
   updateToggle(); toolbar.append(toggle);
   const panel = document.createElement('details'); panel.className = 'format-config';
-  panel.innerHTML = `<summary>编辑 .clang-format</summary><div class="format-config-body"><label for="clang-format-config">完整 .clang-format 配置</label><p>默认使用你的 LLVM / 4 空格 / 不限制行宽 / 保留大括号配置。仅改变 C/C++ 的阅读与比较显示；行号可能变化，复制与下载保留原文。配置保存在当前浏览器。</p><textarea id="clang-format-config" spellcheck="false" wrap="off"></textarea><div class="format-config-actions"><button class="btn" id="apply-clang-format" type="button">应用配置</button><button class="btn" id="reset-clang-format" type="button">恢复你的默认配置</button><label class="btn" for="import-clang-format">导入配置</label><input id="import-clang-format" type="file" hidden /><button class="btn" id="export-clang-format" type="button">导出配置</button></div><p id="clang-format-feedback" role="status" aria-live="polite"></p></div>`;
+  panel.innerHTML = `<summary>编辑 .clang-format</summary><div class="format-config-body"><label for="clang-format-config">完整 .clang-format 配置</label><p>默认配置基于 LLVM：缩进 4 空格、不限制行宽、保留大括号。格式化用于 C/C++ 阅读和比较，可能改变显示行号。复制取原文，下载保留归档字节；配置保存在当前浏览器。</p><textarea id="clang-format-config" spellcheck="false" wrap="off"></textarea><div class="format-config-actions"><button class="btn" id="apply-clang-format" type="button">应用配置</button><button class="btn" id="reset-clang-format" type="button">恢复默认配置</button><label class="btn" for="import-clang-format">导入配置</label><input id="import-clang-format" type="file" hidden /><button class="btn" id="export-clang-format" type="button">导出配置</button></div><p id="clang-format-feedback" role="status" aria-live="polite"></p></div>`;
   toolbar.after(panel);
   const area = panel.querySelector('textarea'), feedback = panel.querySelector('#clang-format-feedback'), apply = panel.querySelector('#apply-clang-format');
   area.value = config;
@@ -43,7 +43,7 @@ export function mountFormatControls({ toolbar, onChange, getSources }) {
       feedback.classList.remove('has-error');
       await Promise.all(getSources().map(formatSource)); onChange();
     } catch (error) {
-      feedback.textContent = `配置未应用：${error.message}。保留上次有效配置和显示。`;
+      feedback.textContent = `配置无效：${error.message}。继续使用上次有效配置。`;
       feedback.classList.add('has-error');
     } finally { apply.disabled = false; }
   }
@@ -54,7 +54,7 @@ export function mountFormatControls({ toolbar, onChange, getSources }) {
     try {
       if (file.size > MAX_CONFIG_BYTES) throw new Error('配置超过 64 KiB 上限。');
       area.value = validateConfigText(await file.text());
-      feedback.textContent = '已导入配置内容，点击「应用配置」校验并应用。'; feedback.classList.remove('has-error');
+      feedback.textContent = '配置已导入，点击“应用配置”生效。'; feedback.classList.remove('has-error');
     } catch (error) { feedback.textContent = error.message; feedback.classList.add('has-error'); }
     event.target.value = '';
   });

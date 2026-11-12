@@ -1,4 +1,5 @@
 import '../shared/site-shell.css';
+import { createBrowseLoader } from './browse-index.js';
 import { mountSiteShell } from '../shared/site-shell.js';
 import { previewUnavailableLabel } from './archive-browse.js';
 import './browse.css';
@@ -19,6 +20,7 @@ if (entryURL.searchParams.has('random')) {
   history.replaceState(history.state, '', `${entryURL.pathname}${entryURL.search}${entryURL.hash}`);
 }
 const cache = new Map(), scrollPositions = new Map();
+let loadBrowseScope;
 const state = { catalog: null, discussions: null, token: 0, cards: [], compare: [], busy: false, previousPerson: null, previousProblem: null };
 let previews = [], previewActive = 0, searchTimer;
 let navigationVersion = 0;
@@ -85,13 +87,13 @@ function renderHome() {
   void renderDiscoveries(false);
 }
 const discoveries = [
-  { id: 'ZJ-S00007', title: '题目目录之外', path: 'ZJ/S/ZJ-S00007/mycode/pre_hub.cpp', kind: 'directory', description: 'mycode 中保留了多份程序。目录结构可以直接回查，不据文件名推定改写顺序。' },
+  { id: 'ZJ-S00007', title: '题目目录之外', path: 'ZJ/S/ZJ-S00007/mycode/pre_hub.cpp', kind: 'directory', description: '打开 mycode 子目录，阅读其中的多份程序。' },
   { id: 'ZJ-S00004', title: '从一段实现开始', path: 'ZJ/S/ZJ-S00004/crystal/crystal.cpp', kind: 'source', description: '查看 ch(int k) 的原始实现与上下文。这里是一条阅读入口，尚非特色定论。' },
-  { id: 'ZJ-S00006', title: '注释中的样例', path: 'ZJ/S/ZJ-S00006/hub/hub.cpp', kind: 'comment', description: '文件中保留了长样例注释。物理行数与算法长度需要分开看。' },
+  { id: 'ZJ-S00006', title: '注释中的样例', path: 'ZJ/S/ZJ-S00006/hub/hub.cpp', kind: 'comment', description: '阅读代码中的长样例注释及其上下文。' },
 ];
 async function renderDiscoveries(full) {
   const token = state.token, grid = node('div', 'discover-grid'); $('content').append(grid);
-  if (full) $('content').append(node('p', 'method-note', '这里先展示已经回查的阅读入口；它们不是全国精选结论。后续发现由实际源码阅读与证据核对形成，每条材料保留路径和范围。'));
+  if (full) $('content').append(node('p', 'method-note', '从这些文件开始阅读；每项都附有原始路径和来源。'));
   for (const item of discoveries) {
     const card = node('article', 'discovery'), pre = node('pre', '', '正在读取原文件…');
     card.append(node('span', 'label', item.id), node('h3', '', item.title), pre, node('p', '', item.description));
@@ -188,7 +190,7 @@ function renderScopeControls(toolbar, current, change) {
 }
 function renderBrowse() {
   const current = params(), code = current.scope === 'single' ? current.province : '';
-  const header = intro(`${scopeLabel(current)} / CSP-${current.group === 'all' ? 'J·S' : current.group}`, '以选手文件夹浏览；在所选范围内统一搜索、筛选和排序。'); header.classList.add('browse-intro');
+  const header = intro(`${scopeLabel(current)} / CSP-${current.group === 'all' ? 'J·S' : current.group}`, '按选手浏览文件，在全国、单省或多个省份中搜索和排序。'); header.classList.add('browse-intro');
   if (code) putArtwork(header, code, { eager: true });
   const toolbar = node('form', 'browse-toolbar archive-toolbar'); toolbar.addEventListener('submit', event => event.preventDefault());
   const searchLabel = node('label'), search = node('input'); search.type = 'search'; search.placeholder = '搜索考号、题目或文件名'; search.value = current.query; search.setAttribute('aria-label', '搜索归档'); searchLabel.append(search);
@@ -203,7 +205,7 @@ function renderBrowse() {
   toolbar.append(button('随机一人', () => void randomPerson(), 'quiet-action'), button('随机一题', () => void randomProblem(), 'quiet-action'));
   $('content').append(header, toolbar);
   const measureDetails = node('details', 'scope-note'); measureDetails.append(node('summary', '', '排序与目录范围'));
-  const note = node('p', '', '排序覆盖所选全国、单省或多省范围的全部选手目录。文件数与字节数按完整选手目录计算；搜索和题目筛选用于找到选手，进入目录后保留全部文件。未知大小置后，讨论按已关联线程去重。'); measureDetails.append(note); $('content').append(measureDetails);
+  const note = node('p', '', '排序覆盖所选范围。文件数与字节数按完整选手目录计算，未知大小排在末尾；讨论数按关联线程去重。搜索和题目筛选用于查找选手，打开后显示全部文件。'); measureDetails.append(note); $('content').append(measureDetails);
   const result = node('div', 'scope-results'); $('content').append(result);
   search.addEventListener('input', () => { clearTimeout(searchTimer); searchTimer = setTimeout(() => {
     if (!result.isConnected) return;
@@ -212,18 +214,20 @@ function renderBrowse() {
   void renderBrowseResults(result, current);
 }
 async function renderBrowseResults(container, current) {
+  const started = performance.now();
   const token = ++state.token, active = () => token === state.token && container.isConnected;
   container.replaceChildren(); container.setAttribute('aria-busy', 'true');
-  const status = node('p', 'browse-summary', '正在汇总所选范围的选手目录…'); status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite'); container.append(status);
+  const status = node('p', 'browse-summary', '正在加载选手索引…'); status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite'); container.append(status);
   const groups = scopeGroups(state.catalog.groups, current);
   if (!groups.length) { status.textContent = '当前范围没有归档目录，请选择至少一个已收录省份。'; container.removeAttribute('aria-busy'); return; }
-  const loaded = await loadScopeCatalogs(groups, groupData, { isCurrent: active, onProgress: value => { status.textContent = `正在汇总 ${scopeLabel(current)}：${value.completed} / ${value.total} 份地区组别目录${value.failed ? `，${value.failed} 份暂不可用` : ''}…`; } });
+  loadBrowseScope ||= createBrowseLoader(state.catalog, json, groupData);
+  const loaded = await loadBrowseScope(groups, { isCurrent: active, onProgress: value => { status.textContent = `正在加载 ${scopeLabel(current)} 选手索引${value.failed ? `（${value.failed} 份目录暂不可用）` : ''}…`; } });
   if (!active() || loaded.cancelled) return;
   container.removeAttribute('aria-busy');
   const items = sortContestants(addDiscussionCounts(browseContestants(loaded.files, current)), { by: current.sort, direction: current.direction });
   if (loaded.failedGroups.length) {
     const warning = node('div', 'scope-warning');
-    warning.append(node('p', '', `${loaded.failedGroups.map(item => item.group.label || item.group.key).join('、')} 读取失败。下方仅为已读取部分的排序结果，尚非完整范围。`), button('重试缺少的目录', () => void renderBrowseResults(container, params()), 'quiet-action')); container.append(warning);
+    warning.append(node('p', '', `${loaded.failedGroups.map(item => item.group.label || item.group.key).join('、')} 加载失败。当前显示其余地区的排序结果，重试后可补齐。`), button('重试缺少的目录', () => void renderBrowseResults(container, params()), 'quiet-action')); container.append(warning);
   }
   const grid = node('div', 'contestant-grid'); container.append(grid); let count = 0;
   const showMore = () => {
@@ -235,6 +239,8 @@ async function renderBrowseResults(container, current) {
   };
   const pager = button('显示更多选手', showMore, 'load-more'); container.append(pager); showMore();
   if (!items.length) container.append(node('p', 'empty', '没有符合当前条件的选手目录，可调整搜索或筛选。'));
+  performance.clearMeasures('browse-scope');
+  performance.measure('browse-scope', { start: started, end: performance.now() });
 }
 function archivePathURL(path, tree = false) { return `https://github.com/tangyixiao/CSP-2026/${tree ? 'tree' : 'blob'}/${state.catalog.revision}/${path.split('/').map(encodeURIComponent).join('/')}`; }
 async function renderContestant() {
@@ -282,16 +288,16 @@ async function renderContestant() {
   appendTree(listing, tree);
 }
 function renderSources() {
-  $('content').append(intro('来源与许可', '回到原始发布记录，区分引用、归档与核验范围。', 'SOURCES / ATTRIBUTION'));
+  $('content').append(intro('来源与许可', '查看归档来源、核对记录和内容许可。', 'SOURCES / ATTRIBUTION'));
   const grid = node('div', 'source-grid');
   const entries = [
-    ['省份原始资料', '来源索引整理官方入口、提供的资料包与实际核验范围。没有原始发布记录的地区明确保留缺口。', sourceIndex, '查看来源索引 ↗'],
-    ['洛谷参考与比较材料', '保留原作者、发布时间和原链接。引用的相似度主张与独立字节核对分别呈现；缺原链接的摘录不补造网址。', `${sourceIndex}#attributed-luogu-comparison-materials`, '查看署名与材料 ↗'],
+    ['省份原始资料', '查找各省的发布公告、资料包来源和核对记录。待补来源列在对应条目中。', sourceIndex, '查看来源索引 ↗'],
+    ['洛谷参考与比较材料', '查看讨论原帖、作者和日期，以及相似度记录与文件比对结果。缺失的原帖链接标为待补。', `${sourceIndex}#attributed-luogu-comparison-materials`, '查看署名与材料 ↗'],
     ['项目代码与第三方内容', '项目自行拥有的网站、脚本与原创文档使用 Apache-2.0。选手代码、官方数据、引用与第三方资产保留各自权利。', `https://github.com/tangyixiao/CSP-2026/blob/${SOURCE_INDEX_REVISION}/NOTICE`, '查看许可范围 ↗'],
-    ['主题、编辑器与地区配图', 'NOI 官网与 Dev-C++、Geany 是已注明的视觉参考。本站地域插画为项目生成的编辑性配图，不是官方标识或地图；阅读视图不提供编译或系统模拟。', 'https://github.com/tangyixiao/CSP-2026/blob/main/website/src/assets/regions/manifest.json', '查看配图来源与说明 ↗'],
+    ['主题、编辑器与地区配图', '站点外观参考 NOI 官网，阅读配色参考 Dev-C++ 和 Geany。地区插画由项目生成，来源见配图清单。', 'https://github.com/tangyixiao/CSP-2026/blob/main/website/src/assets/regions/manifest.json', '查看配图来源与说明 ↗'],
   ];
   for (const [title, text, href, label] of entries) { const card = node('section', 'source-card'); card.append(node('h2', '', title), node('p', '', text), link(label, href)); grid.append(card); }
-  $('content').append(grid, node('p', 'method-note', `当前目录：${regionCodes().length} 地区、${state.catalog.groups.length} 组别、${number(state.catalog.totalFiles)} 个源码或文本候选路径。文件包含备份、空文件及异常内容；目录身份不是自然人数或官方有效提交数。全国内容研究尚在进行。`));
+  $('content').append(grid, node('p', 'method-note', `当前目录：${regionCodes().length} 地区、${state.catalog.groups.length} 组别、${number(state.catalog.totalFiles)} 个源码或文本条目。数量按归档路径统计，包含备份与空文件；统计口径见来源说明。`));
   const links = node('div', 'source-links'); links.append(link('报告来源问题 ↗', 'https://github.com/tangyixiao/CSP-2026/issues/new/choose'), link('NOI 官网参考 ↗', 'https://noi.cn/'), link('组件许可 ↗', './third-party-licenses.txt')); $('content').append(links);
 }
 async function randomPerson(scope = {}) {
@@ -328,7 +334,7 @@ async function renderRoute() {
   const current = params();
   if (new URLSearchParams(location.search).has('problem') && !current.problem) { const url = new URL(location.href); url.searchParams.delete('problem'); history.replaceState(history.state, '', url); }
   for (const item of document.querySelectorAll('[data-view]')) { if (item.dataset.view === (current.view === 'contestant' ? 'browse' : current.view)) item.setAttribute('aria-current', 'page'); else item.removeAttribute('aria-current'); }
-  if (current.view === 'browse') renderBrowse(); else if (current.view === 'contestant') void renderContestant(); else if (current.view === 'discover') { $('content').append(intro('在原文件里，找线索', '从具体内容开始阅读，保留上下文，也保留疑问。', 'DISCOVER / READ CLOSELY')); void renderDiscoveries(true); } else if (current.view === 'sources') renderSources(); else renderHome();
+  if (current.view === 'browse') renderBrowse(); else if (current.view === 'contestant') void renderContestant(); else if (current.view === 'discover') { $('content').append(intro('发现归档文件', '浏览程序、注释和子目录，打开原文件查看上下文。', 'DISCOVER / READ CLOSELY')); void renderDiscoveries(true); } else if (current.view === 'sources') renderSources(); else renderHome();
   scrollTo(0, scrollPositions.get(location.href) || 0);
 }
 function closeNavigation() { siteShell.closeMenu(); }

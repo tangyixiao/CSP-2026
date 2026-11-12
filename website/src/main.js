@@ -61,7 +61,6 @@ function setTheme(theme, { preserveProjectChoice = false } = {}) {
   state.theme = theme;
   document.documentElement.dataset.theme = theme;
   document.documentElement.dataset.colorMode = theme;
-  $('theme-toggle').setAttribute('aria-label', theme === 'dark' ? '切换为浅色主题' : '切换为深色主题');
   document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#1c2531' : '#ffffff';
   try {
     localStorage.setItem('csp-code-theme', theme);
@@ -82,11 +81,11 @@ function setMode(mode, { announce = false } = {}) {
   document.querySelector('[data-mode="inline"]').textContent = mobile.matches ? '单栏阅读' : '内联';
   for (const id of ['ignore-whitespace', 'previous-change', 'next-change']) {
     $(id).disabled = mobile.matches;
-    if (mobile.matches) $(id).title = '窄屏提供高亮阅读；差异功能请在桌面宽屏使用。';
+    if (mobile.matches) $(id).title = '窄屏使用单栏阅读；请在桌面查看对齐差异。';
     else $(id).removeAttribute('title');
   }
   state.editor?.setMode(state.mode);
-  if (announce && mode === 'split' && mobile.matches) toast('窄屏展示两份高亮源码；对齐差异请用桌面宽屏。');
+  if (announce && mode === 'split' && mobile.matches) toast('已切换为单栏阅读；桌面支持并排对齐。');
   updateLocation();
 }
 
@@ -191,7 +190,7 @@ function initializeDownloads() {
         const file=state[side].file;if(!file||!state.catalog)return;
         const revision=state.catalog.revision;downloadBusy=true;button.disabled=true;menu.open=false;
         try {
-          if(kind==='file') { await saveOriginalFile(file,revision,state.downloadMode);toast('已下载原始文件，文件名和字节保持不变。'); }
+          if(kind==='file') { await saveOriginalFile(file,revision,state.downloadMode);toast('原文件已下载。'); }
           else {
             toast('正在准备选手目录 ZIP…');
             const [province,group]=file.path.split('/');
@@ -244,7 +243,7 @@ async function loadDirectory({ province, group, search, problem, page = 0 } = {}
   state.directoryReady = false;
   state.directoryError = null;
   $('file-list').setAttribute('aria-busy', 'true');
-  $('file-list').replaceChildren(el('div', 'list-empty', '正在读取此省份的源文件目录…'));
+  $('file-list').replaceChildren(el('div', 'list-empty', '正在加载文件目录…'));
   $('result-count').textContent = '正在读取目录';
   $('retry-catalog').hidden = true;
   $('problem-select').disabled = true;
@@ -264,7 +263,7 @@ async function loadDirectory({ province, group, search, problem, page = 0 } = {}
     if (sequence !== state.directorySequence) return;
     state.directoryError = error;
     $('file-list').replaceChildren(el('div', 'list-empty', formatError(error)));
-    $('result-count').textContent = '目录未能载入';
+    $('result-count').textContent = '目录加载失败';
     $('retry-catalog').hidden = false;
   } finally {
     if (sequence === state.directorySequence) $('file-list').setAttribute('aria-busy', 'false');
@@ -303,7 +302,7 @@ function renderFiles() {
     item.append(heading, subtitle, bottom);
     return item;
   });
-  $('file-list').replaceChildren(...(nodes.length ? nodes : [el('div', 'list-empty', '没有匹配的文件。试试缩短考号，或切换题目、省份与组别。')]));
+  $('file-list').replaceChildren(...(nodes.length ? nodes : [el('div', 'list-empty', '没有匹配文件，请调整考号、题目或省份。')]));
   $('result-count').textContent = `${formatNumber(matched.length)} 份源文件${search || problem ? ' · 已筛选' : ''}`;
   $('page-indicator').textContent = `${state.page + 1} / ${formatNumber(pages)}`;
   $('page-prev').disabled = state.page <= 0;
@@ -341,11 +340,11 @@ function renderCaseContext() {
   $('case-note').hidden = !item.note;
   $('case-source').hidden = !item.sourceUrl;
   if (item.sourceUrl) $('case-source').href = item.sourceUrl;
-  $('case-provenance').textContent = [item.sourceTitle || '用户提供的讨论摘录', item.sourceAuthor && `作者 ${item.sourceAuthor}`, item.sourceDate, !item.sourceUrl && '未提供本材料的可确认原帖链接'].filter(Boolean).join(' · ');
+  $('case-provenance').textContent = [item.sourceTitle || '用户提供的讨论摘录', item.sourceAuthor && `作者 ${item.sourceAuthor}`, item.sourceDate, !item.sourceUrl && '原帖链接待补'].filter(Boolean).join(' · ');
   $('case-ambiguity').hidden = !state.ambiguity.length;
   const choices = [];
   for (const choice of state.ambiguity) {
-    choices.push(el('p', '', `${choice.side === 'left' ? 'A' : 'B'} · ${choice.selector.contestant} / ${choice.selector.problem}：${choice.files.length ? '找到多份文件，请明确选择一份。' : '目录中没有找到匹配的源文件，可从档案检索手动选择。'}`));
+    choices.push(el('p', '', `${choice.side === 'left' ? 'A' : 'B'} · ${choice.selector.contestant} / ${choice.selector.problem}：${choice.files.length ? '找到多份文件，请明确选择一份。' : '未找到匹配文件，请从文件列表选择。'}`));
     for (const file of choice.files) {
       const button = el('button', '', file.path);
       button.type = 'button';
@@ -456,8 +455,8 @@ function renderMetadata(side) {
   const label = el('div', 'metadata-label');
   label.append(el('span', 'side-badge', side === 'left' ? 'A' : 'B'), el('strong', '', titleOfFile(slot.file)));
   container.replaceChildren(label);
-  if (!slot.file) { container.append(el('p', '', '尚未选择源文件。')); return; }
-  if (slot.status === 'loading') { container.append(el('p', '', '正在读取原始源文件并计算摘要…')); return; }
+  if (!slot.file) { container.append(el('p', '', '请选择文件。')); return; }
+  if (slot.status === 'loading') { container.append(el('p', '', '正在加载文件并校验…')); return; }
   if (slot.status === 'error') { container.append(el('p', '', slot.error)); const retry = el('button', 'text-button', '重新载入文件'); retry.type = 'button'; retry.addEventListener('click', () => { void selectFile(side, slot.file, { keepCase: true }); }); container.append(retry); return; }
   const source = slot.source;
   const dl = el('dl');
@@ -643,11 +642,11 @@ async function loadCatalog() {
     if (state.directoryReady && Number.isFinite(directoryScroll) && directoryScroll >= 0) $('file-list').scrollTop = directoryScroll;
   } catch (error) {
     $('archive-count').textContent = '目录离线';
-    $('result-count').textContent = '目录未能载入';
+    $('result-count').textContent = '目录加载失败';
     $('file-list').replaceChildren(el('div', 'list-empty', `无法读取公开档案目录：${formatError(error)}`));
     $('file-list').setAttribute('aria-busy', 'false');
     $('retry-catalog').hidden = false;
-    $('source-status').textContent = '档案目录未能载入。请在左侧点击「重新载入」。';
+    $('source-status').textContent = '档案目录加载失败。请在左侧点击「重新载入」。';
     $('source-status').classList.add('has-error');
   }
 }

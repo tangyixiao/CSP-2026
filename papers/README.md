@@ -9,9 +9,9 @@
 | 第二轮 | 入门组 J | [中文题面](round-2/csp-j-2026.pdf) | 12 | Gym 阅读版，标准输入输出 |
 | 第二轮 | 提高组 S | [中文题面](round-2/csp-s-2026.pdf) | 12 | Gym 阅读版，标准输入输出 |
 
-文件保留从原站下载的 PDF 字节，未重新生成或修改。上表明确区分公开副本和重排阅读版；这些来源未被独立认证为官方发布渠道。第二轮 Gym 阅读版将原赛文件输入输出改为标准输入输出，不能用它判断考场的文件命名和提交要求。
+PDF 按下载原样保存，版本见上表。第二轮 Gym 阅读版使用标准输入输出；考场文件命名和提交要求请查原赛版。各副本的官方来源核验进度见文末状态表。
 
-PDF copies are preserved byte for byte from their public sources. The first-round Senior PDF is a community typeset copy with answers. The second-round PDFs are Gym reading editions using standard input/output, rather than the original contest file I/O. These copies are not independently authenticated official releases.
+PDFs retain their downloaded bytes. Editions are labeled above. The Round 2 Gym editions use standard input/output; consult the contest-layout papers for contest filenames and submission rules. Official-source verification is tracked in the status table below.
 
 ## 第一轮补充资料
 
@@ -38,9 +38,9 @@ Official test data and contestant archives are linked separately from the readin
 | 第二轮 J | [Gym 106813 公开镜像](https://cf.m27.workers.dev/gym/106813) | [原站文件](https://cf.m27.workers.dev/gym/106813/attachments/download/40626/csp-j-2026-statements.pdf) |
 | 第二轮 S | [Gym 106814 公开镜像](https://cf.m27.workers.dev/gym/106814) | [原站文件](https://cf.m27.workers.dev/gym/106814/attachments/download/40625/csp-s-2026-statements.pdf) |
 
-[sources.json](sources.json) 记录下载地址、时间、字节数、页数、文件元数据和 SHA-256。[SHA256SUMS](SHA256SUMS) 用于核对本仓库副本的字节是否一致，不证明题面经过官方认证。试题及第三方排印内容保留各自权利，详见 [NOTICE](../NOTICE) 和 [SOURCES.md](../SOURCES.md)。
+[sources.json](sources.json) 记录下载地址、时间、字节数、页数、文件元数据和 SHA-256。[SHA256SUMS](SHA256SUMS) 用于核对本仓库副本的字节是否一致；官方发布来源另见核验记录。试题及第三方排印内容保留各自权利，详见 [NOTICE](../NOTICE) 和 [SOURCES.md](../SOURCES.md)。
 
-The source manifest records retrieval details and SHA-256 values. Checksums verify file identity, not official authenticity or reuse rights. Problem copyrights and third-party notices remain with their respective owners.
+The source manifest records retrieval details and SHA-256 values. Checksums verify file identity; official-source status and rights are recorded separately. Problem copyrights and third-party notices remain with their respective owners.
 
 ## 核验与征集进度 / Verification and collection progress
 

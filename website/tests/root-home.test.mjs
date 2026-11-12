@@ -24,7 +24,7 @@ test('root home gives every region an illustrated card while retaining the five 
   const expanded = html.match(/<details class="directory" id="all-regions">([\s\S]*?)<\/details>/)?.[1];
   assert.equal((expanded.match(/<article class="region"/g) || []).length, 24);
   assert.match(html, /29 个地区 · 58 个组别/);
-  assert.ok(html.includes(`${catalog.totalFiles.toLocaleString('en-US')} 个文件条目`));
+  assert.ok(html.includes(`${catalog.totalFiles.toLocaleString('en-US')} 个源码或文本条目`));
   for (const code of Object.keys(REGIONS)) {
     for (const group of ['J', 'S']) assert.ok(html.includes(`province=${code}&amp;group=${group}`));
   }
@@ -64,7 +64,7 @@ test('root renderer rejects missing catalog coverage and never fabricates group 
   assert.throws(() => renderRootHome(template, { ...catalog, groups: [groups[0], groups[0]] }), /Duplicate/);
   assert.throws(() => renderRootHome(template, { ...catalog, revision: '../invalid' }), /pinned catalog/);
   const html = renderRootHome(template, { ...catalog, totalFiles: null });
-  assert.ok(html.includes('— 个文件条目'));
+  assert.ok(html.includes('— 个源码或文本条目'));
   const missingDirectoryCount = renderRootHome(template, { ...catalog, groups: groups.map(group => group.province === 'ZJ' ? { ...group, contestantCount: null } : group) });
   assert.ok(missingDirectoryCount.includes('— 份档案'));
   const invalidDirectoryCount = renderRootHome(template, { ...catalog, groups: groups.map(group => group.province === 'ZJ' ? { ...group, contestantCount: -1 } : group) });
