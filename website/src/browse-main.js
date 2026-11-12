@@ -1,12 +1,14 @@
+import '../shared/site-shell.css';
+import { mountSiteShell } from '../shared/site-shell.js';
 import { previewUnavailableLabel } from './archive-browse.js';
 import './browse.css';
-import { groupContestants, sortContestants, sampleContestant, sampleProblem, contestProblemFiles, parseBrowseRoute, scopeGroups, browseContestants, contestantTree, loadScopeCatalogs } from './archive-browse.js';
+import { groupContestants, sortContestants, sampleContestant, sampleProblem, contestProblemFiles, contestProblemOptions, parseBrowseRoute, scopeGroups, browseContestants, contestantTree, loadScopeCatalogs } from './archive-browse.js';
 import { REGIONS, regionImage } from './regions.js';
-import { applyAppearance, getSavedAppearance } from './site-appearance.js';
 import { loadSource, githubUrl } from './source.js';
 import { SOURCE_INDEX_REVISION } from './provenance.js';
 import { saveContestantDirectory } from './downloads.js';
 
+const siteShell = mountSiteShell({ root: '../', active: 'browse' });
 const $ = id => document.getElementById(id);
 // The root homepage can hand off one explicit random action. Consume the flag
 // before loading data so reload/back navigation cannot repeat the draw.
@@ -192,7 +194,7 @@ function renderBrowse() {
   const searchLabel = node('label'), search = node('input'); search.type = 'search'; search.placeholder = '搜索考号、题目或文件名'; search.value = current.query; search.setAttribute('aria-label', '搜索归档'); searchLabel.append(search);
   toolbar.append(searchLabel);
   renderScopeControls(toolbar, current, next => navigate({ ...next, query: search.value, directory: '' }));
-  const selects = [['group', '组别', [['S', 'CSP-S'], ['J', 'CSP-J'], ['all', 'J / S']]], ['problem', '题目', [['', '全部题目'], ...['and', 'card', 'string', 'travel', 'crystal', 'hub', 'migrate', 'subway'].map(value => [value, value])]], ['sort', '排序', [['id', '考号'], ['bytes', '字节数'], ['files', '文件数'], ['discussions', '已关联讨论'], ['recent', '最近讨论']]], ['direction', '方向', [['asc', '升序'], ['desc', '降序']]], ['batch', '每批', [[60, '60 位选手'], [120, '120 位选手'], [240, '240 位选手']]]];
+  const selects = [['group', '组别', [['S', 'CSP-S'], ['J', 'CSP-J'], ['all', 'J / S']]], ['problem', '题目', [['', '全部题目'], ...contestProblemOptions(current.group).map(value => [value, value])]], ['sort', '排序', [['id', '考号'], ['bytes', '字节数'], ['files', '文件数'], ['discussions', '已关联讨论'], ['recent', '最近讨论']]], ['direction', '方向', [['asc', '升序'], ['desc', '降序']]], ['batch', '每批', [[60, '60 位选手'], [120, '120 位选手'], [240, '240 位选手']]]];
   for (const [key, label, options] of selects) {
     const wrapper = node('label', '', label), select = node('select'); select.setAttribute('aria-label', label);
     for (const [value, name] of options) select.add(new Option(name, value)); select.value = current[key];
@@ -323,24 +325,14 @@ async function renderRoute() {
   state.token++; previews = [];
   clearTimeout(searchTimer);
   $('content').replaceChildren();
-  const current = params(); for (const item of document.querySelectorAll('[data-view]')) { if (item.dataset.view === (current.view === 'contestant' ? 'browse' : current.view)) item.setAttribute('aria-current', 'page'); else item.removeAttribute('aria-current'); }
+  const current = params();
+  if (new URLSearchParams(location.search).has('problem') && !current.problem) { const url = new URL(location.href); url.searchParams.delete('problem'); history.replaceState(history.state, '', url); }
+  for (const item of document.querySelectorAll('[data-view]')) { if (item.dataset.view === (current.view === 'contestant' ? 'browse' : current.view)) item.setAttribute('aria-current', 'page'); else item.removeAttribute('aria-current'); }
   if (current.view === 'browse') renderBrowse(); else if (current.view === 'contestant') void renderContestant(); else if (current.view === 'discover') { $('content').append(intro('在原文件里，找线索', '从具体内容开始阅读，保留上下文，也保留疑问。', 'DISCOVER / READ CLOSELY')); void renderDiscoveries(true); } else if (current.view === 'sources') renderSources(); else renderHome();
   scrollTo(0, scrollPositions.get(location.href) || 0);
 }
-function applyColorMode(choice) { let theme = choice; if (theme === 'system') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.documentElement.dataset.theme = theme === 'dark' ? 'dark' : 'light'; try { localStorage.setItem('csp-project-theme', choice); } catch { /* Current mode still works. */ } }
-$('appearance').value = applyAppearance(getSavedAppearance());
-$('appearance').addEventListener('change', event => applyAppearance(event.target.value));
-try { $('color-mode').value = ['light', 'dark', 'system'].includes(localStorage.getItem('csp-project-theme')) ? localStorage.getItem('csp-project-theme') : 'light'; } catch { /* Default light. */ }
-applyColorMode($('color-mode').value); $('color-mode').addEventListener('change', event => applyColorMode(event.target.value));
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if ($('color-mode').value === 'system') applyColorMode('system'); });
+function closeNavigation() { siteShell.closeMenu(); }
 $('close-regions').addEventListener('click', () => $('regions-dialog').close());
-const navToggle = document.querySelector('.nav-toggle'), mainNav = $('main-nav');
-document.querySelector('.wordmark').href = '../';
-mainNav.querySelector('[data-view="home"]').href = '../';
-function closeNavigation() { mainNav.classList.remove('is-open'); navToggle.setAttribute('aria-expanded', 'false'); navToggle.setAttribute('aria-label', '打开导航菜单'); }
-navToggle.addEventListener('click', () => { const open = !mainNav.classList.contains('is-open'); mainNav.classList.toggle('is-open', open); navToggle.setAttribute('aria-expanded', String(open)); navToggle.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单'); });
-mainNav.addEventListener('click', event => { if (event.target.closest('a')) closeNavigation(); });
-document.addEventListener('keydown', event => { if (event.key === 'Escape') closeNavigation(); });
 if (import.meta.env.DEV) document.querySelector('a[href="../preview/downloads.html"]').href = 'https://tangyixiao.github.io/CSP-2026/preview/downloads.html';
 document.addEventListener('click', event => { const target = event.target.closest('a'); if (!target || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; const url = new URL(target.href, location.href); if (url.origin === location.origin && url.pathname === location.pathname && url.search) { event.preventDefault(); navigationVersion++; $('regions-dialog').close(); scrollPositions.set(location.href, scrollY); history.pushState({}, '', url); void renderRoute(); } });
 window.addEventListener('popstate', () => { navigationVersion++; void renderRoute(); });

@@ -1,6 +1,8 @@
+import '../shared/site-shell.css';
+import { mountSiteShell } from '../shared/site-shell.js';
 import { hexPage, HEX_PAGE_BYTES, parseHexOffset } from './hex-view.js';
 import { mountFormatControls } from './format-controls.js';
-import { catalogPreviewFiles } from './archive-browse.js';
+import { catalogPreviewFiles, contestProblemOptions } from './archive-browse.js';
 import '@primer/primitives/dist/css/functional/themes/light.css';
 import '@primer/primitives/dist/css/functional/themes/dark.css';
 import '@primer/css/dist/primitives.css';
@@ -17,7 +19,6 @@ import { mountDiscussion } from './discussions.js';
 import { saveOriginalFile, saveContestantDirectory } from './downloads.js';
 import { DOWNLOAD_MODE_KEY, savedDownloadMode } from '../project-site/download-mode.js';
 import { groupContestants, sampleContestant, sampleProblem, contestProblemFiles } from './archive-browse.js';
-import { applyAppearance, getSavedAppearance } from './site-appearance.js';
 import { getProvenance } from './provenance.js';
 import { normalizeReadingProfile } from './reading-profiles.js';
 
@@ -32,7 +33,7 @@ const state = {
   catalog: null, files: [], page: 0, directorySequence: 0, caseSequence: 0,
   activeCase: null, ambiguity: [], directoryError: null, directoryReady: false, loadedDirectory: null,
   downloadMode: savedDownloadMode(),
-  theme: ['light', 'dark'].includes(initialQuery.get('theme')) ? initialQuery.get('theme') : initialQuery.get('profile') === 'devcpp' ? 'light' : getSavedTheme(),
+  theme: initialQuery.get('theme') === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : ['light', 'dark'].includes(initialQuery.get('theme')) ? initialQuery.get('theme') : initialQuery.get('profile') === 'devcpp' ? 'light' : getSavedTheme(),
   mode: mobile.matches ? 'inline' : validMode(initialQuery.get('mode')),
   ignoreWhitespace: true, editor: null, diffCount: null, diffIncomplete: false, commentsOpen: true,
   left: emptySlot(), right: emptySlot(),
@@ -46,14 +47,7 @@ function getSavedReadingProfile() {
 
 function emptySlot() { return { file: null, source: null, status: 'empty', error: '', sequence: 0, controller: null }; }
 function validMode(mode) { return ['view', 'split', 'inline'].includes(mode) ? mode : 'split'; }
-function getSavedTheme() {
-  try {
-    const choice=localStorage.getItem('csp-project-theme');
-    if(choice==='system')return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
-    if(['light','dark'].includes(choice))return choice;
-    return localStorage.getItem('csp-code-theme')==='light'?'light':'dark';
-  } catch { return 'dark'; }
-}
+function getSavedTheme() { return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'; }
 function el(tag, className, text) { const node = document.createElement(tag); if (className) node.className = className; if (tag === 'button' && !className?.startsWith('case-item')) node.classList.add('btn'); if (text !== undefined) node.textContent = text; return node; }
 function normalized(value) { return String(value ?? '').toUpperCase(); }
 function formatNumber(value) { return Number(value || 0).toLocaleString('zh-CN'); }
@@ -67,9 +61,8 @@ function setTheme(theme, { preserveProjectChoice = false } = {}) {
   state.theme = theme;
   document.documentElement.dataset.theme = theme;
   document.documentElement.dataset.colorMode = theme;
-  setIcon($('theme-toggle'), theme === 'dark' ? 'sun' : 'moon');
   $('theme-toggle').setAttribute('aria-label', theme === 'dark' ? '切换为浅色主题' : '切换为深色主题');
-  document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#0d1117' : '#ffffff';
+  document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#1c2531' : '#ffffff';
   try {
     localStorage.setItem('csp-code-theme', theme);
     if(!preserveProjectChoice)localStorage.setItem('csp-project-theme',theme);
@@ -113,9 +106,9 @@ function updateReaderNavigation(url = new URL(window.location.href)) {
     try {
       const destination = new URL(folderReturn, window.location.href);
       if (destination.origin === location.origin && destination.pathname === new URL('./browse.html', location.href).pathname && destination.searchParams.get('view') === 'contestant' && !destination.username && !destination.password) {
-        const browseLink = document.querySelector('.nav-browse');
-        browseLink.href = `${destination.pathname}${destination.search}`;
-        browseLink.textContent = '选手目录';
+        let back = $('folder-return');
+        if (!back) { back = el('a', 'folder-return', '← 返回选手目录'); back.id = 'folder-return'; document.querySelector('.workbench-heading').before(back); }
+        back.href = `${destination.pathname}${destination.search}`;
       }
     } catch { /* Invalid return links keep the regular archive navigation. */ }
   }
@@ -137,7 +130,7 @@ function updateLocation() {
   for (const side of ['left', 'right']) { if (state[side].status === 'loading') continue; const source = state[side].source; if (source?.viewFormat === 'hex' && source.offset) url.searchParams.set(`${side}Offset`, String(source.offset)); else url.searchParams.delete(`${side}Offset`); }
   if (state.activeCase) url.searchParams.set('case', state.activeCase.id); else url.searchParams.delete('case');
   url.searchParams.set('mode', state.mode);
-  url.searchParams.set('theme', state.theme);
+  url.searchParams.set('theme', window.CspProjectTheme.getChoice());
   if (state.readingProfile !== 'csp') url.searchParams.set('profile', state.readingProfile); else url.searchParams.delete('profile');
   const selectedGroup = currentGroup();
   if (state.directoryReady && selectedGroup?.key === state.loadedDirectory?.key) {
@@ -185,7 +178,7 @@ function initializeDownloads() {
   select.value = state.downloadMode;
   select.addEventListener('change',()=>{ state.downloadMode=select.value;try{localStorage.setItem(DOWNLOAD_MODE_KEY,select.value);}catch{/* current choice remains */} });
   modeLabel.append(select);
-  $('theme-toggle').before(modeLabel);
+  document.querySelector('.reader-options').append(modeLabel);
   for (const side of ['left','right']) {
     const menu=el('details','source-download');menu.id=`${side}-download-menu`;
     const summary=el('summary','','下载');
@@ -234,7 +227,7 @@ function populateProvinces() {
 }
 
 function populateProblems(preserve = '') {
-  const problems = [...new Set(state.files.map((file) => file.problem).filter(Boolean))].sort();
+  const problems = contestProblemOptions(currentGroup()?.group);
   $('problem-select').replaceChildren(new Option('全部题目', ''), ...problems.map((problem) => new Option(problem, problem)));
   $('problem-select').value = problems.includes(preserve) ? preserve : '';
   $('problem-select').disabled = false;
@@ -251,7 +244,7 @@ async function loadDirectory({ province, group, search, problem, page = 0 } = {}
   state.directoryReady = false;
   state.directoryError = null;
   $('file-list').setAttribute('aria-busy', 'true');
-  $('file-list').replaceChildren(el('div', 'list-empty', '正在读取此省区的源文件目录…'));
+  $('file-list').replaceChildren(el('div', 'list-empty', '正在读取此省份的源文件目录…'));
   $('result-count').textContent = '正在读取目录';
   $('retry-catalog').hidden = true;
   $('problem-select').disabled = true;
@@ -259,7 +252,7 @@ async function loadDirectory({ province, group, search, problem, page = 0 } = {}
   $('page-next').disabled = true;
   try {
     const selectedGroup = currentGroup();
-    if (!selectedGroup) throw new Error('该省区暂无所选组别的档案，请切换省区或组别。');
+    if (!selectedGroup) throw new Error('该省份暂无所选组别的档案，请切换省份或组别。');
     const files = await groupFiles(selectedGroup);
     if (sequence !== state.directorySequence) return;
     state.files = files;
@@ -310,7 +303,7 @@ function renderFiles() {
     item.append(heading, subtitle, bottom);
     return item;
   });
-  $('file-list').replaceChildren(...(nodes.length ? nodes : [el('div', 'list-empty', '没有匹配的文件。试试缩短考号，或切换题目、省区与组别。')]));
+  $('file-list').replaceChildren(...(nodes.length ? nodes : [el('div', 'list-empty', '没有匹配的文件。试试缩短考号，或切换题目、省份与组别。')]));
   $('result-count').textContent = `${formatNumber(matched.length)} 份源文件${search || problem ? ' · 已筛选' : ''}`;
   $('page-indicator').textContent = `${state.page + 1} / ${formatNumber(pages)}`;
   $('page-prev').disabled = state.page <= 0;
@@ -594,7 +587,7 @@ async function copyText(text) {
 async function fileFromPath(path) {
   const [province, group] = path.split('/');
   const selected = findGroup(province, group);
-  if (!selected) throw new Error(`分享链接中的省区或组别无效：${path}`);
+  if (!selected) throw new Error(`分享链接中的省份或组别无效：${path}`);
   const files = await groupFiles(selected);
   const file = files.find((item) => item.path === path);
   if (!file) throw new Error(`档案中未找到分享链接中的文件：${path}`);
@@ -659,7 +652,6 @@ async function loadCatalog() {
   }
 }
 
-$('theme-toggle').addEventListener('click', () => setTheme(state.theme === 'dark' ? 'light' : 'dark'));
 for (const panel of ['files', 'cases']) {
   $(`tab-${panel}`).addEventListener('click', () => switchPanel(panel));
   $(`tab-${panel}`).addEventListener('keydown', (event) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); const next = panel === 'files' ? 'cases' : 'files'; switchPanel(next); $(`tab-${next}`).focus(); } });
@@ -698,23 +690,6 @@ function updateReadingProfileLabel() {
 
 function initializeReadingControls() {
   const nav = document.querySelector('.main-nav');
-  const navToggle = $('reader-nav-toggle');
-  const closeNavigation = (restoreFocus = false) => {
-    nav.classList.remove('is-open');
-    navToggle.setAttribute('aria-expanded', 'false');
-    navToggle.setAttribute('aria-label', '打开导航菜单');
-    if (restoreFocus) navToggle.focus();
-  };
-  navToggle.addEventListener('click', () => {
-    const open = !nav.classList.contains('is-open');
-    nav.classList.toggle('is-open', open);
-    navToggle.setAttribute('aria-expanded', String(open));
-    navToggle.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
-  });
-  nav.addEventListener('click', event => { const anchor = event.target.closest('a'); if (anchor) closeNavigation(Boolean(anchor.dataset.readerNav)); });
-  document.addEventListener('keydown', event => { if (event.key === 'Escape' && nav.classList.contains('is-open')) closeNavigation(true); });
-  mobile.addEventListener('change', () => closeNavigation());
-  document.querySelector('.brand').href = '../';
   for (const anchor of nav.querySelectorAll('a[data-reader-nav]')) anchor.addEventListener('click', event => {
     if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
@@ -730,7 +705,7 @@ function initializeReadingControls() {
     state.readingProfile = normalizeReadingProfile(profile.value);
     // Choosing the requested IDE preset starts with its white Classic Plus
     // palette. Subsequent light/dark changes stay independent and shareable.
-    if (state.readingProfile === 'devcpp') setTheme('light', { preserveProjectChoice: true });
+    if (state.readingProfile === 'devcpp') window.CspProjectTheme.setChoice('light');
     state.editor?.setReadingProfile(state.readingProfile);
     document.documentElement.dataset.readingProfile = state.readingProfile;
     try { localStorage.setItem('csp-reading-profile', state.readingProfile); } catch { /* Current view works without storage. */ }
@@ -738,11 +713,6 @@ function initializeReadingControls() {
     updateLocation();
   });
   profileLabel.append(profile);
-  const appearanceLabel = el('label', 'appearance-control', '站点');
-  const appearance = el('select'); appearance.id = 'site-appearance'; appearance.setAttribute('aria-label', '站点主题');
-  appearance.append(new Option('CSP', 'csp'), new Option('NOI 参考', 'noi'));
-  appearance.value = applyAppearance(getSavedAppearance());
-  appearance.addEventListener('change', () => applyAppearance(appearance.value)); appearanceLabel.append(appearance);
   const focus = el('button', '', '收起文件区'); focus.type = 'button'; focus.id = 'focus-reader';
   const setFocus = value => { document.body.classList.toggle('focused-reader', value); focus.textContent = value ? '打开文件区' : '收起文件区'; focus.setAttribute('aria-expanded', String(!value)); };
   focus.addEventListener('click', () => setFocus(!document.body.classList.contains('focused-reader')));
@@ -750,7 +720,7 @@ function initializeReadingControls() {
   const wrap = el('button', '', '自动换行'); wrap.type = 'button'; wrap.id = 'reader-wrap'; wrap.setAttribute('aria-pressed', 'false');
   wrap.addEventListener('click', () => { const enabled = wrap.getAttribute('aria-pressed') !== 'true'; wrap.setAttribute('aria-pressed', String(enabled)); state.editor?.setWordWrap?.(enabled); });
   const profileNote = el('span', 'reading-profile-note'); profileNote.id = 'reading-profile-note'; profileNote.setAttribute('role', 'status');
-  controls.append(profileLabel, appearanceLabel, focus, wrap, profileNote); toolbar.append(controls);
+  controls.append(profileLabel, focus, wrap, profileNote); toolbar.append(controls);
   const actions = el('div', 'random-actions');
   for (const [kind, label] of [['person', '随机跳人'], ['problem', '随机跳题']]) {
     const control = el('button', '', label); control.type = 'button'; control.id = `random-${kind}`;
@@ -782,14 +752,14 @@ async function randomJump(kind, control) {
       const items = groupContestants(files, { query, problem: $('problem-select').value }).filter(item => item.identityValid);
       if (items.length === 1 && items[0].id === activeId) { toast('当前筛选只有这一个目录，可调整题目或搜索条件后再随机。'); return; }
       const item = sampleContestant(items, { previousId: activeId }); file = item?.files[0];
-      if (item) { nextSearch = item.contestant; toast(`随机目录：${item.contestant} · 当前省区/组别与题目筛选范围`); }
+      if (item) { nextSearch = item.contestant; toast(`随机目录：${item.contestant} · 当前省份/组别与题目筛选范围`); }
     } else {
       if (!active) files = groupContestants(files, { query: $('contestant-input').value, problem: $('problem-select').value }).flatMap(item => item.files);
       files = contestProblemFiles(files);
       const problem = sampleProblem(files, { contestant: activeId, previousProblem: active?.problem });
       if (active && problem === active.problem) { toast('这个目录当前只有这一道可用题目。'); return; }
       file = files.find(item => item.problem === problem && (!activeId || item.path.startsWith(`${activeId}/`)));
-      if (file) toast(`随机题目：${problem}${active ? ` · ${active.contestant}` : ' · 当前省区/组别'}`);
+      if (file) toast(`随机题目：${problem}${active ? ` · ${active.contestant}` : ' · 当前省份/组别'}`);
     }
     if (!file) { toast('当前范围没有可用选项；可调整筛选后重试。'); return; }
     updateLocation();
@@ -801,6 +771,10 @@ async function randomJump(kind, control) {
   finally { state.randomBusy = false; randomControls.forEach(button => { button.disabled = false; }); }
 }
 window.addEventListener('popstate', () => location.reload());
+mountSiteShell({ root: '../', active: state.mode === 'view' ? 'view' : 'compare', reader: true });
+document.addEventListener('csp-project-theme', () => setTheme(document.documentElement.dataset.theme, { preserveProjectChoice: true }));
+if (['light', 'dark', 'system'].includes(initialQuery.get('theme'))) window.CspProjectTheme.setChoice(initialQuery.get('theme'));
+else state.theme = document.documentElement.dataset.theme;
 initializeReadingControls();
 initializeDownloads();
 formatControls = mountFormatControls({ toolbar: document.querySelector('.editor-toolbar'), getSources: () => [state.left.source, state.right.source].filter(Boolean), onChange: () => { renderSources(); syncEditor(); } });

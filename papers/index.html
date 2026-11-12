@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="light" data-appearance="csp">
+<html data-site-shell="true" lang="zh-CN" data-theme="light" data-appearance="csp">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -10,24 +10,11 @@
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../assets/home.css">
   <link rel="stylesheet" href="papers.css">
-  <script src="../assets/home.js"></script>
+  <script src="../assets/theme.js"></script><link rel="stylesheet" href="../assets/site-shell.css"><script type="module" src="../assets/site-init.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">跳到正文 / Skip to content</a>
-  <div class="header-shell"><div class="wrap header-layout">
-    <header class="masthead">
-      <button class="hamburger" type="button" aria-label="打开导航菜单" aria-expanded="false" aria-controls="home-navigation">☰</button>
-      <a class="brand" href="../">CSP <b>2026</b></a><span class="brand-sub">试题与参考资料 / Papers</span>
-      <details class="appearance"><summary aria-label="外观设置"><span id="appearance-label">CSP 主题</span><span aria-hidden="true"> ◐</span></summary>
-        <div class="appearance-panel">
-          <label>站点主题 / Theme<select id="home-appearance"><option value="csp">CSP</option><option value="noi">NOI 参考</option></select></label>
-          <label>明暗 / Mode<select id="home-color-mode"><option value="light">浅色 / Light</option><option value="dark">深色 / Dark</option><option value="system">系统 / System</option></select></label>
-          <a href="https://noi.cn/" target="_blank" rel="noreferrer">NOI 主题参考 ↗</a>
-        </div>
-      </details>
-    </header>
-    <nav id="home-navigation" class="nav" aria-label="主导航"><a href="../">归档首页 / Home</a><a class="active" href="./" aria-current="page">试题 PDF / Papers</a><a href="../preview/downloads.html">选手文件 / Downloads</a></nav>
-  </div></div>
+  __SITE_HEADER__
   <main id="content" class="wrap papers" tabindex="-1">
     <section class="hero"><div><h1>试题与参考资料</h1><p lang="en">CSP-J/S 2026 · Papers and reference materials</p><p>选择“在线阅读”在浏览器中打开 PDF，或下载完整文件。</p><p lang="en">Open a PDF in your browser or download the complete file.</p></div></section>
     <section class="features paper-grid" aria-label="第一轮与第二轮试题 PDF">

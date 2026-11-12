@@ -7,10 +7,10 @@ const sample = 'int main(){for(int i=0;i<3;i++){if(i){return i;}}return 0;}';
 export function mountFormatControls({ toolbar, onChange, getSources }) {
   const engine = createFormatter();
   const results = new WeakMap();
-  let config = defaultConfig, generation = 0, enabled = true, disposed = false;
+  let config = defaultConfig, generation = 0, enabled = false, disposed = false;
   try { config = validateConfigText(localStorage.getItem(STORAGE_KEY) || defaultConfig); } catch { /* use bundled default */ }
   const toggle = document.createElement('button'); toggle.type = 'button'; toggle.className = 'btn'; toggle.id = 'format-display';
-  function updateToggle() { toggle.textContent = enabled ? '格式化显示' : '原文显示'; toggle.setAttribute('aria-pressed', String(enabled)); }
+  function updateToggle() { toggle.textContent = enabled ? '恢复原文' : '格式化显示'; toggle.setAttribute('aria-pressed', String(enabled)); }
   updateToggle(); toolbar.append(toggle);
   const panel = document.createElement('details'); panel.className = 'format-config';
   panel.innerHTML = `<summary>编辑 .clang-format</summary><div class="format-config-body"><label for="clang-format-config">完整 .clang-format 配置</label><p>默认使用你的 LLVM / 4 空格 / 不限制行宽 / 保留大括号配置。仅改变 C/C++ 的阅读与比较显示；行号可能变化，复制与下载保留原文。配置保存在当前浏览器。</p><textarea id="clang-format-config" spellcheck="false" wrap="off"></textarea><div class="format-config-actions"><button class="btn" id="apply-clang-format" type="button">应用配置</button><button class="btn" id="reset-clang-format" type="button">恢复你的默认配置</button><label class="btn" for="import-clang-format">导入配置</label><input id="import-clang-format" type="file" hidden /><button class="btn" id="export-clang-format" type="button">导出配置</button></div><p id="clang-format-feedback" role="status" aria-live="polite"></p></div>`;
