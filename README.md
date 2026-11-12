@@ -20,6 +20,20 @@
 
 [试题 PDF](https://tangyixiao.github.io/CSP-2026/papers/) · [在线浏览](https://tangyixiao.github.io/CSP-2026/) · [代码阅读与对比](https://tangyixiao.github.io/CSP-2026/code/) · [分地区下载](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) · [资料来源](SOURCES.md) · [参与贡献](CONTRIBUTING.md)
 
+<a id="recent-updates"></a>
+
+## 最近更新
+
+| 日期 | 类别 | 已发布内容 | 记录 |
+| --- | --- | --- | --- |
+| 2026-11-12 | 网站／文档 | 折叠 FAQ、核验进度、更新记录与校验／维护指南 | [PR #62](https://github.com/tangyixiao/CSP-2026/pull/62) |
+| 2026-11-12 | 网站功能 | 统一 SVG 字标与导航、组别题目筛选、默认显示原文 | [PR #60](https://github.com/tangyixiao/CSP-2026/pull/60) |
+| 2026-11-11 | 网站功能 | 按内容识别文本／二进制、十六进制阅读、完整格式化配置 | [PR #59](https://github.com/tangyixiao/CSP-2026/pull/59) |
+| 2026-11-11 | 网站功能 | 完整选手文件夹与全国／单省／多省范围 | [PR #58](https://github.com/tangyixiao/CSP-2026/pull/58) |
+| 2026-11-08 | 归档发布 | 29 个地区 ZIP、校验清单和发布索引 | [归档快照](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) |
+
+[完整更新记录](CHANGELOG.md)分别记录网站／文档和归档资料；网站功能更新不改变上方资料快照的统计口径。
+
 ![CSP-2026 全国归档首页的实际运行画面](docs/design/runtime-brand-home-20261112.jpg)
 
 ## 第一轮与第二轮试题
@@ -51,8 +65,78 @@
 
 - **选手文件夹与范围筛选**：每位选手以原始目录显示为文件夹，进入后可查看全部文件和嵌套目录。支持全国汇总、固定省份及自选多个省份；搜索与排序统一作用于整个选定范围。默认每批 60 个文件夹，可切换为 120 或 240 个。
 - **题目与文件阅读**：J/S 组别各自显示对应题目，切换组别会清除不兼容的题目筛选。无扩展名文件按内容识别；二进制内容可通过分页十六进制／ASCII 视图查看。单文件快照上限仍为 2 MiB。
-- **默认显示原文**：C/C++ 格式化需要手动开启。完整 `.clang-format` 内容可以编辑、校验、导入、导出及恢复默认；复制、下载和字节校验始终使用归档原文件。
+- **默认显示原文**：C/C++ 格式化需要手动开启。完整 `.clang-format` 内容可以编辑、校验、导入、导出及恢复默认；复制使用原始解码文本，下载与字节校验使用归档字节。
 - **统一外观**：首页、浏览、发现、阅读／比较、来源、试题、下载、文档和英文页共用导航、明暗设置与 SVG 字标。C、S、P 等高，浅色／深色版本支持无损缩放。新访客默认使用红色导航的 NOI 参考外观，已有外观偏好会保留。
+
+<a id="faq"></a>
+
+## 常见问题 FAQ
+
+<details>
+<summary>为什么有的文件显示为十六进制？</summary>
+
+阅读方式由文件字节决定，不只看扩展名。可识别的文本进入文本阅读器；二进制内容使用只读十六进制／ASCII 视图，显示偏移量并按 16 KiB 分页。这个视图不反编译、不执行文件，也不保证能恢复为源码。
+
+</details>
+
+<details>
+<summary>开启格式化后，复制和下载会改变原文件吗？</summary>
+
+默认显示原文。手动开启 C/C++ 格式化只改变阅读与差异显示；复制仍取原始解码文本，原文件下载、Git blob 校验和 SHA-256 使用归档字节。完整 `.clang-format` 可以编辑、导入、导出和恢复默认。显示行号与差异行可能随格式化改变。
+
+</details>
+
+<details>
+<summary>为什么有些文件只有原文件链接，或者 ZIP 下载失败？</summary>
+
+单文件同源快照上限为 2 MiB；超出上限会显示具体原因并保留原文件入口。浏览器生成完整选手目录 ZIP 的上限为 64 MiB，超过时使用地区发布包。Gzip 解压也有上限；异常或超限时可查看归档压缩字节或下载原文件。
+
+</details>
+
+<details>
+<summary>怎样跨省搜索、排序或比较？</summary>
+
+在浏览页选择“全国”或“多个省份”，再选择组别、题目和排序方式；排序作用于整个选定范围。打开选手文件夹后加入两份文件进行比较，可以来自不同省份。范围与筛选状态保存在链接里；切换 J/S 会清除不兼容的题目筛选。
+
+</details>
+
+<details>
+<summary>为什么文件数、选手目录数和人数不同？</summary>
+
+README 中的统计按所注明版本的目录计算。文件条目可能含备份、空文件、非文本内容或多个版本；同一目录也不等于一个经过身份核验的自然人。未知大小不是 0 字节，排序时放在末尾；分组目录数也不是有效提交数。
+
+</details>
+
+<details>
+<summary>试题 PDF 都是官方原版吗？</summary>
+
+不是。当前已合并版本包含第三方公开副本、社区排印版和 Gym 阅读版，具体版本见上方表格。Gym 阅读版改用了标准输入输出。校验值能核对副本字节；官方原始发布入口的认证是另一项工作。最新已记录状态和草稿候选见[核验进度](docs/verification-progress.md#papers)。
+
+</details>
+
+<details>
+<summary>为什么选了题目后，选手文件夹里还有其他文件？</summary>
+
+外层筛选决定哪些选手目录进入结果。进入某个选手后，展示的是该目录的完整文件树，保留其他题目、备份与嵌套目录，方便查全文件。默认每批 60 个文件夹，可切换为 120 或 240 个。
+
+</details>
+
+<a id="verification-progress"></a>
+
+## 资料核验与征集进度
+
+<details>
+<summary>展开当前进度与待补材料（2026-11-12 核对）</summary>
+
+| 材料 | 当前已记录范围 | 待补内容 |
+| --- | --- | --- |
+| 四份试题 PDF | 第三方／社区／Gym 副本，含来源与校验记录 | 第一轮 J/S 原版与官方发布入口；第二轮原赛版候选仍在草稿 PR #57 |
+| 地区选手文件 | 29 个地区、58 个组别目录；核验范围因来源而异 | 宁夏、香港、澳门 J/S；已有地区的原始发布和独立来源记录 |
+| 官方测试数据 | J/S 目录及官方通知链接已记录 | 统一汇总获取、校验及来源记录 |
+
+[详细进度表](docs/verification-progress.md)逐项列出已记录发布入口、校验记录、核验状态和待补材料，并链接到 [SOURCES.md](SOURCES.md) 与[试题说明](papers/README.md)。已收录、供包比对和官方来源认证分别记录。
+
+</details>
 
 <a id="coverage-and-interpretation"></a>
 
@@ -129,6 +213,13 @@ git sparse-checkout set SH/S
 
 检出所选目录会下载对应文件。完整工作副本包含大量小文件，占用空间可能明显大于压缩包，请按需扩大检出范围。
 
+<details>
+<summary>下载后如何校验 SHA-256？</summary>
+
+将 ZIP 和同一发布版本的 `SHA256SUMS` 放在同一目录。按[校验指南](docs/download-verification.md)复制对应的 [PowerShell](docs/download-verification.md#powershell)、[Linux](docs/download-verification.md#linux) 或 [macOS](docs/download-verification.md#macos) 步骤；示例只检查所选文件，清单中的其他 ZIP 无需全部下载。若校验不一致，先核对版本与文件名，再重新下载；持续不一致时附版本、文件名和计算值提 Issue。
+
+</details>
+
 <a id="sources-verification-and-corrections"></a>
 
 ## 来源与资料解读
@@ -157,6 +248,21 @@ git sparse-checkout set SH/S
 ## 网站开发
 
 网站使用 Node.js 22 及以上版本和 npm。开发命令、本地预览、完整源码快照构建及 Pages 打包步骤见[网站维护指南](website/README.md)。部分克隆环境请先阅读其中的受限预览方法，避免为小范围修改下载全部归档。外观设计与运行核验记录见[设计记录](docs/design/root-noi-classic-plus.md)。
+
+<a id="maintainer-navigation"></a>
+
+## 维护者快速导航
+
+| 想修改什么 | 文件 |
+| --- | --- |
+| Logo 矢量轮廓 | [website/shared/brand.js](website/shared/brand.js) |
+| 主导航与页头 | [website/shared/site-header.js](website/shared/site-header.js) |
+| 公共配色与布局 | [website/shared/site-shell.css](website/shared/site-shell.css) |
+| 默认外观与偏好保存 | [website/shared/theme.js](website/shared/theme.js) |
+| 默认格式化配置 | [website/src/default-clang-format.txt](website/src/default-clang-format.txt) |
+| 资料来源与试题清单 | [SOURCES.md](SOURCES.md) |
+
+试题的文件级来源记录见 [papers/sources.json](papers/sources.json)，地区证据从 [SOURCES.md](SOURCES.md) 进入；完整开发与打包步骤见[网站维护指南](website/README.md)。
 
 ## Star History
 

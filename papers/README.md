@@ -41,3 +41,9 @@ Official test data and contestant archives are linked separately from the readin
 [sources.json](sources.json) 记录下载地址、时间、字节数、页数、文件元数据和 SHA-256。[SHA256SUMS](SHA256SUMS) 用于核对本仓库副本的字节是否一致，不证明题面经过官方认证。试题及第三方排印内容保留各自权利，详见 [NOTICE](../NOTICE) 和 [SOURCES.md](../SOURCES.md)。
 
 The source manifest records retrieval details and SHA-256 values. Checksums verify file identity, not official authenticity or reuse rights. Problem copyrights and third-party notices remain with their respective owners.
+
+## 核验与征集进度 / Verification and collection progress
+
+[按材料查看状态表](../docs/verification-progress.md#papers)逐项列出发布入口、校验记录、官方来源认证状态和待补材料，并区分正式副本与草稿候选。下载后可按 [SHA-256 指南](../docs/download-verification.md)核对地区发布包；试题 PDF 使用本目录的 [SHA256SUMS](SHA256SUMS)。
+
+[The status table](../docs/verification-progress.md#papers) records publication entries, checks, official-origin status and needed materials, separately from draft candidates. Use the local checksum list for these PDFs; the verification guide uses region ZIPs as its worked example.
