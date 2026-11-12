@@ -7,8 +7,8 @@ Reviewed **2026-11-12 (Asia/Shanghai)** against the merged source records at the
 状态口径 / Status definitions:
 
 - **已收录 / Present**：仓库保存了该副本或目录。
-- **副本／供包核对 / Copy or supplied-package check**：记录了哈希、页数、清单或文件比对；具体范围见证据。
-- **官方来源认证 / Official-source authentication**：需有能对应到该文件的官方原始发布证据，单独记录。
+- **副本／资料包核对 / Copy or supplied-package check**：记录了哈希、页数、清单或文件比对；具体范围见证据。
+- **官方发布来源核验 / Official-source verification**：核实官方原始发布入口与该文件的对应关系。
 - **候选未上线 / Draft candidate**：仍在未合并分支，不属于当前正式资料。
 
 <a id="papers"></a>

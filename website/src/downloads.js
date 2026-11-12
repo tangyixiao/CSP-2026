@@ -21,7 +21,7 @@ function validRelativePath(path) {
 
 /** Store ZIP preserves arbitrary bytes, UTF-8 names, dotfiles and empty files. */
 export function createStoredZip(files) {
-  if(!files.length||files.length>4096) throw new Error('选手目录文件数量超出打包范围，请下载省份包。');
+  if(!files.length||files.length>4096) throw new Error('选手目录文件数量超出打包范围，请使用下载页的地区归档包。');
   const seen=new Set();let total=0,offset=0;
   const local=[],central=[];
   for(const file of files) {
@@ -30,7 +30,7 @@ export function createStoredZip(files) {
     seen.add(file.path);
     if(!(file.bytes instanceof Uint8Array))throw new Error('下载内容必须是原始字节。');
     total+=file.bytes.length;
-    if(total>MAX_DOWNLOAD_BYTES)throw new Error('选手目录超过 64 MiB 浏览器打包上限，请下载省份包。');
+    if(total>MAX_DOWNLOAD_BYTES)throw new Error('选手目录超过 64 MiB 浏览器打包上限，请使用下载页的地区归档包。');
     const name=encoder.encode(file.path),checksum=crc32(file.bytes);
     if(name.length>65535)throw new Error('文件名过长，无法打包。');
     const header=new Uint8Array(30+name.length),view=new DataView(header.buffer);
@@ -68,7 +68,7 @@ async function verifyBlob(bytes, expected) {
   const header=encoder.encode(`blob ${bytes.length}\0`),data=new Uint8Array(header.length+bytes.length);
   data.set(header);data.set(bytes,header.length);
   const digest=new Uint8Array(await crypto.subtle.digest('SHA-1',data));
-  if([...digest].map(b=>b.toString(16).padStart(2,'0')).join('')!==expected)throw new Error('下载文件的 Git 摘要校验失败。');
+  if([...digest].map(b=>b.toString(16).padStart(2,'0')).join('')!==expected)throw new Error('下载文件的 Git 摘要校验失败，请重新下载；仍失败时请报告文件路径。');
 }
 
 export async function downloadBytes(file, revision, mode=savedDownloadMode()) {
@@ -78,13 +78,13 @@ export async function downloadBytes(file, revision, mode=savedDownloadMode()) {
     const response=await fetch(originalFileUrl(file,revision,mode),{signal:AbortSignal.timeout(30000)});
     if(!response.ok)throw new Error(`原文件下载失败（HTTP ${response.status}），可切换下载模式后重试。`);
     if(Number(response.headers.get('content-length'))>MAX_DOWNLOAD_BYTES) {
-      await response.body?.cancel();throw new Error('文件超过 64 MiB，请下载省份包。');
+      await response.body?.cancel();throw new Error('文件超过 64 MiB，请使用下载页的地区归档包。');
     }
     const chunks=[];let size=0;const reader=response.body.getReader();
     try {
       while(true) {
         const {done,value}=await reader.read();if(done)break;size+=value.length;
-        if(size>MAX_DOWNLOAD_BYTES){await reader.cancel();throw new Error('文件超过 64 MiB，请下载省份包。');}
+        if(size>MAX_DOWNLOAD_BYTES){await reader.cancel();throw new Error('文件超过 64 MiB，请使用下载页的地区归档包。');}
         chunks.push(value);
       }
     } finally { reader.releaseLock(); }
@@ -112,7 +112,7 @@ export async function saveContestantDirectory(file, files, revision, mode=savedD
   const contents=[];let size=0;
   for(const item of selected) {
     const bytes=await downloadBytes(item,revision,mode);size+=bytes.length;
-    if(size>MAX_DOWNLOAD_BYTES)throw new Error('选手目录超过 64 MiB，请下载省份包。');
+    if(size>MAX_DOWNLOAD_BYTES)throw new Error('选手目录超过 64 MiB，请使用下载页的地区归档包。');
     contents.push({path:item.path.split('/').slice(2).join('/'),bytes});
   }
   saveBlob(createStoredZip(contents),`${file.path.split('/')[2]}.zip`);

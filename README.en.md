@@ -26,13 +26,13 @@ CSP-J/S 2026 first-round papers and reference materials, second-round statements
 
 | Date | Category | Published change | Record |
 | --- | --- | --- | --- |
+| 2026-11-12 | Website | Compact nationwide indexes, one Appearance menu and revised Chinese/English copy | [PR #64](https://github.com/tangyixiao/CSP-2026/pull/64) |
 | 2026-11-12 | Website/docs | Round 2 files obtained; acquisition, checks and publication tracked separately | [PR #63](https://github.com/tangyixiao/CSP-2026/pull/63) |
 | 2026-11-12 | Website/docs | FAQ, verification status, changelog and checksum/maintenance guides | [PR #62](https://github.com/tangyixiao/CSP-2026/pull/62) |
 | 2026-11-12 | Website | Shared SVG identity/navigation, group-aware tasks, original text by default | [PR #60](https://github.com/tangyixiao/CSP-2026/pull/60) |
-| 2026-11-11 | Website | Content-aware text/binary previews, hex reader and full formatter configuration | [PR #59](https://github.com/tangyixiao/CSP-2026/pull/59) |
 | 2026-11-08 | Archive release | 29 region ZIPs, checksums and release index | [Archive snapshot](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) |
 
-[The full changelog](CHANGELOG.md) separates website/docs changes from archive materials. Website changes do not revise the stated inventory snapshot.
+[The full changelog](CHANGELOG.md) lists website/docs changes and archive materials separately. Inventory dates and revisions are recorded with the statistics below.
 
 ![The national archive homepage running with actual catalog data](docs/design/runtime-brand-home-20261112.jpg)
 
@@ -55,18 +55,13 @@ Open the website to browse without installing anything:
 
 | What you need | Where to start |
 | --- | --- |
-| Find a contestant or problem | Search the [archive homepage](https://tangyixiao.github.io/CSP-2026/), or select a region and J/S group in the [regional browser](https://tangyixiao.github.io/CSP-2026/code/browse.html?view=browse) |
+| Find a contestant or problem | Search the [archive homepage](https://tangyixiao.github.io/CSP-2026/), or select a region and J/S group in the [archive browser](https://tangyixiao.github.io/CSP-2026/code/browse.html?view=browse) |
 | Read or compare code | Select a file in the [reader](https://tangyixiao.github.io/CSP-2026/code/); select two files for a side-by-side or inline diff |
-| Download a file or contestant directory | Open a file and use the original-file or contestant-directory ZIP download |
+| Download a file or contestant directory | Use Download file in the reader for one file, or open a contestant folder and choose Download contestant directory ZIP |
 | Save a region's materials | Choose a region on the [download page](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) |
 | Ask a question, discuss code or share materials | Use [Discussions](https://github.com/tangyixiao/CSP-2026/discussions); report a concrete file or website problem through [Issues](https://github.com/tangyixiao/CSP-2026/issues/new/choose) |
 
 The reader supports syntax highlighting, changed-line navigation and shareable selections. The website displays and downloads archived files; it does not compile or run contestant programs.
-
-- **Contestant folders and scope:** each original contestant directory opens as a folder containing all its files and nested directories. Choose nationwide aggregation, a fixed province or selected provinces; search and sorting apply across the complete selected scope. Batches default to 60 folders, with 120 and 240 options.
-- **Tasks and file previews:** J/S groups offer their own task lists and reset incompatible task filters when switching groups. Content inspection recognizes extensionless text; binary content has paged hexadecimal/ASCII views. The source snapshot limit remains 2 MiB per file.
-- **Original text by default:** C/C++ formatting is opt-in. Edit, validate, import, export or restore the complete `.clang-format` configuration. Copying uses the original decoded text; downloads and byte verification use the archived bytes.
-- **Shared appearance:** home, browser, discovery, reader/comparison, sources, papers, downloads, documentation and English pages share navigation, color-mode settings and SVG identity. C/S/P have matching cap heights, with scalable light/dark variants. New visitors default to the red-navigation NOI-reference appearance; saved appearance choices remain respected.
 
 <a id="faq"></a>
 
@@ -82,14 +77,14 @@ Preview mode follows the bytes rather than only the extension. Recognized text o
 <details>
 <summary>Does display formatting change copied or downloaded originals?</summary>
 
-Original text is the default. Opt-in C/C++ formatting changes the reading/diff display. Copying uses the original decoded text; original downloads, Git blob verification and SHA-256 use the archived bytes. The complete `.clang-format` can be edited, imported, exported or restored. Displayed line numbers and differences can change.
+Original text is the default. Opt-in C/C++ formatting changes the reading/diff display. Copying uses the original decoded text; original downloads, Git blob verification and SHA-256 use the archived bytes. The complete `.clang-format` can be edited, imported or exported; Apply default configuration restores the bundled settings. Displayed line numbers and differences can change.
 
 </details>
 
 <details>
 <summary>Why is only an original-file link available, or a ZIP download refused?</summary>
 
-The same-origin snapshot limit is 2 MiB per file. Oversized entries show a concrete reason and retain an original-file link. Complete contestant ZIP creation in the browser is limited to 64 MiB; use a region release above that limit. Gzip expansion is bounded; failed or oversized expansion can fall back to archived compressed bytes or the original download.
+Online previews are limited to 2 MiB per file. Oversized entries show a concrete reason and retain an original-file link. Complete contestant ZIP creation in the browser is limited to 64 MiB; use a region release above that limit. Gzip expansion is bounded; failed or oversized expansion can fall back to archived compressed bytes or the original download.
 
 </details>
 
@@ -198,7 +193,7 @@ Files usually follow `region/group/contestant/problem/file`. Original casing, un
 
 ## Downloads and local browsing
 
-Single-file downloads preserve original bytes and filenames. A contestant ZIP includes the directory's tracked entries, including files outside the source preview catalog. Individual source previews are limited to **2 MiB**; browser-generated contestant ZIPs are limited to **64 MiB**. Use the original-file link or a region release for larger materials.
+Single-file downloads preserve original bytes and filenames. A contestant ZIP contains all archived files in that directory, including files without an online preview. Individual source previews are limited to **2 MiB**; browser-generated contestant ZIPs are limited to **64 MiB**. Use the original-file link or a region release for larger materials.
 
 The published [`archive-2026-11-08`](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) release contains **29 region ZIPs**, `SHA256SUMS` and `release-index.json`. Its manifest defines that version's contents. Compare downloaded files' SHA-256 values with the checksum list when verification is needed. The download page offers GitHub direct links and an explicitly identified third-party acceleration service.
 

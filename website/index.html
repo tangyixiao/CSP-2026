@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0d1117" />
     <meta name="description" content="浏览 CSP 2026 选手代码，直接比较差异，使用 GitHub 账号参与讨论。" />
-    <title>CSP 2026 · 代码比对</title>
+    <title>CSP 2026 · 代码比较</title>
   </head>
   <body>
     <a class="skip-link" href="#code-area">跳到代码</a>
@@ -13,32 +13,32 @@
       <header class="app-header" data-site-header data-root="../"></header>
       <div class="workspace">
         <aside class="explorer" aria-label="档案浏览器">
-          <div class="explorer-heading"><h2>代码库</h2><span id="archive-count" class="tiny-pill">载入中</span></div>
-          <div class="explorer-tabs subnav" role="tablist" aria-label="选择浏览方式"><button id="tab-files" class="btn explorer-tab subnav-item is-active" role="tab" type="button" aria-selected="true" aria-controls="panel-files">文件</button><button id="tab-cases" class="btn explorer-tab subnav-item" role="tab" type="button" aria-selected="false" aria-controls="panel-cases" tabindex="-1">讨论案例 <span id="case-count"></span></button></div>
+          <div class="explorer-heading"><h2>代码库</h2><span id="archive-count" class="tiny-pill">加载中</span></div>
+          <div class="explorer-tabs subnav" role="tablist" aria-label="选择浏览方式"><button id="tab-files" class="btn explorer-tab subnav-item is-active" role="tab" type="button" aria-selected="true" aria-controls="panel-files">文件</button><button id="tab-cases" class="btn explorer-tab subnav-item" role="tab" type="button" aria-selected="false" aria-controls="panel-cases" tabindex="-1">讨论材料 <span id="case-count"></span></button></div>
           <section id="panel-files" role="tabpanel" aria-labelledby="tab-files">
             <form id="filter-form" class="filter-form" aria-label="筛选源文件">
-              <div class="filter-pair"><label for="province-select">省份<select class="form-select" id="province-select" disabled><option>载入中…</option></select></label><label for="group-select">组别<select class="form-select" id="group-select" disabled><option value="S">CSP-S</option><option value="J">CSP-J</option></select></label></div>
+              <div class="filter-pair"><label for="province-select">省份<select class="form-select" id="province-select" disabled><option>加载中…</option></select></label><label for="group-select">组别<select class="form-select" id="group-select" disabled><option value="S">CSP-S</option><option value="J">CSP-J</option></select></label></div>
               <label for="contestant-input">考号 / 文件名<div class="search-field"><span data-icon="search" aria-hidden="true"></span><input class="form-control" id="contestant-input" type="search" placeholder="例如 SD-S00639" autocomplete="off" spellcheck="false" /></div></label>
               <label for="problem-select">题目<select class="form-select" id="problem-select" disabled><option value="">全部题目</option></select></label>
             </form>
-            <div class="list-heading"><span id="result-count">正在读取目录</span><button id="retry-catalog" class="btn text-button" type="button" hidden>重新载入</button></div>
-            <div id="file-list" class="file-list" aria-label="源文件列表" aria-busy="true"><div class="list-empty">正在载入目录…</div></div>
+            <div class="list-heading"><span id="result-count">正在读取目录</span><button id="retry-catalog" class="btn text-button" type="button" hidden>重新加载</button></div>
+            <div id="file-list" class="file-list" aria-label="源文件列表" aria-busy="true"><div class="list-empty">正在加载文件目录…</div></div>
             <div class="pagination"><button id="page-prev" class="btn small-button" type="button" aria-label="上一页" data-icon="left"></button><span id="page-indicator">—</span><button id="page-next" class="btn small-button" type="button" aria-label="下一页" data-icon="right"></button></div>
           </section>
           <section id="panel-cases" role="tabpanel" aria-labelledby="tab-cases" hidden>
-            <div class="case-search"><label class="sr-only" for="case-input">搜索讨论案例</label><div class="search-field"><span data-icon="search" aria-hidden="true"></span><input class="form-control" id="case-input" type="search" placeholder="考号、题目、省份" autocomplete="off" /></div></div>
+            <div class="case-search"><label class="sr-only" for="case-input">搜索讨论材料</label><div class="search-field"><span data-icon="search" aria-hidden="true"></span><input class="form-control" id="case-input" type="search" placeholder="考号、题目、省份" autocomplete="off" /></div></div>
             <div id="case-list" class="case-list"></div>
           </section>
         </aside>
         <main class="main-content">
-          <section class="workbench-heading" aria-labelledby="page-title"><h1 id="page-title">代码比对</h1><div class="page-actions"><button id="open-discussion" class="btn secondary-button" type="button" aria-label="打开评论" title="评论"><span data-icon="discussion" aria-hidden="true"></span><span class="action-label">评论</span></button><button id="share-button" class="btn secondary-button" type="button" aria-label="复制分享链接" title="复制分享链接"><span data-icon="link" aria-hidden="true"></span><span class="action-label">分享</span></button></div></section>
+          <section class="workbench-heading" aria-labelledby="page-title"><h1 id="page-title">代码比较</h1><div class="page-actions"><button id="open-discussion" class="btn secondary-button" type="button" aria-label="打开评论" title="评论"><span data-icon="discussion" aria-hidden="true"></span><span class="action-label">评论</span></button><button id="share-button" class="btn secondary-button" type="button" aria-label="复制分享链接" title="复制分享链接"><span data-icon="link" aria-hidden="true"></span><span class="action-label">分享</span></button></div></section>
           <section id="case-context" class="case-context" aria-labelledby="case-context-title" hidden>
             <div class="context-summary"><h2 id="case-context-title"></h2><a id="case-source" target="_blank" rel="noreferrer">原帖</a></div>
             <details class="case-details"><summary>来源与说明</summary><p id="case-claim"></p><p id="case-note" class="context-note"></p><p id="case-provenance" class="context-provenance"></p></details>
           </section>
           <div id="case-ambiguity" class="ambiguity" hidden></div>
           <section id="code-area" class="code-workbench" aria-label="代码阅读与比较" tabindex="-1">
-            <div class="source-tabs"><div class="source-tab" id="source-tab-left"><span class="side-badge">A</span><div class="source-title"><strong id="left-name">未选择文件</strong><span id="left-path"></span></div><button id="left-copy" class="btn icon-button copy-button" type="button" aria-label="复制 A 文件代码" title="复制 A 文件代码" data-icon="copy"></button><button id="left-clear" class="btn icon-button clear-button" type="button" aria-label="清空 A 文件" title="清空 A 文件" data-icon="close"></button></div><div class="source-tab" id="source-tab-right"><span class="side-badge">B</span><div class="source-title"><strong id="right-name">未选择文件</strong><span id="right-path"></span></div><button id="right-copy" class="btn icon-button copy-button" type="button" aria-label="复制 B 文件代码" title="复制 B 文件代码" data-icon="copy"></button><button id="right-clear" class="btn icon-button clear-button" type="button" aria-label="清空 B 文件" title="清空 B 文件" data-icon="close"></button></div></div>
+            <div class="source-tabs"><div class="source-tab" id="source-tab-left"><span class="side-badge">A</span><div class="source-title"><strong id="left-name">未选择文件</strong><span id="left-path"></span></div><button id="left-copy" class="btn icon-button copy-button" type="button" aria-label="复制 A 侧内容" title="复制 A 侧内容" data-icon="copy"></button><button id="left-clear" class="btn icon-button clear-button" type="button" aria-label="清空 A 文件" title="清空 A 文件" data-icon="close"></button></div><div class="source-tab" id="source-tab-right"><span class="side-badge">B</span><div class="source-title"><strong id="right-name">未选择文件</strong><span id="right-path"></span></div><button id="right-copy" class="btn icon-button copy-button" type="button" aria-label="复制 B 侧内容" title="复制 B 侧内容" data-icon="copy"></button><button id="right-clear" class="btn icon-button clear-button" type="button" aria-label="清空 B 文件" title="清空 B 文件" data-icon="close"></button></div></div>
             <div class="editor-toolbar"><div class="view-switch" role="group" aria-label="代码视图"><button class="btn" type="button" data-mode="view" aria-pressed="false">代码</button><button class="btn" type="button" data-mode="split" aria-pressed="true">并排</button><button class="btn" type="button" data-mode="inline" aria-pressed="false">内联</button></div><div class="diff-tools"><label class="checkbox-label" for="ignore-whitespace"><input id="ignore-whitespace" type="checkbox" checked />忽略行首尾空白</label><button id="previous-change" class="btn icon-button" type="button" title="上一处差异" aria-label="上一处差异" data-icon="up"></button><button id="next-change" class="btn icon-button" type="button" title="下一处差异" aria-label="下一处差异" data-icon="down"></button></div></div>
             <div id="source-status" class="source-status" role="status" aria-live="polite">正在准备编辑器…</div>
             <div id="editor-container" class="editor-container"><div class="editor-loading"><p>正在载入代码</p></div></div>
@@ -46,7 +46,7 @@
           </section>
           <div class="below-editor"><details id="file-details" class="file-details"><summary>文件详情<span id="file-details-summary">路径、编码、SHA-256</span></summary><div class="metadata-grid"><article id="left-metadata" class="metadata-card"></article><article id="right-metadata" class="metadata-card"></article></div></details></div>
           <section class="discussion-section" aria-labelledby="discussion-title"><div class="discussion-heading"><h2 id="discussion-title">评论</h2><a class="text-link" href="https://github.com/tangyixiao/CSP-2026/discussions" target="_blank" rel="noreferrer">全部讨论</a></div><div id="discussion-container" class="discussion-container"></div></section>
-          <footer class="page-footer"><span id="revision-label">档案版本载入中</span><a href="https://github.com/tangyixiao/CSP-2026/discussions/new/choose" target="_blank" rel="noreferrer">反馈</a></footer>
+          <footer class="page-footer"><span id="revision-label">正在加载归档版本…</span><a href="https://github.com/tangyixiao/CSP-2026/discussions/new/choose" target="_blank" rel="noreferrer">反馈</a></footer>
         </main>
       </div>
       <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>

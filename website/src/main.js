@@ -75,7 +75,7 @@ function setTheme(theme, { preserveProjectChoice = false } = {}) {
 function setMode(mode, { announce = false } = {}) {
   state.mode = mobile.matches ? 'inline' : validMode(mode);
   document.body.dataset.readerMode = state.mode;
-  document.querySelector('.workbench-heading h1').textContent = state.mode === 'view' || !state.left.file || !state.right.file ? (state.left.source?.viewFormat === 'hex' || state.right.source?.viewFormat === 'hex' ? '十六进制查看' : '代码阅读') : '代码比对';
+  document.querySelector('.workbench-heading h1').textContent = state.mode === 'view' || !state.left.file || !state.right.file ? (state.left.source?.viewFormat === 'hex' || state.right.source?.viewFormat === 'hex' ? '十六进制查看' : '代码阅读') : '代码比较';
   document.body.dataset.viewSide = state.left.file ? 'left' : 'right';
   document.querySelectorAll('[data-mode]').forEach((button) => { button.setAttribute('aria-pressed', String(button.dataset.mode === state.mode)); });
   document.querySelector('[data-mode="inline"]').textContent = mobile.matches ? '单栏阅读' : '内联';
@@ -457,7 +457,7 @@ function renderMetadata(side) {
   container.replaceChildren(label);
   if (!slot.file) { container.append(el('p', '', '请选择文件。')); return; }
   if (slot.status === 'loading') { container.append(el('p', '', '正在加载文件并校验…')); return; }
-  if (slot.status === 'error') { container.append(el('p', '', slot.error)); const retry = el('button', 'text-button', '重新载入文件'); retry.type = 'button'; retry.addEventListener('click', () => { void selectFile(side, slot.file, { keepCase: true }); }); container.append(retry); return; }
+  if (slot.status === 'error') { container.append(el('p', '', slot.error)); const retry = el('button', 'text-button', '重新加载文件'); retry.type = 'button'; retry.addEventListener('click', () => { void selectFile(side, slot.file, { keepCase: true }); }); container.append(retry); return; }
   const source = slot.source;
   const dl = el('dl');
   for (const [name, value] of [['路径', slot.file.path], ['大小', `${formatBytes(sourceBytes(source))}${source.compressed ? `（解压后；归档 ${formatBytes(source.archiveByteLength)}）` : ''}`], ['编码', source.encoding || '未提供'], ['SHA-256', source.contentSha256 || source.sha256 || '摘要未提供']]) {
@@ -497,7 +497,7 @@ function renderComparisonStatus() {
 
 function renderSources() {
   updateReaderNavigation();
-  document.querySelector('.workbench-heading h1').textContent = state.mode === 'view' || !state.left.file || !state.right.file ? (state.left.source?.viewFormat === 'hex' || state.right.source?.viewFormat === 'hex' ? '十六进制查看' : '代码阅读') : '代码比对';
+  document.querySelector('.workbench-heading h1').textContent = state.mode === 'view' || !state.left.file || !state.right.file ? (state.left.source?.viewFormat === 'hex' || state.right.source?.viewFormat === 'hex' ? '十六进制查看' : '代码阅读') : '代码比较';
   document.body.dataset.viewSide = state.left.file ? 'left' : 'right';
   document.body.classList.toggle('single-file', Boolean(state.left.file) !== Boolean(state.right.file));
   const messages = [];
@@ -641,12 +641,12 @@ async function loadCatalog() {
     const directoryScroll = window.history.state?.directoryScroll;
     if (state.directoryReady && Number.isFinite(directoryScroll) && directoryScroll >= 0) $('file-list').scrollTop = directoryScroll;
   } catch (error) {
-    $('archive-count').textContent = '目录离线';
+    $('archive-count').textContent = '未加载';
     $('result-count').textContent = '目录加载失败';
     $('file-list').replaceChildren(el('div', 'list-empty', `无法读取公开档案目录：${formatError(error)}`));
     $('file-list').setAttribute('aria-busy', 'false');
     $('retry-catalog').hidden = false;
-    $('source-status').textContent = '档案目录加载失败。请在左侧点击「重新载入」。';
+    $('source-status').textContent = '文件目录加载失败，请点击左侧“重新加载”重试。';
     $('source-status').classList.add('has-error');
   }
 }
@@ -684,7 +684,7 @@ function updateReadingProfileLabel() {
   const note = $('reading-profile-note');
   if (!note) return;
   note.hidden = state.readingProfile !== 'devcpp';
-  note.textContent = state.theme === 'dark' ? 'Consolas · 深色适配，非官方预设' : 'Consolas · Classic Plus';
+  note.textContent = state.theme === 'dark' ? 'Consolas · 本站深色配色' : 'Consolas · Classic Plus';
 }
 
 function initializeReadingControls() {
