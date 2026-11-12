@@ -13,6 +13,7 @@ test('every page depth uses the same navigation with valid project-prefixed link
     assert.match(html, /class="nav-downloads"[^>]*aria-current="page"/);
     assert.match(html, /站点主题/); assert.match(html, /跟随系统/);
     assert.match(html, /<svg class="csp-mark"/);
+    assert.doesNotMatch(html, /id="theme-toggle"/);
   }
   assert.throws(() => render({ root: 'javascript:alert(1)' }));
 });

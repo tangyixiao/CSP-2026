@@ -48,7 +48,7 @@ else
 fi
 ```
 
-成功时 PowerShell 输出 `SHA-256 OK`，Linux/macOS 输出所选 ZIP 的 `OK`。清单缺项、重名项、文件缺失或哈希不一致都会失败；不要把命令未执行或下载中断当作校验通过。
+校验成功时，PowerShell 输出 `SHA-256 OK`，Linux/macOS 输出所选 ZIP 的 `OK`。清单缺项、重名项、文件缺失或哈希不一致时会报错，按下方步骤处理。
 
 Success prints `SHA-256 OK` in PowerShell, or the chosen ZIP followed by `OK` in the Unix tools. Missing/duplicate manifest entries, missing files and mismatches fail the check.
 
@@ -58,6 +58,6 @@ Success prints `SHA-256 OK` in PowerShell, or the chosen ZIP followed by `OK` in
 2. 等下载完成后再校验；重新下载 ZIP 和清单，直连或加速入口均以同版清单为准。 / Wait for completion, then retry with the ZIP and manifest from that release.
 3. 仍不一致时到 [Issues](https://github.com/tangyixiao/CSP-2026/issues/new/choose) 报告发布标签、文件名、获取入口、期望值与实际值。不要上传凭据。 / Report the tag, filename, download entry and expected/actual digests; omit credentials.
 
-这些步骤只读取文件，不解压或运行选手程序。SHA-256 一致表示与发布清单中的副本一致；资料是否为官方原版仍看[来源与核验记录](verification-progress.md)。 / These commands read the file without extracting or executing contestant programs. Matching SHA-256 establishes identity with the release copy; official provenance is recorded separately.
+SHA-256 一致表示下载文件与发布清单中的副本一致。资料的版本和官方来源状态见[核验记录](verification-progress.md)。 / Matching SHA-256 confirms the downloaded file matches the release manifest. Consult the verification record for editions and official-source status.
 
 命令选项参考 / Command references: [GNU SHA-2 utilities](https://www.gnu.org/software/coreutils/manual/html_node/sha2-utilities.html), [Perl shasum](https://perldoc.perl.org/shasum).

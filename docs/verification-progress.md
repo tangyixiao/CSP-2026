@@ -2,7 +2,7 @@
 
 核对日期：**2026-11-12（Asia/Shanghai）**。本表基于已合并版本 [`0e528e1b`](https://github.com/tangyixiao/CSP-2026/commit/0e528e1b44c7afed73fd4524859ad7e844ed1ad7) 的来源记录与当天读取的草稿状态，描述本仓库的进度。
 
-Reviewed **2026-11-12 (Asia/Shanghai)** against the merged source records at the linked revision and the draft status read that day. This is the repository's recorded progress, not a new audit of every underlying package.
+Reviewed **2026-11-12 (Asia/Shanghai)** against the merged source records at the linked revision and the draft status read that day. The tables link to the checks recorded for each material.
 
 状态口径 / Status definitions:
 
@@ -28,7 +28,7 @@ All four current manifest entries set `officialOriginAuthenticated` to `false`. 
 
 ### 第二轮原赛版：已取得，待发布 / Round 2 contest-layout files: obtained, awaiting publication
 
-第二轮 J/S 的原赛版文件**已经取得**，各 13 页，供包中对应 PDF 的核对已有记录。它们不是待征集的缺失文件。当前流程状态如下：
+第二轮 J/S 的原赛版文件**已经取得**，各 13 页，供包中对应 PDF 的核对已有记录。文件本身已齐备。当前流程状态如下：
 
 | 环节 / Stage | 状态 / Status | 记录 / Record |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ All four current manifest entries set `officialOriginAuthenticated` to `false`. 
 | 正式发布 / Publication | 待完成发布前验证与合并 / Awaiting pre-publication validation and merge | PR #57 在核对时仍为开放草稿；桌面／手机浏览器验证未完成，未合并、未上线；正式站仍为 12 页 Gym 版 / Open draft at review time; desktop/mobile browser validation outstanding, unmerged and undeployed; the live library still serves 12-page Gym editions |
 | 官方原始发布入口 / Direct official publication entry | 待补 / Needed | 文件取得及供包对应核对不等同于官方来源认证 / Acquisition and supplied-package correspondence are separate from official-source authentication |
 
-Both 13-page Round 2 J/S contest-layout files have been obtained, with recorded correspondence checks against PDFs in contestant packages. The files themselves are not missing collection items. Publication and direct official-origin evidence remain separate outstanding steps.
+Both 13-page Round 2 J/S contest-layout files have been obtained, with recorded correspondence checks against PDFs in contestant packages. Both files are available at the links above. Publication and direct official-origin evidence remain separate outstanding steps.
 
 <a id="regions"></a>
 
@@ -51,7 +51,7 @@ Both 13-page Round 2 J/S contest-layout files have been obtained, with recorded 
 | 重庆 J/S / Chongqing | [J 记录](../CQ/sources/j-archive.md)、[S 记录](../CQ/sources/s-archive.md) | 聚合供包及文件比对范围已记录 / Supplied aggregate package and comparison scope recorded | 原分发来源的独立证据 / Independent original-distributor evidence |
 | 青海 J/S / Qinghai | [J 记录](../QH/sources/j-archive.md)、[S 记录](../QH/sources/s-archive.md) | 社区供包已记录；没有独立官方 MD5 清单 / Community attachment recorded; no independent official MD5 listing | 官方入口或独立清单 / Official entry or independent manifest |
 | 广西 S / Guangxi | [来源索引](../SOURCES.md#contestant-files-and-official-material) | 已记录与本地提供包比对；原分发来源未独立核验 / Local supplied-package comparison recorded; original distributor unverified | 可追溯来源记录 / Traceable original source |
-| 其他已收录地区 / Other present regions | [来源索引](../SOURCES.md) | 有目录不等于全地区官方来源已认证；核验记录尚未统一汇总 / Directory presence and consolidated source authentication have different scopes | 按地区、组别补来源与核验记录 / Region/group-specific source and check records |
+| 其他已收录地区 / Other present regions | [来源索引](../SOURCES.md) | 各地区的官方来源与核验记录待集中汇总 / Directory presence and consolidated source authentication have different scopes | 按地区、组别补来源与核验记录 / Region/group-specific source and check records |
 | J/S 官方测试数据 / Official test data | [官方发布通知](https://www.noi.cn/xw/2026-11-05/945674.shtml)、[J 目录](../test-data/J/official)、[S 目录](../test-data/S/official) | 已收录目录和发布入口；获取／校验记录待统一汇总 / Directories and official entry recorded; retrieval/check records need consolidation | 文件级获取与校验索引 / Per-file retrieval/check index |
 
 <a id="collection"></a>
