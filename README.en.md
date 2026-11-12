@@ -26,10 +26,10 @@ CSP-J/S 2026 first-round papers and reference materials, second-round statements
 
 | Date | Category | Published change | Record |
 | --- | --- | --- | --- |
+| 2026-11-12 | Website/docs | Round 2 files obtained; acquisition, checks and publication tracked separately | [PR #63](https://github.com/tangyixiao/CSP-2026/pull/63) |
 | 2026-11-12 | Website/docs | FAQ, verification status, changelog and checksum/maintenance guides | [PR #62](https://github.com/tangyixiao/CSP-2026/pull/62) |
 | 2026-11-12 | Website | Shared SVG identity/navigation, group-aware tasks, original text by default | [PR #60](https://github.com/tangyixiao/CSP-2026/pull/60) |
 | 2026-11-11 | Website | Content-aware text/binary previews, hex reader and full formatter configuration | [PR #59](https://github.com/tangyixiao/CSP-2026/pull/59) |
-| 2026-11-11 | Website | Complete contestant folders and national/single/multiple-province scopes | [PR #58](https://github.com/tangyixiao/CSP-2026/pull/58) |
 | 2026-11-08 | Archive release | 29 region ZIPs, checksums and release index | [Archive snapshot](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) |
 
 [The full changelog](CHANGELOG.md) separates website/docs changes from archive materials. Website changes do not revise the stated inventory snapshot.

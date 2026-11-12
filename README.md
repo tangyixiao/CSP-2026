@@ -26,10 +26,10 @@
 
 | 日期 | 类别 | 已发布内容 | 记录 |
 | --- | --- | --- | --- |
+| 2026-11-12 | 网站／文档 | 第二轮原赛版已取得，文件核对与发布进度分项列出 | [PR #63](https://github.com/tangyixiao/CSP-2026/pull/63) |
 | 2026-11-12 | 网站／文档 | 折叠 FAQ、核验进度、更新记录与校验／维护指南 | [PR #62](https://github.com/tangyixiao/CSP-2026/pull/62) |
 | 2026-11-12 | 网站功能 | 统一 SVG 字标与导航、组别题目筛选、默认显示原文 | [PR #60](https://github.com/tangyixiao/CSP-2026/pull/60) |
 | 2026-11-11 | 网站功能 | 按内容识别文本／二进制、十六进制阅读、完整格式化配置 | [PR #59](https://github.com/tangyixiao/CSP-2026/pull/59) |
-| 2026-11-11 | 网站功能 | 完整选手文件夹与全国／单省／多省范围 | [PR #58](https://github.com/tangyixiao/CSP-2026/pull/58) |
 | 2026-11-08 | 归档发布 | 29 个地区 ZIP、校验清单和发布索引 | [归档快照](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) |
 
 [完整更新记录](CHANGELOG.md)分别记录网站／文档和归档资料；网站功能更新不改变上方资料快照的统计口径。

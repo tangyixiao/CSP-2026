@@ -59,10 +59,10 @@ export function createBrowseLoader(index, loadJSON, loadFullGroup) {
   return (groups, options) => {
     const requests = new Map();
     return loadScopeCatalogs(groups, async item => {
-    // Keep small one/two-shard scopes cheap; reuse a loaded national index.
-    if (!index.browseIndex || (groups.length <= 2 && !compact.has(item.group))) return loadFullGroup(item);
-    if (!requests.has(item.group)) requests.set(item.group, load(item.group));
-    return (await requests.get(item.group)).get(item.key);
+      // Keep small one/two-shard scopes cheap; reuse a loaded national index.
+      if (!index.browseIndex || (groups.length <= 2 && !compact.has(item.group))) return loadFullGroup(item);
+      if (!requests.has(item.group)) requests.set(item.group, load(item.group));
+      return (await requests.get(item.group)).get(item.key);
     }, options);
   };
 }
