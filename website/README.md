@@ -34,6 +34,19 @@ The encoder defaults to the cross-platform `ffmpeg` command, or a compatible exi
 
 The full region asset check has passed for all 29 actual files, including container/raster parsing, dimensions, distinct hashes and budgets; the bundled image codec also decoded all files while creating an internal QA contact sheet. The 2026-11-12 shared-shell and branding revision passed 93 local Node tests and the Vite build. Browser checks covered 16 Chinese/English page types, desktop, 390/320-pixel mobile widths, dark mode and saved compact appearance without document-width overflow or broken images. Complete archive packaging, Pages construction and deployment passed in [the publication workflow](https://github.com/tangyixiao/CSP-2026/actions/runs/43206965864). These results describe that revision; later changes need their own current checks.
 
+## Maintenance quick map
+
+| Change | Canonical file |
+| --- | --- |
+| Logo vector paths | [shared/brand.js](shared/brand.js) |
+| Navigation and header | [shared/site-header.js](shared/site-header.js) |
+| Shared colors and layout | [shared/site-shell.css](shared/site-shell.css) |
+| Default appearance and preferences | [shared/theme.js](shared/theme.js) |
+| Default formatter configuration | [src/default-clang-format.txt](src/default-clang-format.txt) |
+| Source index and paper manifest | [SOURCES.md](../SOURCES.md) |
+
+[Reader FAQ](../README.en.md#faq), [verification progress](../docs/verification-progress.md), [download checks](../docs/download-verification.md) and [the changelog](../CHANGELOG.md) are maintained alongside the bilingual README. Full build instructions follow below.
+
 ## Development
 
 Use Node.js 22 and npm. Run these commands from the repository root:

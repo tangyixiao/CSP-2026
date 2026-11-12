@@ -20,6 +20,20 @@ CSP-J/S 2026 first-round papers and reference materials, second-round statements
 
 [Paper PDFs](https://tangyixiao.github.io/CSP-2026/papers/) · [Browse online](https://tangyixiao.github.io/CSP-2026/) · [Read and compare code](https://tangyixiao.github.io/CSP-2026/code/) · [Region downloads](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) · [Sources](SOURCES.md) · [Contribute](CONTRIBUTING.md)
 
+<a id="recent-updates"></a>
+
+## Recent updates
+
+| Date | Category | Published change | Record |
+| --- | --- | --- | --- |
+| 2026-11-12 | Website/docs | Bilingual READMEs, brand assets and current usage descriptions | [PR #61](https://github.com/tangyixiao/CSP-2026/pull/61) |
+| 2026-11-12 | Website | Shared SVG identity/navigation, group-aware tasks, original text by default | [PR #60](https://github.com/tangyixiao/CSP-2026/pull/60) |
+| 2026-11-11 | Website | Content-aware text/binary previews, hex reader and full formatter configuration | [PR #59](https://github.com/tangyixiao/CSP-2026/pull/59) |
+| 2026-11-11 | Website | Complete contestant folders and national/single/multiple-province scopes | [PR #58](https://github.com/tangyixiao/CSP-2026/pull/58) |
+| 2026-11-08 | Archive release | 29 region ZIPs, checksums and release index | [Archive snapshot](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) |
+
+[The full changelog](CHANGELOG.md) separates website/docs changes from archive materials. Website changes do not revise the stated inventory snapshot.
+
 ![The national archive homepage running with actual catalog data](docs/design/runtime-brand-home-20261112.jpg)
 
 ## First- and second-round papers
@@ -51,8 +65,78 @@ The reader supports syntax highlighting, changed-line navigation and shareable s
 
 - **Contestant folders and scope:** each original contestant directory opens as a folder containing all its files and nested directories. Choose nationwide aggregation, a fixed province or selected provinces; search and sorting apply across the complete selected scope. Batches default to 60 folders, with 120 and 240 options.
 - **Tasks and file previews:** J/S groups offer their own task lists and reset incompatible task filters when switching groups. Content inspection recognizes extensionless text; binary content has paged hexadecimal/ASCII views. The source snapshot limit remains 2 MiB per file.
-- **Original text by default:** C/C++ formatting is opt-in. Edit, validate, import, export or restore the complete `.clang-format` configuration. Copying, downloads and byte verification continue to use the archived original.
+- **Original text by default:** C/C++ formatting is opt-in. Edit, validate, import, export or restore the complete `.clang-format` configuration. Copying uses the original decoded text; downloads and byte verification use the archived bytes.
 - **Shared appearance:** home, browser, discovery, reader/comparison, sources, papers, downloads, documentation and English pages share navigation, color-mode settings and SVG identity. C/S/P have matching cap heights, with scalable light/dark variants. New visitors default to the red-navigation NOI-reference appearance; saved appearance choices remain respected.
+
+<a id="faq"></a>
+
+## FAQ
+
+<details>
+<summary>Why do some files open in hexadecimal?</summary>
+
+Preview mode follows the bytes rather than only the extension. Recognized text opens in the text reader; binary content uses a read-only hexadecimal/ASCII view with offsets and 16 KiB pages. Hex viewing does not decompile or execute a file, or promise to recover source code.
+
+</details>
+
+<details>
+<summary>Does display formatting change copied or downloaded originals?</summary>
+
+Original text is the default. Opt-in C/C++ formatting changes the reading/diff display. Copying uses the original decoded text; original downloads, Git blob verification and SHA-256 use the archived bytes. The complete `.clang-format` can be edited, imported, exported or restored. Displayed line numbers and differences can change.
+
+</details>
+
+<details>
+<summary>Why is only an original-file link available, or a ZIP download refused?</summary>
+
+The same-origin snapshot limit is 2 MiB per file. Oversized entries show a concrete reason and retain an original-file link. Complete contestant ZIP creation in the browser is limited to 64 MiB; use a region release above that limit. Gzip expansion is bounded; failed or oversized expansion can fall back to archived compressed bytes or the original download.
+
+</details>
+
+<details>
+<summary>How do I search, sort or compare across provinces?</summary>
+
+Choose nationwide scope or selected provinces in the browser, then choose group, task and order. Sorting covers the complete selected scope. Add two files from contestant folders to compare them, including across provinces. Links retain scope/filter state; switching J/S resets incompatible task filters.
+
+</details>
+
+<details>
+<summary>Why do file counts, directory counts and people counts differ?</summary>
+
+README counts come from the stated directory snapshot. File entries can include backups, empty files, non-text content and versions. A directory is not an independently verified person. Unknown size is not zero and sorts last; group-directory counts are not valid-submission counts.
+
+</details>
+
+<details>
+<summary>Are all paper PDFs authenticated official originals?</summary>
+
+No. The merged library includes third-party copies, a community typeset edition and Gym reading editions, as labeled above. Gym editions use standard input/output. Checksums establish copy identity; authenticating the original official publication is a separate check. See [verification progress](docs/verification-progress.md#papers) for recorded status and draft candidates.
+
+</details>
+
+<details>
+<summary>Why does a task-filtered contestant folder still contain other files?</summary>
+
+The outer filter selects contestant directories. Opening one shows its complete file tree, including other tasks, backups and nested folders. This lets you inspect the full directory. Batches default to 60 folders, with 120 and 240 options.
+
+</details>
+
+<a id="verification-progress"></a>
+
+## Verification and collection progress
+
+<details>
+<summary>Recorded status and requested materials (reviewed 2026-11-12)</summary>
+
+| Material | Recorded scope | Still needed |
+| --- | --- | --- |
+| Four paper PDFs | Third-party/community/Gym copies with source/checksum records | Round 1 J/S originals and official publication entries; Round 2 contest-layout candidates remain in draft PR #57 |
+| Regional contestant files | 29 regions and 58 group catalogs; verification scope varies | Ningxia, Hong Kong and Macao J/S; original-publication and independent source records for existing regions |
+| Official test data | J/S directories and official notice link recorded | Consolidated retrieval, checksum and source records |
+
+[The detailed status table](docs/verification-progress.md) lists recorded publication entries, checks, status and missing materials, with evidence in [SOURCES.md](SOURCES.md) and [the paper guide](papers/README.md). Presence, supplied-package comparison and official-source authentication are recorded separately.
+
+</details>
 
 <a id="coverage-and-interpretation"></a>
 
@@ -129,6 +213,13 @@ git sparse-checkout set SH/S
 
 Checking out a selected directory downloads its files. A full working copy contains many small files and may use substantially more disk space than the compressed archives. Expand the checkout as needed.
 
+<details>
+<summary>How do I verify SHA-256 after downloading?</summary>
+
+Put the ZIP and `SHA256SUMS` from the same release in one directory. Copy the matching [PowerShell](docs/download-verification.md#powershell), [Linux](docs/download-verification.md#linux) or [macOS](docs/download-verification.md#macos) steps from [the verification guide](docs/download-verification.md). Each example checks only the chosen file; you do not need every ZIP listed in the manifest. If the digest differs, confirm the release and filename, then download again. Report persistent mismatches with release, filename and computed digest.
+
+</details>
+
 <a id="sources-verification-and-corrections"></a>
 
 ## Sources and interpretation
@@ -155,6 +246,21 @@ Preserve original filenames, paths and bytes when contributing archive materials
 ## Website development
 
 The website uses Node.js 22 or newer and npm. See the [website maintenance guide](website/README.md) for development commands, local previews, complete source snapshots and Pages packaging. In a partial clone, read its bounded-preview instructions before downloading the entire archive for a small change. Appearance and runtime verification records are in the [design record](docs/design/root-noi-classic-plus.md).
+
+<a id="maintainer-navigation"></a>
+
+## Maintainer quick navigation
+
+| Change | File |
+| --- | --- |
+| Logo vector paths | [website/shared/brand.js](website/shared/brand.js) |
+| Navigation and header | [website/shared/site-header.js](website/shared/site-header.js) |
+| Shared colors and layout | [website/shared/site-shell.css](website/shared/site-shell.css) |
+| Default appearance and preferences | [website/shared/theme.js](website/shared/theme.js) |
+| Default formatter configuration | [website/src/default-clang-format.txt](website/src/default-clang-format.txt) |
+| Source index and paper manifest | [SOURCES.md](SOURCES.md) |
+
+Per-paper source records live in [papers/sources.json](papers/sources.json); regional evidence is indexed by [SOURCES.md](SOURCES.md). See [the website maintenance guide](website/README.md) for complete development and packaging instructions.
 
 ## Star History
 
