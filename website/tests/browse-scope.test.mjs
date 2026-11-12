@@ -8,7 +8,7 @@ const file = (path, size = 10, problem = 'hub') => ({ path, size, problem, name:
 
 test('legacy single-province links and explicit nationwide/multi-province routes stay distinct', () => {
   assert.deepEqual(browse.parseBrowseRoute?.('?view=browse&province=ZJ&group=all', codes), {
-    view: 'browse', scope: 'single', province: 'ZJ', provinces: '', group: 'all', query: '', problem: '', sort: 'id', direction: 'asc', batch: 60, directory: '',
+    view: 'browse', scope: 'single', province: 'ZJ', provinces: '', group: 'all', query: '', problem: '', sort: 'id', direction: 'asc', batch: 60, directory: '', file: '',
   });
   const multiple = browse.parseBrowseRoute?.('?scope=multiple&provinces=ZJ,BJ,ZJ,XX&sort=files&direction=desc&batch=120', codes);
   assert.equal(multiple?.scope, 'multiple');
