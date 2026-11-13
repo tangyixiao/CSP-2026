@@ -20,7 +20,9 @@
       "officialOriginAuthenticated": false,
       "pages": 9,
       "pdfTitle": null,
-      "pdfCreator": "XeTeX output 2026.09.19:1254"
+      "pdfCreator": "XeTeX output 2026.09.19:1254",
+      "originalPaperAvailable": false,
+      "role": "community-reference-only"
     },
     {
       "id": "s1",
@@ -41,49 +43,110 @@
       "officialOriginAuthenticated": false,
       "pages": 14,
       "pdfTitle": "127.0.0.1:3888",
-      "pdfCreator": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36 Edg/155.0.0.0"
+      "pdfCreator": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36 Edg/155.0.0.0",
+      "originalPaperAvailable": false,
+      "role": "community-reference-only"
     },
     {
       "id": "j2",
       "round": 2,
       "group": "J",
       "path": "round-2/csp-j-2026.pdf",
-      "sourcePage": "https://cf.m27.workers.dev/gym/106813",
-      "sourceUrl": "https://cf.m27.workers.dev/gym/106813/attachments/download/40626/csp-j-2026-statements.pdf",
-      "publisher": "Codeforces Gym 106813 via cf.m27.workers.dev",
-      "variant": "training-mirror-statement",
-      "resolvedUrl": "https://cf.m27.workers.dev/gym/106813/attachments/download/40626/csp-j-2026-statements.pdf",
-      "contentType": "application/pdf;charset=UTF-8",
+      "sourcePage": null,
+      "sourceUrl": null,
+      "publisher": "CCF (paper cover); local copy cross-checked with contestant down/day1.pdf files",
+      "variant": "contest-original-layout",
+      "resolvedUrl": null,
+      "contentType": "application/pdf",
       "year": 2026,
       "language": "zh-CN",
-      "bytes": 977879,
-      "sha256": "9efb93289bc98bc0e9a52979b39e160613f5eefa20c5dee3ed30b52d99fba218",
-      "retrievedAt": "2026-11-11T05:47:46.423461+00:00",
+      "bytes": 181182,
+      "sha256": "aeb1ba51f3cc1b370fd4a82fc5704d7df398945715d46df2932b53b5a55c592e",
+      "retrievedAt": "2026-11-11T11:51:59.314836+00:00",
       "officialOriginAuthenticated": false,
-      "pages": 12,
-      "pdfTitle": "CSP-J 2026 Chinese Statements",
-      "pdfCreator": "(unspecified)"
+      "pages": 13,
+      "pdfTitle": "",
+      "pdfCreator": "LaTeX with hyperref",
+      "sourceKind": "local-contest-material-collection",
+      "sourceFilename": "2026 CSP-J组 第二轮真题.pdf",
+      "originalPaperAvailable": true,
+      "role": "contest-paper",
+      "fileIO": true,
+      "verification": {
+        "checkedAt": "2026-11-11T11:51:59.314836+00:00",
+        "method": "SHA-256 comparison with contestant-distributed day1.pdf and visual/text inspection",
+        "boundary": "Original contest layout and file I/O preserved; direct official download origin is not authenticated.",
+        "evidence": [
+          {
+            "kind": "previously-authenticated-archive-entry-manifest",
+            "archiveEntry": "CSP-J2/HI-J00588/down/day1.pdf",
+            "sha256": "aeb1ba51f3cc1b370fd4a82fc5704d7df398945715d46df2932b53b5a55c592e",
+            "sourceRecord": "../HI/sources/j-archive.md",
+            "sourcePage": "https://www.luogu.com.cn/discuss/1427989",
+            "archiveAuditDate": "2026-11-08"
+          }
+        ]
+      }
     },
     {
       "id": "s2",
       "round": 2,
       "group": "S",
       "path": "round-2/csp-s-2026.pdf",
-      "sourcePage": "https://cf.m27.workers.dev/gym/106814",
-      "sourceUrl": "https://cf.m27.workers.dev/gym/106814/attachments/download/40625/csp-s-2026-statements.pdf",
-      "publisher": "Codeforces Gym 106814 via cf.m27.workers.dev",
-      "variant": "training-mirror-statement",
-      "resolvedUrl": "https://cf.m27.workers.dev/gym/106814/attachments/download/40625/csp-s-2026-statements.pdf",
-      "contentType": "application/pdf;charset=UTF-8",
+      "sourcePage": null,
+      "sourceUrl": null,
+      "publisher": "CCF (paper cover); local copy cross-checked with contestant down/day1.pdf files",
+      "variant": "contest-original-layout",
+      "resolvedUrl": null,
+      "contentType": "application/pdf",
       "year": 2026,
       "language": "zh-CN",
-      "bytes": 822604,
-      "sha256": "a995a18bc85fe1e3c5720e1bd50904d46de68ab7792e16d21560ae234cf8baa7",
-      "retrievedAt": "2026-11-11T05:47:48.477599+00:00",
+      "bytes": 175679,
+      "sha256": "14f8f1933b179f383ddca940cb228dd8a2c939c999dfb95977be4b6a48b88339",
+      "retrievedAt": "2026-11-11T11:51:59.314836+00:00",
       "officialOriginAuthenticated": false,
-      "pages": 12,
-      "pdfTitle": "CSP-S 2026 Chinese Statements",
-      "pdfCreator": "(unspecified)"
+      "pages": 13,
+      "pdfTitle": "",
+      "pdfCreator": "LaTeX with hyperref",
+      "sourceKind": "local-contest-material-collection",
+      "sourceFilename": "2026 CSP-S组 第二轮真题.pdf",
+      "originalPaperAvailable": true,
+      "role": "contest-paper",
+      "fileIO": true,
+      "verification": {
+        "checkedAt": "2026-11-11T11:51:59.314836+00:00",
+        "method": "SHA-256 comparison with contestant-distributed day1.pdf and visual/text inspection",
+        "boundary": "Original contest layout and file I/O preserved; direct official download origin is not authenticated.",
+        "evidenceArchive": "CSP-S2026.zip (local source collection; public download URL not recovered)",
+        "evidence": [
+          {
+            "archiveEntry": "source/SD-S01034/day1.pdf",
+            "sha256": "14f8f1933b179f383ddca940cb228dd8a2c939c999dfb95977be4b6a48b88339"
+          },
+          {
+            "archiveEntry": "source/TJ-S00195/day1.pdf",
+            "sha256": "14f8f1933b179f383ddca940cb228dd8a2c939c999dfb95977be4b6a48b88339"
+          },
+          {
+            "archiveEntry": "source/TJ-S00605/TJ-S00605/day1.pdf",
+            "sha256": "14f8f1933b179f383ddca940cb228dd8a2c939c999dfb95977be4b6a48b88339"
+          },
+          {
+            "archiveEntry": "source/TJ-S00678/day1.pdf",
+            "sha256": "14f8f1933b179f383ddca940cb228dd8a2c939c999dfb95977be4b6a48b88339"
+          },
+          {
+            "archiveEntry": "source/TJ-S00692/day1.pdf",
+            "sha256": "14f8f1933b179f383ddca940cb228dd8a2c939c999dfb95977be4b6a48b88339"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "originalPaperStatus": {
+    "j1": "missing",
+    "s1": "missing",
+    "j2": "contest-original-layout",
+    "s2": "contest-original-layout"
+  }
 }

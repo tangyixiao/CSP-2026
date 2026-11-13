@@ -1,8 +1,8 @@
 # 资料核验与征集进度 / Verification and collection progress
 
-核对日期：**2026-11-12（Asia/Shanghai）**。本表基于已合并版本 [`0e528e1b`](https://github.com/tangyixiao/CSP-2026/commit/0e528e1b44c7afed73fd4524859ad7e844ed1ad7) 的来源记录与当天读取的草稿状态，描述本仓库的进度。
+核对日期：**2026-11-13（Asia/Shanghai）**。第二轮 PDF 的替换与核对记录见 [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57)，其他地区条目沿用 2026-11-12 的核对记录。
 
-Reviewed **2026-11-12 (Asia/Shanghai)** against the merged source records at the linked revision and the draft status read that day. The tables link to the checks recorded for each material.
+Reviewed **2026-11-13 (Asia/Shanghai)** for the Round 2 PDF replacement. Regional entries retain the checks recorded on 2026-11-12.
 
 状态口径 / Status definitions:
 
@@ -19,14 +19,14 @@ Reviewed **2026-11-12 (Asia/Shanghai)** against the merged source records at the
 | --- | --- | --- | --- | --- | --- |
 | 第一轮 J / Round 1 J | 第三方公开副本，9 页 / third-party copy, 9 pages | [Very2](https://very2.cn/?id=88) | [`j1` 元数据 / metadata](../papers/sources.json)、[SHA256SUMS](../papers/SHA256SUMS) | 下载副本信息已记录；官方发布源未认证 / Copy recorded; official origin unauthenticated | 第一轮原版与官方附件入口 / Round 1 original and official attachment entry |
 | 第一轮 S / Round 1 S | 社区排印版含答案，14 页 / community typeset copy with answers, 14 pages | [AKCode / CSP First Round](https://www.cspfirstround.com/papers/csp-s-2026/round-1) | [`s1` 元数据 / metadata](../papers/sources.json)、[SHA256SUMS](../papers/SHA256SUMS) | 下载副本信息已记录；官方发布源未认证 / Copy recorded; official origin unauthenticated | 第一轮原版与官方附件入口 / Round 1 original and official attachment entry |
-| 第二轮 J / Round 2 J | Gym 阅读版，12 页 / Gym reading edition, 12 pages | [Codeforces Gym 106813 via cf.m27.workers.dev](https://cf.m27.workers.dev/gym/106813) | [`j2` 元数据 / metadata](../papers/sources.json)、[SHA256SUMS](../papers/SHA256SUMS) | 下载副本信息已记录；官方发布源未认证 / Copy recorded; official origin unauthenticated | 官方附件入口；原赛版候选合入前验证 / Official attachment entry; validation of contest-layout candidate before merge |
-| 第二轮 S / Round 2 S | Gym 阅读版，12 页 / Gym reading edition, 12 pages | [Codeforces Gym 106814 via cf.m27.workers.dev](https://cf.m27.workers.dev/gym/106814) | [`s2` 元数据 / metadata](../papers/sources.json)、[SHA256SUMS](../papers/SHA256SUMS) | 下载副本信息已记录；官方发布源未认证 / Copy recorded; official origin unauthenticated | 官方附件入口；原赛版候选合入前验证 / Official attachment entry; validation of contest-layout candidate before merge |
+| 第二轮 J / Round 2 J | 原赛版式，13 页，文件输入输出 / contest layout, 13 pages, file I/O | 选手资料包对应副本；官方原始入口待补 / Contestant-distributed copy; direct official entry needed | [`j2` 元数据 / metadata](../papers/sources.json)、[SHA256SUMS](../papers/SHA256SUMS) | 原排版与供包对应核对已有记录 / Layout and package correspondence checked | 官方原始附件入口 / Direct official attachment entry |
+| 第二轮 S / Round 2 S | 原赛版式，13 页，文件输入输出 / contest layout, 13 pages, file I/O | 选手资料包对应副本；官方原始入口待补 / Contestant-distributed copy; direct official entry needed | [`s2` 元数据 / metadata](../papers/sources.json)、[SHA256SUMS](../papers/SHA256SUMS) | 原排版与供包对应核对已有记录 / Layout and package correspondence checked | 官方原始附件入口 / Direct official attachment entry |
 
-当前四份清单记录的 `officialOriginAuthenticated` 均为 `false`。Gym 阅读版使用标准输入输出。文件获取时间、大小、页数和 SHA-256 以 [sources.json](../papers/sources.json) 为准；校验值用于核对副本字节。
+四份清单记录的 `officialOriginAuthenticated` 均为 `false`。第二轮已采用原赛版式和文件输入输出。文件大小、页数、SHA-256 和供包核对证据见 [sources.json](../papers/sources.json)。
 
-All four current manifest entries set `officialOriginAuthenticated` to `false`. Gym editions use standard input/output. Retrieval time, size, page count and SHA-256 are recorded in the manifest; checksums establish copy identity.
+All four manifest entries set `officialOriginAuthenticated` to `false`. Round 2 preserves the contest layout and file I/O. The manifest records file identity and package-comparison evidence.
 
-### 第二轮原赛版：已取得，待发布 / Round 2 contest-layout files: obtained, awaiting publication
+### 第二轮原赛版：已接入资料页 / Round 2 contest-layout files: available in the library
 
 第二轮 J/S 的原赛版文件**已经取得**，各 13 页，供包中对应 PDF 的核对已有记录。文件本身已齐备。当前流程状态如下：
 
@@ -34,10 +34,10 @@ All four current manifest entries set `officialOriginAuthenticated` to `false`. 
 | --- | --- | --- |
 | 文件取得 / Acquisition | 已取得 / Obtained | [J：13 页原赛版 / J contest-layout PDF](https://github.com/tangyixiao/CSP-2026/blob/8dcabd96dc2878d7cd52ca6bd788d91efd3d15bb/papers/round-2/csp-j-2026.pdf)、[S：13 页原赛版 / S contest-layout PDF](https://github.com/tangyixiao/CSP-2026/blob/8dcabd96dc2878d7cd52ca6bd788d91efd3d15bb/papers/round-2/csp-s-2026.pdf) |
 | 供包对应核对 / Supplied-package correspondence | 已有核对记录 / Checks recorded | [PR #57 的比对范围与记录 / Comparison scope and record](https://github.com/tangyixiao/CSP-2026/pull/57) |
-| 正式发布 / Publication | 待完成发布前验证与合并 / Awaiting pre-publication validation and merge | PR #57 在核对时仍为开放草稿；桌面／手机浏览器验证未完成，未合并、未上线；正式站仍为 12 页 Gym 版 / Open draft at review time; desktop/mobile browser validation outstanding, unmerged and undeployed; the live library still serves 12-page Gym editions |
+| 资料页接入 / Library integration | 试题阅读和下载入口均采用 13 页原赛版式副本 / Reading and download entries use the 13-page contest-layout copies | [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57)；部署结果见该 PR 的检查记录 / Deployment results are recorded in the PR checks |
 | 官方原始发布入口 / Direct official publication entry | 待补 / Needed | 文件取得及供包对应核对不等同于官方来源认证 / Acquisition and supplied-package correspondence are separate from official-source authentication |
 
-Both 13-page Round 2 J/S contest-layout files have been obtained, with recorded correspondence checks against PDFs in contestant packages. Both files are available at the links above. Publication and direct official-origin evidence remain separate outstanding steps.
+Both 13-page Round 2 J/S contest-layout files are available in the paper library, with recorded correspondence checks against contestant-distributed PDFs. Direct official publication evidence is still needed.
 
 <a id="regions"></a>
 
@@ -60,7 +60,7 @@ Both 13-page Round 2 J/S contest-layout files have been obtained, with recorded 
 
 - **宁夏、香港、澳门 J/S**：核对当天的 58 个组别目录中没有 `NX-J/S`、`HK-J/S`、`MO-J/S`。请提供原始发布入口或可追溯供包及 SHA-256。 / Ningxia, Hong Kong and Macao J/S were absent from the 58-group catalog checked that day; provide a publication entry or traceable supplied package with SHA-256.
 - **第一轮 J/S 原版 PDF 与官方发布入口**。 / Round 1 J/S original PDFs and official publication entries.
-- **第二轮官方原始附件入口**：J/S 各 13 页原赛版文件已取得，供包对应核对已有记录；此处征集的是官方来源证据，文件发布前验证另行跟进。 / Round 2 direct official attachment entries: both 13-page files are already obtained with recorded package correspondence; this request is for official-origin evidence, while publication validation is tracked separately.
+- **第二轮官方原始附件入口**：J/S 各 13 页原赛版文件已取得，供包对应核对已有记录；此处征集的是官方来源证据，发布记录见 PR #57。 / Round 2 direct official attachment entries: both 13-page files are already obtained with recorded package correspondence; this request is for official-origin evidence, with publication tracked in PR #57.
 - **已有地区的独立来源页、官方清单与核验记录**；保持原目录、文件名、字节与版本差异。 / Independent regional records, official manifests and comparison evidence; retain original paths, names, bytes and differing versions.
 
 提交材料请按 [CONTRIBUTING.md](../CONTRIBUTING.md) 说明提供地区／组别、发布入口或供包来源、版本、哈希和已完成检查；公开报告中不要包含密码或凭据。 / Follow the contribution guide with region/group, origin, revision, hashes and completed checks; keep passwords and credentials out of public reports.

@@ -26,10 +26,10 @@
 
 | 日期 | 类别 | 已发布内容 | 记录 |
 | --- | --- | --- | --- |
+| 2026-11-13 | 归档资料 | 第二轮 J/S 更换为各 13 页的原赛版式 PDF | [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57) |
 | 2026-11-12 | 网站功能 | 随机入口复用精简索引，阅读页支持跨省筛选，搜索命中文件可直接定位 | [PR #66](https://github.com/tangyixiao/CSP-2026/pull/66) |
 | 2026-11-12 | 网站／文档 | 按操作顺序整理使用说明，明确按钮行为与失败提示 | [PR #65](https://github.com/tangyixiao/CSP-2026/pull/65) |
 | 2026-11-12 | 网站功能 | 精简全国汇总索引、统一外观入口、梳理中英文文案 | [PR #64](https://github.com/tangyixiao/CSP-2026/pull/64) |
-| 2026-11-12 | 网站／文档 | 第二轮原赛版已取得，文件核对与发布进度分项列出 | [PR #63](https://github.com/tangyixiao/CSP-2026/pull/63) |
 | 2026-11-08 | 归档发布 | 29 个地区 ZIP、校验清单和发布索引 | [归档快照](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) |
 
 [完整更新记录](CHANGELOG.md)分为网站／文档和归档资料。统计所用的日期与归档版本见下方统计表。
@@ -42,10 +42,10 @@
 | --- | --- | --- | --- |
 | 第一轮 · 入门组 J | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-j-2026.pdf) | [9 页试卷](papers/round-1/csp-j-2026.pdf) | 第三方公开副本 |
 | 第一轮 · 提高组 S | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-s-2026-community.pdf) | [14 页试卷与答案](papers/round-1/csp-s-2026-community.pdf) | 社区排印版 |
-| 第二轮 · 入门组 J | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [12 页题面](papers/round-2/csp-j-2026.pdf) | Gym 中文阅读版 |
-| 第二轮 · 提高组 S | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [12 页题面](papers/round-2/csp-s-2026.pdf) | Gym 中文阅读版 |
+| 第二轮 · 入门组 J | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [13 页题面](papers/round-2/csp-j-2026.pdf) | 原赛版式，文件输入输出 |
+| 第二轮 · 提高组 S | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [13 页题面](papers/round-2/csp-s-2026.pdf) | 原赛版式，文件输入输出 |
 
-[试题资料页](https://tangyixiao.github.io/CSP-2026/papers/)提供浏览器阅读和 PDF 下载；[资料说明](papers/README.md)另列第一轮题面 OCR、参考答案与讨论、考试信息及第二轮官方测试数据。PDF 保留原站下载字节。第二轮阅读版使用标准输入输出，版本差异、来源和校验值见资料说明。
+[试题资料页](https://tangyixiao.github.io/CSP-2026/papers/)提供浏览器阅读和 PDF 下载；[资料说明](papers/README.md)另列第一轮题面 OCR、参考答案与讨论、考试信息及第二轮官方测试数据。第二轮 PDF 保留原赛版式和文件输入输出；版本、来源和校验值见资料说明。
 
 <a id="what-you-can-use-today"></a>
 
@@ -105,7 +105,7 @@
 <details>
 <summary>试题 PDF 都是官方原版吗？</summary>
 
-不是。当前已合并版本包含第三方公开副本、社区排印版和 Gym 阅读版，具体版本见上方表格。Gym 阅读版改用了标准输入输出。校验值能核对副本字节；官方发布来源的核实进度另行记录。第二轮 J/S 各 13 页原赛版已取得，并有供包对应核对记录，目前在草稿 PR #57 中待发布；正式站仍提供 12 页 Gym 版。详见[核验进度](docs/verification-progress.md#papers)。
+第二轮 J/S 已提供各 13 页的原赛版式副本，保留封面、提交规则和文件输入输出，并记录了与选手资料包的对应核对。第一轮仍为第三方或社区参考副本，原版待补充。官方原始发布入口的核实进度见[核验进度](docs/verification-progress.md#papers)。
 
 </details>
 
@@ -126,7 +126,7 @@
 | 材料 | 当前已记录范围 | 待补内容 |
 | --- | --- | --- |
 | 第一轮 J/S 原版 PDF | 当前正式库收录第三方／社区副本 | 原版文件与官方发布入口 |
-| 第二轮 J/S 原赛版 PDF | **已取得，各 13 页；已记录与选手资料包的对应核对**，见[详细进度](docs/verification-progress.md#papers) | 完成发布前验证与合并；官方原始发布入口仍待补。正式站当前仍为 12 页 Gym 版 |
+| 第二轮 J/S 原赛版 PDF | **已取得，各 13 页；已记录与选手资料包的对应核对**，见[详细进度](docs/verification-progress.md#papers) | 已接入试题资料页；官方原始发布入口仍待补 |
 | 地区选手文件 | 29 个地区、58 个组别目录；核验范围因来源而异 | 宁夏、香港、澳门 J/S；已有地区的原始发布和独立来源记录 |
 | 官方测试数据 | J/S 目录及官方通知链接已记录 | 统一汇总获取、校验及来源记录 |
 

@@ -1,49 +1,48 @@
-# CSP-J/S 2026 试题与参考资料
+# CSP-J/S 2026 试题原卷与参考资料
 
 [在线资料页 / Papers online](https://tangyixiao.github.io/CSP-2026/papers/) · [返回项目](../README.md) · [文件校验清单](SHA256SUMS)
 
-| 阶段 | 组别 | PDF 副本 | 页数 | 版本 |
-| --- | --- | --- | ---: | --- |
-| 第一轮 | 入门组 J | [试卷](round-1/csp-j-2026.pdf) | 9 | 第三方公开副本 |
-| 第一轮 | 提高组 S | [试卷与参考答案](round-1/csp-s-2026-community.pdf) | 14 | AKCode 社区排印版 |
-| 第二轮 | 入门组 J | [中文题面](round-2/csp-j-2026.pdf) | 12 | Gym 阅读版，标准输入输出 |
-| 第二轮 | 提高组 S | [中文题面](round-2/csp-s-2026.pdf) | 12 | Gym 阅读版，标准输入输出 |
+| 阶段 | 组别 | 原版收录状态 | 文件 |
+| --- | --- | --- | --- |
+| 第一轮 | 入门组 J | **原版 PDF 待补充** | [9 页第三方参考副本，非原卷](round-1/csp-j-2026.pdf) |
+| 第一轮 | 提高组 S | **原版 PDF 待补充** | [14 页社区排印与参考答案，非原卷](round-1/csp-s-2026-community.pdf) |
+| 第二轮 | 入门组 J | 原卷版式，13 页，文件输入输出 | [考场题面副本](round-2/csp-j-2026.pdf) |
+| 第二轮 | 提高组 S | 原卷版式，13 页，文件输入输出 | [考场题面副本](round-2/csp-s-2026.pdf) |
 
-PDF 按下载原样保存，版本见上表。第二轮 Gym 阅读版使用标准输入输出；考场文件命名和提交要求请查原赛版。各副本的官方来源核验进度见文末状态表。
+第二轮的两份 PDF 来自本地已有的考场题面副本，按原文件字节保留，保留原排版和文件输入输出。两份均包含考场封面、题目总表、提交文件名、编译选项与注意事项。原来使用标准输入输出的 12 页 Gym 阅读版已被替换。
 
-PDFs retain their downloaded bytes. Editions are labeled above. The Round 2 Gym editions use standard input/output; consult the contest-layout papers for contest filenames and submission rules. Official-source verification is tracked in the status table below.
+Round 2 PDFs preserve the original contest layout and file I/O, including the cover, problem table, submission filenames, compiler options and rules. They replace the 12-page Gym adaptations. Original Round 1 PDFs are still missing; the two retained community references do not satisfy that requirement.
 
-## 第一轮补充资料
+## 第二轮副本核验 / Round 2 verification
 
-- [洛谷第一轮集中讨论：J/S 题面 OCR 与参考答案](https://www.luogu.com.cn/discuss/1380094)：社区转录与讨论，包含识别说明，适合交叉核对。
-- [AKCode 提高组第一轮在线题目与解析入口](https://www.cspfirstround.com/papers/csp-s-2026/round-1)：与归档的社区 PDF 对应。
-- [第一轮考试时间与形式的官方通知](https://noi.ccf.org.cn/gs/xw/sx1/2026-09-14/931919.shtml)：两组均于 2026-09-19 进行，时长各 120 分钟。
+- 入门组：181,182 字节，13 页；SHA-256 `aeb1ba51f3cc1b370fd4a82fc5704d7df398945715d46df2932b53b5a55c592e`。与 2026-11-08 海南源文件包审计记录中的 `CSP-J2/HI-J00588/down/day1.pdf` 一致。参见 [海南来源记录](../HI/sources/j-archive.md) 和 [原收集讨论](https://www.luogu.com.cn/discuss/1427989)。本次复核使用该包既有的已认证条目清单，未重新下载源文件包。
+- 提高组：175,679 字节，13 页；SHA-256 `14f8f1933b179f383ddca940cb228dd8a2c939c999dfb95977be4b6a48b88339`。本次直接读取本地 `CSP-S2026.zip` 中山东、天津选手目录内的 5 份 `day1.pdf`，与收录副本逐字节一致。具体条目见 [sources.json](sources.json)。
+- 视觉与文本检查：封面、13 页连续页码、全部四题、文件输入输出及原始提交规则均保留。入门组包含原题插图。
 
-First-round supplementary links provide the community OCR/answer discussion, the Senior online paper, and an official notice recording the date and duration. Community reference answers are distinct from official findings.
+These checks establish correspondence with contestant-distributed contest papers. A direct official download URL has not been recovered, so `officialOriginAuthenticated` remains false. File metadata or checksums alone are not used as proof of official distribution. No local archive, extraction credential or contestant data is added by this paper correction.
 
-## 第二轮配套材料
+## 第一轮参考资料 / Round 1 references
 
-- 官方测试数据：[入门组 J](../test-data/J/official) · [提高组 S](../test-data/S/official)。
-- 官方测试数据发布入口：[关于 CSP-J/S 2026 第二轮成绩和申诉的通知](https://www.noi.cn/xw/2026-11-05/945674.shtml)。
-- 选手文件：[在线浏览](https://tangyixiao.github.io/CSP-2026/) · [分地区下载](https://tangyixiao.github.io/CSP-2026/preview/downloads.html)。
+**第一轮 J/S 原版 PDF 待补充。** 下列文件供社区参考，版本见表格。
 
-Official test data and contestant archives are linked separately from the reading editions.
-
-## 来源与校验
-
-| 文件 | 来源页面 | 原站 PDF |
+| 资料 | 来源页面 | 来源文件 |
 | --- | --- | --- |
-| 第一轮 J | [贰剧场](https://very2.cn/?id=88) | [原站文件](https://very2.cn/zb_users/upload/2026/09/202609191789814153201232.pdf) |
-| 第一轮 S | [AKCode](https://www.cspfirstround.com/papers/csp-s-2026/round-1) | [原站文件](https://www.cspfirstround.com/papers/csp-s-2026/round-1/pdf) |
-| 第二轮 J | [Gym 106813 公开镜像](https://cf.m27.workers.dev/gym/106813) | [原站文件](https://cf.m27.workers.dev/gym/106813/attachments/download/40626/csp-j-2026-statements.pdf) |
-| 第二轮 S | [Gym 106814 公开镜像](https://cf.m27.workers.dev/gym/106814) | [原站文件](https://cf.m27.workers.dev/gym/106814/attachments/download/40625/csp-s-2026-statements.pdf) |
+| J 组第三方参考副本，9 页 | [贰剧场](https://very2.cn/?id=88) | [来源 PDF](https://very2.cn/zb_users/upload/2026/09/202609191789814153201232.pdf) |
+| S 组社区排印与参考答案，14 页 | [AKCode](https://www.cspfirstround.com/papers/csp-s-2026/round-1) | [来源 PDF](https://www.cspfirstround.com/papers/csp-s-2026/round-1/pdf) |
 
-[sources.json](sources.json) 记录下载地址、时间、字节数、页数、文件元数据和 SHA-256。[SHA256SUMS](SHA256SUMS) 用于核对本仓库副本的字节是否一致；官方发布来源另见核验记录。试题及第三方排印内容保留各自权利，详见 [NOTICE](../NOTICE) 和 [SOURCES.md](../SOURCES.md)。
+- [洛谷第一轮集中讨论：J/S 题面 OCR 与参考答案](https://www.luogu.com.cn/discuss/1380094)。
+- [第一轮考试时间与形式的官方通知](https://noi.ccf.org.cn/gs/xw/sx1/2026-09-14/931919.shtml)。
 
-The source manifest records retrieval details and SHA-256 values. Checksums verify file identity; official-source status and rights are recorded separately. Problem copyrights and third-party notices remain with their respective owners.
+## 配套数据与权利 / Data and rights
+
+- 第二轮官方测试数据：[入门组 J](../test-data/J/official) · [提高组 S](../test-data/S/official)。
+- [官方测试数据发布通知](https://www.noi.cn/xw/2026-11-05/945674.shtml)。该通知发布测试数据，不能用来证明 PDF 的官方发布来源。
+- [来源清单](sources.json) · [SHA-256](SHA256SUMS) · [NOTICE](../NOTICE) · [SOURCES.md](../SOURCES.md)。
+
+试题及第三方排印内容保留各自权利，不适用本项目的 Apache-2.0 授权。校验值用于验证文件身份，不能单独证明官方真实性或再分发授权。
 
 ## 核验与征集进度 / Verification and collection progress
 
-[按材料查看状态表](../docs/verification-progress.md#papers)逐项列出发布入口、校验记录、官方来源认证状态和待补材料，并区分正式副本与草稿候选。下载后可按 [SHA-256 指南](../docs/download-verification.md)核对地区发布包；试题 PDF 使用本目录的 [SHA256SUMS](SHA256SUMS)。
+[按材料查看状态表](../docs/verification-progress.md#papers)；下载后按本目录的 [SHA256SUMS](SHA256SUMS) 核对 PDF，地区发布包另见 [SHA-256 指南](../docs/download-verification.md)。
 
-[The status table](../docs/verification-progress.md#papers) records publication entries, checks, official-origin status and needed materials, separately from draft candidates. Use the local checksum list for these PDFs; the verification guide uses region ZIPs as its worked example.
+See the linked status table for publication entries and outstanding evidence. Use this directory’s checksum list for PDFs and the verification guide for regional ZIP packages.

@@ -24,22 +24,27 @@ This index does not reproduce extraction passwords. Existing historical source r
 
 ## First- and second-round paper PDFs
 
-The [paper library](papers/README.md) records the four preserved source PDFs and
-links first-round OCR, community reference answers and discussion. Its
-[machine-readable manifest](papers/sources.json) records the exact source URLs,
-retrieval times, byte sizes, PDF page counts and SHA-256 values;
-[SHA256SUMS](papers/SHA256SUMS) verifies the archived copies.
+The [paper library](papers/README.md) separates original-layout contest papers
+from community references. Original Round 1 J/S PDFs are still missing.
 
-| Material | Public source | Edition and verification boundary |
-| --- | --- | --- |
-| Round 1 Junior, 9 pages | [Very2 source page](https://very2.cn/?id=88) | Third-party public paper copy; downloaded PDF bytes are preserved, but official distribution has not been independently authenticated |
-| Round 1 Senior, 14 pages | [AKCode paper](https://www.cspfirstround.com/papers/csp-s-2026/round-1) | Community typeset paper with reference answers, not an authenticated original exam PDF |
-| Round 2 Junior, 12 pages | [Gym 106813 public mirror](https://cf.m27.workers.dev/gym/106813) | Chinese Gym reading edition; its own cover identifies re-typesetting and adaptation to standard input/output |
-| Round 2 Senior, 12 pages | [Gym 106814 public mirror](https://cf.m27.workers.dev/gym/106814) | Same reading-edition boundary; it is distinct from the original contest's file I/O requirements |
+| Material | Edition and verification |
+| --- | --- |
+| Round 1 Junior, 9 pages | Third-party reference copy from [Very2](https://very2.cn/?id=88); does not satisfy the original-paper requirement |
+| Round 1 Senior, 14 pages | [AKCode](https://www.cspfirstround.com/papers/csp-s-2026/round-1) community typesetting with answers; original still missing |
+| Round 2 Junior, 13 pages | Local original-layout contest paper; SHA-256 matches the previously authenticated Hainan archive entry `CSP-J2/HI-J00588/down/day1.pdf` |
+| Round 2 Senior, 13 pages | Local original-layout contest paper; byte-identical to five `day1.pdf` entries read from local `CSP-S2026.zip` (Shandong and Tianjin contestant directories) |
 
-PDF metadata, page inspection and checksums establish the recorded copies, not
-official authenticity. Problem copyrights and third-party typesetting remain with
-their respective owners and are excluded from the project's Apache-2.0 grant.
+Round 2 copies preserve the contest cover, rules, file I/O, compiler options and
+all four problems without re-typesetting. They replace the 12-page Gym adaptations.
+The direct official PDF download origin has not been recovered;
+`officialOriginAuthenticated` remains false. The official test-data announcement
+is not evidence of the PDFs' distribution origin.
+
+[sources.json](papers/sources.json) records file identity, page counts and
+verification evidence; [SHA256SUMS](papers/SHA256SUMS) verifies the retained bytes.
+Checksums alone do not establish official authenticity or redistribution rights.
+Problem copyrights and third-party typesetting remain with their owners and are
+excluded from the project's Apache-2.0 grant.
 
 ## Attributed Luogu comparison materials
 

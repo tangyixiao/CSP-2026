@@ -26,10 +26,10 @@ CSP-J/S 2026 first-round papers and reference materials, second-round statements
 
 | Date | Category | Published change | Record |
 | --- | --- | --- | --- |
+| 2026-11-13 | Archive materials | Replace Round 2 Gym PDFs with 13-page contest-layout copies | [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57) |
 | 2026-11-12 | Website | Shared compact random selection, cross-region reader scopes and direct search-hit navigation | [PR #66](https://github.com/tangyixiao/CSP-2026/pull/66) |
 | 2026-11-12 | Website/docs | Task-based usage guide, explicit actions and actionable failure messages | [PR #65](https://github.com/tangyixiao/CSP-2026/pull/65) |
 | 2026-11-12 | Website | Compact nationwide indexes, one Appearance menu and revised Chinese/English copy | [PR #64](https://github.com/tangyixiao/CSP-2026/pull/64) |
-| 2026-11-12 | Website/docs | Round 2 files obtained; acquisition, checks and publication tracked separately | [PR #63](https://github.com/tangyixiao/CSP-2026/pull/63) |
 | 2026-11-08 | Archive release | 29 region ZIPs, checksums and release index | [Archive snapshot](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) |
 
 [The full changelog](CHANGELOG.md) lists website/docs changes and archive materials separately. Inventory dates and revisions are recorded with the statistics below.
@@ -42,10 +42,10 @@ CSP-J/S 2026 first-round papers and reference materials, second-round statements
 | --- | --- | --- | --- |
 | Round 1 · Junior J | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-j-2026.pdf) | [9-page paper](papers/round-1/csp-j-2026.pdf) | Third-party public copy |
 | Round 1 · Senior S | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-s-2026-community.pdf) | [14-page paper and answers](papers/round-1/csp-s-2026-community.pdf) | Community typeset edition |
-| Round 2 · Junior J | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [12-page statements](papers/round-2/csp-j-2026.pdf) | Gym Chinese reading edition |
-| Round 2 · Senior S | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [12-page statements](papers/round-2/csp-s-2026.pdf) | Gym Chinese reading edition |
+| Round 2 · Junior J | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [13-page statements](papers/round-2/csp-j-2026.pdf) | Contest layout with file I/O |
+| Round 2 · Senior S | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [13-page statements](papers/round-2/csp-s-2026.pdf) | Contest layout with file I/O |
 
-The [paper library](https://tangyixiao.github.io/CSP-2026/papers/) provides browser reading and PDF downloads. The [material guide](papers/README.md) also links first-round OCR, community reference answers and discussion, exam information, and second-round official test data. PDFs retain their downloaded bytes. The second-round reading editions use standard input/output; see the guide for edition differences, sources and checksums.
+The [paper library](https://tangyixiao.github.io/CSP-2026/papers/) provides browser reading and PDF downloads. The [material guide](papers/README.md) also links first-round OCR, community reference answers and discussion, exam information, and second-round official test data. Round 2 PDFs preserve the contest layout and file I/O; see the guide for editions, sources and checksums.
 
 <a id="what-you-can-use-today"></a>
 
@@ -105,7 +105,7 @@ Counts use archive paths at the stated revision. Files include backups, empty fi
 <details>
 <summary>Are all paper PDFs authenticated official originals?</summary>
 
-No. The merged library includes third-party copies, a community typeset edition and Gym reading editions, as labeled above. Gym editions use standard input/output. Checksums establish copy identity; authenticating the original official publication is a separate check. The 13-page Round 2 J/S contest-layout files have been obtained and have recorded supplied-package correspondence checks; they await publication in draft PR #57. The live library still serves the 12-page Gym editions. See [verification progress](docs/verification-progress.md#papers).
+Round 2 J/S now provide 13-page contest-layout copies with covers, submission rules and file I/O, checked against contestant-distributed PDFs. Round 1 retains third-party and community references; original PDFs are still needed. See [verification progress](docs/verification-progress.md#papers) for official publication evidence.
 
 </details>
 
@@ -126,7 +126,7 @@ The outer filter selects contestant directories. Cards show matching files first
 | Material | Recorded scope | Still needed |
 | --- | --- | --- |
 | Round 1 J/S original PDFs | The published library contains third-party/community copies | Original files and official publication entries |
-| Round 2 J/S contest-layout PDFs | **Obtained, 13 pages each; supplied-package correspondence checks recorded**; see [details](docs/verification-progress.md#papers) | Pre-publication validation and merge; direct official publication entries. The live library still serves 12-page Gym editions |
+| Round 2 J/S contest-layout PDFs | **Obtained, 13 pages each; supplied-package correspondence checks recorded**; see [details](docs/verification-progress.md#papers) | Available in the paper library; direct official publication entries still needed |
 | Regional contestant files | 29 regions and 58 group catalogs; verification scope varies | Ningxia, Hong Kong and Macao J/S; original-publication and independent source records for existing regions |
 | Official test data | J/S directories and official notice link recorded | Consolidated retrieval, checksum and source records |
 
