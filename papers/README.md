@@ -9,7 +9,7 @@
 | 第二轮 | 入门组 J | 原卷版式，13 页，文件输入输出 | [考场题面副本](round-2/csp-j-2026.pdf) |
 | 第二轮 | 提高组 S | 原卷版式，13 页，文件输入输出 | [考场题面副本](round-2/csp-s-2026.pdf) |
 
-第二轮的两份 PDF 来自本地已有的考场题面副本，按原文件字节保留，未重排、未修改输入输出、未拼接参考答案。两份均包含考场封面、题目总表、提交文件名、编译选项与注意事项。原来使用标准输入输出的 12 页 Gym 阅读版已被替换。
+第二轮的两份 PDF 来自本地已有的考场题面副本，按原文件字节保留，保留原排版和文件输入输出。两份均包含考场封面、题目总表、提交文件名、编译选项与注意事项。原来使用标准输入输出的 12 页 Gym 阅读版已被替换。
 
 Round 2 PDFs preserve the original contest layout and file I/O, including the cover, problem table, submission filenames, compiler options and rules. They replace the 12-page Gym adaptations. Original Round 1 PDFs are still missing; the two retained community references do not satisfy that requirement.
 
@@ -23,7 +23,7 @@ These checks establish correspondence with contestant-distributed contest papers
 
 ## 第一轮参考资料 / Round 1 references
 
-**第一轮 J/S 原版 PDF 尚未找到，不能标记为已完成。** 下列文件仅作社区参考，不能替代原卷；图片整理、OCR、网页打印和附答案排印版也不能冒充原始 PDF。
+**第一轮 J/S 原版 PDF 待补充。** 下列文件供社区参考，版本见表格。
 
 | 资料 | 来源页面 | 来源文件 |
 | --- | --- | --- |
@@ -40,3 +40,9 @@ These checks establish correspondence with contestant-distributed contest papers
 - [来源清单](sources.json) · [SHA-256](SHA256SUMS) · [NOTICE](../NOTICE) · [SOURCES.md](../SOURCES.md)。
 
 试题及第三方排印内容保留各自权利，不适用本项目的 Apache-2.0 授权。校验值用于验证文件身份，不能单独证明官方真实性或再分发授权。
+
+## 核验与征集进度 / Verification and collection progress
+
+[按材料查看状态表](../docs/verification-progress.md#papers)；下载后按本目录的 [SHA256SUMS](SHA256SUMS) 核对 PDF，地区发布包另见 [SHA-256 指南](../docs/download-verification.md)。
+
+See the linked status table for publication entries and outstanding evidence. Use this directory’s checksum list for PDFs and the verification guide for regional ZIP packages.

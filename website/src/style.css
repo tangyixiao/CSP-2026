@@ -108,6 +108,17 @@ button:disabled:not(.btn) { color: var(--fgColor-disabled, var(--muted)); }
 #panel-files, #panel-cases { display: flex; flex: 1; flex-direction: column; min-height: 0; }
 .filter-form { display: grid; gap: 12px; padding: 16px; }
 .filter-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.filter-pair.is-wide-group { grid-template-columns:1fr; }
+.filter-form [hidden] { display:none!important; }
+.reader-provinces { grid-column:1/-1; min-width:0; padding:8px; border:1px solid var(--line); border-radius:6px; font-size:12px; }
+.reader-provinces summary { cursor:pointer; color:var(--text); }
+.reader-provinces fieldset { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; max-height:160px; overflow:auto; min-width:0; margin-top:8px; padding:8px 0; border:0; }
+.reader-provinces legend { font-size:12px; color:var(--muted); }
+.filter-form .reader-provinces label { display:flex; align-items:center; gap:5px; min-height:32px; cursor:pointer; }
+.reader-provinces input { flex:none; }
+.reader-province-actions { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.reader-province-actions button { font-size:12px; }
+.search-hit { color:var(--accent); background:var(--accent-bg); font-weight:700; }
 .filter-form label { display: block; min-width: 0; color: var(--muted); font-size: 12px; font-weight: 500; }
 .filter-form label > select, .filter-form label > .search-field { margin-top: 5px; }
 .filter-form .form-control, .filter-form .form-select, .case-search .form-control { width: 100%; min-width: 0; }
@@ -225,6 +236,8 @@ body[data-reader-mode="view"][data-view-side="left"] .source-tab:nth-child(2), b
   .explorer-tabs { padding-inline: 8px; }
   .filter-form { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; padding: 12px; }
   .filter-pair { grid-column: 1 / -1; }
+  #filter-form>label[for="reader-scope"] { grid-column:1/-1; }
+  #filter-form:has(.is-wide-group)>label[for="reader-scope"], #reader-scope-pair.is-wide-group { grid-column:auto; }
   .filter-form .form-control, .filter-form .form-select, .case-search .form-control { height: 44px; font-size: 16px; }
   .file-list, .case-list { display: block; flex: none; max-height: 240px; }
   .file-item { padding: 10px 12px; }
@@ -344,3 +357,16 @@ body[data-reader-mode="view"] .diff-tools { display: none; }
   .brand-mark { display: none; }
   .app-header .main-nav { gap: 16px; }
 }
+
+/* Reader-only tools preserve the archived source and use the existing palette. */
+.format-config { border-bottom: 1px solid var(--line); font-size: 13px; }
+.format-config summary { padding: 10px 14px; cursor: pointer; }
+.format-config-body { padding: 0 14px 14px; }
+.format-config-body p { line-height: 1.7; margin: 8px 0; }
+.format-config-body textarea { width: 100%; min-height: 280px; resize: vertical; padding: 12px; font: 13px/1.7 Consolas, monospace; color: inherit; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; white-space: pre; }
+.format-config-actions, .hex-controls, .hex-jump { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.format-config-actions { margin-top: 10px; }
+.format-config .has-error { color: var(--error); white-space: pre-wrap; overflow-wrap: anywhere; }
+.hex-controls { width: 100%; }
+.hex-jump input { min-width: 0; max-width: 150px; color: inherit; background: transparent; border: 1px solid var(--line); border-radius: 4px; padding: 5px; }
+@media(max-width:700px) { .format-config-actions .btn, .hex-controls button, .hex-jump input { min-height: 44px; } }

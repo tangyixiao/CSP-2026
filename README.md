@@ -1,4 +1,4 @@
-<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/logo-dark.svg"><img src="docs/assets/readme/logo.svg" width="240" height="144" alt="CSP-J/S 2026 信息学竞赛归档字标"></picture></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/logo-dark.svg"><img src="docs/assets/readme/logo.svg" width="300" height="74" alt="CSP-J/S 2026 信息学竞赛归档字标"></picture></p>
 
 <h1 align="center">CSP-2026</h1>
 
@@ -20,18 +20,32 @@
 
 [试题 PDF](https://tangyixiao.github.io/CSP-2026/papers/) · [在线浏览](https://tangyixiao.github.io/CSP-2026/) · [代码阅读与对比](https://tangyixiao.github.io/CSP-2026/code/) · [分地区下载](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) · [资料来源](SOURCES.md) · [参与贡献](CONTRIBUTING.md)
 
-![CSP-2026 全国归档首页的实际运行画面](docs/design/runtime-root-home-csp-desktop.png)
+<a id="recent-updates"></a>
+
+## 最近更新
+
+| 日期 | 类别 | 已发布内容 | 记录 |
+| --- | --- | --- | --- |
+| 2026-11-13 | 归档资料 | 第二轮 J/S 更换为各 13 页的原赛版式 PDF | [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57) |
+| 2026-11-12 | 网站功能 | 随机入口复用精简索引，阅读页支持跨省筛选，搜索命中文件可直接定位 | [PR #66](https://github.com/tangyixiao/CSP-2026/pull/66) |
+| 2026-11-12 | 网站／文档 | 按操作顺序整理使用说明，明确按钮行为与失败提示 | [PR #65](https://github.com/tangyixiao/CSP-2026/pull/65) |
+| 2026-11-12 | 网站功能 | 精简全国汇总索引、统一外观入口、梳理中英文文案 | [PR #64](https://github.com/tangyixiao/CSP-2026/pull/64) |
+| 2026-11-08 | 归档发布 | 29 个地区 ZIP、校验清单和发布索引 | [归档快照](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) |
+
+[完整更新记录](CHANGELOG.md)分为网站／文档和归档资料。统计所用的日期与归档版本见下方统计表。
+
+![CSP-2026 全国归档首页的实际运行画面](docs/design/runtime-brand-home-20261112.jpg)
 
 ## 第一轮与第二轮试题
 
 | 资料 | 在线阅读 | 仓库副本 | 版本说明 |
 | --- | --- | --- | --- |
-| 第一轮 · 入门组 J | [参考版（非原卷）](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-j-2026.pdf) | [9 页参考副本](papers/round-1/csp-j-2026.pdf) | **原版待补充**；第三方参考 |
-| 第一轮 · 提高组 S | [参考版（非原卷）](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-s-2026-community.pdf) | [14 页排印与答案](papers/round-1/csp-s-2026-community.pdf) | **原版待补充**；社区参考 |
-| 第二轮 · 入门组 J | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [13 页原卷版式](papers/round-2/csp-j-2026.pdf) | 考场题面副本，文件输入输出 |
-| 第二轮 · 提高组 S | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [13 页原卷版式](papers/round-2/csp-s-2026.pdf) | 考场题面副本，文件输入输出 |
+| 第一轮 · 入门组 J | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-j-2026.pdf) | [9 页试卷](papers/round-1/csp-j-2026.pdf) | 第三方公开副本 |
+| 第一轮 · 提高组 S | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-s-2026-community.pdf) | [14 页试卷与答案](papers/round-1/csp-s-2026-community.pdf) | 社区排印版 |
+| 第二轮 · 入门组 J | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [13 页题面](papers/round-2/csp-j-2026.pdf) | 原赛版式，文件输入输出 |
+| 第二轮 · 提高组 S | [打开 PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [13 页题面](papers/round-2/csp-s-2026.pdf) | 原赛版式，文件输入输出 |
 
-[试题资料页](https://tangyixiao.github.io/CSP-2026/papers/)提供浏览器阅读和 PDF 下载；[资料说明](papers/README.md)另列第一轮题面 OCR、参考答案与讨论、考试信息及第二轮官方测试数据。第二轮 PDF 保留考场原卷版式与文件输入输出，并与选手下发文件交叉核对。第一轮 J/S 原版仍待补充，现有社区资料不计作原卷。来源与核验边界见资料说明。
+[试题资料页](https://tangyixiao.github.io/CSP-2026/papers/)提供浏览器阅读和 PDF 下载；[资料说明](papers/README.md)另列第一轮题面 OCR、参考答案与讨论、考试信息及第二轮官方测试数据。第二轮 PDF 保留原赛版式和文件输入输出；版本、来源和校验值见资料说明。
 
 <a id="what-you-can-use-today"></a>
 
@@ -41,13 +55,84 @@
 
 | 想做什么 | 从哪里开始 |
 | --- | --- |
-| 找到某位选手或一道题 | 在[归档首页](https://tangyixiao.github.io/CSP-2026/)搜索，或进入[地区浏览](https://tangyixiao.github.io/CSP-2026/code/browse.html?view=browse)选择地区和 J/S 组别 |
+| 找到某位选手或一道题 | 在[归档首页](https://tangyixiao.github.io/CSP-2026/)搜索，或进入[归档浏览](https://tangyixiao.github.io/CSP-2026/code/browse.html?view=browse)选择范围和 J/S 组别 |
 | 阅读或对比代码 | 在[阅读器](https://tangyixiao.github.io/CSP-2026/code/)中选择文件；选取两份文件后查看并排或行内差异 |
-| 下载一个文件或选手目录 | 打开文件后，使用原文件下载或选手目录 ZIP 下载 |
+| 下载一个文件或选手目录 | 下载单个文件请在阅读页使用“下载文件”；下载全部文件请打开选手文件夹，选择“下载选手目录 ZIP” |
 | 保存某个地区的材料 | 打开[下载页](https://tangyixiao.github.io/CSP-2026/preview/downloads.html)，选择对应地区 |
 | 提问、交流或补充资料 | 前往 [Discussions](https://github.com/tangyixiao/CSP-2026/discussions)；明确的文件或网站问题请提 [Issue](https://github.com/tangyixiao/CSP-2026/issues/new/choose) |
 
-阅读器支持语法高亮、差异行跳转和可分享的选区链接。地区浏览支持排序与随机选手、随机题目入口；项目介绍页提供中文、英文及浅色、深色、跟随系统外观。网站只展示和下载归档文件，不编译或运行选手程序。
+阅读器支持语法高亮、差异行跳转和可分享的选区链接。网站只展示和下载归档文件，不编译或运行选手程序。
+
+<a id="faq"></a>
+
+## 常见问题
+
+<details>
+<summary>为什么有的文件显示为十六进制？</summary>
+
+阅读方式由文件字节决定，不只看扩展名。可识别的文本进入文本阅读器；二进制内容使用只读十六进制／ASCII 视图，显示偏移量并按 16 KiB 分页。可用它查看文件字节和其中可读的字符。
+
+</details>
+
+<details>
+<summary>开启格式化后，复制和下载会改变原文件吗？</summary>
+
+默认显示原文。手动开启 C/C++ 格式化只改变阅读与差异显示；复制仍取原始解码文本，原文件下载、Git blob 校验和 SHA-256 使用归档字节。完整 `.clang-format` 可以编辑、导入和导出，也可使用“应用默认配置”。显示行号与差异行可能随格式化改变。
+
+</details>
+
+<details>
+<summary>为什么有些文件只有原文件链接，或者 ZIP 下载失败？</summary>
+
+单文件在线预览上限为 2 MiB；超出上限会显示具体原因并保留原文件入口。浏览器生成完整选手目录 ZIP 的上限为 64 MiB，超过时使用地区发布包。Gzip 解压也有上限；异常或超限时可查看归档压缩字节或下载原文件。
+
+</details>
+
+<details>
+<summary>怎样跨省搜索、排序或比较？</summary>
+
+在浏览页将范围设为“全国统一”“固定省份”或“多省合并”，再选择组别、题目和排序方式；排序作用于整个选定范围。阅读器左侧也支持同样的范围选择，可直接选择不同省份的文件作为 A、B 比较。打开文件、切换阅读／比较或分享链接时会保留范围和搜索条件；切换 J/S 会清除不兼容的题目筛选。
+
+</details>
+
+<details>
+<summary>为什么文件数、选手目录数和人数不同？</summary>
+
+统计按注明版本的归档路径计算：文件数包含备份、空文件和多个版本，选手目录数按组别分别计数。人数和有效提交数需要另外核实。未知大小显示为待补，排序时放在末尾。
+
+</details>
+
+<details>
+<summary>试题 PDF 都是官方原版吗？</summary>
+
+第二轮 J/S 已提供各 13 页的原赛版式副本，保留封面、提交规则和文件输入输出，并记录了与选手资料包的对应核对。第一轮仍为第三方或社区参考副本，原版待补充。官方原始发布入口的核实进度见[核验进度](docs/verification-progress.md#papers)。
+
+</details>
+
+<details>
+<summary>为什么选了题目后，选手文件夹里还有其他文件？</summary>
+
+外层筛选决定哪些选手目录进入结果，卡片优先显示命中的文件并高亮搜索词。点击文件名会在完整文件树中定位该文件，其他题目、备份和嵌套目录仍然保留。默认每批 60 个文件夹，可切换为 120 或 240 个。
+
+</details>
+
+<a id="verification-progress"></a>
+
+## 资料核验与征集进度
+
+<details>
+<summary>展开当前进度与待补材料（2026-11-12 核对）</summary>
+
+| 材料 | 当前已记录范围 | 待补内容 |
+| --- | --- | --- |
+| 第一轮 J/S 原版 PDF | 当前正式库收录第三方／社区副本 | 原版文件与官方发布入口 |
+| 第二轮 J/S 原赛版 PDF | **已取得，各 13 页；已记录与选手资料包的对应核对**，见[详细进度](docs/verification-progress.md#papers) | 已接入试题资料页；官方原始发布入口仍待补 |
+| 地区选手文件 | 29 个地区、58 个组别目录；核验范围因来源而异 | 宁夏、香港、澳门 J/S；已有地区的原始发布和独立来源记录 |
+| 官方测试数据 | J/S 目录及官方通知链接已记录 | 统一汇总获取、校验及来源记录 |
+
+[详细进度表](docs/verification-progress.md)逐项列出已记录发布入口、校验记录、核验状态和待补材料，并链接到 [SOURCES.md](SOURCES.md) 与[试题说明](papers/README.md)。文件取得、供包核对和发布进度分项列出。
+
+</details>
 
 <a id="coverage-and-interpretation"></a>
 
@@ -61,7 +146,7 @@
 | 按路径分类的源码或文本条目 | 168,484 | 114,868 | 283,352 |
 | 选手／组别目录标识 | 43,147 | 32,362 | 75,509 |
 
-J/S 两组均涉及同一批 **29 个地区**。这些数字来自目录统计，不能直接当作独立人数或有效提交数；归档中可能有备份、空文件、无效代码及使用源码文件名的二进制内容。本仓库不提供官方成绩，各地区材料的完整程度和来源核验程度见[来源说明](SOURCES.md)。
+J/S 两组覆盖同一批 **29 个地区**。统计包含备份、空文件、无效代码和使用源码文件名的二进制内容；人数与有效提交数需另行核实。各地区的材料范围和来源记录见[来源说明](SOURCES.md)。
 
 文件通常按 `地区/组别/选手编号/题目/文件` 保存，保留原始大小写、特殊名称、无扩展名文件和嵌套目录。GitHub 的部分目录页面最多显示 1,000 个条目，浏览完整目录请使用网站或地区下载包。
 
@@ -108,11 +193,13 @@ J/S 两组均涉及同一批 **29 个地区**。这些数字来自目录统计�
 
 ## 下载与本地查看
 
-单文件下载保留原始字节和文件名；选手目录 ZIP 包含该目录在归档中的已跟踪文件，包括未进入源码预览目录的其他文件。单文件预览上限为 **2 MiB**，浏览器生成选手目录 ZIP 的上限为 **64 MiB**；超出时请使用原文件链接或地区发布包。
+单文件下载保留原始字节和文件名；选手目录 ZIP 包含归档中该目录的全部文件，包括无法在线预览的文件。单文件预览上限为 **2 MiB**，浏览器生成选手目录 ZIP 的上限为 **64 MiB**；超出时请使用原文件链接或地区发布包。
 
 已发布的 [`archive-2026-11-08`](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) 提供 **29 个地区 ZIP**、`SHA256SUMS` 和 `release-index.json`。下载内容以该版本的清单为准；需要校验时，将文件的 SHA-256 与清单比对。下载页同时提供 GitHub 直连和标明服务来源的第三方加速入口。
 
-部分较大的源码使用无损 `.gz` 压缩，解压即可恢复原始字节。Git 不保存空目录；浙江原始包和答卷汇总保留在 `ZJ/J/`、`ZJ/S/`，对应的 `answers.zip` 可恢复原始包的空目录结构。
+部分较大的源码使用无损 `.gz` 压缩，解压即可恢复原始字节。
+
+Git 不记录空目录；需要恢复官方压缩包中的完整原貌时，请解压对应的 `answers.zip`。
 
 需要 Git 版本管理时，可以只检出一个地区和组别。例如查看上海提高组：
 
@@ -124,13 +211,20 @@ git sparse-checkout set SH/S
 
 检出所选目录会下载对应文件。完整工作副本包含大量小文件，占用空间可能明显大于压缩包，请按需扩大检出范围。
 
+<details>
+<summary>下载后如何校验 SHA-256？</summary>
+
+将 ZIP 和同一发布版本的 `SHA256SUMS` 放在同一目录。按[校验指南](docs/download-verification.md)复制对应的 [PowerShell](docs/download-verification.md#powershell)、[Linux](docs/download-verification.md#linux) 或 [macOS](docs/download-verification.md#macos) 步骤；示例只检查所选文件，清单中的其他 ZIP 无需全部下载。若校验不一致，先核对版本与文件名，再重新下载；持续不一致时附版本、文件名和计算值提 Issue。
+
+</details>
+
 <a id="sources-verification-and-corrections"></a>
 
 ## 来源与资料解读
 
 [SOURCES.md](SOURCES.md) 汇总官方发布入口、提供者交付的材料包、地区核验记录、公开讨论及网站素材来源。官方测试数据分别保存在 [J 组](test-data/J/official)和 [S 组](test-data/S/official)。地区插画为 AI 生成，其来源记录也在该文档中。
 
-代码对比展示文本或字节差异，收录的相似代码资料保留作者和原始来源。原帖观点、对比结果与官方认定各有不同含义，不能相互替代；完整来源和核验范围请查看对应记录。
+代码对比展示文本或字节差异。比较材料附有作者、原始来源和已完成的核对项目，详见对应记录。
 
 ## 反馈与贡献
 
@@ -152,6 +246,21 @@ git sparse-checkout set SH/S
 ## 网站开发
 
 网站使用 Node.js 22 及以上版本和 npm。开发命令、本地预览、完整源码快照构建及 Pages 打包步骤见[网站维护指南](website/README.md)。部分克隆环境请先阅读其中的受限预览方法，避免为小范围修改下载全部归档。外观设计与运行核验记录见[设计记录](docs/design/root-noi-classic-plus.md)。
+
+<a id="maintainer-navigation"></a>
+
+## 维护者快速导航
+
+| 想修改什么 | 文件 |
+| --- | --- |
+| Logo 矢量轮廓 | [website/shared/brand.js](website/shared/brand.js) |
+| 主导航与页头 | [website/shared/site-header.js](website/shared/site-header.js) |
+| 公共配色与布局 | [website/shared/site-shell.css](website/shared/site-shell.css) |
+| 默认外观与偏好保存 | [website/shared/theme.js](website/shared/theme.js) |
+| 默认格式化配置 | [website/src/default-clang-format.txt](website/src/default-clang-format.txt) |
+| 资料来源与试题清单 | [SOURCES.md](SOURCES.md) |
+
+试题的文件级来源记录见 [papers/sources.json](papers/sources.json)，地区证据从 [SOURCES.md](SOURCES.md) 进入；完整开发与打包步骤见[网站维护指南](website/README.md)。
 
 ## Star History
 

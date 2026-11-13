@@ -86,7 +86,7 @@ export function buildCatalog(entries, revision) {
       shards[key] = { files: [] };
       contestantSets.set(key, new Set());
     }
-    contestantSets.get(key).add(source.contestant);
+    contestantSets.get(key).add(source.contestantDirectory);
     const { province, group, ...file } = source;
     shards[key].files.push({ ...file, size: entry.size ?? null, blob: entry.blob });
   }
@@ -97,9 +97,10 @@ export function buildCatalog(entries, revision) {
     const parts = entry.path.split('/');
     if (entry.type !== 'blob' || !/^100[67]/.test(entry.mode) || parts.length < 4 || sourcePaths.has(entry.path)) continue;
     const key = `${parts[0]}-${parts[1]}`;
-    if (!shards[key] || !parts[2].toUpperCase().startsWith(`${key}`)) continue;
+    if (!shards[key] || (!contestantSets.get(key).has(parts[2]) && !parts[2].toUpperCase().startsWith(`${key}`))) continue;
+    contestantSets.get(key).add(parts[2]);
     (shards[key].extraFiles ??= []).push({ path:entry.path, blob:entry.blob, size:entry.size ?? null,
-      name:parts.at(-1), contestantDirectory:parts[2] });
+      name:parts.at(-1), contestant:parts[2].trim().toUpperCase(), contestantDirectory:parts[2] });
   }
   const groups = Object.keys(shards).sort().map((key) => {
     const [province, group] = key.split('-');

@@ -5,6 +5,10 @@ const knownCount = value => typeof value === 'number' && Number.isFinite(value) 
 const comparePath = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 const contestProblems = { J: ['and', 'card', 'string', 'travel'], S: ['crystal', 'hub', 'migrate', 'subway'] };
 
+export function contestProblemOptions(group) {
+  return group === 'all' ? Object.values(contestProblems).flat() : [...(contestProblems[group] || [])];
+}
+
 /** Navigation may retain unknown path-derived labels, but random contest tasks
  * must come from the identified task set of the file's actual J/S group. */
 export function contestProblemFiles(files) {
@@ -98,4 +102,122 @@ export function sampleProblem(files, { contestant, previousProblem, random = Mat
     if (problem) problems.add(problem);
   }
   return pick([...problems], previousProblem, value => value, random);
+}
+
+function validDirectory(value) {
+  const parts = text(value).split('/');
+  return parts.length === 3 && /^[A-Z]{2}$/.test(parts[0]) && /^[JS]$/.test(parts[1])
+    && parts[2].trim() && !['.', '..'].includes(parts[2]) && !/[\x00\\]/.test(value);
+}
+
+function validFilePath(value) {
+  const parts = text(value).split('/');
+  return parts.length >= 4 && validDirectory(parts.slice(0, 3).join('/'))
+    && !parts.some(part => !part || part === '.' || part === '..') && !/[\x00\\]/.test(value);
+}
+
+/** Shared, URL-addressable scope. Legacy province links still mean one province. */
+export function parseBrowseRoute(search, availableProvinces) {
+  const query = new URLSearchParams(search);
+  const available = new Set(availableProvinces);
+  let province = available.has(query.get('province')) ? query.get('province') : '';
+  let provinces = [...new Set((query.get('provinces') || '').split(',').filter(code => available.has(code)))].sort().join(',');
+  const scope = ['all', 'single', 'multiple'].includes(query.get('scope')) ? query.get('scope') : provinces ? 'multiple' : province ? 'single' : 'all';
+  if (scope === 'all') { province = ''; provinces = ''; }
+  if (scope === 'single') { province ||= available.has('ZJ') ? 'ZJ' : [...available][0] || ''; provinces = ''; }
+  if (scope === 'multiple') province = '';
+  const view = ['home', 'browse', 'contestant', 'discover', 'sources'].includes(query.get('view')) ? query.get('view') : 'home';
+  const group = ['J', 'S', 'all'].includes(query.get('group')) ? query.get('group') : view === 'discover' ? 'all' : 'S';
+  const problem = contestProblemOptions(group).includes(query.get('problem')) ? query.get('problem') : '';
+  return {
+    view, scope, province, provinces, group,
+    query: query.get('q') || '', problem,
+    sort: ['id', 'bytes', 'files', 'discussions', 'recent'].includes(query.get('sort')) ? query.get('sort') : 'id',
+    direction: query.get('direction') === 'desc' ? 'desc' : 'asc',
+    batch: [60, 120, 240].includes(Number(query.get('batch'))) ? Number(query.get('batch')) : 60,
+    directory: validDirectory(query.get('directory')) ? query.get('directory') : '',
+    file: validDirectory(query.get('directory')) && validFilePath(query.get('file')) && query.get('file').startsWith(`${query.get('directory')}/`) ? query.get('file') : '',
+  };
+}
+
+export function scopeGroups(groups, { scope = 'all', province = '', provinces = '', group = 'all' } = {}) {
+  const selected = new Set(text(provinces).split(','));
+  return groups.filter(item => (group === 'all' || item.group === group)
+    && (scope === 'all' || (scope === 'single' ? item.province === province : selected.has(item.province))));
+}
+
+/** Search chooses folders; entering one always exposes its complete contents. */
+export function browseContestants(files, { query = '', problem = '' } = {}) {
+  const wanted = text(query).trim().toLocaleLowerCase(), task = text(problem).toLocaleLowerCase();
+  return groupContestants(files).flatMap(item => {
+    const matchedFiles = item.files.filter(file => (!task || text(file.problem).toLocaleLowerCase() === task)
+      && (!wanted || [item.contestant, item.id, file.path, file.name, file.problem].join(' ').toLocaleLowerCase().includes(wanted)));
+    return matchedFiles.length ? [{ ...item, matchedFiles, matchedFileCount: matchedFiles.length }] : [];
+  });
+}
+
+/** Exact raw directory prefix: whitespace, casing and nested names are retained. */
+export function contestantTree(files, directory) {
+  if (!validDirectory(directory)) return null;
+  const create = (name, path) => ({ name, path, directories: new Map(), files: [], fileCount: 0 });
+  const root = create(directory.split('/')[2], directory), seen = new Set();
+  for (const file of files) {
+    if (!validFilePath(file?.path) || !file.path.startsWith(`${directory}/`) || seen.has(file.path)) continue;
+    seen.add(file.path);
+    const relative = file.path.slice(directory.length + 1).split('/');
+    let parent = root;
+    parent.fileCount++;
+    for (const part of relative.slice(0, -1)) {
+      if (!parent.directories.has(part)) parent.directories.set(part, create(part, `${parent.path}/${part}`));
+      parent = parent.directories.get(part);
+      parent.fileCount++;
+    }
+    parent.files.push({ ...file, name: relative.at(-1) });
+  }
+  const ordered = item => ({ ...item,
+    directories: [...item.directories.values()].sort((a, b) => natural.compare(a.name, b.name) || comparePath(a.name, b.name)).map(ordered),
+    files: item.files.sort((a, b) => natural.compare(a.name, b.name) || comparePath(a.path, b.path)),
+  });
+  return ordered(root);
+}
+
+/** Load only catalog metadata, at most four requests at a time. Stale routes
+ * stop scheduling. Failed shards remain explicit, never a complete global rank. */
+export async function loadScopeCatalogs(groups, loadGroup, { onProgress = () => {}, isCurrent = () => true, concurrency = 4 } = {}) {
+  const results = Array(groups.length), failedGroups = [];
+  let next = 0, completed = 0;
+  async function worker() {
+    while (isCurrent() && next < groups.length) {
+      const index = next++, group = groups[index];
+      try {
+        const data = await loadGroup(group);
+        if (!isCurrent()) break;
+        if (!Array.isArray(data.files) || (data.extraFiles !== undefined && !Array.isArray(data.extraFiles))) throw new Error('文件目录格式无效');
+        const entries = new Map();
+        for (const [files, previewable] of [[data.files, true], [data.extraFiles || [], false]]) {
+          for (const file of files) {
+            if (!validFilePath(file?.path) || !file.path.startsWith(`${group.province}/${group.group}/`) || entries.has(file.path)) continue;
+            entries.set(file.path, previewable || file.previewable === true ? file : { ...file, previewable: false });
+          }
+        }
+        results[index] = [...entries.values()];
+      } catch (error) {
+        if (!isCurrent()) break;
+        failedGroups.push({ group, message: error.message || '目录读取失败' });
+      }
+      completed++;
+      if (isCurrent()) onProgress({ completed, total: groups.length, failed: failedGroups.length });
+    }
+  }
+  const count = Math.min(groups.length, Math.max(1, Math.min(4, Math.floor(concurrency) || 4)));
+  await Promise.all(Array.from({ length: count }, worker));
+  return { files: isCurrent() ? results.flatMap(files => files || []) : [], failedGroups, cancelled: !isCurrent() };
+}
+
+/** Legacy source candidates work; extras require byte inspection at publication. */
+export function catalogPreviewFiles(data) {
+  return [...data.files.filter(file => file.previewable !== false), ...(data.extraFiles || []).filter(file => file.previewable === true)].map(file => file.contestant ? file : { ...file, contestant: file.path.split('/')[2].trim().toUpperCase() });
+}
+export function previewUnavailableLabel(file) {
+  return ({ 'too-large': '超过 2 MiB 预览上限', 'binary': '二进制文件', 'not-in-snapshot': '阅读能力待核验' })[file.previewReason] || '阅读能力待核验';
 }

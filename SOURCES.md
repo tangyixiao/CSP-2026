@@ -2,6 +2,9 @@
 
 This index separates where material came from, what has been checked and which rights are documented. A GitHub file URL identifies an archived copy; it is not proof of its original publisher or permission to redistribute it. Source records may be incomplete, and records supplied by the maintainer are not described as independently authenticated official packages.
 
+The dated [verification and collection progress](docs/verification-progress.md) connects these source records to edition status, outstanding evidence and collection requests. Presence, byte comparison and official-source authentication remain separate states.
+
+
 ## Contestant files and official material
 
 | Material | Record or original entry | Verification boundary |
@@ -83,7 +86,7 @@ The eight retained font files were identified from their embedded family names a
 
 ## NOI appearance reference
 
-The [official NOI homepage](https://noi.cn/) was visually inspected again on 2026-11-10 for the corrected optional site appearance: a separate masthead, full red navigation (`#D22525`), navy active items/headings (`#29255C`), white content panels and pale gray background. The maintainer approved [the corrected root and NOI compositions](docs/design/root-home-noi-approved.png). This is an appearance reference, not an affiliation or a copied official portal. No official logo, news banner or article image is imported. The NOI site appearance is separate from the NOI Linux editor reading profiles and remains optional.
+The [official NOI homepage](https://noi.cn/) was visually inspected again on 2026-11-10 for the corrected optional site appearance: a separate masthead, full red navigation (`#D22525`), navy active items/headings (`#29255C`), white content panels and pale gray background. The maintainer approved [the corrected root and NOI compositions](docs/design/root-home-noi-approved.png). This is an appearance reference, not an affiliation or a copied official portal. No official logo, news banner or article image is imported. This 2026-11-10 record describes the then-optional appearance. The approved shared shell published on 2026-11-12 defaults new visitors to the red-navigation layout while preserving saved choices; editor reading profiles remain independent.
 
 ## Regional illustration provenance
 

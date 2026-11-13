@@ -1,3 +1,5 @@
+import { renderSiteHeader } from '../shared/site-header.js';
+import { renderBrandMark } from '../shared/brand.js';
 import { cpSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -12,49 +14,49 @@ const names = {
 const copy = {
   'zh-CN':{
     nav:['首页','功能','下载与使用','社区'],preview:'新版网站预览',formal:'返回正式网站',language:'选择语言',theme:'选择主题',themes:['浅色','深色','跟随系统'],menu:'导航菜单',skip:'跳到正文',
-    eyebrow:'CSP-J/S 2026 · 第二轮',headline:'CSP 2026<br>第二轮源代码归档',intro:'按省份、组别和考号查找选手提交。在线阅读、并排比对，也可下载原始归档。',browse:'打开代码库',download:'下载与使用',regions:'个地区',groups:'个组别',cases:'条比较材料',
-    screen:'代码工作台 · 真实界面',try:'打开工作台 ↗',caption:'按考号查阅文件，选择 A、B 两份代码即可并排比对。图中为归档文件的实际阅读界面。',
-    taskTitle:'从一份提交开始',taskText:'知道考号就可以直接搜索；也可以先选省份与组别，再按题目浏览。原始文件名和目录结构保留在档案中。',taskLink:'按考号查找 →',
-    compareTitle:'看代码，也看差异',compareText:'将两份提交放到一起，查看具体修改行。每条讨论材料都保留来源，作者报告的相似度与文件逐字节是否一致分别呈现。',compareLink:'查看比较材料 →',
+    eyebrow:'CSP-J/S 2026 · 第二轮',headline:'CSP 2026<br>第二轮源代码归档',intro:'按省份、组别和考号查找选手文件，在线阅读、比较或下载。',browse:'打开代码库',download:'下载与使用',regions:'个地区',groups:'个组别',cases:'条比较材料',
+    screen:'代码阅读与比较',try:'打开阅读器 ↗',caption:'选择 A、B 两份文件后，可并排查看差异。',
+    taskTitle:'按考号查找文件',taskText:'知道考号就可以直接搜索；也可以先选省份与组别，再按题目浏览。原始文件名和目录结构保留在档案中。',taskLink:'按考号查找 →',
+    compareTitle:'看代码，也看差异',compareText:'选择两份文件，逐行查看差异。比较材料附有原帖来源，相似度记录与字节比对结果分别列出。',compareLink:'查看比较材料 →',
     coverage:'当前归档',coverageText:'已收录的地区与组别以本次发布的目录为准。所有入口都可以从站内浏览器继续检索。',
-    featuresTitle:'查阅、比对，再回到原始文件',featuresIntro:'从选手提交到具体代码行，用同一份归档完成查找、阅读和交流。',
+    featuresTitle:'查找、阅读与比较',featuresIntro:'按考号找到文件，打开阅读，选择另一份代码比较。',
     findTitle:'找到一名选手的文件',findText:'按省份与 J/S 组别缩小范围，再输入考号、题目或文件名。保留特殊大小写、无扩展名文件与备份文件的原始路径。',
     diffTitle:'两份代码，逐行比较',diffText:'支持并排与内联差异、差异跳转、复制分享链接。源码字节摘要与忽略空白后的显示差异各有说明。',
     keepTitle:'下载保留原样',keepText:'可以下载单个文件、选手目录 ZIP，或整个省份的 J/S 归档。文件下载保留原始字节；压缩保存的大文件保留 .gz 后缀。',
     downloadsTitle:'下载与使用',downloadsIntro:'在线查阅不需要下载整份仓库。需要本地保存时，按文件、选手或省份选择范围。',snapshot:'2026-11-08 归档快照',snapshotMeta:'各省独立 ZIP · 包含已收录 J/S 与来源记录',release:'查看发布记录 ↗',
-    downloadMode:'下载模式',international:'国际直连',domestic:'国内加速',internationalNote:'直连 GitHub 官方 Release；所有下载均保留原始内容。',domesticNote:'通过第三方 GH-Proxy 加速公开文件下载；请使用 SHA-256 校验。',proxy:'加速服务说明 ↗',
+    downloadMode:'下载模式',international:'国际直连',domestic:'国内加速',internationalNote:'从 GitHub Release 下载地区归档包。',domesticNote:'通过第三方 GH-Proxy 加速公开文件下载；请使用 SHA-256 校验。',proxy:'加速服务说明 ↗',
     provinceTitle:'按省份下载',search:'搜索省份或缩写',zip:'下载 ZIP ↓',empty:'没有匹配的省份，请尝试中文、英文或省份缩写。',checksums:'下载 SHA256SUMS',checksumsNote:'校验文件与各省 ZIP 一同保存在 Release。',
-    singleTitle:'只需要一个文件',singleText:'在代码工作台中选中文件，点击“下载文件”。支持原始 CPP、文本、备份及其他归档文件。',singleLink:'进入代码工作台 →',
-    folderTitle:'下载一名选手的目录',folderText:'在工作台中选择任意一份提交，再点“下载选手目录”。ZIP 保留选手目录内的文件名与相对路径。',
+    singleTitle:'只需要一个文件',singleText:'打开文件，点击“下载文件”，保存 CPP、文本、备份或其他归档文件。',singleLink:'打开阅读器 →',
+    folderTitle:'下载一名选手的目录',folderText:'打开选手文件夹，点击“下载选手目录 ZIP”。压缩包保留文件名与相对路径。',
     gitTitle:'按范围检出 Git 仓库',gitText:'只在需要维护版本或增量同步时使用。下面以上海 S 为例：',
     limit:'GitHub 目录页只显示前 1,000 项。上海 S 实际有 1,505 个选手目录，最大考号为 SH-S01518；完整文件可在站内检索、直接访问或下载。',
     communityTitle:'一起完善这份归档',communityIntro:'补充缺失材料、报告文件问题，或围绕具体代码参与交流。',
     communityRows:[['＋','补充缺失材料','目前仍在征集宁夏、香港、澳门 J/S。请提供来源、组别与可核验的文件信息。'],['↗','报告文件问题','反馈缺失、损坏、路径错误或同一路径出现不同版本。'],['⌘','参与代码讨论','从具体文件或比较材料进入评论，使用 GitHub 登录即可参与。']],
     contribution:'贡献与来源要求',contributionText:'提交补充材料时保留原始文件，附上来源和校验信息；不要在公开 Issue、提交或评论中上传密码和凭据。',
-    footer:'选手文件的原始内容与来源信息分别保留',readme:'归档说明',docs:'使用文档',issues:'反馈问题',
+    footer:'CSP-J/S 2026 · 试题与选手文件归档',readme:'归档说明',docs:'使用文档',issues:'反馈问题',
   },
   en:{
     nav:['Home','Features','Get started','Community'],preview:'Website preview',formal:'Open current website',language:'Choose language',theme:'Choose theme',themes:['Light','Dark','System'],menu:'Navigation menu',skip:'Skip to content',
-    eyebrow:'CSP-J/S 2026 · Second round',headline:'CSP 2026<br>Contestant code archive',intro:'Find a submission by region, group and contestant ID. Read it online, compare two files, or download the original archive.',browse:'Open code browser',download:'Get the archive',regions:'regions',groups:'groups',cases:'comparison records',
-    screen:'Code workbench · Actual interface',try:'Open workbench ↗',caption:'Find a contestant file, then select two files as A and B to compare them. This is the actual interface with archived code.',
-    taskTitle:'Start with a submission',taskText:'Search by contestant ID, or select a region and group before choosing a problem. Original filenames and directory structures remain in the archive.',taskLink:'Find a contestant →',
-    compareTitle:'Read the code. See the changes',compareText:'Compare two submissions and inspect individual changed lines. Source attribution is retained; reported similarity and independently checked byte identity are shown separately.',compareLink:'Browse comparisons →',
+    eyebrow:'CSP-J/S 2026 · Second round',headline:'CSP 2026<br>Contestant code archive',intro:'Find contestant files by region, group and ID. Read, compare or download them.',browse:'Open code browser',download:'Get the archive',regions:'regions',groups:'groups',cases:'comparison records',
+    screen:'Code reader and comparison',try:'Open reader ↗',caption:'Select files A and B to compare them side by side.',
+    taskTitle:'Find files by contestant ID',taskText:'Search by contestant ID, or select a region and group before choosing a problem. Original filenames and directory structures remain in the archive.',taskLink:'Find a contestant →',
+    compareTitle:'Read the code. See the changes',compareText:'Compare two files line by line. Comparison records link to their sources and list reported similarity and byte checks separately.',compareLink:'Browse comparisons →',
     coverage:'Archive coverage',coverageText:'These regions and groups are present in the current published catalog. Continue into the browser to search the complete file list.',
-    featuresTitle:'Find a submission. Read the original',featuresIntro:'One archive for finding files, comparing code and discussing the details.',
+    featuresTitle:'Find, read and compare files',featuresIntro:'Search by contestant ID, open a file and choose another to compare.',
     findTitle:'Find a contestant file',findText:'Choose a region and J/S group, then search by contestant, problem or filename. Original casing, extensionless filenames and backups retain their original paths.',
     diffTitle:'Compare two files line by line',diffText:'Use side-by-side or inline views, jump between changes and share the exact selection. Byte identity remains separate from differences shown after ignoring whitespace.',
     keepTitle:'Download the original bytes',keepText:'Download a file, a contestant directory ZIP or a region archive containing both groups. Oversized sources stored with a .gz suffix keep their compressed original.',
     downloadsTitle:'Download and get started',downloadsIntro:'You can read code without downloading the whole repository. For local use, choose a file, contestant directory or region.',snapshot:'Archive snapshot · 2026-11-08',snapshotMeta:'One ZIP per region · Available J/S groups and source records',release:'Release notes ↗',
-    downloadMode:'Download mode',international:'International · GitHub',domestic:'China · Accelerated',internationalNote:'Direct links to GitHub Releases. Downloads preserve the original archive contents.',domesticNote:'Third-party GH-Proxy accelerates public downloads. Verify the downloaded files with SHA-256.',proxy:'About the proxy ↗',
+    downloadMode:'Download mode',international:'International · GitHub',domestic:'China · Accelerated',internationalNote:'Download region archives from GitHub Releases.',domesticNote:'Third-party GH-Proxy accelerates public downloads. Verify the downloaded files with SHA-256.',proxy:'About the proxy ↗',
     provinceTitle:'Download a region',search:'Search region or code',zip:'Download ZIP ↓',empty:'No matching region. Try its Chinese name, English name or code.',checksums:'Download SHA256SUMS',checksumsNote:'Checksums are published alongside the region ZIPs in the release.',
     singleTitle:'Download one file',singleText:'Select a file in the code browser and choose Download file. Original CPP, text, backup and other archived bytes are preserved.',singleLink:'Open code browser →',
-    folderTitle:'Download a contestant directory',folderText:'Select any submission and choose Download contestant directory. The ZIP retains filenames and relative paths inside that contestant folder.',
+    folderTitle:'Download a contestant directory',folderText:'Open a contestant folder and choose Download contestant directory ZIP. The ZIP retains filenames and relative paths.',
     gitTitle:'Check out only the region you need',gitText:'Use Git when you need version history or incremental updates. This example checks out Shanghai Senior:',
     limit:'GitHub directory pages show only the first 1,000 entries. Shanghai Senior contains 1,505 contestant directories through SH-S01518. Use the online browser, direct links or downloads for the complete files.',
     communityTitle:'Help improve the archive',communityIntro:'Contribute missing materials, report file issues or discuss the code in context.',
     communityRows:[['＋','Contribute missing materials','Ningxia J/S, Hong Kong J/S and Macau J/S are still being sought. Include the source, group and verifiable file information.'],['↗','Report a file issue','Report missing or damaged files, incorrect paths or differing versions at one path.'],['⌘','Discuss the code','Open comments from a file or comparison and sign in with GitHub to take part.']],
     contribution:'Contributions and provenance',contributionText:'Keep the original files and include their source and verification information. Do not publish passwords or credentials in issues, commits or comments.',
-    footer:'Original contestant files and their source records are preserved',readme:'Archive notes',docs:'Documentation',issues:'Report an issue',
+    footer:'CSP-J/S 2026 · Papers and contestant files',readme:'Archive notes',docs:'Documentation',issues:'Report an issue',
   },
 };
 const pageNames = ['index','features','downloads','community'];
@@ -82,7 +84,7 @@ export function renderProjectPage(page, language, { catalog, caseCount = 39 } = 
   const image = `<img src="${assets}workbench.png" alt="${escape(t.screen)}" width="1266" height="712" loading="lazy">`;
   const browserLink = `${root}code/`;
   let content = '';
-  if (page === 'index') content = `<section class="intro"><p class="eyebrow">${t.eyebrow}</p><h1>${t.headline}</h1><p class="lede">${t.intro}</p><div class="hero-actions"><a class="button" href="${browserLink}">${t.browse} <span aria-hidden="true">↗</span></a><a href="downloads.html">${t.download} →</a></div><div class="facts"><span>${provinces.length} ${t.regions}</span><span>${catalog.groups.length} ${t.groups}</span><span>${caseCount} ${t.cases}</span></div></section>
+  if (page === 'index') content = `<section class="intro brand-intro">${renderBrandMark()}<p class="eyebrow">${t.eyebrow}</p><h1>${t.headline}</h1><p class="lede">${t.intro}</p><div class="hero-actions"><a class="button" href="${browserLink}">${t.browse} <span aria-hidden="true">↗</span></a><a href="downloads.html">${t.download} →</a></div><div class="facts"><span>${provinces.length} ${t.regions}</span><span>${catalog.groups.length} ${t.groups}</span><span>${caseCount} ${t.cases}</span></div></section>
   <figure class="workbench-figure"><div class="figure-toolbar"><span>${t.screen}</span><a href="${browserLink}">${t.try}</a></div><a class="workbench-image" href="${browserLink}">${image}</a><figcaption>${t.caption}</figcaption></figure>
   <section class="section"><div class="task-row"><h2>${t.taskTitle}</h2><div><p>${t.taskText}</p><a href="${browserLink}">${t.taskLink}</a></div></div><div class="task-row"><h2>${t.compareTitle}</h2><div><p>${t.compareText}</p><a href="${browserLink}?case=sd-j01423-sd-j01948-card">${t.compareLink}</a></div></div></section>
   <section class="section"><h2>${t.coverage}</h2><p class="section-lead">${t.coverageText}</p><div class="province-inline">${provinces.map(code=>`<a href="${browserLink}?province=${code}&group=S" title="${escape((names[code]||[code,code])[en?1:0])}">${code}</a>`).join('')}</div></section>`;
@@ -100,7 +102,7 @@ git sparse-checkout add /SH/S/</pre></section>`;
     content=`<section class="page-intro"><p class="eyebrow">${t.nav[3]}</p><h1>${t.communityTitle}</h1><p>${t.communityIntro}</p></section><ul class="community-list">${t.communityRows.map(([icon,title,text],i)=>`<li><a href="${links[i]}"><span class="community-icon" aria-hidden="true">${icon}</span><div><h2>${title}</h2><p>${text}</p></div><span class="arrow" aria-hidden="true">→</span></a></li>`).join('')}</ul><section class="section"><h2>${t.contribution}</h2><p class="section-lead">${t.contributionText}</p><p class="section-lead"><a href="${REPOSITORY}/blob/main/CONTRIBUTING.md">${t.readme} ↗</a></p></section>`;
   }
   const otherLanguage = en ? `../${page}.html` : `en/${page}.html`;
-  return `<!doctype html><html lang="${language}" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${escape(page==='index'?t.intro:t.downloadsIntro)}"><meta name="color-scheme" content="light dark"><meta name="robots" content="noindex"><title>${escape(t.nav[pageNames.indexOf(page)])} · CSP 2026</title><script src="${assets}theme.js"></script><link rel="stylesheet" href="${assets}site.css"></head><body><a class="skip" href="#main">${t.skip}</a><div class="preview-strip"><div class="wrap"><span>${t.preview}</span><a href="${root}">${t.formal} ↗</a></div></div><header class="site-header"><div class="wrap header-inner"><a class="brand" href="index.html"><span aria-hidden="true">⌘</span>CSP 2026</a><nav class="main-nav" aria-label="${t.menu}">${pageNames.map((name,i)=>`<a href="${name}.html"${page===name?' aria-current="page"':''}>${t.nav[i]}</a>`).join('')}</nav><div class="header-tools"><details class="picker"><summary aria-label="${t.language}">${en?'English':'简体中文'}</summary><div class="picker-menu"><a lang="zh-CN" href="${en?otherLanguage:page+'.html'}"${!en?' aria-current="true"':''}>简体中文</a><a lang="en" href="${en?page+'.html':otherLanguage}"${en?' aria-current="true"':''}>English</a></div></details><details class="picker theme-picker"><summary aria-label="${t.theme}"><span class="theme-current">${t.themes[0]}</span></summary><div class="picker-menu">${t.themes.map((label,i)=>`<button type="button" data-theme-choice="${['light','dark','system'][i]}" aria-pressed="${i===0}">${label}</button>`).join('')}</div></details><a href="${REPOSITORY}">GitHub ↗</a></div><button class="menu-toggle" type="button" aria-label="${t.menu}" aria-expanded="false" hidden>☰</button></div></header><main id="main" class="wrap">${content}</main><footer class="site-footer"><div class="wrap footer-inner"><p>CSP 2026 · ${t.footer}</p><nav><a href="${root}docs.html">${t.docs}</a><a href="${REPOSITORY}">GitHub</a><a href="${REPOSITORY}/issues/new/choose">${t.issues}</a></nav></div></footer><script type="module" src="${assets}site.js"></script></body></html>\n`;
+  return `<!doctype html><html lang="${language}" data-site-shell="true" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${escape(page==='index'?t.intro:t.downloadsIntro)}"><meta name="color-scheme" content="light dark"><meta name="robots" content="noindex"><link rel="icon" href="${root}favicon.svg" type="image/svg+xml"><title>${escape(t.nav[pageNames.indexOf(page)])} · CSP 2026</title><script src="${assets}theme.js"></script><link rel="stylesheet" href="${assets}site.css"><link rel="stylesheet" href="${assets}site-shell.css"></head><body><a class="skip" href="#main">${t.skip}</a>${renderSiteHeader({ root, active: page === 'index' ? 'home' : page, language })}<main id="main" class="wrap">${content}</main><footer class="site-footer"><div class="wrap footer-inner"><p>CSP 2026 · ${t.footer}</p><nav><a href="${otherLanguage}" lang="${en?'zh-CN':'en'}">${en?'简体中文':'English'}</a><a href="${root}docs.html">${t.docs}</a><a href="${REPOSITORY}">GitHub</a><a href="${REPOSITORY}/issues/new/choose">${t.issues}</a></nav></div></footer><script type="module" src="${assets}site.js"></script></body></html>\n`;
 }
 
 export function writeProjectPreview(outputDirectory, options) {
@@ -109,6 +111,7 @@ export function writeProjectPreview(outputDirectory, options) {
   for (const file of ['site.css','site.js','theme.js','download-mode.js','workbench.png']) {
     cpSync(resolve(sourceDirectory,file),resolve(outputDirectory,'assets',file));
   }
+  for (const file of ['site-shell.css', 'site-shell.js', 'site-header.js', 'site-init.js', 'theme.js', 'brand.js']) cpSync(resolve(sourceDirectory, '../shared', file), resolve(outputDirectory, 'assets', file));
   for (const language of ['zh-CN','en']) for (const page of pageNames) {
     writeFileSync(resolve(outputDirectory,language==='en'?'en':'',page+'.html'),renderProjectPage(page,language,options));
   }

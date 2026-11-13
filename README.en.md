@@ -1,4 +1,4 @@
-<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/logo-dark.svg"><img src="docs/assets/readme/logo.svg" width="240" height="144" alt="CSP-J/S 2026 informatics archive wordmark"></picture></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/logo-dark.svg"><img src="docs/assets/readme/logo.svg" width="300" height="74" alt="CSP-J/S 2026 informatics archive wordmark"></picture></p>
 
 <h1 align="center">CSP-2026</h1>
 
@@ -20,18 +20,32 @@ CSP-J/S 2026 first-round papers and reference materials, second-round statements
 
 [Paper PDFs](https://tangyixiao.github.io/CSP-2026/papers/) · [Browse online](https://tangyixiao.github.io/CSP-2026/) · [Read and compare code](https://tangyixiao.github.io/CSP-2026/code/) · [Region downloads](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) · [Sources](SOURCES.md) · [Contribute](CONTRIBUTING.md)
 
-![The national archive homepage running with actual catalog data](docs/design/runtime-root-home-csp-desktop.png)
+<a id="recent-updates"></a>
+
+## Recent updates
+
+| Date | Category | Published change | Record |
+| --- | --- | --- | --- |
+| 2026-11-13 | Archive materials | Replace Round 2 Gym PDFs with 13-page contest-layout copies | [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57) |
+| 2026-11-12 | Website | Shared compact random selection, cross-region reader scopes and direct search-hit navigation | [PR #66](https://github.com/tangyixiao/CSP-2026/pull/66) |
+| 2026-11-12 | Website/docs | Task-based usage guide, explicit actions and actionable failure messages | [PR #65](https://github.com/tangyixiao/CSP-2026/pull/65) |
+| 2026-11-12 | Website | Compact nationwide indexes, one Appearance menu and revised Chinese/English copy | [PR #64](https://github.com/tangyixiao/CSP-2026/pull/64) |
+| 2026-11-08 | Archive release | 29 region ZIPs, checksums and release index | [Archive snapshot](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) |
+
+[The full changelog](CHANGELOG.md) lists website/docs changes and archive materials separately. Inventory dates and revisions are recorded with the statistics below.
+
+![The national archive homepage running with actual catalog data](docs/design/runtime-brand-home-20261112.jpg)
 
 ## First- and second-round papers
 
 | Material | Read online | Repository copy | Edition |
 | --- | --- | --- | --- |
-| Round 1 · Junior J | [Reference only](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-j-2026.pdf) | [9-page reference](papers/round-1/csp-j-2026.pdf) | **Original missing**; third-party reference |
-| Round 1 · Senior S | [Reference only](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-s-2026-community.pdf) | [14-page typeset reference and answers](papers/round-1/csp-s-2026-community.pdf) | **Original missing**; community reference |
-| Round 2 · Junior J | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [13-page contest paper](papers/round-2/csp-j-2026.pdf) | Original contest layout and file I/O |
-| Round 2 · Senior S | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [13-page contest paper](papers/round-2/csp-s-2026.pdf) | Original contest layout and file I/O |
+| Round 1 · Junior J | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-j-2026.pdf) | [9-page paper](papers/round-1/csp-j-2026.pdf) | Third-party public copy |
+| Round 1 · Senior S | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-1/csp-s-2026-community.pdf) | [14-page paper and answers](papers/round-1/csp-s-2026-community.pdf) | Community typeset edition |
+| Round 2 · Junior J | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-j-2026.pdf) | [13-page statements](papers/round-2/csp-j-2026.pdf) | Contest layout with file I/O |
+| Round 2 · Senior S | [Open PDF](https://tangyixiao.github.io/CSP-2026/papers/round-2/csp-s-2026.pdf) | [13-page statements](papers/round-2/csp-s-2026.pdf) | Contest layout with file I/O |
 
-The [paper library](https://tangyixiao.github.io/CSP-2026/papers/) provides browser reading and PDF downloads. The [material guide](papers/README.md) also links first-round OCR, community reference answers and discussion, exam information, and second-round official test data. Round 2 PDFs preserve the contest layout and file I/O and match contestant-distributed files. Original Round 1 PDFs are still missing; community references do not count as originals. See the guide for provenance and verification boundaries.
+The [paper library](https://tangyixiao.github.io/CSP-2026/papers/) provides browser reading and PDF downloads. The [material guide](papers/README.md) also links first-round OCR, community reference answers and discussion, exam information, and second-round official test data. Round 2 PDFs preserve the contest layout and file I/O; see the guide for editions, sources and checksums.
 
 <a id="what-you-can-use-today"></a>
 
@@ -41,13 +55,84 @@ Open the website to browse without installing anything:
 
 | What you need | Where to start |
 | --- | --- |
-| Find a contestant or problem | Search the [archive homepage](https://tangyixiao.github.io/CSP-2026/), or select a region and J/S group in the [regional browser](https://tangyixiao.github.io/CSP-2026/code/browse.html?view=browse) |
+| Find a contestant or problem | Search the [archive homepage](https://tangyixiao.github.io/CSP-2026/), or select a region and J/S group in the [archive browser](https://tangyixiao.github.io/CSP-2026/code/browse.html?view=browse) |
 | Read or compare code | Select a file in the [reader](https://tangyixiao.github.io/CSP-2026/code/); select two files for a side-by-side or inline diff |
-| Download a file or contestant directory | Open a file and use the original-file or contestant-directory ZIP download |
+| Download a file or contestant directory | Use Download file in the reader for one file, or open a contestant folder and choose Download contestant directory ZIP |
 | Save a region's materials | Choose a region on the [download page](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) |
 | Ask a question, discuss code or share materials | Use [Discussions](https://github.com/tangyixiao/CSP-2026/discussions); report a concrete file or website problem through [Issues](https://github.com/tangyixiao/CSP-2026/issues/new/choose) |
 
-The reader supports syntax highlighting, changed-line navigation and shareable selections. Regional browsing includes sorting, random contestant and random problem actions. Project introduction pages provide Chinese and English with light, dark and system appearance. The website displays and downloads archived files; it does not compile or run contestant programs.
+The reader supports syntax highlighting, changed-line navigation and shareable selections. The website displays and downloads archived files; it does not compile or run contestant programs.
+
+<a id="faq"></a>
+
+## FAQ
+
+<details>
+<summary>Why do some files open in hexadecimal?</summary>
+
+Preview mode follows the bytes rather than only the extension. Recognized text opens in the text reader; binary content uses a read-only hexadecimal/ASCII view with offsets and 16 KiB pages. Use it to inspect file bytes and readable characters.
+
+</details>
+
+<details>
+<summary>Does display formatting change copied or downloaded originals?</summary>
+
+Original text is the default. Opt-in C/C++ formatting changes the reading/diff display. Copying uses the original decoded text; original downloads, Git blob verification and SHA-256 use the archived bytes. The complete `.clang-format` can be edited, imported or exported; Apply default configuration restores the bundled settings. Displayed line numbers and differences can change.
+
+</details>
+
+<details>
+<summary>Why is only an original-file link available, or a ZIP download refused?</summary>
+
+Online previews are limited to 2 MiB per file. Oversized entries show a concrete reason and retain an original-file link. Complete contestant ZIP creation in the browser is limited to 64 MiB; use a region release above that limit. Gzip expansion is bounded; failed or oversized expansion can fall back to archived compressed bytes or the original download.
+
+</details>
+
+<details>
+<summary>How do I search, sort or compare across provinces?</summary>
+
+Choose nationwide scope or selected provinces in the browser, then choose group, task and order. Sorting covers the complete selected scope. The reader offers the same scope controls, so files from different provinces can be selected as A and B. Opening files, switching reading/comparison and sharing links retain scope and search state; switching J/S resets incompatible task filters.
+
+</details>
+
+<details>
+<summary>Why do file counts, directory counts and people counts differ?</summary>
+
+Counts use archive paths at the stated revision. Files include backups, empty files and versions; contestant directories are counted separately for each group. People and valid submissions require separate records. Unknown sizes are labeled and sort last.
+
+</details>
+
+<details>
+<summary>Are all paper PDFs authenticated official originals?</summary>
+
+Round 2 J/S now provide 13-page contest-layout copies with covers, submission rules and file I/O, checked against contestant-distributed PDFs. Round 1 retains third-party and community references; original PDFs are still needed. See [verification progress](docs/verification-progress.md#papers) for official publication evidence.
+
+</details>
+
+<details>
+<summary>Why does a task-filtered contestant folder still contain other files?</summary>
+
+The outer filter selects contestant directories. Cards show matching files first and highlight search terms. Clicking a filename focuses that file in the complete folder tree, which retains other tasks, backups and nested folders. Batches default to 60 folders, with 120 and 240 options.
+
+</details>
+
+<a id="verification-progress"></a>
+
+## Verification and collection progress
+
+<details>
+<summary>Recorded status and requested materials (reviewed 2026-11-12)</summary>
+
+| Material | Recorded scope | Still needed |
+| --- | --- | --- |
+| Round 1 J/S original PDFs | The published library contains third-party/community copies | Original files and official publication entries |
+| Round 2 J/S contest-layout PDFs | **Obtained, 13 pages each; supplied-package correspondence checks recorded**; see [details](docs/verification-progress.md#papers) | Available in the paper library; direct official publication entries still needed |
+| Regional contestant files | 29 regions and 58 group catalogs; verification scope varies | Ningxia, Hong Kong and Macao J/S; original-publication and independent source records for existing regions |
+| Official test data | J/S directories and official notice link recorded | Consolidated retrieval, checksum and source records |
+
+[The detailed status table](docs/verification-progress.md) lists recorded publication entries, checks, status and missing materials, with evidence in [SOURCES.md](SOURCES.md) and [the paper guide](papers/README.md). Acquisition, package checks and publication progress are listed separately.
+
+</details>
 
 <a id="coverage-and-interpretation"></a>
 
@@ -61,7 +146,7 @@ Inventory checked on **2026-11-09**, at archive revision [`e55a367f`](https://gi
 | Paths classified as source or text | 168,484 | 114,868 | 283,352 |
 | Contestant/group directory identifiers | 43,147 | 32,362 | 75,509 |
 
-Both groups cover the same **29 regions**. These are directory-derived counts, not unique people or valid submissions. Backups, empty files, invalid code and source-named binary content may be present. This repository does not provide official scores. See [Sources](SOURCES.md) for regional completeness and verification scope.
+Both groups cover the same **29 regions**. Counts include backups, empty files, invalid code and binary content stored with source filenames. People and valid submissions require separate records. See [Sources](SOURCES.md) for each region's materials and source records.
 
 Files usually follow `region/group/contestant/problem/file`. Original casing, unusual names, extensionless files and nested directories are retained. Some GitHub directory views display at most 1,000 entries; use the website or region downloads to browse complete directories.
 
@@ -108,11 +193,13 @@ Files usually follow `region/group/contestant/problem/file`. Original casing, un
 
 ## Downloads and local browsing
 
-Single-file downloads preserve original bytes and filenames. A contestant ZIP includes the directory's tracked entries, including files outside the source preview catalog. Individual source previews are limited to **2 MiB**; browser-generated contestant ZIPs are limited to **64 MiB**. Use the original-file link or a region release for larger materials.
+Single-file downloads preserve original bytes and filenames. A contestant ZIP contains all archived files in that directory, including files without an online preview. Individual source previews are limited to **2 MiB**; browser-generated contestant ZIPs are limited to **64 MiB**. Use the original-file link or a region release for larger materials.
 
 The published [`archive-2026-11-08`](https://github.com/tangyixiao/CSP-2026/releases/tag/archive-2026-11-08) release contains **29 region ZIPs**, `SHA256SUMS` and `release-index.json`. Its manifest defines that version's contents. Compare downloaded files' SHA-256 values with the checksum list when verification is needed. The download page offers GitHub direct links and an explicitly identified third-party acceleration service.
 
-Some oversized sources use lossless `.gz` compression; decompress them to recover the original bytes. Git does not preserve empty directories. Zhejiang's original packages and answer summaries remain under `ZJ/J/` and `ZJ/S/`; the corresponding `answers.zip` restores the original package's empty-directory layout.
+Some oversized sources use lossless `.gz` compression; decompress them to recover the original bytes.
+
+Git does not track empty directories. Extract the corresponding `answers.zip` to restore the official package's complete directory layout.
 
 When version control is useful, check out only the region and group you need. For example, to browse Shanghai Senior:
 
@@ -124,13 +211,20 @@ git sparse-checkout set SH/S
 
 Checking out a selected directory downloads its files. A full working copy contains many small files and may use substantially more disk space than the compressed archives. Expand the checkout as needed.
 
+<details>
+<summary>How do I verify SHA-256 after downloading?</summary>
+
+Put the ZIP and `SHA256SUMS` from the same release in one directory. Copy the matching [PowerShell](docs/download-verification.md#powershell), [Linux](docs/download-verification.md#linux) or [macOS](docs/download-verification.md#macos) steps from [the verification guide](docs/download-verification.md). Each example checks only the chosen file; you do not need every ZIP listed in the manifest. If the digest differs, confirm the release and filename, then download again. Report persistent mismatches with release, filename and computed digest.
+
+</details>
+
 <a id="sources-verification-and-corrections"></a>
 
 ## Sources and interpretation
 
 [SOURCES.md](SOURCES.md) indexes official publication links, supplied packages, regional verification records, public discussions and website assets. Official test data is retained under [Junior](test-data/J/official) and [Senior](test-data/S/official). Regional illustrations are AI-generated, with provenance recorded in the same source index.
 
-Code comparisons show text or byte differences. Collected similarity materials retain their authors and original sources. An author's claims, computed differences and official findings have different meanings and are not interchangeable; consult the corresponding record for its sources and verification scope.
+Code comparisons show text or byte differences. Comparison materials link to their authors and original sources; each record states which checks have been completed.
 
 ## Feedback and contributions
 
@@ -150,6 +244,21 @@ Preserve original filenames, paths and bytes when contributing archive materials
 ## Website development
 
 The website uses Node.js 22 or newer and npm. See the [website maintenance guide](website/README.md) for development commands, local previews, complete source snapshots and Pages packaging. In a partial clone, read its bounded-preview instructions before downloading the entire archive for a small change. Appearance and runtime verification records are in the [design record](docs/design/root-noi-classic-plus.md).
+
+<a id="maintainer-navigation"></a>
+
+## Maintainer quick navigation
+
+| Change | File |
+| --- | --- |
+| Logo vector paths | [website/shared/brand.js](website/shared/brand.js) |
+| Navigation and header | [website/shared/site-header.js](website/shared/site-header.js) |
+| Shared colors and layout | [website/shared/site-shell.css](website/shared/site-shell.css) |
+| Default appearance and preferences | [website/shared/theme.js](website/shared/theme.js) |
+| Default formatter configuration | [website/src/default-clang-format.txt](website/src/default-clang-format.txt) |
+| Source index and paper manifest | [SOURCES.md](SOURCES.md) |
+
+Per-paper source records live in [papers/sources.json](papers/sources.json); regional evidence is indexed by [SOURCES.md](SOURCES.md). See [the website maintenance guide](website/README.md) for complete development and packaging instructions.
 
 ## Star History
 

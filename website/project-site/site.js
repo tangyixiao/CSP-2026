@@ -1,48 +1,6 @@
+import { mountSiteShell } from './site-shell.js';
 import { downloadUrl, DOWNLOAD_MODE_KEY, savedDownloadMode } from './download-mode.js';
-
-const nav = document.querySelector('.main-nav');
-const toggle = document.querySelector('.menu-toggle');
-if (toggle && nav) {
-  toggle.hidden = false;
-  const close = () => { nav.dataset.open = 'false'; toggle.setAttribute('aria-expanded', 'false'); };
-  toggle.addEventListener('click', () => {
-    const open = toggle.getAttribute('aria-expanded') !== 'true';
-    toggle.setAttribute('aria-expanded', String(open)); nav.dataset.open = String(open);
-  });
-  nav.addEventListener('click', close);
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-      close(); toggle.focus();
-    }
-  });
-}
-
-const pickers = [...document.querySelectorAll('details.picker')];
-for (const picker of pickers) picker.addEventListener('toggle', () => {
-  if (picker.open) for (const other of pickers) if (other !== picker) other.open = false;
-});
-document.addEventListener('click', event => {
-  for (const picker of pickers) if (!picker.contains(event.target)) picker.open = false;
-});
-document.addEventListener('keydown', event => {
-  const picker = pickers.find(item => item.open);
-  if (event.key !== 'Escape' || !picker) return;
-  picker.open = false; picker.querySelector('summary').focus(); event.preventDefault();
-}, true);
-const theme = window.CspProjectTheme;
-function updateTheme() {
-  for (const button of document.querySelectorAll('[data-theme-choice]')) {
-    const active = button.dataset.themeChoice === theme.getChoice();
-    button.setAttribute('aria-pressed', String(active));
-    if (active) document.querySelector('.theme-current').textContent = button.textContent.trim();
-  }
-}
-for (const button of document.querySelectorAll('[data-theme-choice]')) button.addEventListener('click', () => {
-  theme.setChoice(button.dataset.themeChoice); button.closest('details').open = false;
-  button.closest('details').querySelector('summary').focus();
-});
-document.addEventListener('csp-project-theme', updateTheme);
-if (theme) updateTheme();
+mountSiteShell();
 
 function setMode(mode) {
   const selected = mode === 'domestic' ? 'domestic' : 'international';
