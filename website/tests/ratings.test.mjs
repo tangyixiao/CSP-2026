@@ -16,12 +16,13 @@ test('official rating coverage is independent of the 29-region code archive', ()
 });
 
 test('news have verified dates, official sources, explicit regional scopes and no duplicate records', () => {
-  assert.equal(NEWS.items.length,51);
+  assert.equal(NEWS.items.length,11);
   assert.equal(new Set(NEWS.items.map(item=>item.id)).size,NEWS.items.length);
   const known=new Set(['national',...RATINGS.groups.J.regions.map(row=>row.code)]);
   for (const [i,item] of NEWS.items.entries()) {
     assert.ok(known.has(item.region),item.id);
-    assert.ok(['csp','certificate','noip','selection','rules'].includes(item.topic));
+    assert.ok(['csp','certificate','rules'].includes(item.topic));
+    assert.match(item.title,/CSP/);
     assert.ok(item.summary.length>15 && item.summary.length<180);
     assert.equal(item.verifiedAt,NEWS.checkedAt);
     assert.ok(/^2026-\d{2}-\d{2}$/.test(item.publishedAt));
@@ -30,20 +31,16 @@ test('news have verified dates, official sources, explicit regional scopes and n
     assert.ok(['noi.cn','noi.ccf.org.cn'].includes(new URL(item.url).hostname));
     assert.ok(!/var arg1|Article.HitCount/.test(item.summary));
   }
-  assert.equal(NEWS.items.filter(item=>item.region!=='national').length,35);
-  assert.equal(new Set(NEWS.items.filter(item=>item.region!=='national').map(item=>item.region)).size,26);
+  assert.ok(NEWS.items.every(item=>item.region==='national'));
 });
 
-test('news dates do not conflate certificate rounds, province deadlines or source date conflicts', () => {
+test('CSP-only news preserve certificate round boundaries and exclude other events from data and UI', () => {
   const html=renderRatingsPage();
-  assert.equal((renderRelatedNews().match(/data-news-item /g)||[]).length,51);
+  assert.equal((renderRelatedNews().match(/data-news-item /g)||[]).length,11);
   assert.ok(html.includes('第一轮证书｜11 月 20 日截止'));
   assert.ok(html.includes('第一轮证书办理通知不适用于第二轮证书'));
-  assert.ok(html.includes('省组织单位须在 11 月 16 日 15:00 前报最终名单'));
-  assert.ok(html.includes('11 月 23 日 14:00 前完成个人信息最终确认'));
-  assert.ok(html.includes('云南已报名选手｜11 月 15 日 23:00'));
-  assert.ok(html.includes('原文核对提示'));
-  assert.ok(NEWS.items.find(item=>item.id==='948017').note.includes('2025'));
+  assert.doesNotMatch(html,/NOIP|NOI\s*2027|女生竞赛|云南公示/);
+  assert.doesNotMatch(JSON.stringify(NEWS),/NOIP|NOI\s*2027|女生竞赛/);
   assert.ok(NEWS.items.find(item=>item.id==='933744').historical);
   assert.ok(NEWS.items.find(item=>item.id==='933470').historical);
   assert.ok(html.includes('历史通知 · 办理期限已结束'));

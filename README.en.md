@@ -39,13 +39,12 @@ offered. See the [official rules](https://noi.cn/xw/2026-11-13/947969.shtml)
 and verify individual ratings through the [official lists](https://noi.ccf.org.cn/hjmd/mdgs/2026/2026-11-13/948515.shtml)
 or [award lookup](https://noi.cn/hjmd/mdcx/).
 
-The [related-news section](https://tangyixiao.github.io/CSP-2026/ratings.html#related-news)
-indexes 51 official notices checked on 2026-11-15, including rating results,
-Round 1 certificates, NOIP and the girls' competition, NOI 2027 selection and
-rating terminology. Topic and region filters retain national notices for the
-selected region. The page separates publication dates, deadlines, certificate
-rounds, regional scope and source-date conflicts. This is a bounded collection,
-not a claim of complete provincial coverage.
+The [CSP news section](https://tangyixiao.github.io/CSP-2026/ratings.html#related-news)
+contains 11 official notices directly about CSP-J/S, checked on 2026-11-15:
+results, rating rules, certificates, appeals, disciplinary decisions,
+registration, fee assistance, round advancement and rating terminology.
+Topic filters preserve the independent rating filters. Certificate rounds,
+publication dates and application deadlines are labeled separately.
 
 <a id="recent-updates"></a>
 

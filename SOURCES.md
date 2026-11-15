@@ -28,31 +28,24 @@ Canonical structured data: [ratings-2026.json](website/data/ratings-2026.json).
 Second/third-level table entries are derived from the published conditional
 rules, excluding recipients of higher levels. Archive coverage remains separate.
 
-### Related official news (checked 2026-11-15)
+### CSP official news (checked 2026-11-15)
 
-[news-2026.json](website/data/news-2026.json) contains 51 dated, short summaries
-with direct official article links: 16 national notices and 35 regional notices
-covering 26 regions. The collection inspected the first two national-news pages
-and first five combined provincial-news pages, plus the rating-list and girls'
-competition announcements. It is not an exhaustive collection of every province
-or a claim that no later notice exists elsewhere. Article bodies were checked;
-HTTP 200 responses containing a challenge page were rejected as content evidence.
+[news-2026.json](website/data/news-2026.json) contains 11 short, dated summaries
+of official notices directly about CSP-J/S: results, ratings, certificates,
+appeals, disciplinary decisions, registration, fee assistance, round advancement
+and rating terminology. Each entry has a direct official article URL and a
+verification date. This is a bounded CSP collection, not a complete news mirror.
+Article bodies were checked; HTTP 200 challenge pages were rejected as evidence.
 
 Key sources include [Round 1 certificates](https://noi.cn/xw/2026-10-16/940603.shtml),
-[NOIP registration](https://noi.cn/xw/2026-10-12/938849.shtml),
-[NOIP quotas](https://noi.cn/xw/2026-10-12/938438.shtml),
-[girls' competition](https://noi.cn/xw/2026-10-12/938850.shtml),
-[NOI 2027 selection rules](https://noi.cn/xw/2026-09-11/930020.shtml),
-[NOI 2027 quota calculations](https://noi.cn/xw/2026-10-28/944054.shtml) and
-[CSP rating terminology](https://noi.cn/xw/2026-09-09/930554.shtml).
-Each regional entry identifies its own scope; regional experience eligibility
-and selection formulas must not be generalized to the whole country.
-
-The [Yunnan publication](https://noi.cn/gs/xw/yn/2026-11-11/948017.shtml) has a
-conflicting year in its public-notice date range (the ending year reads 2025).
-The separately explicit correction deadline is 2026-11-15 23:00. The website
-reports that explicit deadline and flags the date-range conflict; it does not
-silently repair the original interval. No personal contestant lists are mirrored.
+[Round 1 rating lines](https://noi.cn/xw/2026-10-10/938437.shtml),
+[Round 2 registration](https://noi.cn/xw/2026-09-29/933744.shtml),
+[fee assistance](https://noi.cn/xw/2026-09-29/933470.shtml),
+[round advancement](https://noi.cn/xw/2026-09-24/934543.shtml) and
+[rating terminology](https://noi.cn/xw/2026-09-09/930554.shtml), alongside the
+Round 2 result/rating sources above. Round 1 certificate deadlines do not apply
+to Round 2 certificates. Expired application notices are labeled historical.
+Individual contestant data is not mirrored.
 
 ## Contestant files and official material
 
