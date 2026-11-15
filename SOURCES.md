@@ -5,6 +5,29 @@ This index separates where material came from, what has been checked and which r
 The dated [verification and collection progress](docs/verification-progress.md) connects these source records to edition status, outstanding evidence and collection requests. Presence, byte comparison and official-source authentication remain separate states.
 
 
+## Round 2 results and ratings (2026-11-13)
+
+[CCF rating rules and provincial table](https://noi.cn/xw/2026-11-13/947969.shtml)
+provide national reference scores, 32 provincial first-level cutoffs and
+first-level recipient counts (J: 9,014 / 20.55%; S: 6,607 / 20.24%). The source
+table's count is the number receiving Level 1, not all participants. National
+references are not substitutes for provincial first-level cutoffs.
+
+[The rating announcement](https://noi.ccf.org.cn/hjmd/mdgs/2026/2026-11-13/948515.shtml)
+links all six official J/S Level 1–3 lists. The website links to these lists
+without importing individual contestants' personal data. Individual scores are
+queried in the [registration system](https://cspsjtest.noi.cn/); award and
+certificate-number records use the [official lookup](https://noi.cn/hjmd/mdcx/).
+
+[The score/appeal notice](https://noi.cn/xw/2026-11-05/945674.shtml),
+[appeal scope](https://noi.cn/xw/2026-11-05/945690.shtml) and
+[disciplinary announcement](https://noi.cn/xw/2026-11-13/947980.shtml) supply the
+related dates and authoritative entry points. Data and URLs were checked on
+2026-11-15. Only numeric facts are summarized; official articles are not mirrored.
+Canonical structured data: [ratings-2026.json](website/data/ratings-2026.json).
+Second/third-level table entries are derived from the published conditional
+rules, excluding recipients of higher levels. Archive coverage remains separate.
+
 ## Contestant files and official material
 
 | Material | Record or original entry | Verification boundary |

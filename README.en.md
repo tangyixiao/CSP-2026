@@ -20,6 +20,25 @@ CSP-J/S 2026 first-round papers and reference materials, second-round statements
 
 [Paper PDFs](https://tangyixiao.github.io/CSP-2026/papers/) · [Browse online](https://tangyixiao.github.io/CSP-2026/) · [Read and compare code](https://tangyixiao.github.io/CSP-2026/code/) · [Region downloads](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) · [Sources](SOURCES.md) · [Contribute](CONTRIBUTING.md)
 
+## Round 2 results and ratings
+
+CCF published the Round 2 rating rules and lists on November 13. The
+[results page](https://tangyixiao.github.io/CSP-2026/ratings.html) covers all 32
+regions, first-level cutoffs and recipient counts, conditional second/third-level
+thresholds, six official lists, personal lookup links, appeal dates and a CSV.
+
+| Group | National Level 1 reference | Level 1 recipients / proportion |
+| --- | --- | --- |
+| CSP-J Junior | 252 | 9,014 / 20.55% |
+| CSP-S Senior | 159 | 6,607 / 20.24% |
+
+National references differ from provincial first-level cutoffs: Zhejiang is
+291 for J and 200 for S. Where the provincial first-level cutoff is below the
+national reference, Level 2 starts at 114 for J or 35 for S, and Level 3 is not
+offered. See the [official rules](https://noi.cn/xw/2026-11-13/947969.shtml)
+and verify individual ratings through the [official lists](https://noi.ccf.org.cn/hjmd/mdgs/2026/2026-11-13/948515.shtml)
+or [award lookup](https://noi.cn/hjmd/mdcx/).
+
 <a id="recent-updates"></a>
 
 ## Recent updates

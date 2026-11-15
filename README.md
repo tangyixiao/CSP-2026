@@ -20,6 +20,17 @@
 
 [试题 PDF](https://tangyixiao.github.io/CSP-2026/papers/) · [在线浏览](https://tangyixiao.github.io/CSP-2026/) · [代码阅读与对比](https://tangyixiao.github.io/CSP-2026/code/) · [分地区下载](https://tangyixiao.github.io/CSP-2026/preview/downloads.html) · [资料来源](SOURCES.md) · [参与贡献](CONTRIBUTING.md)
 
+## 第二轮成绩与评级
+
+CCF 于 11 月 13 日公布第二轮评级规则及名单。[成绩与评级页面](https://tangyixiao.github.io/CSP-2026/ratings.html)整理 32 个地区的一级分数线、一级人数、二三级适用起点、六份官方名单、个人查询入口和申诉时间，并提供 CSV 下载。
+
+| 组别 | 全国一级基准线 | 一级人数／比例 |
+| --- | --- | --- |
+| CSP-J 入门组 | 252 分 | 9,014 人／20.55% |
+| CSP-S 提高组 | 159 分 | 6,607 人／20.24% |
+
+全国基准线与本省一级线不同，例如浙江 J 为 291 分、S 为 200 分。一级线低于全国一级基准线的地区，J 二级从 114 分起、S 二级从 35 分起，均不设三级。完整规则见 [CCF 官方公告](https://noi.cn/xw/2026-11-13/947969.shtml)，个人正式评级以[官方名单](https://noi.ccf.org.cn/hjmd/mdgs/2026/2026-11-13/948515.shtml)和[获奖查询](https://noi.cn/hjmd/mdcx/)为准。
+
 <a id="recent-updates"></a>
 
 ## 最近更新

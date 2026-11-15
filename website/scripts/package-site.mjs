@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { writeProjectPreview } from '../project-site/render.mjs';
 import { renderRootHome, ROOT_FEATURED_REGIONS } from './root-home.mjs';
+import { renderRatingsPage, renderRatingsCSV } from './ratings.mjs';
 
 const websiteRoot = path.resolve(fileURLToPath(new URL('../', import.meta.url)));
 const landingRoot = path.join(websiteRoot, 'landing');
@@ -130,6 +131,8 @@ writeProjectPreview(path.join(outputRoot,'preview'),{ catalog, caseCount:project
 const paperIndex = path.join(outputRoot, 'papers/index.html');
 if (existsSync(paperIndex)) writeFileSync(paperIndex, readFileSync(paperIndex, 'utf8').replace('__SITE_HEADER__', renderSiteHeader({ root: '../', active: 'papers' })));
 writeFileSync(path.join(outputRoot, 'index.html'), pinRevision(landingHtml));
+writeFileSync(path.join(outputRoot, 'ratings.html'), renderRatingsPage({ archiveRegions: sortedProvinces.map(([code]) => code) }));
+writeFileSync(path.join(outputRoot, 'ratings.csv'), renderRatingsCSV());
 writeFileSync(path.join(outputRoot, 'docs.html'), pinRevision(documentationHtml));
 writeFileSync(path.join(outputRoot, '.nojekyll'), '');
 writeFileSync(path.join(outputRoot, 'source-receipt.json'), JSON.stringify({
@@ -153,7 +156,7 @@ writeFileSync(path.join(outputRoot, 'source-receipt.json'), JSON.stringify({
     complete: sourcePacks.complete,
     limit: sourcePacks.limit,
   },
-  paths: { landing: '/', documentation: 'docs.html', nationalBrowser: 'code/browse.html', codeBrowser: 'code/', projectPreview: 'preview/', papers: 'papers/' },
+  paths: { landing: '/', documentation: 'docs.html', nationalBrowser: 'code/browse.html', codeBrowser: 'code/', projectPreview: 'preview/', papers: 'papers/', ratings: 'ratings.html', ratingData: 'ratings.csv' },
 }, null, 2) + '\n');
 
 console.log(`Packaged ${sortedProvinces.length} provinces and ${catalog.groups.length} groups at ${catalog.revision}`);

@@ -16,10 +16,10 @@ test('Pages packaging includes every displayed regional illustration and preserv
     const website = path.join(fixture, 'website');
     await mkdir(path.join(website, 'scripts'), { recursive: true });
     await mkdir(path.join(website, 'src'), { recursive: true });
-    for (const entry of ['landing', 'project-site', 'shared', 'src/assets']) {
+    for (const entry of ['landing', 'project-site', 'shared', 'src/assets', 'data']) {
       await cp(path.join(repository, 'website', entry), path.join(website, entry), { recursive: true });
     }
-    for (const entry of ['scripts/package-site.mjs', 'scripts/root-home.mjs', 'src/regions.js', 'src/cases.json']) {
+    for (const entry of ['scripts/package-site.mjs', 'scripts/root-home.mjs', 'scripts/ratings.mjs', 'src/regions.js', 'src/cases.json']) {
       await cp(path.join(repository, 'website', entry), path.join(website, entry));
     }
     await cp(path.join(repository, 'project.json'), path.join(fixture, 'project.json'));
@@ -55,6 +55,11 @@ test('Pages packaging includes every displayed regional illustration and preserv
     for (const asset of ['site-shell.css', 'site-shell.js', 'site-header.js', 'theme.js', 'brand.js']) assert.ok((await readFile(path.join(website, 'site-dist/assets', asset))).length);
     const favicon = await readFile(path.join(website, 'site-dist/favicon.svg'), 'utf8');
     assert.match(favicon, /viewBox="0 0 128 128"/);
+    const results = await readFile(path.join(website, 'site-dist/ratings.html'), 'utf8');
+    assert.equal((results.match(/<tr data-region=/g) || []).length, 64);
+    assert.match(results, /assets\/ratings\.js/);
+    const csv = await readFile(path.join(website, 'site-dist/ratings.csv'), 'utf8');
+    assert.equal(csv.trim().split('\r\n').length, 65);
   } finally {
     await rm(fixture, { recursive: true, force: true });
   }

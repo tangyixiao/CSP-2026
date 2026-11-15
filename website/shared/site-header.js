@@ -4,7 +4,7 @@ const navigation = [
   ['home', '', '首页', 'Home'], ['browse', 'code/browse.html?view=browse', '浏览', 'Browse'],
   ['discover', 'code/browse.html?view=discover', '发现', 'Discover'], ['view', 'code/?mode=view', '阅读', 'Read'],
   ['compare', 'code/?mode=split', '比较', 'Compare'], ['sources', 'code/browse.html?view=sources', '来源', 'Sources'],
-  ['papers', 'papers/', '试题', 'Papers'], ['downloads', 'preview/downloads.html', '下载', 'Downloads'], ['docs', 'docs.html', '文档', 'Docs'],
+  ['ratings', 'ratings.html', '成绩', 'Results'], ['papers', 'papers/', '试题', 'Papers'], ['downloads', 'preview/downloads.html', '下载', 'Downloads'], ['docs', 'docs.html', '文档', 'Docs'],
 ];
 
 export function renderSiteHeader({ root = './', active = 'home', language = 'zh-CN', reader = false } = {}) {
