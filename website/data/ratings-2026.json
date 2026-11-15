@@ -1,0 +1,451 @@
+{
+  "event": "CSP-J/S 2026",
+  "round": 2,
+  "publishedAt": "2026-11-13",
+  "checkedAt": "2026-11-15",
+  "rulesURL": "https://noi.cn/xw/2026-11-13/947969.shtml",
+  "listsURL": "https://noi.ccf.org.cn/hjmd/mdgs/2026/2026-11-13/948515.shtml",
+  "queryURL": "https://noi.cn/hjmd/mdcx/",
+  "scoreURL": "https://cspsjtest.noi.cn/",
+  "scoreNoticeURL": "https://noi.cn/xw/2026-11-05/945674.shtml",
+  "appealNoticeURL": "https://noi.cn/xw/2026-11-05/945690.shtml",
+  "disciplineURL": "https://noi.cn/xw/2026-11-13/947980.shtml",
+  "groups": {
+    "J": {
+      "name": "入门组",
+      "reference": [
+        252,
+        184,
+        114
+      ],
+      "firstCount": 9014,
+      "firstPercent": 20.55,
+      "regions": [
+        {
+          "code": "CQ",
+          "name": "重庆",
+          "firstCount": 205,
+          "firstCutoff": 295
+        },
+        {
+          "code": "ZJ",
+          "name": "浙江",
+          "firstCount": 711,
+          "firstCutoff": 291
+        },
+        {
+          "code": "SH",
+          "name": "上海",
+          "firstCount": 377,
+          "firstCutoff": 275
+        },
+        {
+          "code": "SC",
+          "name": "四川",
+          "firstCount": 521,
+          "firstCutoff": 275
+        },
+        {
+          "code": "BJ",
+          "name": "北京",
+          "firstCount": 532,
+          "firstCutoff": 265
+        },
+        {
+          "code": "GD",
+          "name": "广东",
+          "firstCount": 1352,
+          "firstCutoff": 261
+        },
+        {
+          "code": "FJ",
+          "name": "福建",
+          "firstCount": 496,
+          "firstCutoff": 261
+        },
+        {
+          "code": "AH",
+          "name": "安徽",
+          "firstCount": 362,
+          "firstCutoff": 261
+        },
+        {
+          "code": "HK",
+          "name": "香港",
+          "firstCount": 16,
+          "firstCutoff": 258
+        },
+        {
+          "code": "JS",
+          "name": "江苏",
+          "firstCount": 618,
+          "firstCutoff": 252
+        },
+        {
+          "code": "HN",
+          "name": "湖南",
+          "firstCount": 321,
+          "firstCutoff": 252
+        },
+        {
+          "code": "SD",
+          "name": "山东",
+          "firstCount": 731,
+          "firstCutoff": 247
+        },
+        {
+          "code": "HB",
+          "name": "湖北",
+          "firstCount": 219,
+          "firstCutoff": 244
+        },
+        {
+          "code": "JX",
+          "name": "江西",
+          "firstCount": 185,
+          "firstCutoff": 235
+        },
+        {
+          "code": "HA",
+          "name": "河南",
+          "firstCount": 275,
+          "firstCutoff": 233
+        },
+        {
+          "code": "MO",
+          "name": "澳门",
+          "firstCount": 18,
+          "firstCutoff": 233
+        },
+        {
+          "code": "TJ",
+          "name": "天津",
+          "firstCount": 220,
+          "firstCutoff": 233
+        },
+        {
+          "code": "SN",
+          "name": "陕西",
+          "firstCount": 180,
+          "firstCutoff": 230
+        },
+        {
+          "code": "SX",
+          "name": "山西",
+          "firstCount": 176,
+          "firstCutoff": 229
+        },
+        {
+          "code": "YN",
+          "name": "云南",
+          "firstCount": 132,
+          "firstCutoff": 227
+        },
+        {
+          "code": "HE",
+          "name": "河北",
+          "firstCount": 339,
+          "firstCutoff": 225
+        },
+        {
+          "code": "JL",
+          "name": "吉林",
+          "firstCount": 86,
+          "firstCutoff": 219
+        },
+        {
+          "code": "LN",
+          "name": "辽宁",
+          "firstCount": 158,
+          "firstCutoff": 218
+        },
+        {
+          "code": "GZ",
+          "name": "贵州",
+          "firstCount": 109,
+          "firstCutoff": 213
+        },
+        {
+          "code": "HI",
+          "name": "海南",
+          "firstCount": 90,
+          "firstCutoff": 213
+        },
+        {
+          "code": "XJ",
+          "name": "新疆",
+          "firstCount": 116,
+          "firstCutoff": 213
+        },
+        {
+          "code": "QH",
+          "name": "青海",
+          "firstCount": 10,
+          "firstCutoff": 213
+        },
+        {
+          "code": "HL",
+          "name": "黑龙江",
+          "firstCount": 135,
+          "firstCutoff": 212
+        },
+        {
+          "code": "GX",
+          "name": "广西",
+          "firstCount": 141,
+          "firstCutoff": 203
+        },
+        {
+          "code": "NM",
+          "name": "内蒙古",
+          "firstCount": 106,
+          "firstCutoff": 198
+        },
+        {
+          "code": "GS",
+          "name": "甘肃",
+          "firstCount": 49,
+          "firstCutoff": 198
+        },
+        {
+          "code": "NX",
+          "name": "宁夏",
+          "firstCount": 28,
+          "firstCutoff": 193
+        }
+      ],
+      "lists": [
+        {
+          "level": 1,
+          "url": "https://www.noi.cn/upload/resources/file/2026/11/13/CCF CSP-JS 2026第二轮入门组一级名单.htm"
+        },
+        {
+          "level": 2,
+          "url": "https://www.noi.cn/upload/resources/file/2026/11/13/CCF CSP-JS 2026第二轮入门组二级名单.htm"
+        },
+        {
+          "level": 3,
+          "url": "https://www.noi.cn/upload/resources/file/2026/11/13/CCF CSP-JS 2026第二轮入门组三级名单.htm"
+        }
+      ]
+    },
+    "S": {
+      "name": "提高组",
+      "reference": [
+        159,
+        85,
+        35
+      ],
+      "firstCount": 6607,
+      "firstPercent": 20.24,
+      "regions": [
+        {
+          "code": "CQ",
+          "name": "重庆",
+          "firstCount": 194,
+          "firstCutoff": 239
+        },
+        {
+          "code": "ZJ",
+          "name": "浙江",
+          "firstCount": 553,
+          "firstCutoff": 200
+        },
+        {
+          "code": "HN",
+          "name": "湖南",
+          "firstCount": 279,
+          "firstCutoff": 190
+        },
+        {
+          "code": "GD",
+          "name": "广东",
+          "firstCount": 875,
+          "firstCutoff": 190
+        },
+        {
+          "code": "SD",
+          "name": "山东",
+          "firstCount": 434,
+          "firstCutoff": 189
+        },
+        {
+          "code": "HK",
+          "name": "香港",
+          "firstCount": 24,
+          "firstCutoff": 183
+        },
+        {
+          "code": "SH",
+          "name": "上海",
+          "firstCount": 320,
+          "firstCutoff": 183
+        },
+        {
+          "code": "BJ",
+          "name": "北京",
+          "firstCount": 457,
+          "firstCutoff": 180
+        },
+        {
+          "code": "SC",
+          "name": "四川",
+          "firstCount": 383,
+          "firstCutoff": 180
+        },
+        {
+          "code": "FJ",
+          "name": "福建",
+          "firstCount": 378,
+          "firstCutoff": 179
+        },
+        {
+          "code": "JS",
+          "name": "江苏",
+          "firstCount": 424,
+          "firstCutoff": 168
+        },
+        {
+          "code": "HB",
+          "name": "湖北",
+          "firstCount": 177,
+          "firstCutoff": 138
+        },
+        {
+          "code": "SN",
+          "name": "陕西",
+          "firstCount": 144,
+          "firstCutoff": 136
+        },
+        {
+          "code": "AH",
+          "name": "安徽",
+          "firstCount": 229,
+          "firstCutoff": 132
+        },
+        {
+          "code": "JX",
+          "name": "江西",
+          "firstCount": 125,
+          "firstCutoff": 124
+        },
+        {
+          "code": "HA",
+          "name": "河南",
+          "firstCount": 207,
+          "firstCutoff": 124
+        },
+        {
+          "code": "JL",
+          "name": "吉林",
+          "firstCount": 70,
+          "firstCutoff": 108
+        },
+        {
+          "code": "TJ",
+          "name": "天津",
+          "firstCount": 160,
+          "firstCutoff": 108
+        },
+        {
+          "code": "LN",
+          "name": "辽宁",
+          "firstCount": 119,
+          "firstCutoff": 106
+        },
+        {
+          "code": "MO",
+          "name": "澳门",
+          "firstCount": 19,
+          "firstCutoff": 100
+        },
+        {
+          "code": "SX",
+          "name": "山西",
+          "firstCount": 120,
+          "firstCutoff": 100
+        },
+        {
+          "code": "GZ",
+          "name": "贵州",
+          "firstCount": 93,
+          "firstCutoff": 100
+        },
+        {
+          "code": "GX",
+          "name": "广西",
+          "firstCount": 123,
+          "firstCutoff": 100
+        },
+        {
+          "code": "HL",
+          "name": "黑龙江",
+          "firstCount": 109,
+          "firstCutoff": 100
+        },
+        {
+          "code": "YN",
+          "name": "云南",
+          "firstCount": 107,
+          "firstCutoff": 100
+        },
+        {
+          "code": "HE",
+          "name": "河北",
+          "firstCount": 258,
+          "firstCutoff": 100
+        },
+        {
+          "code": "HI",
+          "name": "海南",
+          "firstCount": 62,
+          "firstCutoff": 85
+        },
+        {
+          "code": "XJ",
+          "name": "新疆",
+          "firstCount": 78,
+          "firstCutoff": 85
+        },
+        {
+          "code": "NX",
+          "name": "宁夏",
+          "firstCount": 7,
+          "firstCutoff": 85
+        },
+        {
+          "code": "NM",
+          "name": "内蒙古",
+          "firstCount": 56,
+          "firstCutoff": 85
+        },
+        {
+          "code": "GS",
+          "name": "甘肃",
+          "firstCount": 19,
+          "firstCutoff": 85
+        },
+        {
+          "code": "QH",
+          "name": "青海",
+          "firstCount": 4,
+          "firstCutoff": 85
+        }
+      ],
+      "lists": [
+        {
+          "level": 1,
+          "url": "https://www.noi.cn/upload/resources/file/2026/11/13/CCF CSP-JS 2026第二轮提高组一级名单.htm"
+        },
+        {
+          "level": 2,
+          "url": "https://www.noi.cn/upload/resources/file/2026/11/13/CCF CSP-JS 2026第二轮提高组二级名单.htm"
+        },
+        {
+          "level": 3,
+          "url": "https://www.noi.cn/upload/resources/file/2026/11/13/CCF CSP-JS 2026第二轮提高组三级名单.htm"
+        }
+      ]
+    }
+  }
+}

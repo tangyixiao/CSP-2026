@@ -5,6 +5,48 @@ This index separates where material came from, what has been checked and which r
 The dated [verification and collection progress](docs/verification-progress.md) connects these source records to edition status, outstanding evidence and collection requests. Presence, byte comparison and official-source authentication remain separate states.
 
 
+## Round 2 results and ratings (2026-11-13)
+
+[CCF rating rules and provincial table](https://noi.cn/xw/2026-11-13/947969.shtml)
+provide national reference scores, 32 provincial first-level cutoffs and
+first-level recipient counts (J: 9,014 / 20.55%; S: 6,607 / 20.24%). The source
+table's count is the number receiving Level 1, not all participants. National
+references are not substitutes for provincial first-level cutoffs.
+
+[The rating announcement](https://noi.ccf.org.cn/hjmd/mdgs/2026/2026-11-13/948515.shtml)
+links all six official J/S Level 1–3 lists. The website links to these lists
+without importing individual contestants' personal data. Individual scores are
+queried in the [registration system](https://cspsjtest.noi.cn/); award and
+certificate-number records use the [official lookup](https://noi.cn/hjmd/mdcx/).
+
+[The score/appeal notice](https://noi.cn/xw/2026-11-05/945674.shtml),
+[appeal scope](https://noi.cn/xw/2026-11-05/945690.shtml) and
+[disciplinary announcement](https://noi.cn/xw/2026-11-13/947980.shtml) supply the
+related dates and authoritative entry points. Data and URLs were checked on
+2026-11-15. Only numeric facts are summarized; official articles are not mirrored.
+Canonical structured data: [ratings-2026.json](website/data/ratings-2026.json).
+Second/third-level table entries are derived from the published conditional
+rules, excluding recipients of higher levels. Archive coverage remains separate.
+
+### CSP official news (checked 2026-11-15)
+
+[news-2026.json](website/data/news-2026.json) contains 11 short, dated summaries
+of official notices directly about CSP-J/S: results, ratings, certificates,
+appeals, disciplinary decisions, registration, fee assistance, round advancement
+and rating terminology. Each entry has a direct official article URL and a
+verification date. This is a bounded CSP collection, not a complete news mirror.
+Article bodies were checked; HTTP 200 challenge pages were rejected as evidence.
+
+Key sources include [Round 1 certificates](https://noi.cn/xw/2026-10-16/940603.shtml),
+[Round 1 rating lines](https://noi.cn/xw/2026-10-10/938437.shtml),
+[Round 2 registration](https://noi.cn/xw/2026-09-29/933744.shtml),
+[fee assistance](https://noi.cn/xw/2026-09-29/933470.shtml),
+[round advancement](https://noi.cn/xw/2026-09-24/934543.shtml) and
+[rating terminology](https://noi.cn/xw/2026-09-09/930554.shtml), alongside the
+Round 2 result/rating sources above. Round 1 certificate deadlines do not apply
+to Round 2 certificates. Expired application notices are labeled historical.
+Individual contestant data is not mirrored.
+
 ## Contestant files and official material
 
 | Material | Record or original entry | Verification boundary |
