@@ -28,6 +28,32 @@ Canonical structured data: [ratings-2026.json](website/data/ratings-2026.json).
 Second/third-level table entries are derived from the published conditional
 rules, excluding recipients of higher levels. Archive coverage remains separate.
 
+### Related official news (checked 2026-11-15)
+
+[news-2026.json](website/data/news-2026.json) contains 51 dated, short summaries
+with direct official article links: 16 national notices and 35 regional notices
+covering 26 regions. The collection inspected the first two national-news pages
+and first five combined provincial-news pages, plus the rating-list and girls'
+competition announcements. It is not an exhaustive collection of every province
+or a claim that no later notice exists elsewhere. Article bodies were checked;
+HTTP 200 responses containing a challenge page were rejected as content evidence.
+
+Key sources include [Round 1 certificates](https://noi.cn/xw/2026-10-16/940603.shtml),
+[NOIP registration](https://noi.cn/xw/2026-10-12/938849.shtml),
+[NOIP quotas](https://noi.cn/xw/2026-10-12/938438.shtml),
+[girls' competition](https://noi.cn/xw/2026-10-12/938850.shtml),
+[NOI 2027 selection rules](https://noi.cn/xw/2026-09-11/930020.shtml),
+[NOI 2027 quota calculations](https://noi.cn/xw/2026-10-28/944054.shtml) and
+[CSP rating terminology](https://noi.cn/xw/2026-09-09/930554.shtml).
+Each regional entry identifies its own scope; regional experience eligibility
+and selection formulas must not be generalized to the whole country.
+
+The [Yunnan publication](https://noi.cn/gs/xw/yn/2026-11-11/948017.shtml) has a
+conflicting year in its public-notice date range (the ending year reads 2025).
+The separately explicit correction deadline is 2026-11-15 23:00. The website
+reports that explicit deadline and flags the date-range conflict; it does not
+silently repair the original interval. No personal contestant lists are mirrored.
+
 ## Contestant files and official material
 
 | Material | Record or original entry | Verification boundary |

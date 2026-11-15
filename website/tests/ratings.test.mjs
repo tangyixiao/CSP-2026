@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { RATINGS, ratingThresholds, renderRatingsPage, renderRatingsCSV } from '../scripts/ratings.mjs';
+import { RATINGS, NEWS, ratingThresholds, renderRatingsPage, renderRatingsCSV, renderRelatedNews } from '../scripts/ratings.mjs';
 
 test('official rating coverage is independent of the 29-region code archive', () => {
   for (const [group, count] of [['J',9014],['S',6607]]) {
@@ -13,6 +13,41 @@ test('official rating coverage is independent of the 29-region code archive', ()
   }
   const zj = group => RATINGS.groups[group].regions.find(row => row.code === 'ZJ');
   assert.deepEqual([zj('J').firstCutoff,zj('S').firstCutoff], [291,200]);
+});
+
+test('news have verified dates, official sources, explicit regional scopes and no duplicate records', () => {
+  assert.equal(NEWS.items.length,51);
+  assert.equal(new Set(NEWS.items.map(item=>item.id)).size,NEWS.items.length);
+  const known=new Set(['national',...RATINGS.groups.J.regions.map(row=>row.code)]);
+  for (const [i,item] of NEWS.items.entries()) {
+    assert.ok(known.has(item.region),item.id);
+    assert.ok(['csp','certificate','noip','selection','rules'].includes(item.topic));
+    assert.ok(item.summary.length>15 && item.summary.length<180);
+    assert.equal(item.verifiedAt,NEWS.checkedAt);
+    assert.ok(/^2026-\d{2}-\d{2}$/.test(item.publishedAt));
+    assert.ok(item.publishedAt<=NEWS.checkedAt);
+    if(i) assert.ok(NEWS.items[i-1].publishedAt>=item.publishedAt);
+    assert.ok(['noi.cn','noi.ccf.org.cn'].includes(new URL(item.url).hostname));
+    assert.ok(!/var arg1|Article.HitCount/.test(item.summary));
+  }
+  assert.equal(NEWS.items.filter(item=>item.region!=='national').length,35);
+  assert.equal(new Set(NEWS.items.filter(item=>item.region!=='national').map(item=>item.region)).size,26);
+});
+
+test('news dates do not conflate certificate rounds, province deadlines or source date conflicts', () => {
+  const html=renderRatingsPage();
+  assert.equal((renderRelatedNews().match(/data-news-item /g)||[]).length,51);
+  assert.ok(html.includes('第一轮证书｜11 月 20 日截止'));
+  assert.ok(html.includes('第一轮证书办理通知不适用于第二轮证书'));
+  assert.ok(html.includes('省组织单位须在 11 月 16 日 15:00 前报最终名单'));
+  assert.ok(html.includes('11 月 23 日 14:00 前完成个人信息最终确认'));
+  assert.ok(html.includes('云南已报名选手｜11 月 15 日 23:00'));
+  assert.ok(html.includes('原文核对提示'));
+  assert.ok(NEWS.items.find(item=>item.id==='948017').note.includes('2025'));
+  assert.ok(NEWS.items.find(item=>item.id==='933744').historical);
+  assert.ok(NEWS.items.find(item=>item.id==='933470').historical);
+  assert.ok(html.includes('历史通知 · 办理期限已结束'));
+  assert.ok(!html.includes('undefined'));
 });
 
 test('provincial rules handle below, equal and above the national reference', () => {

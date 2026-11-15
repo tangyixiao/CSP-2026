@@ -9,6 +9,30 @@
 .results-explainer { margin-bottom: 22px; }
 .results-explainer h2 { margin: 0; font-size: 16px; }
 .results-explainer .feature-body p { font-size: 14px; color: var(--ink); }
+.notice-dates { margin-bottom: 18px; }
+.notice-dates h2 { margin: 0; font-size: 16px; }
+.notice-dates ul { margin: 0; padding-left: 20px; }
+.notice-dates li { margin: 7px 0; font-size: 14px; line-height: 1.9; }
+.notice-dates a, .results-summary p a { color: var(--accent); }
+.news-section { margin: 18px 0; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+.news-section summary { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; padding: 14px 16px; cursor: pointer; }
+.news-section h2 { font-size: 18px; margin: 0; }
+#related-news, #related-news > summary, .results-page h2 { scroll-margin-top: calc(var(--header-height, 80px) + 16px); }
+.news-open, #related-news[open] .news-closed { display: none; }
+#related-news[open] .news-open { display: inline; }
+.news-section h2 span, .news-expand, .news-meta, .news-list small { color: var(--muted); font-size: 12px; font-weight: 400; }
+.news-content { padding: 0 16px 16px; }
+.news-content .news-coverage { color: var(--muted); font-size: 12px; }
+.news-list { list-style: none; margin: 18px 0 0; padding: 0; }
+.news-list li { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.news-list li[hidden], .news-filters[hidden] { display: none; }
+.news-meta { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.news-list h3 { margin: 6px 0; font-size: 16px; line-height: 1.7; overflow-wrap: anywhere; }
+.news-list h3 a { color: var(--accent); }
+.news-list p { margin: 6px 0; }
+.news-list .news-note { border-left: 3px solid var(--accent); padding-left: 10px; color: var(--muted); font-size: 13px; }
+.news-filters { margin-top: 16px; }
+.news-filters button { white-space: nowrap; }
 .rating-filters { display: flex; align-items: end; flex-wrap: wrap; gap: 12px 20px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; }
 .rating-filters[hidden], .rating-group[hidden], .rating-table tr[hidden] { display: none; }
 .rating-filters label { display: grid; gap: 6px; font-size: 13px; }

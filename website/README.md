@@ -24,6 +24,13 @@ Coverage follows the official 32-region rating table, independently of the
 29-region code archive. Conditional second/third-level rules are tested at the
 national reference boundaries. Sources and dates are recorded in `SOURCES.md`.
 
+The same renderer reads `data/news-2026.json` for the related-news section and
+dated certificate/NOIP highlights. News filters use separate URL parameters
+`newsTopic` and `newsProvince`, preserving the rating filters' `group`/`province`.
+Regional filtering retains national notices, and the collapsed native details
+remain readable without JavaScript. The canonical data records its bounded
+collection scope and preserves a warning for the Yunnan source's year conflict.
+
 ## Shared identity and presentation
 
 The maintainer-approved 2026-11-12 identity uses equal-height navy C/P and a curved crimson S from [`shared/brand.js`](shared/brand.js). Headers and homepage branding render the same SVG paths, including dark-mode colors. The README [light](../docs/assets/readme/logo.svg) and [dark](../docs/assets/readme/logo-dark.svg) exports use those exact paths; the current [homepage screenshot](../docs/design/runtime-brand-home-20261112.jpg) records the published page.
