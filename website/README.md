@@ -3,10 +3,11 @@
 The national archive homepage is the actual [`/CSP-2026/`](https://tangyixiao.github.io/CSP-2026/) root, with catalog-derived region cards, search and random actions. Contestant browsing is [`/CSP-2026/code/browse.html?view=browse`](https://tangyixiao.github.io/CSP-2026/code/browse.html?view=browse); the dedicated reader and comparison workbench is [`/CSP-2026/code/`](https://tangyixiao.github.io/CSP-2026/code/), with Monaco syntax highlighting and a side-by-side diff editor. Source snapshots are served from the same website, so a first visit does not depend on a connection to `raw.githubusercontent.com`. Public source materials are linked from the browser so readers can check the original observations and files. The root documentation remains available at `docs.html`.
 
 The root initially highlights five regions. Expanding **全部地区** adds the other
-24 as illustrated cards, each with its own J/S links and catalog-derived count.
-The packager includes all 29 WebP assets at the site root. Dark appearance adjusts
-the image brightness, overlay and captions together; light appearance retains its
-existing treatment.
+24 as illustrated cards, each with its own J/S links and catalog-derived count;
+the summary label swaps between 展开全部 29 个地区 and 收起其余 24 个地区 so the
+section can collapse again. The packager includes all 29 WebP assets at the site
+root. Dark appearance adjusts the image brightness, overlay and captions
+together; light appearance retains its existing treatment.
 
 The root navigation also links the [paper library](../papers/README.md). Its static
 page and preserved PDFs are copied from `papers/` to `site-dist/papers/`, providing
@@ -91,7 +92,18 @@ The archive browser represents each exact original contestant directory as a fol
 
 The scope selector supports nationwide aggregation, one fixed province and a selected set of provinces. Search and sorting operate across the complete selected scope, rather than separately within province sections. File-count and byte metrics use the whole directory, and unknown values remain last. Nationwide and larger multi-province scopes use a compact J/S browse index generated after catalog size enrichment. Each group needs one request; folder-relative paths omit blob IDs and preview metadata. One/two-shard cold scopes use their full catalogs, and later switches reuse loaded compact indexes. Opening a contestant still loads its full catalog. Requests are revision-pinned and coalesced; failures show partial results with a retry action. The default batch is 60 contestant folders, with 120 and 240 options and an explicit next-batch control. Scope, filters, order, batch size and exact directory identities are URL-addressable.
 
-Discovery, source attribution, random directory/problem navigation and two-file comparison remain available. The default reading view is CSP; Dev-C++/Geany are manually selected presentation profiles, separate from the site appearance setting. No contestant program is executed.
+The discover view samples reading entries directly from the archive instead of a
+fixed list. Each batch draws at most six province/group shards and nine files
+(three on the browser home) under the active province/group/problem filters,
+spreads entries across provinces and contestant directories, and offers a refresh
+that avoids the previous batch whenever fresh scope content exists. Every card
+still links the exact original directory, reader, and GitHub archive path.
+`src/discovery.js` owns the bounded sampling; `DISCOVERY_PROBLEMS` there lists the
+2026 J/S problem identifiers used by the problem filter and needs updating when a
+new contest year is archived. Source attribution, random directory/problem
+navigation and two-file comparison remain available. The default reading view is
+CSP; Dev-C++/Geany are manually selected presentation profiles, separate from the
+site appearance setting. No contestant program is executed.
 
 The browser's Vite base is relative (`./`) so its assets and worker files work at the repository's `/CSP-2026/code/` path. Keep the trailing slash when linking to that directory. Monaco is bundled from the `monaco-editor` npm package, including its worker; viewing code does not require VS Code to be installed.
 
