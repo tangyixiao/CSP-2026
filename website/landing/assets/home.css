@@ -61,6 +61,8 @@ a:hover { color: var(--accent); }
 .regions { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
 .region { grid-column: span 2; min-width: 0; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); overflow: hidden; }
 .region:first-child { grid-column: span 4; }
+.region-remainder { margin-top: 16px; }
+.region-remainder .region:first-child { grid-column: span 2; }
 .scene { display: block; position: relative; height: 174px; overflow: hidden; isolation: isolate; background: #fbfcfe; }
 .scene img { position: absolute; width: 100%; height: 100%; object-fit: cover; object-position: center 61%; z-index: -2; filter: hue-rotate(var(--hue, -35deg)) saturate(.57); }
 .scene::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, #fffffff5 0%, #ffffff75 34%, transparent 70%); }
@@ -75,10 +77,7 @@ a:hover { color: var(--accent); }
 .directory { margin: 12px 0 20px; }
 .directory > summary { width: fit-content; margin: auto; padding: 4px 12px; color: var(--accent); font-size: 13px; list-style: none; }
 .directory > summary::-webkit-details-marker { display: none; }
-.directory[open] > summary span { display: inline-block; transform: rotate(180deg); }
-.directory-panel { margin-top: 12px; border: 1px solid var(--line); border-radius: 7px; padding: 17px; background: var(--surface); }
-.directory-panel h2 { font-size: 18px; margin-bottom: 12px; color: var(--heading); }
-.directory-regions .region:first-child { grid-column: span 2; }
+.directory[open] > summary span[aria-hidden] { display: inline-block; transform: rotate(180deg); }
 .section-head { display: flex; justify-content: space-between; align-items: baseline; margin: 20px 0 12px; gap: 16px; }
 .section-head h2 { font-size: 21px; color: var(--heading); }
 .section-head a { color: var(--accent); font-size: 12px; }
@@ -116,13 +115,13 @@ html[data-appearance="noi"] .directory > summary { color: var(--heading); }
 html[data-appearance="noi"] .hero { padding: 22px 0 20px; }
 html[data-theme="dark"] { --ink: #e4ebf5; --muted: #a2b0c4; --accent: #89b8f5; --soft: #1a2d46; --line: #334256; --page: #111a28; --surface: #182435; --subtle: #1c2a3e; --heading: #eef4ff; color-scheme: dark; }
 html[data-theme="dark"][data-appearance="noi"] { --accent: #ff9b9b; --heading: #edf1ff; --page: #141a25; --soft: #372529; }
+html[data-theme="dark"] .button.primary { color: #101a2b; }
+html[data-theme="dark"][data-appearance="noi"] .button.primary { background: #d22525; border-color: #d22525; color: #fff; }
 html[data-theme="dark"] .scene { background: var(--surface); }
 html[data-theme="dark"] .scene img { filter: hue-rotate(var(--hue, -35deg)) saturate(.57) brightness(.58); }
 html[data-theme="dark"] .scene::after { background: linear-gradient(180deg, #142033f5 0%, #14203394 42%, #14203324 100%); }
 html[data-theme="dark"] .scene h2 { color: var(--heading); }
 html[data-theme="dark"] .scene h2 span, html[data-theme="dark"] .scene p { color: var(--muted); }
-html[data-theme="dark"] .button.primary { color: #101a2b; }
-html[data-theme="dark"][data-appearance="noi"] .button.primary { background: #d22525; border-color: #d22525; color: #fff; }
 
 @media (max-width: 1240px) {
   .wrap { margin-left: 25px; margin-right: 25px; }
@@ -161,6 +160,7 @@ html[data-theme="dark"][data-appearance="noi"] .button.primary { background: #d2
   .regions { grid-template-columns: 1fr 1fr; gap: 12px; }
   .region, .region:first-child { grid-column: span 1; }
   .region:first-child { grid-column: span 2; }
+  .region-remainder .region:first-child { grid-column: span 1; }
   .scene { height: 152px; }
   .region:first-child .scene { height: 164px; }
   .scene h2 { font-size: 22px; padding: 13px 12px 0; }
@@ -174,8 +174,6 @@ html[data-theme="dark"][data-appearance="noi"] .button.primary { background: #d2
   .section-head h2 { font-size: 19px; }
   .feature header { font-size: 12px; }
   .directory { margin: 9px 0 16px; }
-  .directory-panel { margin: 12px 0 0; padding: 12px; }
-  .directory-regions .region, .directory-regions .region:first-child { grid-column: span 1; }
   .footer { flex-wrap: wrap; gap: 9px; margin-top: 22px; font-size: 11px; }
   .footer nav { gap: 18px; }
 }

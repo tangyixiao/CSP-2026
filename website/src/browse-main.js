@@ -9,6 +9,7 @@ import { REGIONS, regionImage } from './regions.js';
 import { loadSource, githubUrl } from './source.js';
 import { SOURCE_INDEX_REVISION } from './provenance.js';
 import { saveContestantDirectory } from './downloads.js';
+import { DISCOVERY_LIMITS, DISCOVERY_PROBLEMS, selectDiscoveryGroups, selectDiscoveryFiles, discoveryKind } from './discovery.js';
 
 const siteShell = mountSiteShell({ root: '../', active: 'browse' });
 const $ = id => document.getElementById(id);
@@ -25,6 +26,8 @@ let loadBrowseScope;
 const state = { catalog: null, discussions: null, token: 0, cards: [], compare: [], busy: false, previousPerson: null, previousProblem: null };
 let previews = [], previewActive = 0, searchTimer;
 let navigationVersion = 0;
+let discoveryController, discoveryBatch = 0;
+let previousDiscovery = { groups: [], paths: [] };
 const number = value => Number(value).toLocaleString('zh-CN');
 const bytes = value => value == null ? '大小待补' : value < 1024 ? `${value} B` : value < 1048576 ? `${(value / 1024).toFixed(1)} KiB` : `${(value / 1048576).toFixed(1)} MiB`;
 const node = (tag, className, text) => { const value = document.createElement(tag); if (className) value.className = className; if (text !== undefined) value.textContent = text; return value; };
@@ -90,36 +93,75 @@ function renderHome() {
   const preferred = ['ZJ', 'BJ', 'SC', 'SH', 'GD'];
   const codes = preferred.filter(code => regionCodes().includes(code));
   const covers = node('div', 'region-grid'); covers.append(...codes.slice(0, 5).map(regionCover)); $('content').append(covers);
-  $('content').append(button(`全部 ${regionCodes().length} 个地区 ↓`, openRegions, 'all-regions'), sectionHeading('发现文件', routeURL({ view: 'discover' }), '前往发现 →'));
+  const remaining = regionCodes().filter(code => !codes.includes(code)), moreRegions = node('div', 'region-grid compact all-region-grid'); moreRegions.hidden = true;
+  const expandRegions = button(`全部 ${regionCodes().length} 个地区 ↓`, () => { moreRegions.append(...remaining.map(regionCover)); moreRegions.hidden = false; expandRegions.setAttribute('aria-expanded', 'true'); expandRegions.hidden = true; }, 'all-regions'); expandRegions.setAttribute('aria-expanded', 'false');
+  $('content').append(expandRegions, moreRegions, sectionHeading('发现文件', routeURL({ view: 'discover', group: 'all', province: '', problem: '' }), '前往发现 →'));
   void renderDiscoveries(false);
 }
-const discoveries = [
-  { id: 'ZJ-S00007', title: '题目目录之外', path: 'ZJ/S/ZJ-S00007/mycode/pre_hub.cpp', kind: 'directory', description: '打开 mycode 子目录，阅读其中的多份程序。' },
-  { id: 'ZJ-S00004', title: '一段函数实现', path: 'ZJ/S/ZJ-S00004/crystal/crystal.cpp', kind: 'source', description: '查看 ch(int k) 的实现及其所在文件。' },
-  { id: 'ZJ-S00006', title: '注释中的样例', path: 'ZJ/S/ZJ-S00006/hub/hub.cpp', kind: 'comment', description: '阅读代码中的长样例注释及其上下文。' },
-];
 async function renderDiscoveries(full) {
-  const token = state.token, grid = node('div', 'discover-grid'); $('content').append(grid);
-  if (full) $('content').append(node('p', 'method-note', '从这些文件开始阅读；每项都附有原始路径和来源。'));
-  for (const item of discoveries) {
-    const card = node('article', 'discovery'), pre = node('pre', '', '正在读取原文件…');
-    card.append(node('span', 'label', item.id), node('h3', '', item.title), pre, node('p', '', item.description));
-    grid.append(card);
-    try {
-      const [province, group] = item.path.split('/');
-      const files = await groupFiles(state.catalog.groups.find(value => value.province === province && value.group === group));
-      if (token !== state.token) return;
-      const file = files.find(value => value.path === item.path);
-      if (item.kind === 'directory') {
-        const entries = files.filter(value => value.path.startsWith(`${province}/${group}/${item.id}/mycode/`));
-        pre.textContent = `mycode/\n${entries.map((value, index) => `${index === entries.length - 1 ? '└─' : '├─'} ${value.name}`).join('\n')}`;
-      } else if (file) {
-        queuePreview(async () => { try { const source = await loadSource(file, { revision: state.catalog.revision }); if (token !== state.token) return; const lines = source.text.split(/\r?\n/); const start = item.kind === 'comment' ? Math.max(0, lines.findIndex(line => /^\s*\/\*/.test(line))) : Math.max(0, lines.findIndex(line => /bool\s+ch\(/.test(line))); pre.textContent = lines.slice(start, start + 8).join('\n'); } catch { pre.textContent = '此预览暂不可用\n可继续打开归档原文件。'; } });
-      } else pre.textContent = '此版本中未找到对应路径。';
-      if (file) card.append(link('打开原文件 →', readerURL(file)));
-      card.append(link('GitHub 归档 ↗', githubUrl(item.path, state.catalog.revision)));
-    } catch { pre.textContent = '目录暂不可用，请稍后重试。'; }
+  const token = state.token, current = full ? params() : { province: '', group: 'all', problem: '' };
+  const toolbar = node('form', 'browse-toolbar discovery-toolbar'); toolbar.addEventListener('submit', event => event.preventDefault());
+  if (full) {
+    const problems = current.group === 'all' ? Object.values(DISCOVERY_PROBLEMS).flat() : DISCOVERY_PROBLEMS[current.group];
+    const filters = [['province', '地区', [['', '全部地区'], ...regionCodes().map(code => [code, regionName(code)])]], ['group', '组别', [['all', 'J / S'], ['J', 'CSP-J'], ['S', 'CSP-S']]], ['problem', '题目', [['', '全部文件'], ...problems.map(problem => [problem, problem])]]];
+    for (const [key, label, options] of filters) {
+      const wrapper = node('label', '', label), select = node('select'); select.setAttribute('aria-label', `发现${label}`);
+      for (const [value, text] of options) select.add(new Option(text, value)); select.value = current[key];
+      select.addEventListener('change', () => navigate({ [key]: select.value, ...(key === 'group' ? { problem: '' } : {}), query: '' })); wrapper.append(select); toolbar.append(wrapper);
+    }
   }
+  const refresh = button('换一批阅读建议 ↻', () => void refreshBatch(), 'quiet-action'); toolbar.append(refresh);
+  const status = node('p', 'discovery-batch-status', '正在从归档目录抽取…'); status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
+  const grid = node('div', 'discover-grid');
+  $('content').append(node('p', 'method-note', '从当前范围随机抽取原文件，可换一批继续读。这里提供阅读入口，研究精选另行整理。'), toolbar, status, grid);
+  async function refreshBatch() {
+    discoveryController?.abort();
+    for (const caption of grid.querySelectorAll('.preview-caption')) if (caption.textContent === '原文预览待载入') { caption.previousElementSibling.textContent = '预览已暂停，可打开原文件。'; caption.textContent = '本批预览已停止'; }
+    const controller = new AbortController(), batch = ++discoveryBatch; discoveryController = controller;
+    refresh.disabled = true;
+    const active = () => token === state.token && batch === discoveryBatch && !controller.signal.aborted && grid.isConnected;
+    const groups = selectDiscoveryGroups(state.catalog.groups, { ...current, previousKeys: previousDiscovery.groups });
+    status.textContent = `正在抽取 ${groups.length} 份地区组别目录…`; grid.setAttribute('aria-busy', 'true');
+    const results = await Promise.allSettled(groups.map(async group => ({ group, files: await groupFiles(group) })));
+    if (!active()) return;
+    refresh.disabled = false;
+    const shards = results.filter(result => result.status === 'fulfilled').map(result => result.value);
+    const { files, repeated } = selectDiscoveryFiles(shards, { problem: current.problem, previousPaths: previousDiscovery.paths, limit: full ? DISCOVERY_LIMITS.files : DISCOVERY_LIMITS.homeFiles });
+    const failed = results.length - shards.length;
+    const batchSummary = `本批 ${files.length} 个文件 · ${new Set(files.map(file => file.path.split('/')[0])).size} 个地区${failed ? ` · ${failed} 份目录暂不可用` : ''}${repeated ? ' · 范围有限，含上批路径' : ''}`;
+    grid.removeAttribute('aria-busy');
+    if (!files.length) {
+      status.textContent = failed ? '部分目录读取失败，暂未抽到可读条目。可换一批重试。' : '当前抽样范围没有符合条件的文件。可调整筛选或换一批。';
+      if (!grid.children.length) grid.append(node('p', 'empty', '暂未获得文件，仍可继续浏览各地区归档。'), link('浏览当前范围 →', routeURL({ ...current, view: 'browse' })));
+      else status.textContent += ' 下方保留上一批阅读入口。';
+      return;
+    }
+    previousDiscovery = { groups: groups.map(group => group.key || `${group.province}-${group.group}`), paths: files.map(file => file.path) };
+    grid.replaceChildren(); let completed = 0;
+    status.textContent = `${batchSummary} · 正在读取原文 0 / ${files.length}`;
+    for (const file of files) {
+      const [province, group, directory] = file.path.split('/');
+      const card = node('article', 'discovery'), pre = node('pre', '', '正在读取原文件…'), caption = node('p', 'preview-caption', '原文预览待载入');
+      const size = Number.isFinite(file.size) && file.size >= 0 ? bytes(file.size) : '大小未知';
+      card.append(node('span', 'label', `${regionName(province)} · CSP-${group}`), node('h3', '', directory), node('p', 'discovery-meta', `${file.problem || '题目未知'} · ${size}`), node('span', 'discovery-kind', discoveryKind(file)), pre, caption);
+      const details = node('details', 'discovery-details'); details.append(node('summary', '', '查看完整原始路径'), node('p', 'discovery-path', file.path));
+      const actions = node('div', 'discovery-actions'); actions.append(link('选手全部文件 →', directoryURL(file.path.split('/').slice(0, 3).join('/'))), link('打开原文件 →', readerURL(file)), link('GitHub 归档 ↗', githubUrl(file.path, state.catalog.revision))); card.append(details, actions); grid.append(card);
+      queuePreview(async () => {
+        if (!active()) return;
+        try {
+          const source = await loadSource(file, { revision: state.catalog.revision, signal: controller.signal });
+          if (!active()) return;
+          if (!source.text.length) { pre.textContent = '原文件为空。'; caption.textContent = '空文件，无原文行范围'; }
+          else if (!source.text.trim()) { pre.textContent = '原文件仅含空白字符。'; caption.textContent = `原文 L1–${source.text.split(/\r?\n/).length} · ${source.encoding}`; }
+          else { const snippet = shortSource(source.text); pre.textContent = snippet.snippet; caption.textContent = `原文 L${snippet.start}–${snippet.end} · ${source.encoding}${source.compressed ? ' · gzip 解压后预览' : ''}`; }
+        } catch (error) {
+          if (!active()) return;
+          pre.textContent = '此文件暂无法预览。'; caption.textContent = error.message || '可打开归档原文件或换一批重试。';
+        } finally { if (active()) { completed++; status.textContent = `${batchSummary} · 原文读取已处理 ${completed} / ${files.length}`; } }
+      });
+    }
+  }
+  await refreshBatch();
 }
 function queuePreview(action) { previews.push(action); pumpPreviews(); }
 function pumpPreviews() { while (previewActive < 2 && previews.length) { previewActive++; const action = previews.shift(); Promise.resolve().then(action).finally(() => { previewActive--; pumpPreviews(); }); } }
@@ -351,6 +393,7 @@ async function renderRoute() {
   $('regions-dialog').close();
   if (!state.catalog) { $('content').replaceChildren(node('div', 'loading', '正在打开归档…')); return; }
   state.token++; previews = [];
+  discoveryController?.abort(); discoveryBatch++;
   clearTimeout(searchTimer);
   $('content').replaceChildren();
   const current = params();

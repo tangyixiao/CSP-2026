@@ -4,6 +4,7 @@ import { REGIONS } from '../src/regions.js';
 import { renderRatingSummary } from './ratings.mjs';
 
 export const ROOT_FEATURED_REGIONS = Object.freeze(['ZJ', 'BJ', 'SC', 'SH', 'GD']);
+export const ROOT_ALL_REGIONS = Object.freeze(Object.keys(REGIONS).sort());
 const escape = value => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
 const number = value => Number.isSafeInteger(value) && value >= 0 ? value.toLocaleString('en-US') : '—';
 const browseURL = (province, group = 'all') => `code/browse.html?${new URLSearchParams({ view: 'browse', province, group })}`;
@@ -20,15 +21,16 @@ export function renderRootHome(template, catalog, { shards = {} } = {}) {
     groups.push(group);
   }
   const groupLinks = (code, groups) => groups.slice().sort((a, b) => a.group.localeCompare(b.group)).map(group => `<a href="${escape(browseURL(code, group.group))}">进入 ${group.group} <span aria-hidden="true">→</span></a>`).join('');
-  const renderRegion = code => {
+  const renderCard = code => {
     const groups = regions.get(code), { name } = REGIONS[code];
     const knownCounts = groups.every(group => Number.isSafeInteger(group.contestantCount) && group.contestantCount >= 0);
     const directoryCount = knownCounts ? groups.reduce((sum, group) => sum + group.contestantCount, 0) : null;
     return `<article class="region" data-code="${code}"><a class="scene" href="${escape(browseURL(code))}" aria-label="浏览${name}归档"><img src="assets/regions/${code}.webp" width="1280" height="427" alt=""${code === 'ZJ' ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async"><h2>${name}<span>${code}</span></h2><p>${number(directoryCount)} 份档案</p></a><div class="region-links">${groupLinks(code, groups)}</div></article>`;
   };
-  const featured = ROOT_FEATURED_REGIONS.filter(code => regions.has(code));
-  const cards = featured.map(renderRegion).join('\n');
-  const directory = [...regions.keys()].filter(code => !featured.includes(code)).sort().map(renderRegion).join('\n');
+  const featuredCodes = ROOT_FEATURED_REGIONS.filter(code => regions.has(code));
+  const remainingCodes = [...regions.keys()].filter(code => !featuredCodes.includes(code)).sort();
+  const cards = featuredCodes.map(renderCard).join('\n');
+  const directory = remainingCodes.map(renderCard).join('\n');
   const exampleFiles = (shards['ZJ-S']?.files || []).filter(file => typeof file.path === 'string' && file.path.startsWith('ZJ/S/ZJ-S00007/mycode/'));
   const preferred = ['pre_hub.cpp', 'pre_mig.cpp', 'crystal.cpp'];
   const example = preferred.flatMap(name => exampleFiles.filter(file => file.path.split('/').at(-1) === name)).slice(0, 3);
@@ -40,6 +42,7 @@ export function renderRootHome(template, catalog, { shards = {} } = {}) {
     __HOME_REGION_CARDS__: cards,
     __HOME_REGION_DIRECTORY__: directory,
     __HOME_REGION_COUNT__: String(regions.size),
+    __HOME_REMAINING_REGION_COUNT__: String(remainingCodes.length),
     __HOME_GROUP_COUNT__: String(catalog.groups.length),
     __HOME_FILE_COUNT__: number(catalog.totalFiles),
     __HOME_EXAMPLE_TREE__: tree,

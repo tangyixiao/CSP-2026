@@ -4,6 +4,12 @@ Dates use **Asia/Shanghai (UTC+8)**. Website/docs updates and archive-material c
 
 日期采用北京时间。网站改版、说明更新与归档资料入库分别记录；网站功能变化不代表归档发布包已经更新。未合并的草稿不计入已发布记录；资料核验进度见[核验表](docs/verification-progress.md#papers)。本次文档增补建立 FAQ、核验表、校验指南和维护导航；之后的版本应在相应日期续写。
 
+## 2026-11-21
+
+### 网站、文档与维护 / Website, documentation and maintenance
+
+- [PR #68](https://github.com/tangyixiao/CSP-2026/pull/68): sample discover entries dynamically from the catalog with scope filters and refresh, and expand/collapse the remaining root regions with dynamic labels. / 发现视图改为按范围随机抽取阅读建议并支持换一批，根首页其余地区卡片可展开收起并动态显示数量。
+
 ## 2026-11-13
 
 ### 归档资料 / Archive materials

@@ -104,8 +104,9 @@ function pinRevision(html) {
     .replaceAll('__CATALOG_SHORT_REVISION__', escapeHtml(catalog.revision.slice(0, 12)));
 }
 
-// Every expandable region card needs its illustration in the published root.
-const rootIllustrations = sortedProvinces.map(([code]) => {
+// Check every cataloged root-home illustration before replacing any output.
+const rootRegionCodes = sortedProvinces.map(([code]) => code);
+const rootIllustrations = rootRegionCodes.map(code => {
   const source = path.join(websiteRoot, 'src', 'assets', 'regions', `${code}.webp`);
   const metadata = lstatSync(source);
   if (!metadata.isFile() || metadata.isSymbolicLink()) throw new Error('A root-home illustration must be a regular file');
@@ -146,7 +147,7 @@ writeFileSync(path.join(outputRoot, 'source-receipt.json'), JSON.stringify({
   provinceCount: sortedProvinces.length,
   groupCount: catalog.groups.length,
   legacyLanding: { branch: 'project-pages', revision: landingRevision, retainedFor: 'documentation and historical asset provenance' },
-  currentHomepage: { template: 'landing/index.html', style: 'approved NOI and CSP recalibration', catalogRevision: catalog.revision, featuredRegions: ROOT_FEATURED_REGIONS, illustratedRegions: sortedProvinces.map(([code]) => code) },
+  currentHomepage: { template: 'landing/index.html', style: 'approved NOI and CSP recalibration', catalogRevision: catalog.revision, featuredRegions: ROOT_FEATURED_REGIONS, expandableRegions: rootRegionCodes },
   sourceSnapshots: {
     revision: sourcePacks.revision,
     expectedBlobs: sourcePacks.expected,
