@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 import { REGIONS } from '../src/regions.js';
-import { renderRootHome, ROOT_FEATURED_REGIONS } from '../scripts/root-home.mjs';
+import { renderRootHome, ROOT_FEATURED_REGIONS, ROOT_ALL_REGIONS } from '../scripts/root-home.mjs';
 
 const revision = 'a'.repeat(40);
 const groups = Object.keys(REGIONS).flatMap((province, index) => ['J', 'S'].map(group => ({ key: `${province}-${group}`, province, group, fileCount: index + (group === 'J' ? 1 : 2), contestantCount: index + (group === 'J' ? 10 : 20) })));
@@ -11,18 +11,20 @@ const catalog = { revision, groups, totalFiles: groups.reduce((sum, group) => su
 const template = await readFile(new URL('../landing/index.html', import.meta.url), 'utf8');
 const examplePath = 'ZJ/S/ZJ-S00007/mycode/pre_hub.cpp';
 
-test('root home gives every region an illustrated card while retaining the five featured covers first', () => {
+test('actual root HTML shows five initial covers and expands the remaining 24 real region cards without duplicates', () => {
   const html = renderRootHome(template, catalog, { shards: { 'ZJ-S': { files: [{ path: examplePath }] } } });
-  const cards = [...html.matchAll(/<article class="region" data-code="([A-Z]{2})">([\s\S]*?)<\/article>/g)];
-  assert.equal(cards.length, 29);
-  assert.deepEqual(cards.slice(0, 5).map(match => match[1]), ROOT_FEATURED_REGIONS);
-  assert.equal(new Set(cards.map(match => match[1])).size, 29);
-  for (const [, code, card] of cards) {
-    assert.ok(card.includes(`src="assets/regions/${code}.webp"`), `${code} has its own illustration`);
-    for (const group of ['J', 'S']) assert.ok(card.includes(`province=${code}&amp;group=${group}`));
-  }
-  const expanded = html.match(/<details class="directory" id="all-regions">([\s\S]*?)<\/details>/)?.[1];
-  assert.equal((expanded.match(/<article class="region"/g) || []).length, 24);
+  const codes = [...html.matchAll(/<article class="region" data-code="([A-Z]{2})"/g)].map(match => match[1]);
+  assert.equal(codes.length, 29);
+  assert.equal(new Set(codes).size, 29);
+  assert.deepEqual(codes.slice(0, 5), ROOT_FEATURED_REGIONS);
+  assert.deepEqual(codes.slice(5), ROOT_ALL_REGIONS.filter(code => !ROOT_FEATURED_REGIONS.includes(code)));
+  const expansion = html.match(/<details class="directory region-expansion"[\s\S]*?<\/details>/)[0];
+  assert.equal((expansion.match(/<article class="region"/g) || []).length, 24);
+  assert.equal((expansion.match(/loading="lazy"/g) || []).length, 24);
+  assert.match(expansion, /class="regions region-remainder"/);
+  assert.ok(!/directory-panel|directory-list|<ul/.test(expansion));
+  assert.ok(expansion.includes('展开全部 29 个地区'));
+  assert.ok(expansion.includes('收起其余 24 个地区'));
   assert.match(html, /29 个地区 · 58 个组别/);
   assert.ok(html.includes(`${catalog.totalFiles.toLocaleString('en-US')} 个源码或文本条目`));
   for (const code of Object.keys(REGIONS)) {
@@ -75,10 +77,12 @@ test('root appearance and darkness use the shared cross-page theme preference', 
   const callbacks = new Map(), windowCallbacks = new Map();
   const makeElement = () => ({ value: '', content: '', textContent: '', open: false, handlers: new Map(), attrs: {}, addEventListener(name, action) { this.handlers.set(name, action); }, setAttribute(name, value) { this.attrs[name] = value; }, contains() { return false; }, focus() {} });
   const root = { dataset: {} }, appearance = makeElement(), color = makeElement(), label = makeElement(), toggle = makeElement(), nav = makeElement(), panel = makeElement(), meta = makeElement();
-  const nodes = { 'home-appearance': appearance, 'home-color-mode': color, 'appearance-label': label, 'home-navigation': nav };
+  const expansion = makeElement(), regionLabel = makeElement();
+  regionLabel.dataset = { collapsedLabel: '展开全部 29 个地区', expandedLabel: '收起其余 24 个地区' };
+  const nodes = { 'home-appearance': appearance, 'home-color-mode': color, 'appearance-label': label, 'home-navigation': nav, 'all-regions': expansion };
   const saved = new Map([['csp-code-theme', 'light']]);
   const context = {
-    document: { documentElement: root, getElementById: id => nodes[id], querySelector: selector => selector === '.hamburger' ? toggle : selector === '.appearance' ? panel : meta, addEventListener: (name, action) => callbacks.set(name, action) },
+    document: { documentElement: root, getElementById: id => nodes[id], querySelector: selector => selector === '.hamburger' ? toggle : selector === '.appearance' ? panel : selector === '[data-region-toggle-label]' ? regionLabel : meta, addEventListener: (name, action) => callbacks.set(name, action) },
     window: { matchMedia: () => ({ matches: false, addEventListener() {} }), addEventListener: (name, action) => windowCallbacks.set(name, action) },
     localStorage: { getItem: key => saved.get(key), setItem: (key, value) => saved.set(key, value) },
   };
@@ -88,6 +92,11 @@ test('root appearance and darkness use the shared cross-page theme preference', 
   context.mountSiteShell = () => {};
   vm.runInNewContext(await readFile(new URL('../shared/theme.js', import.meta.url), 'utf8'), context);
   vm.runInNewContext((await readFile(new URL('../landing/assets/home.js', import.meta.url), 'utf8')).replace(/^import .*;\n/m, ''), context);
+  assert.equal(regionLabel.textContent, '展开全部 29 个地区');
+  expansion.open = true; expansion.handlers.get('toggle')();
+  assert.equal(regionLabel.textContent, '收起其余 24 个地区');
+  expansion.open = false; expansion.handlers.get('toggle')();
+  assert.equal(regionLabel.textContent, '展开全部 29 个地区');
   assert.equal(root.dataset.appearance, 'noi');
   assert.equal(root.dataset.theme, 'light');
   context.window.CspProjectTheme.setAppearance('noi');
