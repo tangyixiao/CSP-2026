@@ -9,6 +9,7 @@
   <title>CSP 2026 · 全国代码归档</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="assets/home.css">
+  <link rel="stylesheet" href="assets/ratings.css">
   <script src="assets/theme.js"></script><link rel="stylesheet" href="assets/site-shell.css"><script type="module" src="assets/home.js"></script>
 </head>
 <body>
@@ -21,11 +22,12 @@
       </div>
       <div class="search-wrap"><form class="search" role="search" action="code/browse.html" method="get"><input type="hidden" name="view" value="browse"><input type="hidden" name="group" value="all"><label class="sr-only" for="home-search">搜索考号、题目或文件名</label><span aria-hidden="true">⌕</span><input id="home-search" name="q" type="search" placeholder="搜索考号、题目或文件名" autocomplete="off"><button type="submit" aria-label="搜索归档">搜索</button></form><p class="entry-note">__HOME_FILE_COUNT__ 个源码或文本条目</p></div>
     </section>
+    __HOME_RATINGS__
     <section class="regions" aria-label="地区归档入口">
 __HOME_REGION_CARDS__
     </section>
     <details class="directory region-expansion" id="all-regions"><summary aria-controls="remaining-regions"><span data-region-toggle-label data-collapsed-label="展开全部 __HOME_REGION_COUNT__ 个地区" data-expanded-label="收起其余 __HOME_REMAINING_REGION_COUNT__ 个地区">展开全部 __HOME_REGION_COUNT__ 个地区</span> <span aria-hidden="true">⌄</span></summary><section id="remaining-regions" class="regions region-remainder" aria-label="更多地区归档" data-current-provinces>__HOME_REGION_DIRECTORY__</section></details>
-    <div class="section-head"><h2>发现文件</h2><a href="code/browse.html?view=discover&amp;group=all">发现更多 <span aria-hidden="true">→</span></a></div>
+    <div class="section-head"><h2>发现文件</h2><a href="code/browse.html?view=discover&amp;group=all">前往发现 <span aria-hidden="true">→</span></a></div>
     <section class="features" aria-label="文件与来源">
       <article class="feature"><header><a href="__HOME_EXAMPLE_URL__"><b>ZJ-S00007</b></a><small>mycode/</small></header><div class="feature-body"><a class="file-example" href="__HOME_EXAMPLE_URL__"><pre class="tree">__HOME_EXAMPLE_TREE__</pre></a><p>查看 mycode 子目录中的程序</p></div></article>
       <article class="feature"><header><b>文件与来源</b><a href="code/browse.html?view=sources">查看来源 <span aria-hidden="true">↗</span></a></header><div class="feature-body"><p class="file-tools"><a href="code/?mode=view">阅读代码</a> · <a href="code/?mode=split">并排比较</a> · <a href="preview/downloads.html">下载原文件</a></p><p>按原始路径打开文件，查看来源与许可。</p></div></article>

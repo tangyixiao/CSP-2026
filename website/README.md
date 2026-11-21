@@ -13,6 +13,23 @@ page and preserved PDFs are copied from `papers/` to `site-dist/papers/`, provid
 same-origin browser viewing and downloads. The source manifest identifies public
 copies and reading editions, including the Gym editions' standard-I/O adaptation.
 
+## Results and ratings
+
+`scripts/ratings.mjs` renders `ratings.html`, the homepage result summary and the
+UTF-8 BOM CSV `ratings.csv` from `data/ratings-2026.json`. `package-site.mjs` ships
+both generated files and the landing assets. The shared navigation includes a
+Results entry. Group/region filters enhance a fully rendered, readable table;
+without JavaScript all 64 records and six official list links remain available.
+Coverage follows the official 32-region rating table, independently of the
+29-region code archive. Conditional second/third-level rules are tested at the
+national reference boundaries. Sources and dates are recorded in `SOURCES.md`.
+
+The same renderer reads `data/news-2026.json` for the CSP-only news section and
+Round 1 certificate highlights. The news-topic filter uses `newsTopic`, preserving
+the rating filters' `group`/`province` parameters. Obsolete news parameters are
+removed without changing the rating scope. The native details remain readable
+without JavaScript. The source collection is explicitly limited to CSP-J/S.
+
 ## Shared identity and presentation
 
 The maintainer-approved 2026-11-12 identity uses equal-height navy C/P and a curved crimson S from [`shared/brand.js`](shared/brand.js). Headers and homepage branding render the same SVG paths, including dark-mode colors. The README [light](../docs/assets/readme/logo.svg) and [dark](../docs/assets/readme/logo-dark.svg) exports use those exact paths; the current [homepage screenshot](../docs/design/runtime-brand-home-20261112.jpg) records the published page.

@@ -4,9 +4,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { writeProjectPreview } from '../project-site/render.mjs';
 import { renderRootHome, ROOT_FEATURED_REGIONS } from './root-home.mjs';
+import { renderRatingsPage, renderRatingsCSV } from './ratings.mjs';
 
 const websiteRoot = path.resolve(fileURLToPath(new URL('../', import.meta.url)));
 const landingRoot = path.join(websiteRoot, 'landing');
+const papersRoot = path.join(websiteRoot, '..', 'papers');
 const browserRoot = path.join(websiteRoot, 'dist');
 const outputRoot = path.join(websiteRoot, 'site-dist');
 const landingRevision = '18973f751ccddfa941150d2a3480cf6ecc5a29ac';
@@ -42,6 +44,7 @@ function replaceRequired(text, pattern, replacement, description) {
 
 assertPlainDirectory(landingRoot);
 assertPlainDirectory(browserRoot);
+assertPlainDirectory(papersRoot);
 const catalog = JSON.parse(readFileSync(path.join(browserRoot, 'catalog', 'index.json'), 'utf8'));
 if (!/^[a-f0-9]{40}$/i.test(catalog.revision)) throw new Error('Catalog revision must be a full Git commit');
 if (!/^[\w.-]+\/[\w.-]+$/.test(catalog.repository)) throw new Error('Catalog repository is invalid');
@@ -121,6 +124,7 @@ mkdirSync(rootArtDirectory, { recursive: true });
 for (const { code, source } of rootIllustrations) {
   cpSync(source, path.join(rootArtDirectory, `${code}.webp`));
 }
+cpSync(papersRoot, path.join(outputRoot, 'papers'), { recursive: true });
 cpSync(browserRoot, path.join(outputRoot, 'code'), { recursive: true });
 cpSync(path.join(websiteRoot,'..','project.json'),path.join(outputRoot,'project.json'));
 const projectCases = JSON.parse(readFileSync(path.join(websiteRoot,'src','cases.json'),'utf8'));
@@ -128,6 +132,8 @@ writeProjectPreview(path.join(outputRoot,'preview'),{ catalog, caseCount:project
 const paperIndex = path.join(outputRoot, 'papers/index.html');
 if (existsSync(paperIndex)) writeFileSync(paperIndex, readFileSync(paperIndex, 'utf8').replace('__SITE_HEADER__', renderSiteHeader({ root: '../', active: 'papers' })));
 writeFileSync(path.join(outputRoot, 'index.html'), pinRevision(landingHtml));
+writeFileSync(path.join(outputRoot, 'ratings.html'), renderRatingsPage({ archiveRegions: sortedProvinces.map(([code]) => code) }));
+writeFileSync(path.join(outputRoot, 'ratings.csv'), renderRatingsCSV());
 writeFileSync(path.join(outputRoot, 'docs.html'), pinRevision(documentationHtml));
 writeFileSync(path.join(outputRoot, '.nojekyll'), '');
 writeFileSync(path.join(outputRoot, 'source-receipt.json'), JSON.stringify({
@@ -151,7 +157,7 @@ writeFileSync(path.join(outputRoot, 'source-receipt.json'), JSON.stringify({
     complete: sourcePacks.complete,
     limit: sourcePacks.limit,
   },
-  paths: { landing: '/', documentation: 'docs.html', nationalBrowser: 'code/browse.html', codeBrowser: 'code/', projectPreview: 'preview/' },
+  paths: { landing: '/', documentation: 'docs.html', nationalBrowser: 'code/browse.html', codeBrowser: 'code/', projectPreview: 'preview/', papers: 'papers/', ratings: 'ratings.html', ratingData: 'ratings.csv' },
 }, null, 2) + '\n');
 
 console.log(`Packaged ${sortedProvinces.length} provinces and ${catalog.groups.length} groups at ${catalog.revision}`);
