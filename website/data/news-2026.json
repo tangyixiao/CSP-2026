@@ -1,7 +1,22 @@
 {
-  "checkedAt": "2026-11-15",
+  "checkedAt": "2026-11-22",
   "scope": "仅收录直接讨论 CSP-J/S 2026 认证的官方通知：成绩、评级、证书、申诉、违规处理、报名、资助、晋级和称谓规范。",
   "items": [
+    {
+      "title": "CCF关于CSP-J/S 2026第二轮认证证书发放的公告",
+      "url": "https://noi.cn/xw/2026-11-19/949286.shtml",
+      "publishedAt": "2026-11-19",
+      "id": "949286",
+      "region": "national",
+      "topic": "certificate",
+      "summary": "第二轮 J/S 获一、二、三级的考生可在报名系统的历史活动中办理证书。电子证书可直接免费下载，纸质证书须申请并缴费。",
+      "deadlines": [
+        { "label": "纸质证书申请", "at": "2026-12-09T14:00:00+08:00" },
+        { "label": "电子证书下载", "at": "2026-12-14T14:00:00+08:00" }
+      ],
+      "historical": false,
+      "verifiedAt": "2026-11-22"
+    },
     {
       "title": "CCF CSP-J/S 2026第二轮认证评级名单",
       "url": "https://noi.ccf.org.cn/hjmd/mdgs/2026/2026-11-13/948515.shtml",
@@ -64,9 +79,9 @@
       "id": "940603",
       "region": "national",
       "topic": "certificate",
-      "summary": "仅适用于第一轮：电子证书免费下载、纸质证书申请及缴费截至 11 月 20 日。纸质证书每张 100 元，预计 12 月 16 日以后邮寄。",
-      "historical": false,
-      "verifiedAt": "2026-11-15"
+      "summary": "第一轮电子证书下载、纸质证书申请及缴费已于 11 月 20 日截止。纸质证书每张 100 元，预计 12 月 16 日以后邮寄。",
+      "historical": true,
+      "verifiedAt": "2026-11-22"
     },
     {
       "title": "CCF关于CSP-J/S 2026第一轮认证评级分数线的公告",

@@ -40,11 +40,10 @@ and verify individual ratings through the [official lists](https://noi.ccf.org.c
 or [award lookup](https://noi.cn/hjmd/mdcx/).
 
 The [CSP news section](https://tangyixiao.github.io/CSP-2026/ratings.html#related-news)
-contains 11 official notices directly about CSP-J/S, checked on 2026-11-15:
-results, rating rules, certificates, appeals, disciplinary decisions,
-registration, fee assistance, round advancement and rating terminology.
-Topic filters preserve the independent rating filters. Certificate rounds,
-publication dates and application deadlines are labeled separately.
+contains 12 official notices directly about CSP-J/S, checked through 2026-11-22.
+The [results page](https://tangyixiao.github.io/CSP-2026/ratings.html#notice-dates-title)
+lists the separate deadlines for Round 2 printed and electronic certificates.
+The expired Round 1 certificate notice remains in the news section as a historical notice.
 
 <a id="recent-updates"></a>
 

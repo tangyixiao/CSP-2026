@@ -31,7 +31,7 @@ CCF 于 11 月 13 日公布第二轮评级规则及名单。[成绩与评级页�
 
 全国基准线与本省一级线不同，例如浙江 J 为 291 分、S 为 200 分。一级线低于全国一级基准线的地区，J 二级从 114 分起、S 二级从 35 分起，均不设三级。完整规则见 [CCF 官方公告](https://noi.cn/xw/2026-11-13/947969.shtml)，个人正式评级以[官方名单](https://noi.ccf.org.cn/hjmd/mdgs/2026/2026-11-13/948515.shtml)和[获奖查询](https://noi.cn/hjmd/mdcx/)为准。
 
-[CSP 相关新闻](https://tangyixiao.github.io/CSP-2026/ratings.html#related-news)收录截至 2026-11-15 核对的 11 条 CSP-J/S 官方通知，涵盖成绩评级、第一轮证书、申诉、违规处理、报名、资助、晋级和等级称谓规范，可按主题筛选。第一轮与第二轮、发布日期与办理期限分别标注；已结束的办理事项按历史通知展示。
+[CSP 相关新闻](https://tangyixiao.github.io/CSP-2026/ratings.html#related-news)收录截至 2026-11-22 核对的 12 条 CSP-J/S 官方通知，可按主题筛选。[成绩页](https://tangyixiao.github.io/CSP-2026/ratings.html#notice-dates-title)列出第二轮纸质证书申请和电子证书下载的不同截止时间。第一轮证书已截止，公告保留在相关新闻的历史通知中。
 
 <a id="recent-updates"></a>
 

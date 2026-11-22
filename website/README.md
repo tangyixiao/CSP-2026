@@ -26,7 +26,8 @@ Coverage follows the official 32-region rating table, independently of the
 national reference boundaries. Sources and dates are recorded in `SOURCES.md`.
 
 The same renderer reads `data/news-2026.json` for the CSP-only news section and
-Round 1 certificate highlights. The news-topic filter uses `newsTopic`, preserving
+the Round 2 certificate deadlines shown on the homepage and results page. The
+news-topic filter uses `newsTopic`, preserving
 the rating filters' `group`/`province` parameters. Obsolete news parameters are
 removed without changing the rating scope. The native details remain readable
 without JavaScript. The source collection is explicitly limited to CSP-J/S.

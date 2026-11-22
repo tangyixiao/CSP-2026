@@ -28,23 +28,25 @@ Canonical structured data: [ratings-2026.json](website/data/ratings-2026.json).
 Second/third-level table entries are derived from the published conditional
 rules, excluding recipients of higher levels. Archive coverage remains separate.
 
-### CSP official news (checked 2026-11-15)
+### CSP official news (checked through 2026-11-22)
 
-[news-2026.json](website/data/news-2026.json) contains 11 short, dated summaries
+[news-2026.json](website/data/news-2026.json) contains 12 short, dated summaries
 of official notices directly about CSP-J/S: results, ratings, certificates,
 appeals, disciplinary decisions, registration, fee assistance, round advancement
 and rating terminology. Each entry has a direct official article URL and a
 verification date. This is a bounded CSP collection, not a complete news mirror.
 Article bodies were checked; HTTP 200 challenge pages were rejected as evidence.
 
-Key sources include [Round 1 certificates](https://noi.cn/xw/2026-10-16/940603.shtml),
+Key sources include [Round 2 certificate issuance](https://noi.cn/xw/2026-11-19/949286.shtml),
+[Round 1 certificates](https://noi.cn/xw/2026-10-16/940603.shtml),
 [Round 1 rating lines](https://noi.cn/xw/2026-10-10/938437.shtml),
 [Round 2 registration](https://noi.cn/xw/2026-09-29/933744.shtml),
 [fee assistance](https://noi.cn/xw/2026-09-29/933470.shtml),
 [round advancement](https://noi.cn/xw/2026-09-24/934543.shtml) and
 [rating terminology](https://noi.cn/xw/2026-09-09/930554.shtml), alongside the
-Round 2 result/rating sources above. Round 1 certificate deadlines do not apply
-to Round 2 certificates. Expired application notices are labeled historical.
+Round 2 result/rating sources above. The Round 2 announcement gives separate
+deadlines for printed applications and electronic downloads. The expired Round 1
+notice is labeled historical.
 Individual contestant data is not mirrored.
 
 ## Contestant files and official material
