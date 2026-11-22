@@ -9,6 +9,7 @@ Dates use **Asia/Shanghai (UTC+8)**. Website/docs updates and archive-material c
 ### 网站、文档与维护 / Website, documentation and maintenance
 
 - Publish the [Round 2 certificate notice](https://noi.cn/xw/2026-11-19/949286.shtml) on the homepage, results page and news list. Mark the expired Round 1 notice as historical. / 首页、成绩页及相关新闻同步第二轮证书公告，第一轮已截止的公告移入历史。
+- Document the [Hebei source checks](docs/source-records/hebei-20261107.md), [Zhejiang J/S package comparison](docs/source-records/zhejiang-package-comparison-20261122.md) and [official test data verification](docs/official-test-data-verification.md). / 补充河北来源页、浙江 J/S 供包比对和官方测试数据校验索引。
 
 ## 2026-11-21
 

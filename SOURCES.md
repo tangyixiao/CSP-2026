@@ -53,7 +53,7 @@ Individual contestant data is not mirrored.
 
 | Material | Record or original entry | Verification boundary |
 | --- | --- | --- |
-| Zhejiang J/S | [Regional source record](ZJ/sources/web-sources.md); official [Junior announcement](https://icpc.hznu.edu.cn/zjnoi/newsPage?newsId=17) and [Senior announcement](https://icpc.hznu.edu.cn/zjnoi/newsPage?newsId=18) | The record preserves publication metadata and original attachment links; the README separately states the Junior byte comparison |
+| Zhejiang J/S | [Official publication record](ZJ/sources/web-sources.md) and [J/S package comparison](docs/source-records/zhejiang-package-comparison-20261122.md) | Both supplied ZIPs match the archived originals and recorded attachment MD5 values. All 16,863 file members match their archived paths and Git blobs. |
 | Hainan J | [Source record](HI/sources/j-archive.md) | Supplied encrypted package and internal MD5 listing; do not upgrade this to independent official authentication |
 | Chongqing J | [Source record](CQ/sources/j-archive.md) | Supplied aggregate package and byte checks |
 | Chongqing S | [Source record](CQ/sources/s-archive.md) | Supplied aggregate package, separate local package cross-check and exact file matching; original distributor not independently authenticated |
@@ -61,8 +61,9 @@ Individual contestant data is not mirrored.
 | Anhui S supplement | [Supplement record](AH/sources/s-supplement-20261108.md) | The record describes the supplied input and scope of the addition |
 | Source-named binary entries | [Preservation record](docs/source-records/binary-submissions-20261108.md) | 22 entries preserved from a supplied package; binary content alone does not establish submission status |
 | Guangxi S | [README verification statement](README.md#sources-verification-and-corrections) | Compared to a locally supplied decrypted package; original distributor not independently verified |
-| Hebei J/S | [README verification statement](README.md#sources-verification-and-corrections) | Supplied encrypted archives and accompanying MD5 manifests; a standalone regional source record is still missing |
-| Other regions and official test data | Their archived paths and any existing record | Full original-publication and rights records are not yet consolidated; do not label them all officially verified |
+| Hebei J/S | [Regional source and import record](docs/source-records/hebei-20261107.md) | Supplied ZIP and MD5-list checks, import counts and Git readback. The original public entry remains unverified. |
+| J/S official test data | [Official attachments and verification index](docs/official-test-data-verification.md) | Both original ZIP hashes and the per-file manifests for all 360 inputs and answers. |
+| Other regions | Their archived paths and any existing source records | Original-publication and rights evidence vary by region. |
 
 This index does not reproduce extraction passwords. Existing historical source responses need a separate credential/content hygiene review before their content is copied into a new public interface.
 

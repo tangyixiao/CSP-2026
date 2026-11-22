@@ -1,8 +1,8 @@
 # 资料核验与征集进度 / Verification and collection progress
 
-核对日期：**2026-11-13（Asia/Shanghai）**。第二轮 PDF 的替换与核对记录见 [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57)，其他地区条目沿用 2026-11-12 的核对记录。
+最近更新为 **2026-11-22（Asia/Shanghai）**，本次复核河北、浙江和官方测试数据。第二轮 PDF 的核对记录见 [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57)，其余地区条目沿用 2026-11-12 的核对记录。
 
-Reviewed **2026-11-13 (Asia/Shanghai)** for the Round 2 PDF replacement. Regional entries retain the checks recorded on 2026-11-12.
+The **2026-11-22 (Asia/Shanghai)** update covers Hebei, Zhejiang and official test data. The Round 2 PDF record remains dated 2026-11-13, and the other regional entries retain their 2026-11-12 checks.
 
 状态口径 / Status definitions:
 
@@ -45,14 +45,14 @@ Both 13-page Round 2 J/S contest-layout files are available in the paper library
 
 | 材料 / Material | 已记录入口 / Entry | 校验记录与状态 / Recorded checks and status | 待补材料 / Needed |
 | --- | --- | --- | --- |
-| 浙江 J/S / Zhejiang | [地区记录](../ZJ/sources/web-sources.md)；[J 官方通知](https://icpc.hznu.edu.cn/zjnoi/newsPage?newsId=17)、[S 官方通知](https://icpc.hznu.edu.cn/zjnoi/newsPage?newsId=18) | 官方发布元数据和附件入口已记录；核对范围见地区记录 / Official publication metadata and attachment entries recorded; consult the regional scope | 将供包比对与各组别核验结果集中链接 / Consolidated group-specific comparison evidence |
-| 河北 J/S / Hebei | [来源索引](../SOURCES.md#contestant-files-and-official-material) | 索引记录供包与随附 MD5 核对；独立地区来源页仍待补 / Supplied packages and MD5 checks recorded; standalone regional record missing | 独立来源页、原始发布入口 / Regional record and original entry |
+| 浙江 J/S / Zhejiang | [官方网页记录 / Publication record](../ZJ/sources/web-sources.md)、[J/S 供包比对 / Package comparison](source-records/zhejiang-package-comparison-20261122.md) | 原包大小和 MD5 与发布记录一致，16,863 个文件的路径和字节均已核对 / Both ZIP sizes and MD5 values and all 16,863 archived paths and blobs matched | 本轮供包比对已完成 / Package comparison complete |
+| 河北 J/S / Hebei | [独立地区来源页 / Regional source record](source-records/hebei-20261107.md) | 供包、随附 MD5 和两组导入数据已经汇总，12,392 个入库路径及其 Git 对象已复核 / Supplied packages, MD5 lists and import counts are documented, with 12,392 archived paths and their blobs rechecked | 原始公开发布入口 / Original public distribution entry |
 | 海南 J / Hainan | [地区记录](../HI/sources/j-archive.md) | 供包及内部 MD5 记录；未升级为独立官方认证 / Supplied package/internal MD5 record, without independent official authentication | 独立官方发布证据 / Independent official publication evidence |
 | 重庆 J/S / Chongqing | [J 记录](../CQ/sources/j-archive.md)、[S 记录](../CQ/sources/s-archive.md) | 聚合供包及文件比对范围已记录 / Supplied aggregate package and comparison scope recorded | 原分发来源的独立证据 / Independent original-distributor evidence |
 | 青海 J/S / Qinghai | [J 记录](../QH/sources/j-archive.md)、[S 记录](../QH/sources/s-archive.md) | 社区供包已记录；没有独立官方 MD5 清单 / Community attachment recorded; no independent official MD5 listing | 官方入口或独立清单 / Official entry or independent manifest |
 | 广西 S / Guangxi | [来源索引](../SOURCES.md#contestant-files-and-official-material) | 已记录与本地提供包比对；原分发来源未独立核验 / Local supplied-package comparison recorded; original distributor unverified | 可追溯来源记录 / Traceable original source |
 | 其他已收录地区 / Other present regions | [来源索引](../SOURCES.md) | 各地区的官方来源与核验记录待集中汇总 / Directory presence and consolidated source authentication have different scopes | 按地区、组别补来源与核验记录 / Region/group-specific source and check records |
-| J/S 官方测试数据 / Official test data | [官方发布通知](https://www.noi.cn/xw/2026-11-05/945674.shtml)、[J 目录](../test-data/J/official)、[S 目录](../test-data/S/official) | 已收录目录和发布入口；获取／校验记录待统一汇总 / Directories and official entry recorded; retrieval/check records need consolidation | 文件级获取与校验索引 / Per-file retrieval/check index |
+| J/S 官方测试数据 / Official test data | [统一获取与校验索引 / Download and verification index](official-test-data-verification.md) | 两组官方附件、原包 SHA-256 和文件级清单已汇总，360 个输入与答案文件已复核 / Official links, ZIP digests and manifests are indexed, with all 360 inputs and answers rechecked | 本轮索引已完成 / Index complete |
 
 <a id="collection"></a>
 
