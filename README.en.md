@@ -146,14 +146,14 @@ The outer filter selects contestant directories. Cards show matching files first
 ## Verification and collection progress
 
 <details>
-<summary>Recorded status and requested materials (reviewed 2026-11-12)</summary>
+<summary>Recorded status and requested materials (updated 2026-11-22)</summary>
 
 | Material | Recorded scope | Still needed |
 | --- | --- | --- |
 | Round 1 J/S original PDFs | The published library contains third-party/community copies | Original files and official publication entries |
 | Round 2 J/S contest-layout PDFs | **Obtained, 13 pages each; supplied-package correspondence checks recorded**; see [details](docs/verification-progress.md#papers) | Available in the paper library; direct official publication entries still needed |
 | Regional contestant files | 29 regions and 58 group catalogs; verification scope varies | Ningxia, Hong Kong and Macao J/S; original-publication and independent source records for existing regions |
-| Official test data | J/S directories and official notice link recorded | Consolidated retrieval, checksum and source records |
+| Official test data | The [verification index](docs/official-test-data-verification.md) links both official attachments, ZIP digests and manifests for all 360 files | Current verification complete |
 
 [The detailed status table](docs/verification-progress.md) lists recorded publication entries, checks, status and missing materials, with evidence in [SOURCES.md](SOURCES.md) and [the paper guide](papers/README.md). Acquisition, package checks and publication progress are listed separately.
 
@@ -247,7 +247,7 @@ Put the ZIP and `SHA256SUMS` from the same release in one directory. Copy the ma
 
 ## Sources and interpretation
 
-[SOURCES.md](SOURCES.md) indexes official publication links, supplied packages, regional verification records, public discussions and website assets. Official test data is retained under [Junior](test-data/J/official) and [Senior](test-data/S/official). Regional illustrations are AI-generated, with provenance recorded in the same source index.
+[SOURCES.md](SOURCES.md) indexes official publication links, supplied packages, regional verification records, public discussions and website assets. Use the [official test data index](docs/official-test-data-verification.md) to find downloads and per-file checks. Regional illustrations are AI-generated, with provenance recorded in the source index.
 
 Code comparisons show text or byte differences. Comparison materials link to their authors and original sources; each record states which checks have been completed.
 
