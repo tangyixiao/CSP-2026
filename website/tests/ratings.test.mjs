@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { RATINGS, NEWS, ratingThresholds, renderRatingsPage, renderRatingsCSV, renderRelatedNews } from '../scripts/ratings.mjs';
+import { RATINGS, NEWS, ratingThresholds, renderRatingSummary, renderRatingsPage, renderRatingsCSV, renderRelatedNews } from '../scripts/ratings.mjs';
 
 test('official rating coverage is independent of the 29-region code archive', () => {
   for (const [group, count] of [['J',9014],['S',6607]]) {
@@ -16,7 +16,7 @@ test('official rating coverage is independent of the 29-region code archive', ()
 });
 
 test('news have verified dates, official sources, explicit regional scopes and no duplicate records', () => {
-  assert.equal(NEWS.items.length,11);
+  assert.equal(NEWS.items.length,12);
   assert.equal(new Set(NEWS.items.map(item=>item.id)).size,NEWS.items.length);
   const known=new Set(['national',...RATINGS.groups.J.regions.map(row=>row.code)]);
   for (const [i,item] of NEWS.items.entries()) {
@@ -24,9 +24,9 @@ test('news have verified dates, official sources, explicit regional scopes and n
     assert.ok(['csp','certificate','rules'].includes(item.topic));
     assert.match(item.title,/CSP/);
     assert.ok(item.summary.length>15 && item.summary.length<180);
-    assert.equal(item.verifiedAt,NEWS.checkedAt);
+    assert.ok(/^2026-\d{2}-\d{2}$/.test(item.verifiedAt));
     assert.ok(/^2026-\d{2}-\d{2}$/.test(item.publishedAt));
-    assert.ok(item.publishedAt<=NEWS.checkedAt);
+    assert.ok(item.publishedAt <= item.verifiedAt && item.verifiedAt <= NEWS.checkedAt);
     if(i) assert.ok(NEWS.items[i-1].publishedAt>=item.publishedAt);
     assert.ok(['noi.cn','noi.ccf.org.cn'].includes(new URL(item.url).hostname));
     assert.ok(!/var arg1|Article.HitCount/.test(item.summary));
@@ -36,9 +36,25 @@ test('news have verified dates, official sources, explicit regional scopes and n
 
 test('CSP-only news preserve certificate round boundaries and exclude other events from data and UI', () => {
   const html=renderRatingsPage();
-  assert.equal((renderRelatedNews().match(/data-news-item /g)||[]).length,11);
-  assert.ok(html.includes('第一轮证书｜11 月 20 日截止'));
-  assert.ok(html.includes('第一轮证书办理通知不适用于第二轮证书'));
+  const news = renderRelatedNews();
+  assert.equal((news.match(/data-news-item /g) || []).length, NEWS.items.length);
+  const certificateNews = news.match(/<li data-news-item data-news-topic="certificate">[\s\S]*?<\/li>/g) || [];
+  assert.equal(certificateNews.length, 2);
+  const [round2, round1] = certificateNews;
+  assert.match(round2, /949286\.shtml/);
+  assert.doesNotMatch(round2, /历史通知/);
+  assert.match(round1, /历史通知 · 办理期限已结束/);
+  assert.match(round1, /940603\.shtml/);
+  assert.match(round1, /11 月 20 日截止/);
+  const currentNotice = html.slice(html.indexOf('class="feature notice-dates"'), html.indexOf('class="news-section"'));
+  const home = renderRatingSummary();
+  for (const surface of [home, currentNotice, round2]) {
+    assert.match(surface, /纸质证书申请截至 <time datetime="2026-12-09T14:00:00\+08:00">12月9日 14:00<\/time>/);
+    assert.match(surface, /电子证书下载截至 <time datetime="2026-12-14T14:00:00\+08:00">12月14日 14:00<\/time>/);
+    assert.doesNotMatch(surface, /第一轮|940603\.shtml/);
+  }
+  assert.match(home, /href="ratings\.html#notice-dates-title"/);
+  assert.match(currentNotice, /949286\.shtml/);
   assert.doesNotMatch(html,/NOIP|NOI\s*2027|女生竞赛|云南公示/);
   assert.doesNotMatch(JSON.stringify(NEWS),/NOIP|NOI\s*2027|女生竞赛/);
   assert.ok(NEWS.items.find(item=>item.id==='933744').historical);

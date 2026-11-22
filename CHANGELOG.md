@@ -4,6 +4,12 @@ Dates use **Asia/Shanghai (UTC+8)**. Website/docs updates and archive-material c
 
 日期采用北京时间。网站改版、说明更新与归档资料入库分别记录；网站功能变化不代表归档发布包已经更新。未合并的草稿不计入已发布记录；资料核验进度见[核验表](docs/verification-progress.md#papers)。本次文档增补建立 FAQ、核验表、校验指南和维护导航；之后的版本应在相应日期续写。
 
+## 2026-11-22
+
+### 网站、文档与维护 / Website, documentation and maintenance
+
+- Publish the [Round 2 certificate notice](https://noi.cn/xw/2026-11-19/949286.shtml) on the homepage, results page and news list. Mark the expired Round 1 notice as historical. / 首页、成绩页及相关新闻同步第二轮证书公告，第一轮已截止的公告移入历史。
+
 ## 2026-11-21
 
 ### 网站、文档与维护 / Website, documentation and maintenance
