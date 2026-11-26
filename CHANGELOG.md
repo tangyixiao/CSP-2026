@@ -8,7 +8,7 @@ Dates use **Asia/Shanghai (UTC+8)**. Website/docs updates and archive-material c
 
 ### 网站、文档与维护 / Website, documentation and maintenance
 
-- [PR #72](https://github.com/tangyixiao/CSP-2026/pull/72): publish the [S-group long-form piece](docs/s-group-2026-round2-zh-CN.md) on CSP-S 2026 Round 2 submissions, and its [evidence record](docs/source-records/s-group-materials-20261124.md). The piece reads four S problems against the official statement (extracted from an archived PDF) and the 180 official test-data pairs, separating sample answers from test-point answers. / 发布 S 组专题长文与证据档：以归档内 PDF 提取的官方题面与 180 对官方测试数据为基准，把样例答案与测试点答案分开陈述。
+- [PR #72](https://github.com/tangyixiao/CSP-2026/pull/72): publish the [S-group long-form piece](docs/s-group-2026-round2-zh-CN.md) on CSP-S 2026 Round 2 submissions, and its [evidence record](docs/source-records/s-group-materials-20261124.md). The piece reads four S problems against the official statement (extracted from an archived PDF) and the 180 official test-data pairs, separating sample answers from test-point answers. It also adds a chapter counting hostile language in comments (289 files, 1,033 lines, classified by target) and comparing those files with the candidates who copied the exam rules into their comments. / 发布 S 组专题长文与证据档：以归档内 PDF 提取的官方题面与 180 对官方测试数据为基准，把样例答案与测试点答案分开陈述；另加一章统计注释里的暴戾语言（289 份文件、1,033 行，按指向分类），并与抄了考场规则的选手文件做交叉对照。
 
 ## 2026-11-22
 
