@@ -8,7 +8,7 @@ Dates use **Asia/Shanghai (UTC+8)**. Website/docs updates and archive-material c
 
 ### 网站、文档与维护 / Website, documentation and maintenance
 
-- Publish the [S-group long-form piece](docs/s-group-2026-round2-zh-CN.md) on CSP-S 2026 Round 2 submissions, and its [evidence record](docs/source-records/s-group-materials-20261124.md). The piece reads four S problems against the official statement (extracted from an archived PDF) and the 180 official test-data pairs, separating sample answers from test-point answers. / 发布 S 组专题长文与证据档：以归档内 PDF 提取的官方题面与 180 对官方测试数据为基准，把样例答案与测试点答案分开陈述。
+- [PR #72](https://github.com/tangyixiao/CSP-2026/pull/72): publish the [S-group long-form piece](docs/s-group-2026-round2-zh-CN.md) on CSP-S 2026 Round 2 submissions, and its [evidence record](docs/source-records/s-group-materials-20261124.md). The piece reads four S problems against the official statement (extracted from an archived PDF) and the 180 official test-data pairs, separating sample answers from test-point answers. / 发布 S 组专题长文与证据档：以归档内 PDF 提取的官方题面与 180 对官方测试数据为基准，把样例答案与测试点答案分开陈述。
 
 ## 2026-11-22
 
