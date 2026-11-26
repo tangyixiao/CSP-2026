@@ -1,8 +1,8 @@
 # 资料核验与征集进度 / Verification and collection progress
 
-最近更新为 **2026-11-22（Asia/Shanghai）**，本次复核河北、浙江和官方测试数据。第二轮 PDF 的核对记录见 [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57)，其余地区条目沿用 2026-11-12 的核对记录。
+最近更新为 **2026-11-26（Asia/Shanghai）**，本次新增 S 组专题长文与证据档；2026-11-22 那批复核的河北、浙江和官方测试数据记录继续有效。第二轮 PDF 的核对记录见 [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57)，其余地区条目沿用 2026-11-12 的核对记录。
 
-The **2026-11-22 (Asia/Shanghai)** update covers Hebei, Zhejiang and official test data. The Round 2 PDF record remains dated 2026-11-13, and the other regional entries retain their 2026-11-12 checks.
+The **2026-11-26 (Asia/Shanghai)** update adds the S-group long-form piece and its evidence record; the 2026-11-22 Hebei, Zhejiang and official test-data checks still stand. The Round 2 PDF record remains dated 2026-11-13, and the other regional entries retain their 2026-11-12 checks.
 
 状态口径 / Status definitions:
 
@@ -53,6 +53,7 @@ Both 13-page Round 2 J/S contest-layout files are available in the paper library
 | 广西 S / Guangxi | [来源索引](../SOURCES.md#contestant-files-and-official-material) | 已记录与本地提供包比对；原分发来源未独立核验 / Local supplied-package comparison recorded; original distributor unverified | 可追溯来源记录 / Traceable original source |
 | 其他已收录地区 / Other present regions | [来源索引](../SOURCES.md) | 各地区的官方来源与核验记录待集中汇总 / Directory presence and consolidated source authentication have different scopes | 按地区、组别补来源与核验记录 / Region/group-specific source and check records |
 | J/S 官方测试数据 / Official test data | [统一获取与校验索引 / Download and verification index](official-test-data-verification.md) | 两组官方附件、原包 SHA-256 和文件级清单已汇总，360 个输入与答案文件已复核 / Official links, ZIP digests and manifests are indexed, with all 360 inputs and answers rechecked | 本轮索引已完成 / Index complete |
+| S 组专题长文与证据档 / S-group long-form piece and evidence record | [长文 / Long-form piece](s-group-2026-round2-zh-CN.md)、[证据档 / Evidence record](source-records/s-group-materials-20261124.md) | 逐条断言落到文件路径、物理行号与 blob；官方题面由归档内 PDF 提取，官方 180 对测试数据参与比对；「样本 vs 测试点」三层关系与已撤回判断均记录 / Every claim is located by path, line and blob; the official statement is extracted from an archived PDF and the 180 official test-data pairs are used as ground truth, with the sample-versus-test-point relationship and retracted claims recorded | 无（结论范围内的边界已写在第 9 节）/ None within the stated scope; limits are listed in §9 |
 
 <a id="collection"></a>
 

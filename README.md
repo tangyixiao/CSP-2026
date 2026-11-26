@@ -39,6 +39,7 @@ CCF 于 11 月 13 日公布第二轮评级规则及名单。[成绩与评级页�
 
 | 日期 | 类别 | 已发布内容 | 记录 |
 | --- | --- | --- | --- |
+| 2026-11-26 | 文档 | 发布 S 组专题长文：以归档内 PDF 题面与 180 对官方测试数据为基准，分开陈述样例答案与测试点答案 | [长文](docs/s-group-2026-round2-zh-CN.md)、[证据档](docs/source-records/s-group-materials-20261124.md) |
 | 2026-11-13 | 归档资料 | 第二轮 J/S 更换为各 13 页的原赛版式 PDF | [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57) |
 | 2026-11-12 | 网站功能 | 随机入口复用精简索引，阅读页支持跨省筛选，搜索命中文件可直接定位 | [PR #66](https://github.com/tangyixiao/CSP-2026/pull/66) |
 | 2026-11-12 | 网站／文档 | 按操作顺序整理使用说明，明确按钮行为与失败提示 | [PR #65](https://github.com/tangyixiao/CSP-2026/pull/65) |

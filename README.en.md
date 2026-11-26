@@ -51,6 +51,7 @@ The expired Round 1 certificate notice remains in the news section as a historic
 
 | Date | Category | Published change | Record |
 | --- | --- | --- | --- |
+| 2026-11-26 | Docs | Publish the S-group long-form piece, reading Round 2 submissions against the official statement (extracted from an archived PDF) and the 180 official test-data pairs, with sample answers and test-point answers kept separate | [Piece](docs/s-group-2026-round2-zh-CN.md), [evidence record](docs/source-records/s-group-materials-20261124.md) |
 | 2026-11-13 | Archive materials | Replace Round 2 Gym PDFs with 13-page contest-layout copies | [PR #57](https://github.com/tangyixiao/CSP-2026/pull/57) |
 | 2026-11-12 | Website | Shared compact random selection, cross-region reader scopes and direct search-hit navigation | [PR #66](https://github.com/tangyixiao/CSP-2026/pull/66) |
 | 2026-11-12 | Website/docs | Task-based usage guide, explicit actions and actionable failure messages | [PR #65](https://github.com/tangyixiao/CSP-2026/pull/65) |
